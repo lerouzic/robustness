@@ -2,7 +2,7 @@
 # get the model.M2 function (the genotype-phenotype routine)
 library(funr)
 curr_dir <- funr::get_script_path()
-if (length(curr_dir)==0) curr_dir <- "."
+curr_dir <- paste(curr_dir, "../src", sep="/")
 suppressPackageStartupMessages(source(paste(curr_dir, "netw.R", sep="/")))
 
 

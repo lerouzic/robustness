@@ -10,11 +10,11 @@ mc.cores <- min(detectCores()-1, 64)
 
 phen <- c(
     #mean=TERM.EXPRESSION,
-    initenv=TERM.STAB.LONG,
+    initenv=TERM.ENVCAN.LONG,
     lateenv=TERM.HOMEO.LONG,
-    initmut=TERM.ENVCAN.LONG,
-    latemut=TERM.GENCAN.LONG,
-    stability=TERM.SOM.LONG)
+    initmut=TERM.GENCAN.LONG,
+    latemut=TERM.SOM.LONG,
+    stability=TERM.STAB.LONG)
 
 use.cache <- FALSE
 

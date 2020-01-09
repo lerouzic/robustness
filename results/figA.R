@@ -75,7 +75,7 @@ for (ii in 1:(lp-1)) {
         rry <- sapply(dd[1:maxplotpoints], function(x) x[[names(phen)[jj]]][1])
         rrx[rrx < lowthresh] <- lowthresh
         rry[rry < lowthresh] <- lowthresh
-        plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray", log="")
+        plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray", log="xy")
         if (ii==1) {
             axis(2)
             mtext(phen[jj], side=2, line=3)

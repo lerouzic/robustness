@@ -19,14 +19,8 @@ library(funr)
 curr_dir <- funr::get_script_path()
 if (length(curr_dir)==0) curr_dir <- "."
 suppressPackageStartupMessages(source(paste(curr_dir, "netw.R", sep="/")))
+suppressPackageStartupMessages(source(paste(curr_dir, "robindex.R", sep="/")))
 
-
-######## Helper functions
-rtruncnorm <- function(N, mean = 0, sd = 1, a = -Inf, b = Inf) {
-  if (a > b) stop('Error: Truncation range is empty');
-  U <- runif(N, pnorm(a, mean, sd), pnorm(b, mean, sd));
-  qnorm(U, mean, sd); }
-  
 
 ######## Parameter handling
 simulation.param <- list(
@@ -201,49 +195,23 @@ fitness <- function(phenotype, param.fit) {
 ########## Calculation of robustness scores
 
 robustness.initenv <- function(W, param.sim, env.sd, rep=1000) {
-	ans <- replicate(rep,  
-		model.M2(W, a=param.sim$a, S0=rtruncnorm(nrow(W), mean=param.sim$a, sd=env.sd, 0, 1) , steps=param.sim$dev.steps, measure=1)$mean)
-	apply(ans, 1, var)
+	robindex.initenv(W, param.sim$a, param.sim$dev.steps, env.sd, rep)
 }
 
 robustness.lateenv <- function(W, param.sim, env.sd, rep=1000) {
-	ref <- model.M2(W, a=param.sim$a, S0=rep(param.sim$a, ncol(W)) , steps=param.sim$dev.steps, measure=1)$mean
-	ans <- replicate(rep, 
-		model.M2(W, a=param.sim$a, S0=rtruncnorm(nrow(W), mean=ref, sd=env.sd, 0, 1) , steps=1, measure=1)$mean)
-	apply(ans, 1, var)
+	robindex.lateenv(W, param.sim$a, param.sim$dev.steps, env.sd, rep)
 }
 
 robustness.initmut <- function(W, param.sim, mut.sd, nbmut=1, rep=1000) {
-	ans <- replicate(rep,  
-		{
-			myW <- W
-			nbmut <- min(nbmut, sum(W != 0))
-			which.mut <- sample(size=nbmut,  which(W != 0), replace=FALSE) # Bug if only one W != 0
-			mm <- if(param.sim$mut.correlated) W[which.mut] else 0
-			myW[which.mut] <- rnorm(nbmut, mean=mm, sd=mut.sd)
-			model.M2(myW, a=param.sim$a, S0=rep(param.sim$a, ncol(W)), steps=param.sim$dev.steps, measure=1)$mean
-		})
-	apply(ans, 1, var)
+	robindex.initmut(W, param.sim$a, param.sim$dev.steps, mut.sd, param.sim$mut.correlated, nbmut, rep)
 }
 
 robustness.latemut <- function(W, param.sim, mut.sd, nbmut=1, rep=1000) {
-	ref <- model.M2(W, a=param.sim$a, S0=rep(param.sim$a, ncol(W)) , steps=param.sim$dev.steps, measure=1)$mean
-	ans <- replicate(rep,  
-		{
-			myW <- W
-			nbmut <- min(nbmut, sum(W != 0))
-			which.mut <- sample(size=nbmut,  which(W != 0), replace=FALSE) # Bug if only one W != 0
-			mm <- if(param.sim$mut.correlated) W[which.mut] else 0
-			myW[which.mut] <- rnorm(nbmut, mean=mm, sd=mut.sd)
-			model.M2(myW, a=param.sim$a, S0=ref, steps=1, measure=1)$mean
-		})
-	apply(ans, 1, var)
+	robindex.latemut(W, param.sim$a, param.sim$dev.steps, mut.sd, param.sim$mut.correlated, nbmut, rep)
 }
 
 robustness.stability <- function(W, param.sim) {
-	ref <- model.M2(W, a=param.sim$a, S0=rep(param.sim$a, ncol(W)) , steps=param.sim$dev.steps, measure=1)$mean
-	onemore <- model.M2(W, a=param.sim$a, S0=ref, steps=1, measure=1)$mean
-	(ref-onemore)^2
+	robindex.stability(W, param.sim$a, param.sim$dev.steps)
 }
 
 

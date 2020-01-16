@@ -93,7 +93,7 @@ cppFunction('
 			sumx2(i) += -sumx(i)*sumx(i); // sumx2(i) now contains the variance
 		}
 		return List::create(Named("full")=sto, Named("mean")=sumx, Named("var")=sumx2);
-	}')
+	}', cacheDir='/tmp/')
 
 
 model.M2 <- function(W, a=0.5, S0=rep(a, nrow(W)), steps=20, measure=4, full=FALSE, loopFUN=internal_loop_cpp) {

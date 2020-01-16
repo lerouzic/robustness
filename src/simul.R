@@ -115,13 +115,13 @@ summarypop <- function(pop, param.sim, param.test) {
 	if (param.test$test.indiv) {
 		ans$robustness.initenv <- rowMeans(do.call(cbind, mclapply(indiv.genot, 
 			function(W) robustness.initenv(W=W, param.sim=param.sim, env.sd=param.test$test.initenv.sd, rep=param.test$test.rep), mc.cores=param.sim$mc.cores)))
-		ans$robustness.initenv <- rowMeans(do.call(cbind, lapply(indiv.genot, 
+		ans$robustness.lateenv <- rowMeans(do.call(cbind, lapply(indiv.genot, 
 			function(W) robustness.lateenv(W=W, param.sim=param.sim, env.sd=param.test$test.lateenv.sd, rep=param.test$test.rep), mc.cores=param.sim$mc.cores)))
-		ans$robustness.initenv <- rowMeans(do.call(cbind, lapply(indiv.genot, 
+		ans$robustness.initmut <- rowMeans(do.call(cbind, lapply(indiv.genot, 
 			function(W) robustness.initmut(W=W, param.sim=param.sim, mut.sd=param.test$test.initmut.sd, rep=param.test$test.rep), mc.cores=param.sim$mc.cores)))
-		ans$robustness.initenv <- rowMeans(do.call(cbind, lapply(indiv.genot, 
+		ans$robustness.latemut <- rowMeans(do.call(cbind, lapply(indiv.genot, 
 			function(W) robustness.latemut(W=W, param.sim=param.sim, mut.sd=param.test$test.latemut.sd, rep=param.test$test.rep), mc.cores=param.sim$mc.cores)))
-		ans$robustness.initenv <- rowMeans(do.call(cbind, lapply(indiv.genot, 
+		ans$robustness.stability <- rowMeans(do.call(cbind, lapply(indiv.genot, 
 			function(W) robustness.stability(W=W, param.sim=param.sim), mc.cores=param.sim$mc.cores)))
 	} else {
 		Wmean <- matrix(ans$genotype.mean, ncol=sqrt(length(ans$genotype.mean)))

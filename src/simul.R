@@ -88,9 +88,7 @@ parsecommandline <- function() {
 	fulllist <- c(simulation.param, generation.param, fitness.param, test.param)
 	unknown <- pars[!pars %in% names(fulllist)]
 	if (length(unknown) > 0) {
-		whichval[pars %in% unknown] <- NULL
-		pars[pars %in% unknown] <- NULL
-		warning("Parameter ", paste0(unknown, collapse=", "), " unknown and will be ignored.")
+		stop("Parameter ", paste0(unknown, collapse=", "), " unknown and will be ignored.")
 	}
 	ans <- lapply(whichval, function(x) argss[x])
 	names(ans) <- pars
@@ -277,10 +275,17 @@ simulation <- function(param.sim, param.gen, param.fit, param.test) {
 #~ Rprof("prof.txt")
 
 mypar <- parsecommandline()
-simulation.param[names(simulation.param) %in% names(mypar)] <- mypar[names(mypar) %in% names(simulation.param)]
-generation.param[names(generation.param) %in% names(mypar)] <- mypar[names(mypar) %in% names(generation.param)]
-fitness.param[names(fitness.param) %in% names(mypar)] <- mypar[names(mypar) %in% names(fitness.param)]
-test.param[names(test.param) %in% names(mypar)] <- mypar[names(mypar) %in% names(test.param)]
+
+isim <- intersect(names(simulation.param), names(mypar))
+igen <- intersect(names(generation.param), names(mypar))
+ifit <- intersect(names(fitness.param), names(mypar))
+itest <- intersect(names(test.param), names(mypar))
+
+simulation.param[isim] <- mypar[isim]
+generation.param[igen] <- mypar[igen]
+fitness.param[ifit] <- mypar[ifit]
+test.param[itest] <- mypar[itest]
+
 
 mysim <- simulation(simulation.param, generation.param, fitness.param, test.param)
 summaryprint(mysim, file=simulation.param$outfile)

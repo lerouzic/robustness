@@ -263,7 +263,7 @@ simulation <- function(param.sim, param.gen, param.fit, param.test) {
 	summary.ans <- list()
 	pop <- initpop(param.sim, param.gen, param.fit)
 	for (gg in 1:param.sim$G) {
-		if (gg %% param.sim$summary.every == 0) summary.ans[[as.character(gg)]] <- summarypop(pop, param.sim, param.test)
+		if (gg %% param.sim$summary.every == 0 || gg == 1 || gg == param.sim$G) summary.ans[[as.character(gg)]] <- summarypop(pop, param.sim, param.test)
 		pop <- generation(pop, param.sim, param.gen, param.fit)
 	}
 	summary.ans[[as.character(param.sim$G)]] <- summarypop(pop, param.sim, param.test)

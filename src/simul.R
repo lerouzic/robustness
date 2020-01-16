@@ -49,7 +49,8 @@ generation.param <- list(
 
 fitness.param <- list(
 	theta = 0.5, 
-	s = 10)
+	s = 10,
+	ss = 0)
 
 test.param <- list(
 	test.rep = 1000,
@@ -193,7 +194,7 @@ GPmap <- function(W, param.sim, param.gen) {
 }
 
 fitness <- function(phenotype, param.fit) {
-	ans <- prod(exp(-param.fit$s*(phenotype$phen2-param.fit$theta)^2))
+	ans <- prod(exp(-param.fit$s*(phenotype$phen2-param.fit$theta)^2))*prod(exp(-param.fit$ss*(phenotype$phen2-phenotype$phen1)^2))
 }
 
 ########## Calculation of robustness scores

@@ -130,6 +130,12 @@ summarypop <- function(pop, param.sim, param.test) {
 		ans$robustness.latemut <- robustness.latemut(W=Wmean, param.sim=param.sim, mut.sd=param.test$test.latemut.sd, rep=param.test$test.rep)
 		ans$robustness.stability <- robustness.stability(W=Wmean, param.sim=param.sim)
 	}
+	for (nn in c("genotype.mean", "genotype.var", "phenotype.var"))
+		names(ans[[nn]]) <- outer(1:param.sim$n, 1:param.sim$n, paste, sep=".")
+	for (nn in c("phenotype.mean"))
+		names(ans[[nn]]) <- as.character(1:param.sim$n)
+	for (nn in c("robustness.initenv", "robustness.lateenv", "robustness.initmut", "robustness.latemut", "robustness.stability"))
+		names(ans[[nn]]) <- c("mean", as.character(1:param.sim$n))
 	ans
 }
 
@@ -193,23 +199,28 @@ fitness <- function(phenotype, param.fit) {
 ########## Calculation of robustness scores
 
 robustness.initenv <- function(W, param.sim, env.sd, rep=1000) {
-	robindex.initenv(W, param.sim$a, param.sim$dev.steps, env.sd, rep)
+	i <- robindex.initenv(W, param.sim$a, param.sim$dev.steps, env.sd, rep)
+	c(mean(i), i)
 }
 
 robustness.lateenv <- function(W, param.sim, env.sd, rep=1000) {
-	robindex.lateenv(W, param.sim$a, param.sim$dev.steps, env.sd, rep)
+	i <- robindex.lateenv(W, param.sim$a, param.sim$dev.steps, env.sd, rep)
+	c(mean(i) ,i)
 }
 
 robustness.initmut <- function(W, param.sim, mut.sd, nbmut=1, rep=1000) {
-	robindex.initmut(W, param.sim$a, param.sim$dev.steps, mut.sd, param.sim$mut.correlated, nbmut, rep)
+	i <- robindex.initmut(W, param.sim$a, param.sim$dev.steps, mut.sd, param.sim$mut.correlated, nbmut, rep)
+	c(mean(i), i)
 }
 
 robustness.latemut <- function(W, param.sim, mut.sd, nbmut=1, rep=1000) {
-	robindex.latemut(W, param.sim$a, param.sim$dev.steps, mut.sd, param.sim$mut.correlated, nbmut, rep)
+	i <- robindex.latemut(W, param.sim$a, param.sim$dev.steps, mut.sd, param.sim$mut.correlated, nbmut, rep)
+	c(mean(i), i)
 }
 
 robustness.stability <- function(W, param.sim) {
-	robindex.stability(W, param.sim$a, param.sim$dev.steps)
+	i <- robindex.stability(W, param.sim$a, param.sim$dev.steps)
+	c(mean(i), i)
 }
 
 

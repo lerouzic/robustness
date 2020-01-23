@@ -58,3 +58,20 @@ robindex.stability <- function(W, a, dev.steps) {
 	onemore <- model.M2(W, a=a, S0=ref, steps=1, measure=1)$mean
 	(ref-onemore)^2
 }
+
+robindex.Mmatrix <- function(W, a, dev.steps, mut.sd=0.1, mut.correlated=FALSE, initmut.sd=mut.sd, latemut.sd=mut.sd, nbmut=1, initenv.sd=1, lateenv.sd=0.1, rep=1000) {
+	all <- replicate(rep, {
+		myW <- W
+		nbmut <- min(nbmut, sum(W != 0))
+		which.mut <- sample(size=nbmut,  which(W != 0), replace=FALSE)
+		mm <- if(mut.correlated) W[which.mut] else 0
+		myW[which.mut] <- rnorm(nbmut, mean=mm, sd=mut.sd)
+		c(
+		initenv=mean(robindex.initenv(W=myW, a=a, dev.steps=dev.steps, env.sd=initenv.sd, rep=rep)),
+		lateenv=mean(robindex.lateenv(W=myW, a=a, dev.steps=dev.steps, env.sd=lateenv.sd, rep=rep)),
+		initmut=mean(robindex.initmut(W=myW, a=a, dev.steps=dev.steps, mut.sd=initmut.sd, mut.correlated=mut.correlated, rep=rep)),
+		latemut=mean(robindex.latemut(W=myW, a=a, dev.steps=dev.steps, mut.sd=latemut.sd, mut.correlated=mut.correlated, rep=rep)),
+		stability=mean(robindex.stability(W=myW, a=a, dev.steps=dev.steps)))
+	})
+	list(mean=rowMeans(all), vcov=var(t(all)))
+}

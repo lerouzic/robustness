@@ -28,8 +28,9 @@ default.args <- list(
 	test.initenv.sd=1,
 	test.lateenv.sd=0.1,
 	test.initmut.sd=0.1,
-	test.lateenv.sd=0.1,
-	test.indiv=TRUE)
+	test.latemut.sd=0.1,
+	test.indiv=TRUE,
+	log.robustness=TRUE)
 	
 sim.run.single <- function(args=default.args, sim.name=NA, force.run=FALSE, nice=TRUE, verbose=FALSE) {
 	myargs <- default.args
@@ -56,7 +57,7 @@ sim.run.reps <- function(args=NULL, reps=10, series.name="sim", force.run=FALSE,
 
 	ans.mean <- acrossrepFUN(ans, mean)
 	ans.sd   <- acrossrepFUN(ans, sd)
-	list(full=ans, mean=ans.mean, sd=ans.sd)
+	list(full=ans, mean=as.data.frame(ans.mean), sd=as.data.frame(ans.sd))
 }
 
 acrossrepFUN <- function(simres, FUN=mean, ...) {
@@ -85,12 +86,22 @@ plotts <- function(mm, sd=NULL, sd.factor=1, colname, xlab="Generation", ylab=co
 	lines(x=as.numeric(rownames(mm)), y=mm[,colname], col=col, type=type, ...)
 }
 
-plotmat <- function(listmat, arg1=1, arg2=2, col="black", col.end=col, sd.factor=2, ...) {
+plotmat <- function(listmat, arg1=1, arg2=2, col="black", col.end=col, sd.factor=2, var.thresh=1e-25, add=FALSE, ...) {
 	library(ellipse)
-	xlim <- c(min(sapply(listmat, function(x) x$mean[arg1] - 1.2*sd.factor*sqrt(x$vcov[arg1, arg1]))), max(sapply(listmat, function(x) x$mean[arg1] + 1.2*sd.factor*sqrt(x$vcov[arg1, arg1]))))
-	ylim <- c(min(sapply(listmat, function(x) x$mean[arg2] - 1.2*sd.factor*sqrt(x$vcov[arg2, arg2]))), max(sapply(listmat, function(x) x$mean[arg2] + 1.2*sd.factor*sqrt(x$vcov[arg2, arg2]))))
-	plot(NULL, xlim=xlim, ylim=ylim, xlab=arg1, ylab=arg2, ...)
+	if (!add) {
+		xlim <- c(min(sapply(listmat, function(x) x$mean[arg1] - 1.2*sd.factor*sqrt(x$vcov[arg1, arg1]))), max(sapply(listmat, function(x) x$mean[arg1] + 1.2*sd.factor*sqrt(x$vcov[arg1, arg1])), na.rm=TRUE))
+		ylim <- c(min(sapply(listmat, function(x) x$mean[arg2] - 1.2*sd.factor*sqrt(x$vcov[arg2, arg2]))), max(sapply(listmat, function(x) x$mean[arg2] + 1.2*sd.factor*sqrt(x$vcov[arg2, arg2])), na.rm=TRUE))
+		plot(NULL, xlim=xlim, ylim=ylim, xlab=arg1, ylab=arg2, ...)
+	}
 	for (i in seq_along(listmat)) {
+		if (listmat[[i]]$vcov[arg1,arg1] < var.thresh) { 
+			listmat[[i]]$vcov[arg1,arg1] <- var.thresh
+			listmat[[i]]$vcov[arg1,arg2] <- listmat[[i]]$vcov[arg2,arg1] <- 0
+		}
+		if (listmat[[i]]$vcov[arg2,arg2] < var.thresh) { 
+			listmat[[i]]$vcov[arg2,arg2] <- var.thresh
+			listmat[[i]]$vcov[arg1,arg2] <- listmat[[i]]$vcov[arg2,arg1] <- 0
+		}
 		lines(ellipse(cov2cor(listmat[[i]]$vcov[c(arg1, arg2),][,c(arg1,arg2)]), 
 			scale=sqrt(diag(listmat[[i]]$vcov)[c(arg1, arg2)]), level=2*pnorm(sd.factor)-1,
 			centre=listmat[[i]]$mean[c(arg1, arg2)]), col=rgb(colorRamp(c(col, col.end))(i/length(listmat))/255))

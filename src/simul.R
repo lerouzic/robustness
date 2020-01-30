@@ -207,28 +207,28 @@ fitness <- function(phenotype, param.fit) {
 
 ########## Calculation of robustness scores
 
-robustness.initenv <- function(W, param.sim, env.sd, rep=1000) {
-	i <- robindex.initenv(W, param.sim$a, param.sim$dev.steps, env.sd, rep)
+robustness.initenv <- function(W, param.sim, env.sd, rep=1000, log=FALSE) {
+	i <- robindex.initenv(W, param.sim$a, param.sim$dev.steps, env.sd, rep, log=log)
 	c(mean(i), i)
 }
 
-robustness.lateenv <- function(W, param.sim, env.sd, rep=1000) {
-	i <- robindex.lateenv(W, param.sim$a, param.sim$dev.steps, env.sd, rep)
+robustness.lateenv <- function(W, param.sim, env.sd, rep=1000, log=FALSE) {
+	i <- robindex.lateenv(W, param.sim$a, param.sim$dev.steps, env.sd, rep, log=log)
 	c(mean(i) ,i)
 }
 
-robustness.initmut <- function(W, param.sim, mut.sd, nbmut=1, rep=1000) {
-	i <- robindex.initmut(W, param.sim$a, param.sim$dev.steps, mut.sd, param.sim$mut.correlated, nbmut, rep)
+robustness.initmut <- function(W, param.sim, mut.sd, nbmut=1, rep=1000, log=FALSE) {
+	i <- robindex.initmut(W, param.sim$a, param.sim$dev.steps, mut.sd, param.sim$mut.correlated, nbmut, rep, log=log)
 	c(mean(i), i)
 }
 
-robustness.latemut <- function(W, param.sim, mut.sd, nbmut=1, rep=1000) {
-	i <- robindex.latemut(W, param.sim$a, param.sim$dev.steps, mut.sd, param.sim$mut.correlated, nbmut, rep)
+robustness.latemut <- function(W, param.sim, mut.sd, nbmut=1, rep=1000, log=FALSE) {
+	i <- robindex.latemut(W, param.sim$a, param.sim$dev.steps, mut.sd, param.sim$mut.correlated, nbmut, rep, log=log)
 	c(mean(i), i)
 }
 
-robustness.stability <- function(W, param.sim) {
-	i <- robindex.stability(W, param.sim$a, param.sim$dev.steps)
+robustness.stability <- function(W, param.sim, log=FALSE) {
+	i <- robindex.stability(W, param.sim$a, param.sim$dev.steps, log=log)
 	c(mean(i), i)
 }
 

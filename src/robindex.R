@@ -6,6 +6,9 @@ curr_dir <- paste(curr_dir, "../src", sep="/")
 suppressPackageStartupMessages(source(paste(curr_dir, "netw.R", sep="/")))
 
 
+min.log <- -40 # Always embarrassing to deal with NaNs....
+mylog <- function(x) ifelse(x < exp(min.log),min.log, log(x))
+
 ######## Helper functions
 rtruncnorm <- function(N, mean = 0, sd = 1, a = -Inf, b = Inf) {
   if (a > b) stop('Error: Truncation range is empty');
@@ -16,7 +19,7 @@ rtruncnorm <- function(N, mean = 0, sd = 1, a = -Inf, b = Inf) {
 robindex.initenv <- function(W, a, dev.steps, env.sd, rep=1000, FUN=var, log=FALSE) {
 	ans <- replicate(rep,  
 		model.M2(W, a, S0=rtruncnorm(nrow(W), mean=a, sd=env.sd, 0, 1) , steps=dev.steps, measure=1)$mean)
-	transf <- if(log) log else identity
+	transf <- if(log) function(x) mylog(x) else identity   # wierd syntax, just to solve the non-elegant problem of calling a local variable "log"
 	transf(apply(ans, 1, FUN))
 }
 
@@ -24,7 +27,7 @@ robindex.lateenv <- function(W, a, dev.steps, env.sd, rep=1000, FUN=var, log=FAL
 	ref <- model.M2(W, a, S0=rep(a, ncol(W)) , steps=dev.steps, measure=1)$mean
 	ans <- replicate(rep, 
 		model.M2(W, a, S0=rtruncnorm(nrow(W), mean=ref, sd=env.sd, 0, 1) , steps=1, measure=1)$mean)
-	transf <- if(log) log else identity
+	transf <- if(log) function(x) mylog(x) else identity
 	transf(apply(ans, 1, FUN))
 }
 
@@ -38,7 +41,7 @@ robindex.initmut <- function(W, a, dev.steps, mut.sd, mut.correlated=FALSE, nbmu
 			myW[which.mut] <- rnorm(nbmut, mean=mm, sd=mut.sd)
 			model.M2(myW, a, S0=rep(a, ncol(W)), steps=dev.steps, measure=1)$mean
 		})
-	transf <- if(log) log else identity
+	transf <- if(log) function(x) mylog(x) else identity
 	transf(apply(ans, 1, FUN))
 }
 
@@ -53,18 +56,18 @@ robindex.latemut <- function(W, a, dev.steps, mut.sd, mut.correlated=FALSE, nbmu
 			myW[which.mut] <- rnorm(nbmut, mean=mm, sd=mut.sd)
 			model.M2(myW, a, S0=ref, steps=1, measure=1)$mean
 		})
-	transf <- if(log) log else identity
+	transf <- if(log) function(x) mylog(x) else identity
 	transf(apply(ans, 1, FUN))
 }
 
 robindex.stability <- function(W, a, dev.steps, log=FALSE) {
 	ref <- model.M2(W, a, S0=rep(a, ncol(W)) , steps=dev.steps, measure=1)$mean
 	onemore <- model.M2(W, a=a, S0=ref, steps=1, measure=1)$mean
-	transf <- if(log) log else identity
+	transf <- if(log) function(x) mylog(x) else identity
 	transf((ref-onemore)^2)
 }
 
-robindex.Mmatrix <- function(W, a, dev.steps, mut.sd=0.1, mut.correlated=FALSE, initmut.sd=mut.sd, latemut.sd=mut.sd, nbmut=1, initenv.sd=1, lateenv.sd=0.1, rep=1000, log=FALSE) {
+robindex.Mmatrix <- function(W, a, dev.steps, mut.sd=0.1, mut.correlated=FALSE, test.initmut.sd=mut.sd, test.latemut.sd=mut.sd, nbmut=1, test.initenv.sd=1, test.lateenv.sd=0.1, test.rep=100, rep=1000, log.robustness=FALSE) {
 	all <- replicate(rep, {
 		myW <- W
 		nbmut <- min(nbmut, sum(W != 0))
@@ -72,13 +75,13 @@ robindex.Mmatrix <- function(W, a, dev.steps, mut.sd=0.1, mut.correlated=FALSE, 
 		mm <- if(mut.correlated) W[which.mut] else 0
 		myW[which.mut] <- rnorm(nbmut, mean=mm, sd=mut.sd)
 		c(
-		initenv=mean(robindex.initenv(W=myW, a=a, dev.steps=dev.steps, env.sd=initenv.sd, rep=rep, log=log)),
-		lateenv=mean(robindex.lateenv(W=myW, a=a, dev.steps=dev.steps, env.sd=lateenv.sd, rep=rep, log=log)),
-		initmut=mean(robindex.initmut(W=myW, a=a, dev.steps=dev.steps, mut.sd=initmut.sd, mut.correlated=mut.correlated, rep=rep, log=log)),
-		latemut=mean(robindex.latemut(W=myW, a=a, dev.steps=dev.steps, mut.sd=latemut.sd, mut.correlated=mut.correlated, rep=rep, log=log)),
-		stability=mean(robindex.stability(W=myW, a=a, dev.steps=dev.steps, log=log)))
+		initenv=mean(robindex.initenv(W=myW, a=a, dev.steps=dev.steps, env.sd=test.initenv.sd, rep=test.rep, log=log.robustness)),
+		lateenv=mean(robindex.lateenv(W=myW, a=a, dev.steps=dev.steps, env.sd=test.lateenv.sd, rep=test.rep, log=log.robustness)),
+		initmut=mean(robindex.initmut(W=myW, a=a, dev.steps=dev.steps, mut.sd=test.initmut.sd, mut.correlated=mut.correlated, rep=test.rep, log=log.robustness)),
+		latemut=mean(robindex.latemut(W=myW, a=a, dev.steps=dev.steps, mut.sd=test.latemut.sd, mut.correlated=mut.correlated, rep=test.rep, log=log.robustness)),
+		stability=mean(robindex.stability(W=myW, a=a, dev.steps=dev.steps, log=log.robustness)))
 	})
-	list(mean=rowMeans(all), vcov=var(t(all)))
+	list(mean=rowMeans(all), vcov=var(t(all), na.rm=TRUE))
 }
 
 robindex.Mmatrix.outfile <- function(out, gen=NA, ...) {

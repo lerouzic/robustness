@@ -76,18 +76,36 @@ robindex.Mmatrix <- function(W, a, dev.steps, mut.sd=0.1, mut.correlated=FALSE, 
 	list(mean=rowMeans(all), vcov=var(t(all)))
 }
 
-robindex.Gmatrix <- function(out, gen=NA, ...) {
+robindex.Mmatrix.outfile <- function(out, gen=NA, ...) {
+	# out is the data.frame corresponding to an output file
+	# Warning: it probably does not make sense to call this function on genotypes averaged across simulations!
+	stopifnot(is.data.frame(out))
+	tags <- c("initenv", "lateenv", "initmut", "latemut", "stability")
+	if (is.na(gen) || !(gen %in% as.numeric(rownames(out)))) gen <- as.numeric(rownames(out))
+	ans <- lapply(gen, function(gg) {
+		mm <- sapply(tags, function(tt) mean(unlist(out[as.character(gg), grepl(colnames(out), pattern=paste("robustness", tt, sep="."))])))
+		ww <- unlist(out[as.character(gg), grepl(colnames(out), pattern="genotype.mean")])
+		ww <- matrix(ww, ncol=sqrt(length(ww)))
+		mmat <- robindex.Mmatrix(W=ww, ...)
+		colnames(mmat$vcov) <- rownames(mmat$vcov) <- tags
+		list(mean=mm, vcov=mmat$vcov)
+	})
+	names(ans) <- as.character(gen)
+	ans
+}
+
+robindex.Gmatrix.outfile <- function(out, gen=NA, ...) {
 	# out is the data.frame corresponding to an output file
 	stopifnot(is.data.frame(out))
 	tags <- c("initenv", "lateenv", "initmut", "latemut", "stability")
 	if (is.na(gen) || !(gen %in% as.numeric(rownames(out)))) gen <- as.numeric(rownames(out))
 	ans <- lapply(gen, function(gg) {
 		mm <- sapply(tags, function(tt) mean(unlist(out[as.character(gg), grepl(colnames(out), pattern=paste("robustness", tt, sep="."))])))
-		gg <- unlist(out[as.character(gg), grepl(colnames(out), pattern="robustness.G")])
-		stopifnot(length(mm) == sqrt(length(gg)))
-		gg <- matrix(gg, ncol=length(mm))
-		colnames(gg) <- rownames(gg) <- tags
-		list(mean=mm, vcov=gg)
+		gmat <- unlist(out[as.character(gg), grepl(colnames(out), pattern="robustness.G")])
+		stopifnot(length(mm) == sqrt(length(gmat)))
+		gmat <- matrix(gmat, ncol=length(mm))
+		colnames(gmat) <- rownames(gmat) <- tags
+		list(mean=mm, vcov=gmat)
 	})
 	names(ans) <- as.character(gen)
 	ans

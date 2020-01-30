@@ -5,18 +5,20 @@ source("./commonsim.R")
 library(parallel)
 mc.cores <- min(64, detectCores()-1)
 
-force.run=TRUE
+force.run=FALSE
 
-reps <- 6
-G <- 1000
-N <- 1000
-summary.every <- 100
+reps <- 24
+G <- 10000
+N <- 5000
+summary.every <- 1000
+nselgen <- 3
+new.s <- paste(c(rep(default.args$s, nselgen), rep(0, default.args$n-nselgen)), collapse=" ")
 randtheta <- function() paste(round(runif(default.args$n, 0, 1), digits=3), collapse=" ")
-stab <- sim.run.reps(args <- list(G=G, N=N, summary.every=summary.every, theta=randtheta()),reps=reps, series.name="stab", force.run=force.run, mc.cores=mc.cores)
-stabty <- sim.run.reps(args <- list(G=G, N=N, summary.every=summary.every, theta=randtheta(), ss=36000), reps=reps, series.name="stabty", force.run=force.run, mc.cores=mc.cores)
-som <- sim.run.reps(args <- list(G=G, N=N, summary.every=summary.every, theta=randtheta(), som.rate=1, som.sd=0.1),reps=reps, series.name="som", force.run=force.run, mc.cores=mc.cores)
-ienv <- sim.run.reps(args <- list(G=G, N=N, summary.every=summary.every, theta=randtheta(), initenv.sd=0.1), reps=reps, series.name="ienv", force.run=force.run, mc.cores=mc.cores)
-lenv <- sim.run.reps(args <- list(G=G, N=N, summary.every=summary.every, theta=randtheta(), lateenv.sd=0.1), reps=reps, series.name="lenv", force.run=force.run, mc.cores=mc.cores)
+stab <- sim.run.reps(args <- list(G=G, N=N, summary.every=summary.every, theta=randtheta(), s=new.s),reps=reps, series.name="stab", force.run=force.run, mc.cores=mc.cores)
+istabty <- sim.run.reps(args <- list(G=G, N=N, summary.every=summary.every, theta=randtheta(), s=new.s, ss=36000), reps=reps, series.name="stabty", force.run=force.run, mc.cores=mc.cores)
+som <- sim.run.reps(args <- list(G=G, N=N, summary.every=summary.every, theta=randtheta(), s=new.s, som.rate=1, som.sd=0.1),reps=reps, series.name="som", force.run=force.run, mc.cores=mc.cores)
+ienv <- sim.run.reps(args <- list(G=G, N=N, summary.every=summary.every, theta=randtheta(), s=new.s, initenv.sd=0.1), reps=reps, series.name="ienv", force.run=force.run, mc.cores=mc.cores)
+lenv <- sim.run.reps(args <- list(G=G, N=N, summary.every=summary.every, theta=randtheta(), s=new.s, lateenv.sd=0.1), reps=reps, series.name="lenv", force.run=force.run, mc.cores=mc.cores)
 
 plotts(stab$mean, stab$sd, colname="fitness.mean", lwd=3, ylim=c(0,1))
 plotts(stabty$mean, stabty$sd, colname="fitness.mean", lwd=3, add=TRUE, col="blue")

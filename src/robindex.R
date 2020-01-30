@@ -76,9 +76,10 @@ robindex.Mmatrix <- function(W, a, dev.steps, mut.sd=0.1, mut.correlated=FALSE, 
 	list(mean=rowMeans(all), vcov=var(t(all)))
 }
 
-robindex.Gmatrix <- function(outfile, gen=NA, ...) {
+robindex.Gmatrix <- function(out, gen=NA, ...) {
+	# out is the data.frame corresponding to an output file
+	stopifnot(is.data.frame(out))
 	tags <- c("initenv", "lateenv", "initmut", "latemut", "stability")
-	out <- read.table(outfile, header=TRUE)
 	if (is.na(gen) || !(gen %in% as.numeric(rownames(out)))) gen <- as.numeric(rownames(out))
 	ans <- lapply(gen, function(gg) {
 		mm <- sapply(tags, function(tt) mean(unlist(out[as.character(gg), grepl(colnames(out), pattern=paste("robustness", tt, sep="."))])))

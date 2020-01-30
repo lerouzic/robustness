@@ -13,20 +13,22 @@ rtruncnorm <- function(N, mean = 0, sd = 1, a = -Inf, b = Inf) {
   qnorm(U, mean, sd); }
   
 
-robindex.initenv <- function(W, a, dev.steps, env.sd, rep=1000, FUN=var) {
+robindex.initenv <- function(W, a, dev.steps, env.sd, rep=1000, FUN=var, log=FALSE) {
 	ans <- replicate(rep,  
 		model.M2(W, a, S0=rtruncnorm(nrow(W), mean=a, sd=env.sd, 0, 1) , steps=dev.steps, measure=1)$mean)
-	apply(ans, 1, FUN)
+	transf <- if(log) log else identity
+	transf(apply(ans, 1, FUN))
 }
 
-robindex.lateenv <- function(W, a, dev.steps, env.sd, rep=1000, FUN=var) {
+robindex.lateenv <- function(W, a, dev.steps, env.sd, rep=1000, FUN=var, log=FALSE) {
 	ref <- model.M2(W, a, S0=rep(a, ncol(W)) , steps=dev.steps, measure=1)$mean
 	ans <- replicate(rep, 
 		model.M2(W, a, S0=rtruncnorm(nrow(W), mean=ref, sd=env.sd, 0, 1) , steps=1, measure=1)$mean)
-	apply(ans, 1, FUN)
+	transf <- if(log) log else identity
+	transf(apply(ans, 1, FUN))
 }
 
-robindex.initmut <- function(W, a, dev.steps, mut.sd, mut.correlated=FALSE, nbmut=1, rep=1000, FUN=var) {
+robindex.initmut <- function(W, a, dev.steps, mut.sd, mut.correlated=FALSE, nbmut=1, rep=1000, FUN=var, log=FALSE) {
 	ans <- replicate(rep,  
 		{
 			myW <- W
@@ -36,10 +38,11 @@ robindex.initmut <- function(W, a, dev.steps, mut.sd, mut.correlated=FALSE, nbmu
 			myW[which.mut] <- rnorm(nbmut, mean=mm, sd=mut.sd)
 			model.M2(myW, a, S0=rep(a, ncol(W)), steps=dev.steps, measure=1)$mean
 		})
-	apply(ans, 1, FUN)
+	transf <- if(log) log else identity
+	transf(apply(ans, 1, FUN))
 }
 
-robindex.latemut <- function(W, a, dev.steps, mut.sd, mut.correlated=FALSE, nbmut=1, rep=1000, FUN=var) {
+robindex.latemut <- function(W, a, dev.steps, mut.sd, mut.correlated=FALSE, nbmut=1, rep=1000, FUN=var, log=FALSE) {
 	ref <- model.M2(W, a, S0=rep(a, ncol(W)) , steps=dev.steps, measure=1)$mean
 	ans <- replicate(rep,  
 		{
@@ -50,16 +53,18 @@ robindex.latemut <- function(W, a, dev.steps, mut.sd, mut.correlated=FALSE, nbmu
 			myW[which.mut] <- rnorm(nbmut, mean=mm, sd=mut.sd)
 			model.M2(myW, a, S0=ref, steps=1, measure=1)$mean
 		})
-	apply(ans, 1, FUN)
+	transf <- if(log) log else identity
+	transf(apply(ans, 1, FUN))
 }
 
-robindex.stability <- function(W, a, dev.steps) {
+robindex.stability <- function(W, a, dev.steps, log=FALSE) {
 	ref <- model.M2(W, a, S0=rep(a, ncol(W)) , steps=dev.steps, measure=1)$mean
 	onemore <- model.M2(W, a=a, S0=ref, steps=1, measure=1)$mean
-	(ref-onemore)^2
+	transf <- if(log) log else identity
+	transf((ref-onemore)^2)
 }
 
-robindex.Mmatrix <- function(W, a, dev.steps, mut.sd=0.1, mut.correlated=FALSE, initmut.sd=mut.sd, latemut.sd=mut.sd, nbmut=1, initenv.sd=1, lateenv.sd=0.1, rep=1000) {
+robindex.Mmatrix <- function(W, a, dev.steps, mut.sd=0.1, mut.correlated=FALSE, initmut.sd=mut.sd, latemut.sd=mut.sd, nbmut=1, initenv.sd=1, lateenv.sd=0.1, rep=1000, log=FALSE) {
 	all <- replicate(rep, {
 		myW <- W
 		nbmut <- min(nbmut, sum(W != 0))
@@ -67,11 +72,11 @@ robindex.Mmatrix <- function(W, a, dev.steps, mut.sd=0.1, mut.correlated=FALSE, 
 		mm <- if(mut.correlated) W[which.mut] else 0
 		myW[which.mut] <- rnorm(nbmut, mean=mm, sd=mut.sd)
 		c(
-		initenv=mean(robindex.initenv(W=myW, a=a, dev.steps=dev.steps, env.sd=initenv.sd, rep=rep)),
-		lateenv=mean(robindex.lateenv(W=myW, a=a, dev.steps=dev.steps, env.sd=lateenv.sd, rep=rep)),
-		initmut=mean(robindex.initmut(W=myW, a=a, dev.steps=dev.steps, mut.sd=initmut.sd, mut.correlated=mut.correlated, rep=rep)),
-		latemut=mean(robindex.latemut(W=myW, a=a, dev.steps=dev.steps, mut.sd=latemut.sd, mut.correlated=mut.correlated, rep=rep)),
-		stability=mean(robindex.stability(W=myW, a=a, dev.steps=dev.steps)))
+		initenv=mean(robindex.initenv(W=myW, a=a, dev.steps=dev.steps, env.sd=initenv.sd, rep=rep, log=log)),
+		lateenv=mean(robindex.lateenv(W=myW, a=a, dev.steps=dev.steps, env.sd=lateenv.sd, rep=rep, log=log)),
+		initmut=mean(robindex.initmut(W=myW, a=a, dev.steps=dev.steps, mut.sd=initmut.sd, mut.correlated=mut.correlated, rep=rep, log=log)),
+		latemut=mean(robindex.latemut(W=myW, a=a, dev.steps=dev.steps, mut.sd=latemut.sd, mut.correlated=mut.correlated, rep=rep, log=log)),
+		stability=mean(robindex.stability(W=myW, a=a, dev.steps=dev.steps, log=log)))
 	})
 	list(mean=rowMeans(all), vcov=var(t(all)))
 }

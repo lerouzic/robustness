@@ -58,7 +58,8 @@ test.param <- list(
 	test.lateenv.sd = 0.1, 
 	test.initmut.sd = 0.1,
 	test.latemut.sd = 0.1,
-	test.indiv = FALSE)
+	test.indiv = FALSE,
+	log.robustness=FALSE)
 
 printhelp <- function() {
 	fullist <- c(simulation.param, generation.param, fitness.param, test.param)
@@ -114,15 +115,15 @@ summarypop <- function(pop, param.sim, param.test) {
 	)
 	if (param.test$test.indiv) {
 		indiv.robustness.initenv <- do.call(cbind, mclapply(indiv.genot, 
-			function(W) robustness.initenv(W=W, param.sim=param.sim, env.sd=param.test$test.initenv.sd, rep=param.test$test.rep), mc.cores=param.sim$mc.cores))
+			function(W) robustness.initenv(W=W, param.sim=param.sim, env.sd=param.test$test.initenv.sd, rep=param.test$test.rep, log=param.test$log.robustness), mc.cores=param.sim$mc.cores))
 		indiv.robustness.lateenv <- do.call(cbind, mclapply(indiv.genot, 
-			function(W) robustness.lateenv(W=W, param.sim=param.sim, env.sd=param.test$test.lateenv.sd, rep=param.test$test.rep), mc.cores=param.sim$mc.cores))
+			function(W) robustness.lateenv(W=W, param.sim=param.sim, env.sd=param.test$test.lateenv.sd, rep=param.test$test.rep, log=param.test$log.robustness), mc.cores=param.sim$mc.cores))
 		indiv.robustness.initmut <- do.call(cbind, mclapply(indiv.genot, 
-			function(W) robustness.initmut(W=W, param.sim=param.sim, mut.sd=param.test$test.initmut.sd, rep=param.test$test.rep), mc.cores=param.sim$mc.cores))
+			function(W) robustness.initmut(W=W, param.sim=param.sim, mut.sd=param.test$test.initmut.sd, rep=param.test$test.rep, log=param.test$log.robustness), mc.cores=param.sim$mc.cores))
 		indiv.robustness.latemut <- do.call(cbind, mclapply(indiv.genot, 
-			function(W) robustness.latemut(W=W, param.sim=param.sim, mut.sd=param.test$test.latemut.sd, rep=param.test$test.rep), mc.cores=param.sim$mc.cores))
+			function(W) robustness.latemut(W=W, param.sim=param.sim, mut.sd=param.test$test.latemut.sd, rep=param.test$test.rep, log=param.test$log.robustness), mc.cores=param.sim$mc.cores))
 		indiv.robustness.stability <- do.call(cbind, mclapply(indiv.genot, 
-			function(W) robustness.stability(W=W, param.sim=param.sim), mc.cores=param.sim$mc.cores))
+			function(W) robustness.stability(W=W, param.sim=param.sim, log=param.test$log.robustness), mc.cores=param.sim$mc.cores))
 		
 		ans$robustness.initenv <- rowMeans(indiv.robustness.initenv)
 		ans$robustness.lateenv <- rowMeans(indiv.robustness.lateenv)
@@ -132,11 +133,11 @@ summarypop <- function(pop, param.sim, param.test) {
 		ans$robustness.G <- var(cbind(colMeans(indiv.robustness.initenv), colMeans(indiv.robustness.lateenv), colMeans(indiv.robustness.initmut), colMeans(indiv.robustness.latemut), colMeans(indiv.robustness.stability)))
 	} else {
 		Wmean <- matrix(ans$genotype.mean, ncol=sqrt(length(ans$genotype.mean)))
-		ans$robustness.initenv <- robustness.initenv(W=Wmean, param.sim=param.sim, env.sd=param.test$test.initenv.sd, rep=param.test$test.rep)
-		ans$robustness.lateenv <- robustness.lateenv(W=Wmean, param.sim=param.sim, env.sd=param.test$test.lateenv.sd, rep=param.test$test.rep)
-		ans$robustness.initmut <- robustness.initmut(W=Wmean, param.sim=param.sim, mut.sd=param.test$test.initmut.sd, rep=param.test$test.rep)
-		ans$robustness.latemut <- robustness.latemut(W=Wmean, param.sim=param.sim, mut.sd=param.test$test.latemut.sd, rep=param.test$test.rep)
-		ans$robustness.stability <- robustness.stability(W=Wmean, param.sim=param.sim)
+		ans$robustness.initenv <- robustness.initenv(W=Wmean, param.sim=param.sim, env.sd=param.test$test.initenv.sd, rep=param.test$test.rep, log=param.test$log.robustness)
+		ans$robustness.lateenv <- robustness.lateenv(W=Wmean, param.sim=param.sim, env.sd=param.test$test.lateenv.sd, rep=param.test$test.rep, log=param.test$log.robustness)
+		ans$robustness.initmut <- robustness.initmut(W=Wmean, param.sim=param.sim, mut.sd=param.test$test.initmut.sd, rep=param.test$test.rep, log=param.test$log.robustness)
+		ans$robustness.latemut <- robustness.latemut(W=Wmean, param.sim=param.sim, mut.sd=param.test$test.latemut.sd, rep=param.test$test.rep, log=param.test$log.robustness)
+		ans$robustness.stability <- robustness.stability(W=Wmean, param.sim=param.sim, log=param.test$log.robustness)
 	}
 	for (nn in c("genotype.mean", "genotype.var", "phenotype.var"))
 		names(ans[[nn]]) <- outer(1:param.sim$n, 1:param.sim$n, paste, sep=".")

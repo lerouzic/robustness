@@ -39,11 +39,17 @@ stab <- sim.run.reps(args <- list(G=G, N=N, summary.every=summary.every, theta=r
 for (ssi in seq_along(stab$full))
 	plotmat(robindex.Gmatrix.outfile(stab$full[[ssi]]), arg1=2, arg2=3, col="blue", col.end="green", add=ssi!=1)
 
+listM <- lapply(stab$full, function(sim) do.call(robindex.Mmatrix.outfile, c(list(out=sim, rep=100), default.args[names(default.args) %in% names(formals(robindex.Mmatrix))])))
 for (ssi in seq_along(stab$full))
-	plotmat(do.call(robindex.Mmatrix.outfile, c(list(out=stab$full[[ssi]], rep=100), default.args[names(default.args) %in% names(formals(robindex.Mmatrix))])), 
+	plotmat(listM[[ssi]], 
 		arg1=2, arg2=3, col="blue", col.end="green", add=ssi!=1)
 
 
 # All sims
 plotmat(robindex.Gmatrix.outfile(stab$mean), arg1=2, arg2=3, col="blue", col.end="green", var.thresh=1e-20)
 
+# For the M matrix, one must compute average M matrices instead
+plotmat(lapply(rownames(stab$mean), function(gg) 
+	list(mean=colMeans(do.call(rbind, lapply(listM, function(mm) mm[[gg]]$mean))),
+	     vcov=matrix(colMeans(do.call(rbind, lapply(listM, function(mm) c(mm[[gg]]$vcov)))), ncol=5))),
+	     arg1=2, arg2=3, col="blue", col.end="green", var.thresh=1e-20)

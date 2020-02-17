@@ -8,7 +8,7 @@ suppressPackageStartupMessages(source(paste(curr_dir, "netw.R", sep="/")))
 suppressPackageStartupMessages(source(paste(curr_dir, "robindex.R", sep="/")))
 
 sumlist.u   <- function(ll) Reduce('+', ll)
-sumsqlist.u <- function(ll) Reduce(function(x,y) x^2+y^2, ll)
+sumsqlist.u <- function(ll) Reduce('+', lapply(ll, '^', 2)) 
 meanlist.u  <- function(ll) sumlist.u(ll)/length(ll)
 varlist.u   <- function(ll) sumsqlist.u(ll)/length(ll) - meanlist.u(ll)^2
 meanlist    <- function(ll) setNames(lapply(names(ll[[1]]), function(nn) meanlist.u(lapply(ll, "[[", nn))), names(ll[[1]]))

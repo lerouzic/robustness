@@ -48,11 +48,11 @@ if (is.null(dd)) {
 		W[sample.int(net.size^2, floor((1-density)*net.size^2))] <- 0
 		list(W=W, 
 			mean=model.M2(W, a, steps=dev.steps)$mean, 
-			initenv=robindex.initenv(W, a, dev.steps, rob.initenv.sd, rep=rob.reps),
-			lateenv=robindex.lateenv(W, a, dev.steps, rob.lateenv.sd, rep=rob.reps),
-			initmut=robindex.initmut(W, a, dev.steps, rob.mut.sd, rep=rob.reps),
-			latemut=robindex.latemut(W, a, dev.steps, rob.mut.sd, rep=rob.reps),
-			stability=robindex.stability(W, a, dev.steps)
+			initenv=robindex.initenv(W, a, dev.steps, rob.initenv.sd, rep=rob.reps, log=TRUE),
+			lateenv=robindex.lateenv(W, a, dev.steps, rob.lateenv.sd, rep=rob.reps, log=TRUE),
+			initmut=robindex.initmut(W, a, dev.steps, rob.mut.sd, rep=rob.reps,log=TRUE),
+			latemut=robindex.latemut(W, a, dev.steps, rob.mut.sd, rep=rob.reps, log=TRUE),
+			stability=robindex.stability(W, a, dev.steps, log=TRUE)
 		)
 	}, mc.cores=mc.cores) 
 }
@@ -66,16 +66,16 @@ lp <- length(phen)
 mm <- matrix(0, ncol=lp-1, nrow=lp-1)
 mm[lower.tri(mm, diag=TRUE)] <- 1:(lp*(lp-1)/2)
 
-pdf("figA.pdf", width=10cm, height=10cm)
+pdf("figA.pdf", width=10, height=10)
 layout(mm)
 par(mar=0.1+c(0,0,0,0), oma=c(4,5,0,0))
 for (ii in 1:(lp-1)) {
     for (jj in ((ii+1):lp)) {
         rrx <- sapply(dd[1:maxplotpoints], function(x) x[[names(phen)[ii]]][1])
         rry <- sapply(dd[1:maxplotpoints], function(x) x[[names(phen)[jj]]][1])
-        rrx[rrx < lowthresh] <- lowthresh
-        rry[rry < lowthresh] <- lowthresh
-        plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray", log="xy")
+#~         rrx[rrx < lowthresh] <- lowthresh
+#~         rry[rry < lowthresh] <- lowthresh
+        plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray")
         if (ii==1) {
             axis(2)
             mtext(phen[jj], side=2, line=3)
@@ -85,7 +85,7 @@ for (ii in 1:(lp-1)) {
             mtext(phen[ii], side=1, line=3)
         }
         # abline(lm( rr[,names(phen)[jj]] ~ rr[,names(phen)[ii]]), col="red")
-        legend("topleft", paste0("r=", round(cor(log(rrx), log(rry)), digits=2)), bty="n")
+        legend("topleft", paste0("r=", round(cor(rrx, rry), digits=2)), bty="n")
     }
 }
 dev.off()

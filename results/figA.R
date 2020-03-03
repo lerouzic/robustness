@@ -66,16 +66,16 @@ lp <- length(phen)
 mm <- matrix(0, ncol=lp-1, nrow=lp-1)
 mm[lower.tri(mm, diag=TRUE)] <- 1:(lp*(lp-1)/2)
 
-whattoplot <- function(x) x[[1]] # the first gene of the network
-whattoplot <- function(x) mean(x) # the average index for all genes
+whattoconsider<- function(x) x[[1]] # the first gene of the network
+whattoconsider <- function(x) mean(x) # the average index for all genes
 
 pdf("figA.pdf", width=10, height=10)
 layout(mm)
 par(mar=0.1+c(0,0,0,0), oma=c(4,5,0,0))
 for (ii in 1:(lp-1)) {
     for (jj in ((ii+1):lp)) {
-        rrx <- sapply(dd[1:maxplotpoints], function(x) whattoplot(x[[names(phen)[ii]]]))
-        rry <- sapply(dd[1:maxplotpoints], function(x) whattoplot(x[[names(phen)[jj]]]))
+        rrx <- sapply(dd[1:maxplotpoints], function(x) whattoconsider(x[[names(phen)[ii]]]))
+        rry <- sapply(dd[1:maxplotpoints], function(x) whattoconsider(x[[names(phen)[jj]]]))
 #~         rrx[rrx < lowthresh] <- lowthresh
 #~         rry[rry < lowthresh] <- lowthresh
         plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray")

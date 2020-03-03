@@ -12,11 +12,11 @@ TERM.GENCAN.LONG <- "Early Genetic"
 TERM.SOM.SHORT   <- "Late Gen."
 TERM.SOM.LONG    <- "Late Genetic"
 
-ABBRV.STAB <- "U"
-ABBRV.HOMEO <- "H"
-ABBRV.ENVCAN <- "E"
-ABBRV.GENCAN <- "C"
-ABBRV.SOM <- "K"
+ABBRV.STAB <- expression(rho[S])
+ABBRV.HOMEO <- expression(rho[e])
+ABBRV.ENVCAN <- expression(rho[E])
+ABBRV.GENCAN <- expression(rho[M])
+ABBRV.SOM <- expression(rho[m])
 
 COL.STAB <- "blue"
 COL.HOMEO <- "lightgreen"

@@ -10,16 +10,16 @@ mc.cores <- min(detectCores()-1, 64)
 
 phen <- c(
     #mean=TERM.EXPRESSION,
-    initenv=TERM.ENVCAN.LONG,
-    lateenv=TERM.HOMEO.LONG,
-    initmut=TERM.GENCAN.LONG,
-    latemut=TERM.SOM.LONG,
-    stability=TERM.STAB.LONG)
+    initenv=substitute(x~(y), list(x=TERM.ENVCAN.LONG, y=ABBRV.ENVCAN[[1]])),
+    lateenv=substitute(x~(y), list(x=TERM.HOMEO.LONG, y=ABBRV.HOMEO[[1]])),
+    initmut=substitute(x~(y), list(x=TERM.GENCAN.LONG, y=ABBRV.GENCAN[[1]])),
+    latemut=substitute(x~(y), list(x=TERM.SOM.LONG, y=ABBRV.SOM[[1]])),
+    stability=substitute(x~(y), list(x=TERM.STAB.LONG, y=ABBRV.STAB[[1]])))
 
-use.cache <- FALSE
+use.cache <- TRUE
 
 net.size <- 10
-reps <- 1000
+reps <- 10000
 density <- 0.2
 reg.mean <- -0.2
 reg.sd <- 1.2
@@ -32,7 +32,7 @@ rob.initenv.sd <- 0.1
 rob.lateenv.sd  <- 0.1
 rob.mut.sd     <- 0.1
 
-maxplotpoints <- min(reps, 10000) # avoids overcrowded plots
+maxplotpoints <- min(reps, 1000) # avoids overcrowded plots
 lowthresh <- 1e-4 # this is necessary when plotting log variances
 
 cache.dir <- "../cache"
@@ -66,26 +66,29 @@ lp <- length(phen)
 mm <- matrix(0, ncol=lp-1, nrow=lp-1)
 mm[lower.tri(mm, diag=TRUE)] <- 1:(lp*(lp-1)/2)
 
+whattoplot <- function(x) x[[1]] # the first gene of the network
+whattoplot <- function(x) mean(x) # the average index for all genes
+
 pdf("figA.pdf", width=10, height=10)
 layout(mm)
 par(mar=0.1+c(0,0,0,0), oma=c(4,5,0,0))
 for (ii in 1:(lp-1)) {
     for (jj in ((ii+1):lp)) {
-        rrx <- sapply(dd[1:maxplotpoints], function(x) x[[names(phen)[ii]]][1])
-        rry <- sapply(dd[1:maxplotpoints], function(x) x[[names(phen)[jj]]][1])
+        rrx <- sapply(dd[1:maxplotpoints], function(x) whattoplot(x[[names(phen)[ii]]]))
+        rry <- sapply(dd[1:maxplotpoints], function(x) whattoplot(x[[names(phen)[jj]]]))
 #~         rrx[rrx < lowthresh] <- lowthresh
 #~         rry[rry < lowthresh] <- lowthresh
         plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray")
         if (ii==1) {
             axis(2)
-            mtext(phen[jj], side=2, line=3)
+            mtext(as.expression(phen[jj]), side=2, line=3)
         }
         if (jj==lp) {
             axis(1)
-            mtext(phen[ii], side=1, line=3)
+            mtext(as.expression(phen[ii]), side=1, line=3)
         }
         # abline(lm( rr[,names(phen)[jj]] ~ rr[,names(phen)[ii]]), col="red")
-        legend("topleft", paste0("r=", round(cor(rrx, rry), digits=2)), bty="n")
+        legend("topleft", paste0("r=", round(cor(rrx, rry), digits=2)), bty="n", cex=1.5)
     }
 }
 dev.off()

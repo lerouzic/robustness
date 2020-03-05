@@ -12,6 +12,8 @@ if (!dir.exists(cache.dir)) dir.create(cache.dir)
 
 use.cache <- TRUE
 
+cols <- 1:5
+
 a <- 0.2
 dev.steps <- 16
 rob.initenv.sd <- 0.1
@@ -54,12 +56,23 @@ eigenV <- function(reps, rob.reps, reg.mean=default.reg.mean, reg.sd=default.reg
 	prp$sdev^2/(sum(prp$sdev^2))
 }
 
-allreps <- 10^(seq(2, 4, length.out=7))
+allreps <- round(10^(seq(2, 4, length.out=7)))
 resreps <- lapply(allreps, function(reps) eigenV(reps, default.rob.reps))
+
+allrobs <- round(10^(seq(1, 4, length.out=7)))
+resrobs <- lapply(allrobs, function(robs) eigenV(default.reps, robs))
 
 pdf("figH.pdf", width=5, height=10)
 layout(1:2)
+
 plot(NULL, xlim=range(allreps), ylim=c(1e-2,1), log="xy", xlab="Number of simulated networks", ylab="Proportion variance explained by each PC")
 for (i in 1:5)
-	lines(allreps, sapply(resreps, function(r) r[i]), col=i)
+	lines(allreps, sapply(resreps, function(r) r[i]), col=cols[i])
+text(allreps[1], resreps[[1]], col=cols, pos=1, paste0("PC", seq_along(cols)))
+
+plot(NULL, xlim=range(allrobs), ylim=c(1e-2,1), log="xy", xlab="Number of robustness tests", ylab="Proportion variance explained by each PC")
+for (i in 1:5)
+	lines(allrobs, sapply(resrobs, function(r) r[i]), col=cols[i])
+text(allrobs[1], resrobs[[1]], col=cols, pos=1, paste0("PC", seq_along(cols)))	
+	
 dev.off()

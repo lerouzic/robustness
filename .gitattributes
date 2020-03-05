@@ -1,0 +1,2 @@
+results/*.pdf filter=lfs diff=lfs merge=lfs -text
+cache/*.Rda filter=lfs diff=lfs merge=lfs -text

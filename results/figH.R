@@ -46,6 +46,7 @@ eigenV <- function(reps, rob.reps, reg.mean=default.reg.mean, reg.sd=default.reg
 				stability=robindex.stability(W, a, dev.steps, log=TRUE)
 			)
 		}, mc.cores=mc.cores) 
+		saveRDS(dd, cache.file)
 	}
 	
 	rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(c("initenv", "lateenv", "initmut", "latemut", "stability"), function(ppp) whattoconsider(ddd[[ppp]]))))
@@ -56,6 +57,9 @@ eigenV <- function(reps, rob.reps, reg.mean=default.reg.mean, reg.sd=default.reg
 allreps <- 10^(seq(2, 4, length.out=7))
 resreps <- lapply(allreps, function(reps) eigenV(reps, default.rob.reps))
 
+pdf("figH.pdf", width=5, height=10)
+layout(1:2)
 plot(NULL, xlim=range(allreps), ylim=c(1e-2,1), log="xy", xlab="Number of simulated networks", ylab="Proportion variance explained by each PC")
 for (i in 1:5)
 	lines(allreps, sapply(resreps, function(r) r[i]), col=i)
+dev.off()

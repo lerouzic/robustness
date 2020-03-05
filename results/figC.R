@@ -4,6 +4,7 @@ library(parallel)
 mc.cores <- min(64, detectCores()-1)
 
 source("./terminology.R")
+source("./studycases.R")
 source("../src/robindex.R")
 
 phen <- c(
@@ -109,14 +110,6 @@ res <- cbind(res, do.call(rbind, mclapply(1:nrow(res), function(i) {
           latemut=robindex.latemut(w, a, dev.steps, rob.mut.sd, rep=rob.reps),
           stability=robindex.stability(w, a, dev.steps))
     }, mc.cores=mc.cores)))
-
-# Study cases
-stud <- rbind(
-    A=c(0.7,0.2),
-    B=c(-0.3,0.3),
-    C=c(-0.4,0.8),
-    D=c(-1,-0.8),
-    E=c(1.5,3.5))
 
 
 pdf("figC.pdf", width=12, height=8)

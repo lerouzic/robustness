@@ -23,22 +23,6 @@ rob.initenv.sd <- 0.1
 rob.lateenv.sd  <- 0.1
 rob.mut.sd     <- 0.1
 
-targetW <- function(W, target, a) {
-    lambda <- (1-a)/a
-    mu <- 1/(a*(1-a))
-    frev <- function(x) -log((1-x)/lambda/x) / mu
-    stopifnot(nrow(W) == ncol(W), nrow(W) == length(target))
-    stopifnot(all(apply(W, 1, function(x) sum(is.na(x))) == 1))
-    stopifnot(all(target > 0), all(target < 1))
-    ans <- W
-    for (i in 1:nrow(W)) {
-        miniT <- frev(target[i])
-        whichmiss <- which(is.na(W[i,]))
-        minians <- (miniT - sum(W[i, -whichmiss]*target[-whichmiss]))/target[whichmiss]
-        ans[i, whichmiss] <- minians
-    }
-    ans
-}
 
 difftarget <- function(res, target) {
     df <- t(res[,grep("mean.", colnames(res))])-target
@@ -82,8 +66,6 @@ illustrcase <- function(w11, w21, left=FALSE, right=FALSE, label="") {
     mtext(TERM.TIMESTEPS, 1, line=3, cex=0.8)
 }
 
-network.size <- 2
-target <- c(0.3, 0.6)
 grid.size <- 21
 
 ww1 <- seq(-1.5, 2, length.out=grid.size)

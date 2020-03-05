@@ -24,8 +24,8 @@ default.reg.mean <- -0.2
 default.reg.sd   <-  1.2
 default.net.size <- 10
 default.density  <- 1
-default.reps <- 1000
-default.rob.reps <- 100
+default.reps <- 5000
+default.rob.reps <- 500
 
 #~ whattoconsider<- function(x) x[[1]] # the first gene of the network
 whattoconsider <- function(x) mean(x) # the average index for all genes
@@ -56,21 +56,23 @@ eigenV <- function(reps, rob.reps, reg.mean=default.reg.mean, reg.sd=default.reg
 	prp$sdev^2/(sum(prp$sdev^2))
 }
 
+# Technically, this souncs pretty useless: it would be way more efficient to run the max number of replicates and sample them for lower
+# counts. Yet, the current code is simpler, and avoids correlations among samples. 
 allreps <- round(10^(seq(2, 4, length.out=7)))
 resreps <- lapply(allreps, function(reps) eigenV(reps, default.rob.reps))
 
-allrobs <- round(10^(seq(1, 4, length.out=7)))
+allrobs <- round(10^(seq(1, 5, length.out=9)))
 resrobs <- lapply(allrobs, function(robs) eigenV(default.reps, robs))
 
 pdf("figH.pdf", width=5, height=10)
 layout(1:2)
 
-plot(NULL, xlim=range(allreps), ylim=c(1e-2,1), log="xy", xlab="Number of simulated networks", ylab="Proportion variance explained by each PC")
+plot(NULL, xlim=c(0.9,1)*range(allreps), ylim=c(1e-2,1), log="xy", xlab="Number of simulated networks", ylab="Proportion variance explained by each PC")
 for (i in 1:5)
 	lines(allreps, sapply(resreps, function(r) r[i]), col=cols[i])
 text(allreps[1], resreps[[1]], col=cols, pos=1, paste0("PC", seq_along(cols)))
 
-plot(NULL, xlim=range(allrobs), ylim=c(1e-2,1), log="xy", xlab="Number of robustness tests", ylab="Proportion variance explained by each PC")
+plot(NULL, xlim=c(0.9,1)*range(allrobs), ylim=c(1e-2,1), log="xy", xlab="Number of robustness tests", ylab="Proportion variance explained by each PC")
 for (i in 1:5)
 	lines(allrobs, sapply(resrobs, function(r) r[i]), col=cols[i])
 text(allrobs[1], resrobs[[1]], col=cols, pos=1, paste0("PC", seq_along(cols)))	

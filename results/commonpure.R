@@ -14,7 +14,7 @@ default.args <- list(
 	summary.every=10,
 	mc.cores=1,
 	N=100,
-	mut.rate=0.01,
+	mut.rate=0.001,
 	mut.sd=0.1,
 	theta=0.5,
 	s=10,

@@ -9,7 +9,7 @@ reps <- 3
 test.rep <- 10
 grad.effect <- 0.01
 N <- 500
-G <- 1000
+G <- 10000
 force.run <- FALSE
 
 col.sim <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM, st=COL.STAB)

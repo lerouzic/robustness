@@ -10,11 +10,11 @@ n.genes <- 6
 sel.genes <- 3
 s <- c(rep(10, sel.genes), rep(0, n.genes-sel.genes))
 W0 <- matrix(rnorm(n.genes^2, sd=0.000001), ncol=n.genes)
-reps <- 3
+reps <- 20
 test.rep <- 10
 grad.effect <- 0.01
 N <- 500
-G <- 1000
+G <- 10000
 force.run <- FALSE
 
 col.sim <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM, st=COL.STAB)

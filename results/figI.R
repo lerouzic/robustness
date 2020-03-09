@@ -1,0 +1,120 @@
+#!/usr/bin/env Rscript
+
+source("./commonpure.R")
+source("./terminology.R")
+
+library(parallel)
+mc.cores <- min(detectCores()-1, 128)
+
+n.genes <- 6
+sel.genes <- 3
+s <- c(rep(10, sel.genes), rep(0, n.genes-sel.genes))
+W0 <- matrix(rnorm(n.genes^2, sd=0.000001), ncol=n.genes)
+reps <- 20
+test.rep <- 10
+grad.effect <- 0.01
+N <- 500
+G <- 10000
+force.run <- FALSE
+
+avgcol <- function(c1, c2) rgb(colorRamp(c(c1,c2))(0.5), max=255)
+
+col.sim <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM, st=COL.STAB, ie.lm=avgcol(COL.ENVCAN,COL.SOM), le.lm=avgcol(COL.HOMEO,COL.SOM), ie.st=avgcol(COL.ENVCAN,COL.STAB))
+col.phen <- c(fitness="black", initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut=COL.SOM, stability=COL.STAB)
+lty.sim <- c(p=0, m=0, o=0, pp=0, pm=0, mp=0, mm=0)
+pch.sim <- c(p=2, m=6, o=1, pp=24, mm=25, pm=0, mp=5)
+max.points <- 20
+phen <- c(
+	fitness="Fitness",
+    initenv=substitute(x~(y), list(x=TERM.ENVCAN.LONG, y=ABBRV.ENVCAN[[1]])),
+    lateenv=substitute(x~(y), list(x=TERM.HOMEO.LONG, y=ABBRV.HOMEO[[1]])),
+    initmut=substitute(x~(y), list(x=TERM.GENCAN.LONG, y=ABBRV.GENCAN[[1]])),
+    latemut=substitute(x~(y), list(x=TERM.SOM.LONG, y=ABBRV.SOM[[1]])),
+    stability=substitute(x~(y), list(x=TERM.STAB.LONG, y=ABBRV.STAB[[1]])))
+
+allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Generations", ylab=what, lwd=3, FUN=mean, ...) {
+	if(is.null(xlim)) xlim <- c(0, as.numeric(rev(names(list.sim[[1]]$mean))[1]))
+	allv <- do.call(rbind, lapply(list.sim, function(x) do.call(rbind, lapply(x$mean, function(xx) FUN(xx[[what]])))))
+	if(is.null(ylim)) ylim <- c(min(allv), max(allv))
+	plot(NULL, xlim=xlim, ylim=ylim, xlab=xlab, ylab="", main=as.expression(phen[what]), col.main=col.phen[what], ...)
+	for (nss in names(list.sim)) {
+		nnss <- strsplit(nss, split="\\.")[[1]]
+		if (length(nnss) == 3) nnss <- c(paste(nnss[1], nnss[2], sep="."), nnss[3])
+		xpp <- seq_along(as.numeric(names(list.sim[[nss]]$mean)))
+		xpp <- round(seq(xpp[1], xpp[length(xpp)], length.out=min(max.points, length(xpp))))
+		lines(as.numeric(names(list.sim[[nss]]$mean))[xpp], sapply(list.sim[[nss]]$mean, function(x) FUN(x[[what]]))[xpp], col=col.sim[nnss[1]], bg=col.sim[nnss[1]], lty=lty.sim[nnss[2]], pch=pch.sim[nnss[2]], type="o", lwd=lwd)
+	}
+}
+
+# Some pairs of indexes:
+# P1: low correlation, early environmental/late genetic
+# P2: medium correlation, late environmental/late genetic
+# P3: strong correlation, early environmental/stability
+
+# Note: some sims shared with fig G
+
+torun <- list(
+	oo.o = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,0,0)), 
+		reps=reps, series.name="pure-null", force.run=force.run), 
+	ie.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(-grad.effect,0,0,0,0)), 
+		reps=reps, series.name="pure-ie-m", force.run=force.run),
+	le.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,-grad.effect,0,0,0)), 
+		reps=reps, series.name="pure-le-m", force.run=force.run),
+	im.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,-grad.effect,0)), 
+		reps=reps, series.name="pure-lm-m", force.run=force.run),
+	lm.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,-grad.effect,0)), 
+		reps=reps, series.name="pure-lm-m", force.run=force.run),
+	st.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,0,-grad.effect)), 
+		reps=reps, series.name="pure-st-m", force.run=force.run),
+	ie.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(grad.effect,0,0,0,0)), 
+		reps=reps, series.name="pure-ie-p", force.run=force.run),
+	le.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,grad.effect,0,0,0)), 
+		reps=reps, series.name="pure-le-p", force.run=force.run),
+	im.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,grad.effect,0,0)), 
+		reps=reps, series.name="pure-im-p", force.run=force.run),
+	lm.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,grad.effect,0)), 
+		reps=reps, series.name="pure-lm-p", force.run=force.run),
+	st.p = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,0,grad.effect)), 
+		reps=reps, series.name="pure-st-p", force.run=force.run),
+	ie.lm.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(-grad.effect,0,0,-grad.effect,0)), 
+		reps=reps, series.name="pure-ie-lm-mm", force.run=force.run),
+	ie.lm.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(-grad.effect,0,0,grad.effect,0)), 
+		reps=reps, series.name="pure-ie-lm-mp", force.run=force.run),
+	ie.lm.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(grad.effect,0,0,-grad.effect,0)), 
+		reps=reps, series.name="pure-ie-lm-pm", force.run=force.run),
+	ie.lm.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(grad.effect,0,0,grad.effect,0)), 
+		reps=reps, series.name="pure-ie-lm-pp", force.run=force.run),
+	le.lm.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,-grad.effect,0,-grad.effect,0)), 
+		reps=reps, series.name="pure-le-lm-mm", force.run=force.run),
+	le.lm.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,-grad.effect,0,grad.effect,0)), 
+		reps=reps, series.name="pure-le-lm-mp", force.run=force.run),
+	le.lm.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,grad.effect,0,-grad.effect,0)), 
+		reps=reps, series.name="pure-le-lm-pm", force.run=force.run),
+	le.lm.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,grad.effect,0,grad.effect,0)), 
+		reps=reps, series.name="pure-le-lm-pp", force.run=force.run),
+	ie.st.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(-grad.effect,0,0,0,-grad.effect)), 
+		reps=reps, series.name="pure-ie-st-mm", force.run=force.run),
+	ie.st.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(-grad.effect,0,0,0,grad.effect)), 
+		reps=reps, series.name="pure-ie-st-mp", force.run=force.run),
+	ie.st.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(grad.effect,0,0,0,-grad.effect)), 
+		reps=reps, series.name="pure-ie-st-pm", force.run=force.run),
+	ie.st.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(grad.effect,0,0,0,grad.effect)), 
+		reps=reps, series.name="pure-ie-st-pp", force.run=force.run)
+)
+
+list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
+
+
+pdf("figI.pdf", width=8, height=12)
+layout(rbind(1:2,3:4,5:6))
+par(cex=1)
+allplots(list.sim[c("oo.o", "ie.m", "ie.p", "lm.m", "lm.p", "ie.lm.mm", "ie.lm.mp", "ie.lm.pm", "ie.lm.pp")], what="initenv")
+allplots(list.sim[c("oo.o", "ie.m", "ie.p", "lm.m", "lm.p", "ie.lm.mm", "ie.lm.mp", "ie.lm.pm", "ie.lm.pp")], what="latemut")
+
+allplots(list.sim[c("oo.o", "le.m", "le.p", "lm.m", "lm.p", "le.lm.mm", "le.lm.mp", "le.lm.pm", "le.lm.pp")], what="lateenv")
+allplots(list.sim[c("oo.o", "le.m", "le.p", "lm.m", "lm.p", "le.lm.mm", "le.lm.mp", "le.lm.pm", "le.lm.pp")], what="latemut")
+
+allplots(list.sim[c("oo.o", "ie.m", "ie.p", "st.m", "st.p", "ie.st.mm", "ie.st.mp", "ie.st.pm", "ie.st.pp")], what="initenv")
+allplots(list.sim[c("oo.o", "ie.m", "ie.p", "st.m", "st.p", "ie.st.mm", "ie.st.mp", "ie.st.pm", "ie.st.pp")], what="stability")
+
+dev.off()

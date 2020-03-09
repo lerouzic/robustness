@@ -3,6 +3,9 @@
 source("./commonpure.R")
 source("./terminology.R")
 
+library(parallel)
+mc.cores <- min(detectCores()-1, 128)
+
 n.genes <- 6
 sel.genes <- 3
 s <- c(rep(10, sel.genes), rep(0, n.genes-sel.genes))
@@ -40,22 +43,32 @@ allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Gener
 	}
 }
 
-list.sim <- list()
+torun <- list(
+	oo.o = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,0,0)), 
+		reps=reps, series.name="pure-null", force.run=force.run), 
+	ie.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(-grad.effect,0,0,0,0)), 
+		reps=reps, series.name="pure-ie-m", force.run=force.run),
+	le.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,-grad.effect,0,0,0)), 
+		reps=reps, series.name="pure-le-m", force.run=force.run),
+	im.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,-grad.effect,0)), 
+		reps=reps, series.name="pure-lm-m", force.run=force.run),
+	lm.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,-grad.effect,0)), 
+		reps=reps, series.name="pure-lm-m", force.run=force.run),
+	st.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,0,-grad.effect)), 
+		reps=reps, series.name="pure-st-m", force.run=force.run),
+	ie.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(grad.effect,0,0,0,0)), 
+		reps=reps, series.name="pure-ie-p", force.run=force.run),
+	le.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,grad.effect,0,0,0)), 
+		reps=reps, series.name="pure-le-p", force.run=force.run),
+	im.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,grad.effect,0,0)), 
+		reps=reps, series.name="pure-im-p", force.run=force.run),
+	lm.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,grad.effect,0)), 
+		reps=reps, series.name="pure-lm-p", force.run=force.run),
+	st.p = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,0,grad.effect)), 
+		reps=reps, series.name="pure-st-p", force.run=force.run)
+)
 
-# Null model: no direct selection on robustness
-list.sim$oo.o <- pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,0,0)), reps=reps, series.name="pure-null", force.run=force.run)
-
-list.sim$ie.m <- pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(-grad.effect,0,0,0,0)), reps=reps, series.name="pure-ie-m", force.run=force.run)
-list.sim$le.m <- pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,-grad.effect,0,0,0)), reps=reps, series.name="pure-le-m", force.run=force.run)
-list.sim$im.m <- pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,-grad.effect,0,0)), reps=reps, series.name="pure-im-m", force.run=force.run)
-list.sim$lm.m <- pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,-grad.effect,0)), reps=reps, series.name="pure-lm-m", force.run=force.run)
-list.sim$st.m <- pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,0,-grad.effect)), reps=reps, series.name="pure-st-m", force.run=force.run)
-
-list.sim$ie.p <- pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(grad.effect,0,0,0,0)), reps=reps, series.name="pure-ie-p", force.run=force.run)
-list.sim$le.p <- pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,grad.effect,0,0,0)), reps=reps, series.name="pure-le-p", force.run=force.run)
-list.sim$im.p <- pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,grad.effect,0,0)), reps=reps, series.name="pure-im-p", force.run=force.run)
-list.sim$lm.p <- pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,grad.effect,0)), reps=reps, series.name="pure-lm-p", force.run=force.run)
-list.sim$st.p <- pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,0,grad.effect)), reps=reps, series.name="pure-st-p", force.run=force.run)
+list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
 
 pdf("figG.pdf", width=12, height=8)

@@ -13,15 +13,17 @@ meanlist    <- function(ll) setNames(lapply(names(ll[[1]]), function(nn) meanlis
 varlist     <- function(ll) setNames(lapply(names(ll[[1]]), function(nn) varlist.u(lapply(ll, "[[", nn))), names(ll[[1]]))
 
 puresel <- function(W0, theta, a=0.2, s=10, grad.rob=rep(0, 5), N=1000, rep=100, G=100, summary.every=1, 
-		mut.rate=0.1, mut.sd=0.1, initmut.sd=mut.sd, latemut.sd=mut.sd, initenv.sd=0.1, lateenv.sd=0.1, 
-		dev.steps=16, log.robustness=TRUE, mut.correlated=TRUE, ...) {
+		mut.rate=0.1, som.mut.rate = 0, mut.sd=0.1, initmut.sd=mut.sd, latemut.sd=mut.sd, initenv.sd=0.1, lateenv.sd=0.1, 
+		dev.steps=16, plasticity=FALSE, log.robustness=TRUE, mut.correlated=TRUE, ...) {
 			
-	fitness <- function(x) exp(-sum(s*(x$P-theta)^2) + sum(grad.rob*c(mean(x$initenv), mean(x$lateenv), mean(x$initmut), mean(x$latemut), mean(x$stability))))
+	fitness <- function(x, theta) exp(-sum(s*(x$P-theta)^2) + sum(grad.rob*c(mean(x$initenv), mean(x$lateenv), mean(x$initmut), mean(x$latemut), mean(x$stability))))
 	mutate <- function(W) {
 		which.mut <- sample(size=1,  which(W != 0)) # Bug if only one W != 0
 		W[which.mut] <- rnorm(1, mean=if(mut.correlated) W[which.mut] else 0, sd=mut.sd)
 		W
 	}
+	fmod <- function(x, m) x-m*floor(x/m) 
+	renorm <- function(x) {m <- fmod(x,1); x[x<0] <- 1-m[x<0]; x[x>1] <- 1-m[x>1]; x}
 	meanpop <- function(pop) meanlist(pop)
 	
 	stopifnot(is.matrix(W0), nrow(W0) > 0, nrow(W0) == ncol(W0))
@@ -39,14 +41,38 @@ puresel <- function(W0, theta, a=0.2, s=10, grad.rob=rep(0, 5), N=1000, rep=100,
 	
 	for (gg in 1:G) {
 		pop <- lapply(pop, function(i) { if (runif(1) < mut.rate) i$W <- mutate(i$W); i })
-		pop <- lapply(pop, function(i) c(i, list(P=model.M2(W=i$W, a=a, steps=20)$mean)))
+		plastic <- if(plasticity) runif(1, -0.5, 0.5) else 0
+		pop <- lapply(pop, function(i) {
+			P <- model.M2(W=i$W, a=a, S0=renorm(rep(a, nrow(i$W)) + plastic), steps=dev.steps)$mean
+			if (som.mut.rate > 0) {
+				Wmut <- mutate(i$W)
+				P <- model.M2(W=Wmut, a=a, S0=P, steps=1)$mean
+			}
+			c(i, list(P=P))})
+
 		pop <- lapply(pop, function(i) c(i, list(
-			initenv=do.call(robindex.initenv, c(list(W=i$W, a=a, log=log.robustness, rep=rep, env.sd=initenv.sd, dev.steps=dev.steps), dots[names(args(robindex.initenv)) %in% names(dots)])),
-			lateenv=do.call(robindex.lateenv, c(list(W=i$W, a=a, log=log.robustness, rep=rep, env.sd=lateenv.sd, dev.steps=dev.steps), dots[names(args(robindex.lateenv)) %in% names(dots)])),
-			initmut=do.call(robindex.initmut, c(list(W=i$W, a=a, log=log.robustness, rep=rep, mut.sd=initmut.sd, dev.steps=dev.steps), dots[names(args(robindex.initmut)) %in% names(dots)])),
-			latemut=do.call(robindex.latemut, c(list(W=i$W, a=a, log=log.robustness, rep=rep, mut.sd=latemut.sd, dev.steps=dev.steps), dots[names(args(robindex.latemut)) %in% names(dots)])),
-			stability=do.call(robindex.stability, c(list(W=i$W, a=a, log=log.robustness, dev.steps=dev.steps), dots[names(args(robindex.stability)) %in% names(dots)])))))
-		pop <- lapply(pop, function(i) c(i, list(fitness=fitness(i))))
+			initenv = if (grad.rob[1] != 0 || gg %% summary.every == 0) {
+				do.call(robindex.initenv, c(list(W=i$W, a=a, log=log.robustness, rep=rep, 
+				env.sd=initenv.sd, dev.steps=dev.steps), dots[names(args(robindex.initenv)) %in% names(dots)]))
+			} else { rep(0, nrow(W0)) },
+			lateenv = if (grad.rob[2] != 0 || gg %% summary.every == 0) {
+				do.call(robindex.lateenv, c(list(W=i$W, a=a, log=log.robustness, rep=rep, 
+				env.sd=lateenv.sd, dev.steps=dev.steps), dots[names(args(robindex.lateenv)) %in% names(dots)]))
+			} else { rep(0, nrow(W0)) },
+			initmut = if (grad.rob[3] != 0 || gg %% summary.every == 0) {
+				do.call(robindex.initmut, c(list(W=i$W, a=a, log=log.robustness, rep=rep, 
+				mut.sd=initmut.sd, dev.steps=dev.steps), dots[names(args(robindex.initmut)) %in% names(dots)]))
+			} else { rep(0, nrow(W0))} ,
+			latemut = if (grad.rob[4] != 0 || gg %% summary.every == 0) {
+				do.call(robindex.latemut, c(list(W=i$W, a=a, log=log.robustness, rep=rep, 
+				mut.sd=latemut.sd, dev.steps=dev.steps), dots[names(args(robindex.latemut)) %in% names(dots)]))
+			} else { rep(0, nrow(W0)) },
+			stability = if (grad.rob[5] != 0 || gg %% summary.every == 0) {
+				do.call(robindex.stability, c(list(W=i$W, a=a, log=log.robustness, dev.steps=dev.steps), 
+				dots[names(args(robindex.stability)) %in% names(dots)]))
+			} else { rep(0, nrow(W0)) }
+			)))
+		pop <- lapply(pop, function(i) c(i, list(fitness=fitness(i, theta=renorm(theta+plastic)))))
 		if (gg %% summary.every == 0) mpop[[as.character(gg)]] <- meanpop(pop)
 		pop <- lapply(pop[sample(seq_along(pop), N, replace=TRUE, prob=sapply(pop, "[", "fitness"))], function(i) list(W=i$W))
 	}

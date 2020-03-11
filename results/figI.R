@@ -15,6 +15,7 @@ test.rep <- 10
 grad.effect <- 0.01
 N <- 500
 G <- 10000
+every <- G/100
 force.run <- FALSE
 
 avgcol <- function(c1, c2) rgb(colorRamp(c(c1,c2))(0.5), max=255)
@@ -46,6 +47,21 @@ allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Gener
 	}
 }
 
+allboxes <- function(list.sim, r1, r2, G=NULL, what="fitnesses", xlab=phen[what], relative=NULL, ...) {
+	if (is.null(G)) G <- rev(names(list.sim[[1]]$mean[[1]]))[1]
+	mylist.sim <- lapply(list.sim, function(x) sapply(x$full, function(xx) mean(xx[[G]][[what]])))
+	mylist.sim <- mylist.sim[c("oo.o", paste(r1, c("m","p"),sep="."), paste(r2, c("m","p"),sep="."), paste(r1, r2, c("mm","mp","pm","pp"), sep="."))]
+	if (length(relative) > 0) {
+		mylist.sim <- lapply(mylist.sim, function(xx) xx-mean(mylist.sim[[relative]]))
+		mylist.sim[[relative]] <- NULL
+	}
+	boxplot(mylist.sim, horizontal=TRUE, xlab=as.expression(xlab), at=-c(if(length(relative) == 0) 1 else NULL, 3:4, 6:7, 9:12), yaxt="n", border=col.sim[sapply(strsplit(names(mylist.sim), split="\\."), function(ss) if(length(ss) == 2) ss[1] else paste(ss[1],ss[2],sep="."))], frame=FALSE,  ...)
+	labels <- if (col.phen[what] == col.sim[r1])
+			c(if(length(relative) == 0) "Control" else NULL, "Direct -", "Direct +", "Indirect -", "Indirect +", "D-; I-", "D-; I+", "D+; I-", "D+; I+")
+		else
+			c(if(length(relative) == 0) "Control" else NULL, "Indirect -", "Indirect +", "Direct -", "Direct +", "D-; I-", "D+; I-", "D-; I+", "D+; I+")
+	axis(2, las=2, at=-c(if(length(relative) == 0) 1 else NULL, 3:4, 6:7, 9:12), tick=FALSE, lty=0, line=-1, label=labels)
+}
 # Some pairs of indexes:
 # P1: low correlation, early environmental/late genetic
 # P2: medium correlation, late environmental/late genetic
@@ -54,67 +70,82 @@ allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Gener
 # Note: some sims shared with fig G
 
 torun <- list(
-	oo.o = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,0,0)), 
+	oo.o = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,0)), 
 		reps=reps, series.name="pure-null", force.run=force.run), 
-	ie.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(-grad.effect,0,0,0,0)), 
+	ie.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,0,0)), 
 		reps=reps, series.name="pure-ie-m", force.run=force.run),
-	le.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,-grad.effect,0,0,0)), 
+	le.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,-grad.effect,0,0,0)), 
 		reps=reps, series.name="pure-le-m", force.run=force.run),
-	im.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,-grad.effect,0)), 
+	im.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,-grad.effect,0)), 
 		reps=reps, series.name="pure-lm-m", force.run=force.run),
-	lm.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,-grad.effect,0)), 
+	lm.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,-grad.effect,0)), 
 		reps=reps, series.name="pure-lm-m", force.run=force.run),
-	st.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,0,-grad.effect)), 
+	st.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,-grad.effect)), 
 		reps=reps, series.name="pure-st-m", force.run=force.run),
-	ie.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(grad.effect,0,0,0,0)), 
+	ie.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,0,0)), 
 		reps=reps, series.name="pure-ie-p", force.run=force.run),
-	le.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,grad.effect,0,0,0)), 
+	le.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,grad.effect,0,0,0)), 
 		reps=reps, series.name="pure-le-p", force.run=force.run),
-	im.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,grad.effect,0,0)), 
+	im.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,grad.effect,0,0)), 
 		reps=reps, series.name="pure-im-p", force.run=force.run),
-	lm.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,grad.effect,0)), 
+	lm.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,grad.effect,0)), 
 		reps=reps, series.name="pure-lm-p", force.run=force.run),
-	st.p = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,0,0,0,grad.effect)), 
+	st.p = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,grad.effect)), 
 		reps=reps, series.name="pure-st-p", force.run=force.run),
-	ie.lm.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(-grad.effect,0,0,-grad.effect,0)), 
+	ie.lm.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,-grad.effect,0)), 
 		reps=reps, series.name="pure-ie-lm-mm", force.run=force.run),
-	ie.lm.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(-grad.effect,0,0,grad.effect,0)), 
+	ie.lm.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,grad.effect,0)), 
 		reps=reps, series.name="pure-ie-lm-mp", force.run=force.run),
-	ie.lm.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(grad.effect,0,0,-grad.effect,0)), 
+	ie.lm.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,-grad.effect,0)), 
 		reps=reps, series.name="pure-ie-lm-pm", force.run=force.run),
-	ie.lm.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(grad.effect,0,0,grad.effect,0)), 
+	ie.lm.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,grad.effect,0)), 
 		reps=reps, series.name="pure-ie-lm-pp", force.run=force.run),
-	le.lm.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,-grad.effect,0,-grad.effect,0)), 
+	le.lm.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,-grad.effect,0,-grad.effect,0)), 
 		reps=reps, series.name="pure-le-lm-mm", force.run=force.run),
-	le.lm.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,-grad.effect,0,grad.effect,0)), 
+	le.lm.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,-grad.effect,0,grad.effect,0)), 
 		reps=reps, series.name="pure-le-lm-mp", force.run=force.run),
-	le.lm.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,grad.effect,0,-grad.effect,0)), 
+	le.lm.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,grad.effect,0,-grad.effect,0)), 
 		reps=reps, series.name="pure-le-lm-pm", force.run=force.run),
-	le.lm.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(0,grad.effect,0,grad.effect,0)), 
+	le.lm.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,grad.effect,0,grad.effect,0)), 
 		reps=reps, series.name="pure-le-lm-pp", force.run=force.run),
-	ie.st.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(-grad.effect,0,0,0,-grad.effect)), 
+	ie.st.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,0,-grad.effect)), 
 		reps=reps, series.name="pure-ie-st-mm", force.run=force.run),
-	ie.st.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(-grad.effect,0,0,0,grad.effect)), 
+	ie.st.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,0,grad.effect)), 
 		reps=reps, series.name="pure-ie-st-mp", force.run=force.run),
-	ie.st.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(grad.effect,0,0,0,-grad.effect)), 
+	ie.st.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,0,-grad.effect)), 
 		reps=reps, series.name="pure-ie-st-pm", force.run=force.run),
-	ie.st.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=10, grad.rob=c(grad.effect,0,0,0,grad.effect)), 
+	ie.st.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,0,grad.effect)), 
 		reps=reps, series.name="pure-ie-st-pp", force.run=force.run)
 )
 
 list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
 
+#~ pdf("figI.pdf", width=8, height=12)
+#~ layout(rbind(1:2,3:4,5:6))
+#~ par(cex=1)
+#~ allplots(list.sim[c("oo.o", "ie.m", "ie.p", "lm.m", "lm.p", "ie.lm.mm", "ie.lm.mp", "ie.lm.pm", "ie.lm.pp")], what="initenv")
+#~ allplots(list.sim[c("oo.o", "ie.m", "ie.p", "lm.m", "lm.p", "ie.lm.mm", "ie.lm.mp", "ie.lm.pm", "ie.lm.pp")], what="latemut")
+
+#~ allplots(list.sim[c("oo.o", "le.m", "le.p", "lm.m", "lm.p", "le.lm.mm", "le.lm.mp", "le.lm.pm", "le.lm.pp")], what="lateenv")
+#~ allplots(list.sim[c("oo.o", "le.m", "le.p", "lm.m", "lm.p", "le.lm.mm", "le.lm.mp", "le.lm.pm", "le.lm.pp")], what="latemut")
+
+#~ allplots(list.sim[c("oo.o", "ie.m", "ie.p", "st.m", "st.p", "ie.st.mm", "ie.st.mp", "ie.st.pm", "ie.st.pp")], what="initenv")
+#~ allplots(list.sim[c("oo.o", "ie.m", "ie.p", "st.m", "st.p", "ie.st.mm", "ie.st.mp", "ie.st.pm", "ie.st.pp")], what="stability")
+
+#~ dev.off()
+
 pdf("figI.pdf", width=8, height=12)
 layout(rbind(1:2,3:4,5:6))
 par(cex=1)
-allplots(list.sim[c("oo.o", "ie.m", "ie.p", "lm.m", "lm.p", "ie.lm.mm", "ie.lm.mp", "ie.lm.pm", "ie.lm.pp")], what="initenv")
-allplots(list.sim[c("oo.o", "ie.m", "ie.p", "lm.m", "lm.p", "ie.lm.mm", "ie.lm.mp", "ie.lm.pm", "ie.lm.pp")], what="latemut")
 
-allplots(list.sim[c("oo.o", "le.m", "le.p", "lm.m", "lm.p", "le.lm.mm", "le.lm.mp", "le.lm.pm", "le.lm.pp")], what="lateenv")
-allplots(list.sim[c("oo.o", "le.m", "le.p", "lm.m", "lm.p", "le.lm.mm", "le.lm.mp", "le.lm.pm", "le.lm.pp")], what="latemut")
+allboxes(list.sim, "ie","lm",what="initenv", G="5000", lwd=3)
+allboxes(list.sim, "ie","lm",what="latemut", G="5000", lwd=3)
 
-allplots(list.sim[c("oo.o", "ie.m", "ie.p", "st.m", "st.p", "ie.st.mm", "ie.st.mp", "ie.st.pm", "ie.st.pp")], what="initenv")
-allplots(list.sim[c("oo.o", "ie.m", "ie.p", "st.m", "st.p", "ie.st.mm", "ie.st.mp", "ie.st.pm", "ie.st.pp")], what="stability")
+allboxes(list.sim, "le","lm",what="lateenv", G="5000", lwd=3)
+allboxes(list.sim, "le","lm",what="latemut", G="5000", lwd=3)
+
+allboxes(list.sim, "ie","st",what="initenv", G="5000", lwd=3)
+allboxes(list.sim, "ie","st",what="stability", G="5000", lwd=3)
 
 dev.off()

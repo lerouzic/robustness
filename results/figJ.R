@@ -66,7 +66,7 @@ Mmats.cachefile <- "../cache/Mmats.rds"
 if (force.run || !file.exists(Mmats.cachefile)) {
 	Wmats <- lapply(list.files(path="../cache", pattern=paste0(ref.sim, "-.*\\.rds"),full.names=TRUE), function(ff) readRDS(ff)[[gen.sim]]$W)
 	Mmats <- lapply(Wmats, fullM)
-	saveRds(Mmats, file=Mmats.cachefile)
+	saveRDS(Mmats, file=Mmats.cachefile)
 }
 Mmats <- readRDS(Mmats.cachefile)
 
@@ -85,6 +85,6 @@ boxplot(evolv.phens, at=2+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, co
 boxplot(evolv.robs, at=3+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="bisque")
 
 axis(1, at=1+(lt-1)/2+(0:(lr-1))*(lt+1), labels=names(robs), tick=FALSE)
-legend("topleft", pch=22, bg=c("white","lightgray","bisque"), legend=c("Unconditional", "Cond. gene expression","Cond. other robustness"), horiz=TRUE, cex=1.5)
+legend("topleft", pch=22, pt.bg=c("white","lightgray","bisque"), legend=c("Unconditional", "Cond. gene expression","Cond. other robustness"), horiz=TRUE, bty="n", pt.cex=1.5)
 
 dev.off()

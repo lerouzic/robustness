@@ -71,7 +71,7 @@ if (force.run || !file.exists(Mmats.cachefile)) {
 Mmats <- readRDS(Mmats.cachefile)
 
 evolv.free <- lapply(robs, function(rob) sapply(Mmats, function(M) condEvolv(M, paste0(rob, ".mean"), NULL)))
-evolv.phen <- lapply(robs, function(rob) sapply(Mmats, function(M) condEvolv(M, paste0(rob, ".mean"), paste0("phen.", 1:ncol(Wmats[[1]])))))
+#~ evolv.phen <- lapply(robs, function(rob) sapply(Mmats, function(M) condEvolv(M, paste0(rob, ".mean"), paste0("phen.", 1:ncol(Wmats[[1]])))))
 evolv.phens <- lapply(robs, function(rob) sapply(Mmats, function(M) condEvolv(M, paste0(rob, ".mean"), paste0("phen.", 1:3))))
 evolv.robs <- lapply(robs, function(rob) sapply(Mmats, function(M) condEvolv(M, paste0(rob, ".mean"), paste0(robs[!robs %in% rob], ".mean"))))
 
@@ -80,7 +80,7 @@ lt <- 3
 
 pdf("figJ.pdf", width=8, height=5)
 
-boxplot(evolv.free, at=1+(0:(lr-1))*(lt+1), xlim=c(0, (lt+1)*lr), log="y", xaxt="n",  ylab="Evolvability", border=cols, density=10, ylim=c(0.01,20))
+boxplot(evolv.free, at=1+(0:(lr-1))*(lt+1), xlim=c(0, (lt+1)*lr), log="y", xaxt="n",  ylab="Evolvability", border=cols, density=10, ylim=c(0.005,20))
 boxplot(evolv.phens, at=2+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="lightgray")
 boxplot(evolv.robs, at=3+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="bisque")
 

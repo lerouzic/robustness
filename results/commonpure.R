@@ -15,16 +15,18 @@ default.args <- list(
 	mc.cores=1,
 	N=100,
 	mut.rate=0.001,
+	som.mut.rate=0,
 	mut.sd=0.1,
 	theta=0.5,
 	s=10,
 	grad.rob=rep(0, 5),
 	rep=100,
-	initenv.sd=1,
+	initenv.sd=0.1,
 	lateenv.sd=0.1,
 	initmut.sd=0.1,
 	latemut.sd=0.1,
-	log.robustness=TRUE)
+	log.robustness=TRUE,
+	plasticity=FALSE)
 	
 acrossrepMean <- function(fulllist) {
 	ans <- lapply(names(fulllist[[1]]), function(gen) meanlist(lapply(fulllist, "[[", gen)))

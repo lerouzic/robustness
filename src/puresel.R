@@ -44,7 +44,7 @@ puresel <- function(W0, theta, a=0.2, s=10, grad.rob=rep(0, 5), N=1000, rep=100,
 		plastic <- if(plasticity) runif(1, -0.5, 0.5) else 0
 		pop <- lapply(pop, function(i) {
 			P <- model.M2(W=i$W, a=a, S0=renorm(rep(a, nrow(i$W)) + plastic), steps=dev.steps)$mean
-			if (som.mut.rate > 0) {
+			if (runif(1) < som.mut.rate) {
 				Wmut <- mutate(i$W)
 				P <- model.M2(W=Wmut, a=a, S0=P, steps=1)$mean
 			}

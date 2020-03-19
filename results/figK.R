@@ -10,13 +10,13 @@ n.genes <- 6
 sel.genes <- 3
 s <- c(rep(10, sel.genes), rep(0, n.genes-sel.genes))
 W0 <- matrix(rnorm(n.genes^2, sd=0.000001), ncol=n.genes)
-reps <- 3
+reps <- 20
 test.rep <- 10
 grad.effect <- 0.01
 N <- 500
 G <- 500
 every <- round(G/100)
-force.run <- TRUE
+force.run <- FALSE
 max.points <- 20
 
 phen <- c(
@@ -52,18 +52,21 @@ allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Gener
 torun <- list(
 	sim.ref = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001),
 		reps=reps, series.name="real-ref", force.run=force.run),
-	sim.mut = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.01),
+	sim.mut = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.1),
 		reps=reps, series.name="real-mut", force.run=force.run),
 	sim.som = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001, som.mut.rate=0.1),
 		reps=reps, series.name="real-som", force.run=force.run),
-	sim.pla = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001, plasticity=TRUE),
+	sim.pla = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001, plasticity=c(TRUE, rep(FALSE,n.genes-1))),
 		reps=reps, series.name="real-pla", force.run=force.run)
 )
 
 list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
+
 layout(rbind(1:3,4:6))
 par(cex=1, mar=c(5, 2, 4, 1))
+allplots(list.sim, what="fitness")
+legend("topleft", pch=pchs, col=cols, legend=names(cols))
 allplots(list.sim, what="initenv")
 allplots(list.sim, what="lateenv")
 allplots(list.sim, what="initmut")

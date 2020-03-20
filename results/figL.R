@@ -8,11 +8,11 @@ mc.cores <- min(detectCores()-1, 128)
 
 phen <- c(
 	fitness="Fitness",
-    initenv=substitute(x~(y), list(x=TERM.ENVCAN.LONG, y=ABBRV.ENVCAN[[1]])),
-    lateenv=substitute(x~(y), list(x=TERM.HOMEO.LONG, y=ABBRV.HOMEO[[1]])),
-    initmut=substitute(x~(y), list(x=TERM.GENCAN.LONG, y=ABBRV.GENCAN[[1]])),
-    latemut=substitute(x~(y), list(x=TERM.SOM.LONG, y=ABBRV.SOM[[1]])),
-    stability=substitute(x~(y), list(x=TERM.STAB.LONG, y=ABBRV.STAB[[1]])))
+    initenv=substitute(x~(y), list(x=TERM.ENVCAN.SHORT, y=ABBRV.ENVCAN[[1]])),
+    lateenv=substitute(x~(y), list(x=TERM.HOMEO.SHORT, y=ABBRV.HOMEO[[1]])),
+    initmut=substitute(x~(y), list(x=TERM.GENCAN.SHORT, y=ABBRV.GENCAN[[1]])),
+    latemut=substitute(x~(y), list(x=TERM.SOM.SHORT, y=ABBRV.SOM[[1]])),
+    stability=substitute(x~(y), list(x=TERM.STAB.SHORT, y=ABBRV.STAB[[1]])))
     
 
 n.genes <- 6
@@ -54,11 +54,23 @@ torun <- setNames(
 	c(paste0("ref.m", signif(mut.values, digits=2)), paste0("ref.N", N.values), paste0("ref.g", genes.values), paste0("ref.sg", selg.values), paste0("ref.s", signif(s.values, digits=2))))
 list.sim <- mclapply(torun, function(ff) eval(ff)(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
+ylims <- list(initenv=c(-40,-20), lateenv=c(-30,-6), initmut=c(-22,-4), latemut=c(-30,-5), stability=c(-40,-20))
+
 layout(matrix(1:25, ncol=5))
-for (par in c("m","N","g","sg","s")) {
+par(mar=c(0.5, 0.5, 0.1, 0.1), oma=c(5, 4, 0, 0), xpd=NA)
+for (pp in c("m","N","g","sg","s")) {
 	for (what in c("initenv", "lateenv","initmut","latemut", "stability")) {
-		ls <- list.sim[grep(names(list.sim), pattern=paste0("ref\\.",par,"\\d"))]
-		val <- sapply(strsplit(names(ls), split=paste0("\\.",par)), function(sp) as.numeric(sp[2]))
-		plot(val, sapply(ls, function(x) mean(x$mean[[as.character(G)]][[what]])), xlab=par, ylab=what, type="o", log=if(par %in% c("g","sg")) "" else "x")
+		ls <- list.sim[grep(names(list.sim), pattern=paste0("ref\\.",pp,"\\d"))]
+		xval <- sapply(strsplit(names(ls), split=paste0("\\.",pp)), function(sp) as.numeric(sp[2]))
+		yval <- sapply(ls, function(x) mean(x$mean[[as.character(G)]][[what]]))
+		plot(xval, yval, type="o", log=if(pp %in% c("g","sg")) "" else "x", xaxt="n", yaxt="n", xlab="", ylab="", ylim=ylims[[what]])
+		if(pp=="m") {
+			mtext(2, text=as.expression(phen[[what]]), line=2)
+			axis(2)
+		}
+		if (what=="stability") {
+			mtext(1, text=pp, line=3)
+			axis(1)
+		}
 	}
 }

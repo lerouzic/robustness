@@ -16,22 +16,22 @@ rtruncnorm <- function(N, mean = 0, sd = 1, a = -Inf, b = Inf) {
   qnorm(U, mean, sd); }
   
 
-robindex.initenv <- function(W, a, dev.steps, env.sd, rep=1000, FUN=var, log=FALSE) {
+robindex.initenv <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5)), env.sd, rep=1000, FUN=var, log=FALSE) {
 	ans <- replicate(rep,  
-		model.M2(W, a, S0=rtruncnorm(nrow(W), mean=a, sd=env.sd, 0, 1) , steps=dev.steps, measure=1)$mean)
+		model.M2(W, a, S0=rtruncnorm(nrow(W), mean=a, sd=env.sd, 0, 1) , steps=dev.steps, measure=measure)$mean)
 	transf <- if(log) function(x) mylog(x) else identity   # wierd syntax, just to solve the non-elegant problem of calling a local variable "log"
 	transf(apply(ans, 1, FUN))
 }
 
-robindex.lateenv <- function(W, a, dev.steps, env.sd, rep=1000, FUN=var, log=FALSE) {
-	ref <- model.M2(W, a, S0=rep(a, ncol(W)) , steps=dev.steps, measure=1)$mean
+robindex.lateenv <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5)), env.sd, rep=1000, FUN=var, log=FALSE) {
+	ref <- model.M2(W, a, S0=rep(a, ncol(W)) , steps=dev.steps, measure=measure)$mean
 	ans <- replicate(rep, 
 		model.M2(W, a, S0=rtruncnorm(nrow(W), mean=ref, sd=env.sd, 0, 1) , steps=1, measure=1)$mean)
 	transf <- if(log) function(x) mylog(x) else identity
 	transf(apply(ans, 1, FUN))
 }
 
-robindex.initmut <- function(W, a, dev.steps, mut.sd, mut.correlated=FALSE, nbmut=1, rep=1000, FUN=var, log=FALSE) {
+robindex.initmut <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5)), mut.sd, mut.correlated=FALSE, nbmut=1, rep=1000, FUN=var, log=FALSE) {
 	ans <- replicate(rep,  
 		{
 			myW <- W
@@ -39,14 +39,14 @@ robindex.initmut <- function(W, a, dev.steps, mut.sd, mut.correlated=FALSE, nbmu
 			which.mut <- sample(size=nbmut,  which(W != 0), replace=FALSE) # Bug if only one W != 0
 			mm <- if(mut.correlated) W[which.mut] else 0
 			myW[which.mut] <- rnorm(nbmut, mean=mm, sd=mut.sd)
-			model.M2(myW, a, S0=rep(a, ncol(W)), steps=dev.steps, measure=1)$mean
+			model.M2(myW, a, S0=rep(a, ncol(W)), steps=dev.steps, measure=measure)$mean
 		})
 	transf <- if(log) function(x) mylog(x) else identity
 	transf(apply(ans, 1, FUN))
 }
 
-robindex.latemut <- function(W, a, dev.steps, mut.sd, mut.correlated=FALSE, nbmut=1, rep=1000, FUN=var, log=FALSE) {
-	ref <- model.M2(W, a, S0=rep(a, ncol(W)) , steps=dev.steps, measure=1)$mean
+robindex.latemut <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5)), mut.sd, mut.correlated=FALSE, nbmut=1, rep=1000, FUN=var, log=FALSE) {
+	ref <- model.M2(W, a, S0=rep(a, ncol(W)) , steps=dev.steps, measure=measure)$mean
 	ans <- replicate(rep,  
 		{
 			myW <- W
@@ -60,8 +60,8 @@ robindex.latemut <- function(W, a, dev.steps, mut.sd, mut.correlated=FALSE, nbmu
 	transf(apply(ans, 1, FUN))
 }
 
-robindex.stability <- function(W, a, dev.steps, log=FALSE) {
-	ref <- model.M2(W, a, S0=rep(a, ncol(W)) , steps=dev.steps, measure=1)$mean
+robindex.stability <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5)), log=FALSE) {
+	ref <- model.M2(W, a, S0=rep(a, ncol(W)) , steps=dev.steps, measure=measure)$mean
 	onemore <- model.M2(W, a=a, S0=ref, steps=1, measure=1)$mean
 	transf <- if(log) function(x) mylog(x) else identity
 	transf((ref-onemore)^2)

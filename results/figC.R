@@ -16,18 +16,13 @@ phen <- c(
     stability=TERM.STAB.LONG)
 
 a <- 0.2
-<<<<<<< HEAD
-dev.steps <- 20
-=======
 dev.steps <- 16
->>>>>>> 78005711b0ef989a9ef9a90ddabb3851841e0549
 measure <- 4
 
 rob.reps <- 1000
 rob.initenv.sd <- 0.1
 rob.lateenv.sd  <- 0.1
 rob.mut.sd     <- 0.1
-
 
 
 difftarget <- function(res, target) {
@@ -72,7 +67,7 @@ illustrcase <- function(w11, w21, left=FALSE, right=FALSE, label="") {
     mtext(TERM.TIMESTEPS, 1, line=3, cex=0.8)
 }
 
-grid.size <- 101
+grid.size <- 21
 
 ww1 <- seq(-1.5, 2, length.out=grid.size)
 ww2 <- seq(-1, 4, length.out=grid.size)
@@ -92,19 +87,11 @@ colnames(res) <- paste("W", outer(1:network.size, 1:network.size, paste, sep="."
 res <- cbind(res, do.call(rbind, mclapply(1:nrow(res), function(i) {
         w <- matrix(unlist(res[i,]), nrow=network.size)
         c(mean=model.M2(w, a, steps=dev.steps)$mean,
-<<<<<<< HEAD
-          initenv=robindex.initenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=TRUE),
-          lateenv=robindex.lateenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=TRUE),
-          initmut=robindex.initmut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps, log=TRUE),
-          latemut=robindex.latemut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps, log=TRUE),
-          stability=robindex.stability(w, a, dev.steps, measure, log=TRUE))
-=======
           initenv=robindex.initenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps),
           lateenv=robindex.lateenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps),
           initmut=robindex.initmut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps),
           latemut=robindex.latemut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps),
           stability=robindex.stability(w, a, dev.steps))
->>>>>>> 78005711b0ef989a9ef9a90ddabb3851841e0549
     }, mc.cores=mc.cores)))
 
 

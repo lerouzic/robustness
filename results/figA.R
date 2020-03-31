@@ -48,20 +48,12 @@ if (is.null(dd)) {
 		W <- matrix(rnorm(net.size^2, mean=reg.mean, sd=reg.sd), ncol=net.size)
 		W[sample.int(net.size^2, floor((1-density)*net.size^2))] <- 0
 		list(W=W, 
-<<<<<<< HEAD
-			mean=model.M2(W, a, steps=dev.steps)$mean, 
-=======
 			mean=model.M2(W, a, steps=dev.steps, measure=measure)$mean, 
->>>>>>> 78005711b0ef989a9ef9a90ddabb3851841e0549
 			initenv=robindex.initenv(W, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=TRUE),
 			lateenv=robindex.lateenv(W, a, dev.steps, measure, rob.lateenv.sd, rep=rob.reps, log=TRUE),
 			initmut=robindex.initmut(W, a, dev.steps, measure, rob.mut.sd, rep=rob.reps,log=TRUE),
 			latemut=robindex.latemut(W, a, dev.steps, measure, rob.mut.sd, rep=rob.reps, log=TRUE),
-<<<<<<< HEAD
-			stability=robindex.stability(W, a, measure, dev.steps, log=TRUE)
-=======
 			stability=robindex.stability(W, a, dev.steps, measure, log=TRUE)
->>>>>>> 78005711b0ef989a9ef9a90ddabb3851841e0549
 		)
 	}, mc.cores=mc.cores) 
 }

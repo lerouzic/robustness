@@ -12,9 +12,8 @@ s <- c(rep(10, sel.genes), rep(0, n.genes-sel.genes))
 W0 <- matrix(rnorm(n.genes^2, sd=0.000001), ncol=n.genes)
 reps <- 20
 test.rep <- 10
-grad.effect <- 0.01
-N <- 500
-G <- 500
+N <- 1000
+G <- 5000
 every <- round(G/100)
 force.run <- FALSE
 max.points <- 20

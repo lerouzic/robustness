@@ -19,11 +19,15 @@ a <- 0.2
 dev.steps <- 16
 measure <- 4
 
-rob.reps <- 1000
+rob.reps <- 10000
 rob.initenv.sd <- 0.1
 rob.lateenv.sd  <- 0.1
 rob.mut.sd     <- 0.1
 
+use.cache <- TRUE
+cache.dir <- "../cache"
+cache.file <- paste(cache.dir, "figC.Rda", sep="/")
+if (!dir.exists(cache.dir)) dir.create(cache.dir)
 
 difftarget <- function(res, target) {
     df <- t(res[,grep("mean.", colnames(res))])-target
@@ -67,33 +71,38 @@ illustrcase <- function(w11, w21, left=FALSE, right=FALSE, label="") {
     mtext(TERM.TIMESTEPS, 1, line=3, cex=0.8)
 }
 
-grid.size <- 21
+grid.size <- 101
 
 ww1 <- seq(-1.5, 2, length.out=grid.size)
 ww2 <- seq(-1, 4, length.out=grid.size)
-
-res <- expand.grid(ww1, ww2)
-
 # Pattern 
 #   a   NA
 #   b   NA
 # (should not be important)
 
-res <- cbind(res, t(sapply(1:nrow(res), function(i) {
-        w <- targetW(W=cbind(unlist(res[i,]), rep(NA, network.size)), target=target, a=a)
-        return( c(w)[(1+network.size*(network.size-1)):(network.size*network.size)])
-    })))
-colnames(res) <- paste("W", outer(1:network.size, 1:network.size, paste, sep="."), sep=".")
-res <- cbind(res, do.call(rbind, mclapply(1:nrow(res), function(i) {
-        w <- matrix(unlist(res[i,]), nrow=network.size)
-        c(mean=model.M2(w, a, steps=dev.steps)$mean,
-          initenv=robindex.initenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps),
-          lateenv=robindex.lateenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps),
-          initmut=robindex.initmut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps),
-          latemut=robindex.latemut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps),
-          stability=robindex.stability(w, a, dev.steps))
-    }, mc.cores=mc.cores)))
 
+if (!use.cache || !file.exists(cache.file)) {
+	res <- expand.grid(ww1, ww2)
+	
+	res <- cbind(res, t(sapply(1:nrow(res), function(i) {
+	        w <- targetW(W=cbind(unlist(res[i,]), rep(NA, network.size)), target=target, a=a)
+	        return( c(w)[(1+network.size*(network.size-1)):(network.size*network.size)])
+	    })))
+	colnames(res) <- paste("W", outer(1:network.size, 1:network.size, paste, sep="."), sep=".")
+	
+	res <- cbind(res, do.call(rbind, mclapply(1:nrow(res), function(i) {
+	        w <- matrix(unlist(res[i,]), nrow=network.size)
+	        c(mean=model.M2(w, a, steps=dev.steps)$mean,
+	          initenv=robindex.initenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps),
+	          lateenv=robindex.lateenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps),
+	          initmut=robindex.initmut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps),
+	          latemut=robindex.latemut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps),
+	          stability=robindex.stability(w, a, dev.steps))
+	    }, mc.cores=mc.cores)))
+	saveRDS(cache.file)
+} else {
+	res <- readRDS(cache.file)
+}
 
 pdf("figC.pdf", width=12, height=8)
 layout(rbind(1:3, c(4:5, 0)))
@@ -101,16 +110,4 @@ mm <- difftarget(res, target) > 0.15
 for (ppp in names(phen))
 	plotres(res, ppp, stud, mask=mm, contour=TRUE)
 dev.off()
-
-
-#~ layout(matrix(1:(4*nrow(stud)), nrow=4))
-#~ par(mar=c(0.5,0.5,0.1,0.1), oma=c(4, 4, 2, 3))
-#~ invisible(sapply(rownames(stud), function(rn) {
-#~         illustrcase(stud[rn,1], stud[rn,2], left=(rn==rownames(stud)[1]), right=(rn==rownames(stud)[nrow(stud)]), label=rn)
-#~     }))
-    
-#~ nicetab <- t(apply(stud, 1, function(x) targetW(cbind(x, rep(NA, length(x))), target)))
-#~ colnames(nicetab) <- paste0("$W_{", c(11,21,12,22),"}$")
-#~ library(xtable)
-#~ print(xtable(nicetab), sanitize.colnames.function=identity)
 

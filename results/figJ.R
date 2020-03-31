@@ -12,9 +12,14 @@ mc.cores <- min(128, detectCores()-1)
 reps <- 10000
 rob.reps <- 1000
 a <- 0.2
+<<<<<<< HEAD
 dev.steps <- 20
 measure   <- 4
 
+=======
+dev.steps <- 16
+measure <- 4
+>>>>>>> 78005711b0ef989a9ef9a90ddabb3851841e0549
 initenv.sd <- 0.1
 lateenv.sd <- 0.1
 initmut.sd <- 0.1
@@ -34,11 +39,19 @@ mutate <- function(W, mut.sd) {
 
 fullPhen <- function(W) {
 	phen <- model.M2 (W=W, a=a, steps=dev.steps)$mean
+<<<<<<< HEAD
 	initenv <- robindex.initenv(W=W, a=a, dev.steps=dev.steps, measure, env.sd=initenv.sd, rep=rob.reps, log=TRUE)
 	lateenv <- robindex.lateenv(W=W, a=a, dev.steps=dev.steps, measure, env.sd=lateenv.sd, rep=rob.reps, log=TRUE)
 	initmut <- robindex.initmut(W=W, a=a, dev.steps=dev.steps, measure, mut.sd=initmut.sd, rep=rob.reps, log=TRUE)
 	latemut <- robindex.latemut(W=W, a=a, dev.steps=dev.steps, measure, mut.sd=latemut.sd, rep=rob.reps, log=TRUE)
 	stability <- robindex.stability(W=W, a=a, dev.steps=dev.steps, measure, log=TRUE)
+=======
+	initenv <- robindex.initenv(W=W, a=a, dev.steps=dev.steps, measure=measure, env.sd=initenv.sd, rep=rob.reps, log=TRUE)
+	lateenv <- robindex.lateenv(W=W, a=a, dev.steps=dev.steps, measure=measure, env.sd=lateenv.sd, rep=rob.reps, log=TRUE)
+	initmut <- robindex.initmut(W=W, a=a, dev.steps=dev.steps, measure=measure, mut.sd=initmut.sd, rep=rob.reps, log=TRUE)
+	latemut <- robindex.latemut(W=W, a=a, dev.steps=dev.steps, measure=measure, mut.sd=latemut.sd, rep=rob.reps, log=TRUE)
+	stability <- robindex.stability(W=W, a=a, dev.steps=dev.steps, measure=measure, log=TRUE)
+>>>>>>> 78005711b0ef989a9ef9a90ddabb3851841e0549
 	ans <- c(phen, initenv, lateenv, initmut, latemut, stability, mean(initenv), mean(lateenv), mean(initmut), mean(latemut), mean(stability))
 	xx <- 1:nrow(W)
 	names(ans) <- c(paste0("phen.", xx), paste0("initenv.", xx), paste0("lateenv.", xx), paste0("initmut.", xx), paste0("latemut.", xx), paste0("stability.", xx), "initenv.mean", "lateenv.mean", "initmut.mean", "latemut.mean", "stability.mean")

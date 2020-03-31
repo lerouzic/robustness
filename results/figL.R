@@ -27,11 +27,13 @@ force.run <- FALSE
 mut.rate <- 0.001
 nb.values <- 11
 
-mut.values <- 10^seq(-6,-1, length.out=nb.values)
+defaults <- c(m=mut.rate, N=N, g=n.genes, sg=sel.genes, s=10)
+
+mut.values <- 10^seq(-4,-1, length.out=nb.values)
 N.values   <- round(10^seq(1, 4, length.out=nb.values))
 genes.values <- round(seq(3, 20, length.out=nb.values))
 selg.values  <- 1:6
-s.values <- 10^seq(-2, 4, length.out=nb.values)
+s.values <- 10^seq(-2, 3, length.out=nb.values)
 
 torun.mut <- lapply(mut.values, function(mm) 
 	substitute(function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mm), 
@@ -56,6 +58,7 @@ list.sim <- mclapply(torun, function(ff) eval(ff)(), mc.cores=min(length(torun),
 
 ylims <- list(initenv=c(-40,-20), lateenv=c(-30,-6), initmut=c(-22,-4), latemut=c(-30,-5), stability=c(-40,-20))
 
+pdf("figL.pdf", width=10, height=10)
 layout(matrix(1:25, ncol=5))
 par(mar=c(0.5, 0.5, 0.1, 0.1), oma=c(5, 4, 0, 0), xpd=NA)
 for (pp in c("m","N","g","sg","s")) {
@@ -64,6 +67,7 @@ for (pp in c("m","N","g","sg","s")) {
 		xval <- sapply(strsplit(names(ls), split=paste0("\\.",pp)), function(sp) as.numeric(sp[2]))
 		yval <- sapply(ls, function(x) mean(x$mean[[as.character(G)]][[what]]))
 		plot(xval, yval, type="o", log=if(pp %in% c("g","sg")) "" else "x", xaxt="n", yaxt="n", xlab="", ylab="", ylim=ylims[[what]])
+		abline(v=defaults[pp], col="gray", lty=3)
 		if(pp=="m") {
 			mtext(2, text=as.expression(phen[[what]]), line=2)
 			axis(2)
@@ -74,3 +78,4 @@ for (pp in c("m","N","g","sg","s")) {
 		}
 	}
 }
+dev.off()

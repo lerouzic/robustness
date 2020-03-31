@@ -16,7 +16,8 @@ phen <- c(
     stability=TERM.STAB.LONG)
 
 a <- 0.2
-dev.steps <- 20
+dev.steps <- 16
+measure <- 4
 
 rob.reps <- 1000
 rob.initenv.sd <- 0.1
@@ -86,10 +87,10 @@ colnames(res) <- paste("W", outer(1:network.size, 1:network.size, paste, sep="."
 res <- cbind(res, do.call(rbind, mclapply(1:nrow(res), function(i) {
         w <- matrix(unlist(res[i,]), nrow=network.size)
         c(mean=model.M2(w, a, steps=dev.steps)$mean,
-          initenv=robindex.initenv(w, a, dev.steps, rob.initenv.sd, rep=rob.reps),
-          lateenv=robindex.lateenv(w, a, dev.steps, rob.initenv.sd, rep=rob.reps),
-          initmut=robindex.initmut(w, a, dev.steps, rob.mut.sd, rep=rob.reps),
-          latemut=robindex.latemut(w, a, dev.steps, rob.mut.sd, rep=rob.reps),
+          initenv=robindex.initenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps),
+          lateenv=robindex.lateenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps),
+          initmut=robindex.initmut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps),
+          latemut=robindex.latemut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps),
           stability=robindex.stability(w, a, dev.steps))
     }, mc.cores=mc.cores)))
 

@@ -14,7 +14,7 @@ varlist     <- function(ll) setNames(lapply(names(ll[[1]]), function(nn) varlist
 
 puresel <- function(W0, theta, a=0.2, s=10, grad.rob=rep(0, 5), N=1000, rep=100, G=100, summary.every=1, 
 		mut.rate=0.1, som.mut.rate = 0, mut.sd=0.1, initmut.sd=mut.sd, latemut.sd=mut.sd, initenv.sd=0.1, lateenv.sd=0.1, 
-		dev.steps=16, plasticity=rep(FALSE, length(theta)), log.robustness=TRUE, mut.correlated=TRUE, ...) {
+		dev.steps=16, measure=4, plasticity=rep(FALSE, length(theta)), log.robustness=TRUE, mut.correlated=TRUE, ...) {
 			
 	fitness <- function(x, theta) exp(-sum(s*(x$P-theta)^2) + sum(grad.rob*c(mean(x$initenv), mean(x$lateenv), mean(x$initmut), mean(x$latemut), mean(x$stability))))
 	mutate <- function(W) {
@@ -43,32 +43,32 @@ puresel <- function(W0, theta, a=0.2, s=10, grad.rob=rep(0, 5), N=1000, rep=100,
 		pop <- lapply(pop, function(i) { if (runif(1) < mut.rate) i$W <- mutate(i$W); i })
 		plastic <- ifelse(plasticity, runif(1, -0.5, 0.5), 0)
 		pop <- lapply(pop, function(i) {
-			P <- model.M2(W=i$W, a=a, S0=renorm(rep(a, nrow(i$W)) + plastic), steps=dev.steps)$mean
+			P <- model.M2(W=i$W, a=a, S0=renorm(rep(a, nrow(i$W)) + plastic), steps=dev.steps, measure=measure)$mean
 			if (runif(1) < som.mut.rate) {
 				Wmut <- mutate(i$W)
-				P <- model.M2(W=Wmut, a=a, S0=P, steps=1)$mean
+				P <- model.M2(W=Wmut, a=a, S0=P, steps=1, measure=1)$mean
 			}
 			c(i, list(P=P))})
 
 		pop <- lapply(pop, function(i) c(i, list(
 			initenv = if (grad.rob[1] != 0 || gg %% summary.every == 0) {
 				do.call(robindex.initenv, c(list(W=i$W, a=a, log=log.robustness, rep=rep, 
-				env.sd=initenv.sd, dev.steps=dev.steps), dots[names(args(robindex.initenv)) %in% names(dots)]))
+				env.sd=initenv.sd, dev.steps=dev.steps, measure=measure), dots[names(args(robindex.initenv)) %in% names(dots)]))
 			} else { rep(0, nrow(W0)) },
 			lateenv = if (grad.rob[2] != 0 || gg %% summary.every == 0) {
 				do.call(robindex.lateenv, c(list(W=i$W, a=a, log=log.robustness, rep=rep, 
-				env.sd=lateenv.sd, dev.steps=dev.steps), dots[names(args(robindex.lateenv)) %in% names(dots)]))
+				env.sd=lateenv.sd, dev.steps=dev.steps, measure=measure), dots[names(args(robindex.lateenv)) %in% names(dots)]))
 			} else { rep(0, nrow(W0)) },
 			initmut = if (grad.rob[3] != 0 || gg %% summary.every == 0) {
 				do.call(robindex.initmut, c(list(W=i$W, a=a, log=log.robustness, rep=rep, 
-				mut.sd=initmut.sd, dev.steps=dev.steps), dots[names(args(robindex.initmut)) %in% names(dots)]))
+				mut.sd=initmut.sd, dev.steps=dev.steps, measure=measure), dots[names(args(robindex.initmut)) %in% names(dots)]))
 			} else { rep(0, nrow(W0))} ,
 			latemut = if (grad.rob[4] != 0 || gg %% summary.every == 0) {
 				do.call(robindex.latemut, c(list(W=i$W, a=a, log=log.robustness, rep=rep, 
-				mut.sd=latemut.sd, dev.steps=dev.steps), dots[names(args(robindex.latemut)) %in% names(dots)]))
+				mut.sd=latemut.sd, dev.steps=dev.steps, measure=measure), dots[names(args(robindex.latemut)) %in% names(dots)]))
 			} else { rep(0, nrow(W0)) },
 			stability = if (grad.rob[5] != 0 || gg %% summary.every == 0) {
-				do.call(robindex.stability, c(list(W=i$W, a=a, log=log.robustness, dev.steps=dev.steps), 
+				do.call(robindex.stability, c(list(W=i$W, a=a, log=log.robustness, dev.steps=dev.steps, measure=measure), 
 				dots[names(args(robindex.stability)) %in% names(dots)]))
 			} else { rep(0, nrow(W0)) }
 			)))

@@ -9,7 +9,8 @@ library(parallel)
 default.args <- list(
 	a=0.2,
 	mut.correlated=TRUE,
-	dev.steps=20,
+	dev.steps=16,
+	measure=4,
 	G=100,
 	summary.every=10,
 	mc.cores=1,

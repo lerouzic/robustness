@@ -26,6 +26,7 @@ reg.sd <- 1.2
 
 a <- 0.2
 dev.steps <- 20
+measure   <- 4
 
 rob.reps <- 100
 rob.initenv.sd <- 0.1
@@ -47,12 +48,12 @@ if (is.null(dd)) {
 		W <- matrix(rnorm(net.size^2, mean=reg.mean, sd=reg.sd), ncol=net.size)
 		W[sample.int(net.size^2, floor((1-density)*net.size^2))] <- 0
 		list(W=W, 
-			mean=model.M2(W, a, steps=dev.steps)$mean, 
-			initenv=robindex.initenv(W, a, dev.steps, rob.initenv.sd, rep=rob.reps, log=TRUE),
-			lateenv=robindex.lateenv(W, a, dev.steps, rob.lateenv.sd, rep=rob.reps, log=TRUE),
-			initmut=robindex.initmut(W, a, dev.steps, rob.mut.sd, rep=rob.reps,log=TRUE),
-			latemut=robindex.latemut(W, a, dev.steps, rob.mut.sd, rep=rob.reps, log=TRUE),
-			stability=robindex.stability(W, a, dev.steps, log=TRUE)
+			mean=model.M2(W, a, steps=dev.steps, measure=measure)$mean, 
+			initenv=robindex.initenv(W, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=TRUE),
+			lateenv=robindex.lateenv(W, a, dev.steps, measure, rob.lateenv.sd, rep=rob.reps, log=TRUE),
+			initmut=robindex.initmut(W, a, dev.steps, measure, rob.mut.sd, rep=rob.reps,log=TRUE),
+			latemut=robindex.latemut(W, a, dev.steps, measure, rob.mut.sd, rep=rob.reps, log=TRUE),
+			stability=robindex.stability(W, a, dev.steps, measure, log=TRUE)
 		)
 	}, mc.cores=mc.cores) 
 }

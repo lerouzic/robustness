@@ -26,11 +26,11 @@ phen <- c(
     latemut=substitute(x~(y), list(x=TERM.SOM.LONG, y=ABBRV.SOM[[1]])),
     stability=substitute(x~(y), list(x=TERM.STAB.LONG, y=ABBRV.STAB[[1]])))
 col.phen <- c(fitness="black", initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut=COL.SOM, stability=COL.STAB)
-cols <- c('sim.ref'="black", 'sim.mut'=COL.GENCAN, 'sim.som'=COL.SOM, 'sim.pla'=COL.ENVCAN)
-pchs <- c('sim.ref'=1, 'sim.mut'=6, 'sim.som'=6, 'sim.pla'=2)
+cols <- c('sim.ref'="black", 'sim.som'=COL.SOM, 'sim.iev'=COL.ENVCAN, 'sim.lev'=COL.HOMEO)
+pchs <- c('sim.ref'=1, 'sim.som'=2, 'sim.iev'=0, 'sim.lev'=5)
 
 
-allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Generations", ylab=what, lwd=3, FUN=mean, ...) {
+allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Generations", ylab=what, lwd.highlight=NULL, FUN=mean, ...) {
 	# Helper function to plot robustness time series
 	
 	if(is.null(xlim)) 
@@ -44,30 +44,32 @@ allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Gener
 	for (nss in names(list.sim)) {
 		xpp <- seq_along(as.numeric(names(list.sim[[nss]]$mean)))
 		xpp <- round(seq(xpp[1], xpp[length(xpp)], length.out=min(max.points, length(xpp))))
-		lines(as.numeric(names(list.sim[[nss]]$mean))[xpp], sapply(list.sim[[nss]]$mean, function(x) FUN(x[[what]]))[xpp], col=cols[nss], lty=0, pch=pchs[nss], type="o")
+		lines(as.numeric(names(list.sim[[nss]]$mean))[xpp], sapply(list.sim[[nss]]$mean, function(x) FUN(x[[what]]))[xpp], col=cols[nss], lty=0, pch=pchs[nss], type="o", lwd=if(nss %in% lwd.highlight) 3 else 1)
 	}
 }
 
 torun <- list(
 	sim.ref = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001),
 		reps=reps, series.name="real-ref", force.run=force.run),
-	sim.mut = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.1),
-		reps=reps, series.name="real-mut", force.run=force.run),
 	sim.som = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001, som.mut.rate=0.1),
 		reps=reps, series.name="real-som", force.run=force.run),
-	sim.pla = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001, plasticity=c(TRUE, rep(FALSE,n.genes-1))),
-		reps=reps, series.name="real-pla", force.run=force.run)
+	sim.iev = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001, sim.initenv.sd=0.1),
+		reps=reps, series.name="real-iev", force.run=force.run),
+	sim.lev = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001, sim.lateenv.sd=0.1),
+		reps=reps, series.name="real-iev", force.run=force.run)
 )
 
 list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
 
-layout(rbind(1:3,4:6))
-par(cex=1, mar=c(5, 2, 4, 1))
-allplots(list.sim, what="fitness")
-legend("topleft", pch=pchs, col=cols, legend=names(cols))
-allplots(list.sim, what="initenv")
-allplots(list.sim, what="lateenv")
-allplots(list.sim, what="initmut")
-allplots(list.sim, what="latemut")
-allplots(list.sim, what="stability")
+pdf("figK.pdf", width=10, height=12)
+	layout(rbind(1:3,4:6))
+	par(cex=1, mar=c(5, 2, 4, 1))
+	allplots(list.sim, what="fitness")
+	legend("topleft", pch=pchs, col=cols, legend=names(cols))
+	allplots(list.sim, what="initenv", lwd.highlight="sim.iev")
+	allplots(list.sim, what="lateenv", lwd.highlight="sim.lev")
+	allplots(list.sim, what="initmut")
+	allplots(list.sim, what="latemut", lwd.highlight="sim.som")
+	allplots(list.sim, what="stability")
+dev.off()

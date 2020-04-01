@@ -17,6 +17,8 @@ default.args <- list(
 	N=100,
 	mut.rate=0.001,
 	som.mut.rate=0,
+	sim.initenv.sd=0,
+	sim.lateenv.sd==0,
 	mut.sd=0.1,
 	theta=0.5,
 	s=10,

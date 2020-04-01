@@ -13,8 +13,8 @@ meanlist    <- function(ll) setNames(lapply(names(ll[[1]]), function(nn) meanlis
 varlist     <- function(ll) setNames(lapply(names(ll[[1]]), function(nn) varlist.u(lapply(ll, "[[", nn))), names(ll[[1]]))
 
 puresel <- function(W0, theta, a=0.2, s=10, grad.rob=rep(0, 5), N=1000, rep=100, G=100, summary.every=1, 
-		mut.rate=0.1, som.mut.rate = 0, mut.sd=0.1, initmut.sd=mut.sd, latemut.sd=mut.sd, initenv.sd=0.1, lateenv.sd=0.1, 
-		dev.steps=16, measure=4, plasticity=rep(FALSE, length(theta)), log.robustness=TRUE, mut.correlated=TRUE, ...) {
+		mut.rate=0.1, som.mut.rate = 0, mut.sd=0.1, initmut.sd=mut.sd, latemut.sd=mut.sd, sim.initenv.sd=0, sim.lateenv.sd=0, 
+		initenv.sd=0.1, lateenv.sd=0.1, dev.steps=16, measure=4, plasticity=rep(FALSE, length(theta)), log.robustness=TRUE, mut.correlated=TRUE, ...) {
 			
 	fitness <- function(x, theta) exp(-sum(s*(x$P-theta)^2) + sum(grad.rob*c(mean(x$initenv), mean(x$lateenv), mean(x$initmut), mean(x$latemut), mean(x$stability))))
 	mutate <- function(W) {
@@ -43,10 +43,13 @@ puresel <- function(W0, theta, a=0.2, s=10, grad.rob=rep(0, 5), N=1000, rep=100,
 		pop <- lapply(pop, function(i) { if (runif(1) < mut.rate) i$W <- mutate(i$W); i })
 		plastic <- ifelse(plasticity, runif(1, -0.5, 0.5), 0)
 		pop <- lapply(pop, function(i) {
-			P <- model.M2(W=i$W, a=a, S0=renorm(rep(a, nrow(i$W)) + plastic), steps=dev.steps, measure=measure)$mean
+			P <- model.M2(W=i$W, a=a, S0=renorm(rep(a, nrow(i$W)) + plastic + rnorm(nrow(i$W), sd=sim.initenv.sd)), steps=dev.steps, measure=measure)$mean
 			if (runif(1) < som.mut.rate) {
 				Wmut <- mutate(i$W)
 				P <- model.M2(W=Wmut, a=a, S0=P, steps=1, measure=1)$mean
+			}
+			if (sim.lateenv.sd > 0) {
+				P <- model.M2(W=W, a=a, S0=renorm(P + rnorm(nrow(W), sd=sim.lateenv.sd)), steps=1, measure=1)$mean
 			}
 			c(i, list(P=P))})
 

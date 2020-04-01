@@ -1,5 +1,10 @@
-\documentclass{article}
+\documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
+
+\usepackage[margin=3cm]{geometry}
+
+\usepackage{setspace}
+\doublespacing
 
 \usepackage{biblatex}
 \bibliography{robustness.bib}
@@ -10,7 +15,6 @@
 \usepackage{graphicx}
 
 \usepackage[english]{babel}
-
 
 \usepackage[page,title]{appendix}
 \addto\captionsenglish{%
@@ -73,31 +77,31 @@ f(x) = \frac{1}{1+ \lambda_a e ^{- \mu_a x}},
 \noindent with $\lambda_a = (1-a)/a$ and $\mu_a = 1/a(1-a)$. The function $f$ is scaled such that $f(0) = a$ and $df/dx|_{x=0}=1$; the parameter $a$ thus stands for the constitutive gene expression (the expression of a gene in absence of regulators), and this function defines the scale of the matrix $\bm W$, as a small effect $W_{ij} = \delta$ on an otherwise non-regulated gene leads to the same change in gene expression $S_i = a+\delta$. 
 %Setting $a=0.5$ leads to $f(x) = 1/(1+e^{-\mu x})$ with $\mu = 4$, which can be directly compared with e.g.\ \cite{PBF12}. 
 
-Gene networks dynamics start from an initial expression $S_0$, and gene expression was updated for $T$ timesteps. By default, $S_0 = (a, a, ..., a)$, since this step immediately follows a virtual initial state with no expression. The expression phenotype corresponding to a gene network was determined by averaging gene expressions during the last $\tau$ timesteps for each gene $i$: $\bar S_i = \sum_{t=T-\tau}^T S_{it}$. (CHECK) 
+Gene networks dynamics start from an initial expression $S_0$, and gene expression was updated for $T$ timesteps. By default, $P_0 = (a, a, ..., a)$, since this step immediately follows a virtual initial state with no expression. The expression phenotype corresponding to a gene network was determined by averaging gene expressions during the last $\tau$ timesteps for each gene $i$: $\bar P_i = \sum_{t=T-\tau}^T P_{it}$. 
 
 \subsection{Robustness indicators}
 
-Five robustness indicators were calculated, corresponding to five different aspects of genetic or environmental robustness in a gene network: network stability $\stability$, robustess to early ($\earlyenv$) and late ($\lateenv$) environmental disturbance, and robustness to early ($\earlymut$) and late ($\latemut$) genetic disturbance. 
+Five robustness indicators were calculated, corresponding to five different aspects of genetic or environmental robustness in a gene network: network stability $\stability$, robustess to early ($\earlyenv$) and late ($\lateenv$) environmental disturbance, and robustness to early ($\earlymut$) and late ($\latemut$) genetic disturbance. All indicators were expressed on a scale homogeneous to log variances in gene expressions.
 
-Network stability $\stability$ quantifies the capacity for a specific network to lead to stable gene expression. Indeed, dynamic systems based on the Wagner model often tend to generate limit cycles and never converge to a stable equilibrium. For consistency with other indicators, this unstability was measured as the average deviation from the mean expression during the last $\tau$ timesteps: $\stability_i = \sum_{t=T-\tau}^T |S_{it}-\bar S_i| / \tau$. $\stability_i$ thus actually measures the unstability of gene $i$, as it reaches 0 for a stable gene and 0.5 for a totally unstable gene (cyclic switches between minimum and maximum expression levels). CHECK.
+Dynamic systems based on the Wagner model often tend to generate limit cycles and never converge to a stable equilibrium. Network stability $\stability$ quantifies the capacity for a specific network to lead to stable gene expressions.  For consistency with other indicators, this unstability was measured as the log squared difference between the average expression during the last $\tau$ timesteps, and an extra timestep: $\stability_i = \log( \bar P_i - P_{T+1})^2)$. 
 
-The robustness to early environmental disturbance $\earlyenv$ measures the capacity of a network to reach a consistent final state starting from different starting gene expressions. In practice, $R$ replicates of the network dynamics were run, in which the initial state of the network $S_0$ was drawn into a multivariate uniform (0,1) distribution. The environmental disturbance $\earlyenv_i$ of each gene $i$ was measured as the log variance in the final gene expression across these replicates. 
+The robustness to early environmental disturbance $\earlyenv$ measures the capacity of a network to reach a consistent final state starting from different initial gene expressions. In practice, $R$ replicates of the network dynamics were run, in which the initial gene expressions ($P_0$) were drawn into Gaussian ($\mu = a, \sigma = \sigma_e$) distributions. The environmental robustness for each gene $i$ was measured as the log variance in the final gene expression across these replicates: $\earlyenv_i = \log [ 1/(R-1) \sum_{r=1}^R (\bar P_{i,r} - (1/R) \sum _r \bar P_{i,r})^2 ]$. 
 
-The robustness to late environmental disturbance $\lateenv$ measures the capacity of a network to recover its equilibrium state after having being disturbed. Gene expressions after $T$ timesteps were disturbed by adding a random Gaussian noise of standard deviation $\sigma_e$ to each gene of the network, and $\lateenv_i$ was computed for each gene $i$ as the log variance in gene expression at time step $T+1$ over $R$ replicates. 
+The robustness to late environmental disturbance $\lateenv$ measures the capacity of a network to recover its equilibrium state after having being disturbed. Gene expressions after $T$ timesteps were disturbed by adding a random Gaussian noise of standard deviation $\sigma_E$ to each gene of the network, and $\lateenv_i$ was computed for each gene $i$ as the log variance in gene expression at time step $T+1$ over $R$ replicates: $\lateenv_i = \log [ 1/(R-1) \sum_{r=1}^R (P_{i,T+1,r} - (1/R) \sum_r P_{i,T+1,r})^2)]$. 
 
-The robustness to early mutations $\earlymut$ measures the system robustness to inherited genetic mutations (modifications of the $\bm W$ matrix). A random non-zero element of the $\bm W$ matrix was shifted by a random Gaussian number of standard deviation $\sigma_m$, and its consequences on the mean expression of all network genes was recorded. The procedure was replicated $R$ times, and the robustness score $\earlymut_i$ for each gene $i$ was calculated as the log variance of gene expression across $R$ replicates of the procedure. 
+The robustness to early mutations $\earlymut$ measures the system robustness to inherited genetic mutations (modifications of the $\bm W$ matrix). A random non-zero element of the $\bm W$ matrix was shifted by a random Gaussian number of standard deviation $\sigma_m$, and its consequences on the mean expression of all network genes was recorded. The procedure was replicated $R$ times, and the robustness score $\earlymut_i$ for each gene $i$ was calculated as the log variance of gene expression across $R$ replicates: $\earlymut_i = \log[ 1/(R-1) \sum_{r=1}^R (\bar P_{i,r} - (1/R)\sum_r \bar P_{i,r})^2]$. 
 
-Finally, the robustess to late mutations $\latemut$ measured the effect of mutations in the gene network $\bm W$ after having reached the final state. In practice, the $\bm W$ matrix was mutated in the same way as for $\earlymut$, but its consequences on gene expression were calculated for only one timestep, starting from the final state of the network. The procedure was simulated $R$ times, $\latemut_i$ was the log variance of the expression of gene $i$ over $R$ replicates. 
+Finally, the robustess to late mutations $\latemut$ measured the effect of mutations in the gene network $\bm W$ after having reached the final state. In practice, the $\bm W$ matrix was mutated in the same way as for $\earlymut$, but its consequences on gene expression were calculated for only one timestep, starting from the final state of the network. The procedure was simulated $R$ times, $\latemut_i = \log[ 1/(R-1) \sum_{r=1}^R (P_{i,T+1,r} - (1/R) \sum_r P_{i,T+1,r})^2 ]$.
 
 All these scores were calculated for every gene $i$ of a given network, and then averaged over all genes in order to get a series of summary network descriptors 
 
 \subsection{Random networks}
 
-Random networks were generated as $n\times n$ matrices filled with independent identically-distributed random numbers drawn into a Gaussian ($\mu_0, \sigma_0$) distribution. The parameters of the distribution were determined so that gene expressions $P_i$ was as uniformy distributed as possible between minimum (0) and maximum (1) expressions; this corresponded to $\mu_0=-0.2$ and $\sigma_0=1.2$ in a full-density 6-gene networks, A density parameter $1/n \leq d \leq 1$ could be specified, corresponding to the frequency of non-zero slots in the $\bm W$ matrix. Zeros were placed randomly, with the constraint that all genes should be regulated by at least another one. 
+Random networks were generated as $n\times n$ matrices filled with independent identically-distributed random numbers drawn into a Gaussian ($\mu_0, \sigma_0$) distribution. The parameters of the distribution were determined so that gene expressions $P_i$ was as uniformy distributed as possible between minimum ($P=0$) and maximum ($P=1$) expressions; this corresponded to $\mu_0=-0.2$ and $\sigma_0=1.2$ in a full-density 6-gene networks, A density parameter $1/n \leq d \leq 1$ could be specified, corresponding to the frequency of non-zero slots in the $\bm W$ matrix. Zeros were placed randomly, with the constraint that all genes should be regulated by at least another one. 
 
 \subsection{Exhaustive exploration of 2-gene networks}
 
-The main interest of gene-network models is the complexity and the richness of the underlying genotype-phenotype. As a side effect, such models are particularly difficult to handle (\cite{CTH11,LP12}). Excluding the one-gene self-regulating case (which already has non-trivial mathematical properties), the simplest network (2-by-2 matrix) has four genetic parameters, which makes the exploration of the parameter set tedious. Here, the number of dimensions was restricted by considering the set of networks that lead to a predefined arbitrary equilibrium, $\bm P^\ast_\infty = (P^\ast_1, P^\ast_2)$. As $F(\bm W \bm P^\ast_\infty) = \bm P^\ast_\infty$, the $\bm W$ matrix can be reduced to two independent parameters, $W_{11}$ and $W_{21}$:
+The main interest of gene-network models is the complexity and the richness of the underlying genotype-phenotype. As a side effect, such models are in general difficult to handle mathematically (\cite{CTH11,LP12}). Excluding the one-gene self-regulating case (which already has non-trivial mathematical properties), the simplest network (2-by-2 matrix) has four genetic parameters, which makes the exploration of the parameter set tedious. Here, the number of dimensions was restricted by considering the set of networks that lead to a predefined arbitrary equilibrium, $\bm P^\ast_\infty = (P^\ast_1, P^\ast_2)$. As $F(\bm W \bm P^\ast_\infty) = \bm P^\ast_\infty$, the $\bm W$ matrix can be reduced to two independent parameters, $W_{11}$ and $W_{21}$:
 \begin{equation}
     \bm W = F \left [\begin{pmatrix} W_{11} & A \\ W_{21} & B \end{pmatrix}  \begin{pmatrix} P^\ast_1 \\ P^\ast_2 \end{pmatrix} \right] = \begin{pmatrix}P^\ast_1 \\ P^\ast_2 \end{pmatrix},
 \end{equation}
@@ -110,30 +114,38 @@ The main interest of gene-network models is the complexity and the richness of t
 \end{equation}
 \noindent $f^{-1}(x) = -\frac{1}{\mu_a} \log \left( \frac{1-x}{\lambda_a x} \right)$ being the inverse of $f(x)$ (equation~\ref{eq:fx}). The $\bm W$ matrix achieving the desired $\bm P^\ast_\infty$ equilibrium from a specific pair $W_{11}, W_{21}$ always exists (and is unique), but the stability of the equilibrium is not guaranteed. Networks which final gene expression $\bm P = (P_1,P_2)$ differed substantially from the target (in practice, when $|P_1 - P^\ast_1| + |P_2 - P^\ast_2| > 0.15$) were excluded from the analysis. Such discrepancies correspond to either unstable equilibria (in which case gene expressions were driven away from the equilibrium until reaching an extreme (0 or 1) expression) or extreme oscillatory behaviors (large oscillations may hit extreme expression limits (0 or 1) which drives the average expression away from the target equilibrium). 
 
-
 \subsection{Evolutionary simulations}
 
+The evolution of gene networks under various evolutionary constraints was studied by individual-based simulations. Each individual was featured by its genotype (a $n \times n$ $\bm W$ matrix), its expression phenotype $\bar P$, and the five robustness scores $\stability$, $\earlyenv$, $\lateenv$, $\earlymut$, and $\latemut$. For simplicity, individuals were haploid and reproduced clonally. Mutations consisted in adding a random Gaussian deviate of variance $\sigma_m^2$ to an element of the $\bm W$ matrix, with a rate $\mu$. Generations were non-overlapping, and population size $N$ was constant. A generation consisted in sampling $N$ new individuals among the $N$ parents, with a probability propotional to the individual fitness. Fitness was computed assuming stabilizing selection around a target (optimal) expression level for $n^\prime \leq n$ genes of the network, as $w = \exp(- \sum_{i=1}^{n^\prime} s_i (\bar P_i - \theta_i)^2 )$, where $s_i$ was the strength of stabiizing selection on gene $i$ ($s_i = 0$ standing for no selection), and $\theta_i$ was the optimal expression phenotype. In most cases, the $\theta_i$ were drawn in uniform (0,1) distributions at the beginning of each replicated simulation. 
+
+In addition, direct, directional selection on robustness indicators was performed in some simulations, consisting in multiplying individual fitness by $\exp ( \sum_{x \in (S, E, e, M, m)} \beta_x \rho _x )$, where $\beta_x$ is the strength of directional (positive or negative) selection on robustness index $x$. 
+
+Simulations and data analysis were coded in R \citep{R20}, except for the gene network dynamics that was coded in C++ and embedded in the R code with the Rcpp package \citep{EF11}. 
 
 \section{Results}
 
 \subsection{Random networks}
 
-Random interaction matrices are regularly used in the literature to study the general properties of gene networks (e.g.\ \cite{CTH11,PBF12}. As such, random networks are not expected to reflect the properties of biologically-realistic genetic architectures, as biological networks are far from random. However, such an approach helps developing a general intuition about the properties of the underlying model, especially about the amount of selection it takes to bring a network into its non-random state. 
+Random interaction matrices are regularly used in the literature to study the general properties of gene networks (e.g.\ \cite{CTH11,PBF12}). As such, random networks are not expected to reflect the properties of biologically-realistic genetic architectures, as biological networks are far from random. However, such an approach helps developing a general intuition about the properties of the underlying model, especially about the amount of selection it takes to bring a network into its non-random state. 
 
-Correlations were calculated between all five robustness components over 10,000 random networks (\SupMat~\ref{supp:fullcorr}). All robustness components were positively correlated. However, correlations range from 0.9 (Homeostasis vs.\ Stability) to 0.2 (Homeostasis vs.\ Genetic Canalization), and in general tend to be rather weak. A Principal Component Analysis (Figure~\ref{pca}) confirms that robustness components are not tighly associated. The first PC (57\% of the total variance) corresponds to the general robustness/canalization of the network. The remaining variance is explained by orthogonal vectors separating Homeostasis/Stability vs.\ Genetic and Environmental Canalizations (PC2, 24\%), Genetic vs.\ Environmental Canalizations (11\%, PC3), Late mutations vs.\ all the rest (PC4, 7\%), and Stability vs.\ Homeostasis (PC5, 1\%). 
+Correlations were calculated between all five robustness components over 10,000 random networks (\SupMat~\ref{supp:fullcorr}). All robustness components were positively correlated. However, correlations range from above 0.9 (early vs.\ late mutations) to about 0.2 (stability vs early mutations). A Principal Component Analysis (Figure~\ref{pca}) confirms that robustness components are not tighly associated. The first PC (57\% of the total variance) corresponds to the general robustness of the network, and involves all robustness indexes. The remaining variance is explained by orthogonal vectors separating all other robustness components. Although weak (about 2\% of the total variance), the last PC still represents an independent direction of variation and is not an artifact of the sampling effect (\SupMat~\ref{supp:samplingPC}). 
 
-\begin{figure}[h!]
+\begin{figure}[t]
+\begin{center}
 \includegraphics[width=10cm]{../results/figB}
-\caption{\label{fig:pca} Summary of the principal component analysis on the five robustness components over 10,000 random 6-gene networks ($\mu_0=-0.2, \sigma_0=1.2$). Left: position of the five robustness components on all five Principal Components (PC). U: (un)stability, H: Homeostasis, E: Environmental canalization, C: Genetic canalization, K: Late mutation canalization. Right: relative contribution of the five PCs to the total variance.}
+\caption{\label{fig:pca} Summary of the principal component analysis on the five robustness components over 10,000 random 6-gene networks ($\mu_0=-0.2, \sigma_0=1.2$). Left: position of the five robustness components on all five (normalized) Principal Components (PC); $\stability$: Stability, $\earlyenv$: Early environmental, $\lateenv$: Late environmental, $\earlymut$: Early genetic, $\latemut$: Late genetic. Right: relative contribution of the five PCs to the total variance.}
+\end{center}
 \end{figure}
 
 \subsection{2-gene networks}
 
 In the following, I considered the particular case of $\bm S_\infty$ = (0.3, 0.6) with two intermediate, distinct gene expressions. Equivalent results could be achieved with a different target. Figure~\ref{fig:imgpanels} illustrates how the robustness components vary in this constrained 2-gene network model (red stands for maximum robustness, i.e.\ minimum scores for $U$,$H$,$E$,$C$, and $K$). In the white regions, the equilibrium was not achieved in numerical simulations for distinct reasons. In the bottom-right region, the target $\S_\infty$ equilibrium was unstable, and the model converged to another equilibrium if the starting point was different from $\bm S_\infty$. In the top-left region, fluctuations around the equilibrium were so large that they hit the edges of the (0,1) gene expression interval, shifting the average gene expression towards 0.5. 
 
-\begin{figure}[h!]
+\begin{figure}[t]
+\begin{center}
 \includegraphics[width=15cm]{../results/figC}
-\caption{\label{fig:imgpanels} Robustness indicators ($U$,$H$,$E$,$C$, and $K$, as described in the methods section) estimated for a continuum of two-gene networks with an equilibrium at $\bm S_\infty = (0.3, 0.6)$. Red stands for the maximum robustness (lowest scores); yellow for minimum robustness (highest scores). For readability, scales might be different between panels according of the range of the score (for instance, homeostasis ranges from 0.04 to 0.14 while stability ranges from 0 to 0.25). Letters A to E stand to five networks illustrated in figure~\ref{fig:simpanels}, and detailed in Table~\ref{tab:W}.}
+\caption{\label{fig:imgpanels} Robustness indicators ($\stability$, $\earlyenv$, $\lateenv$, $\earlymut$, $\latemut$) estimated for an exhaustive continuum of two-gene networks with an arbitrary expression equilibrium at $\bm P_\infty = (0.3, 0.6)$. Although two-gene networks have four independent genetic parameters, only two are represented here, the two others being computed to ensure the desired equilibrium. Red stands for the maximum robustness (lowest scores); yellow for minimum robustness (highest scores). For readability, color scales are different across panels. Letters A to E stand for five example networks illustrated in \Supmat~\ref{supp:simpanels}.}
+\end{center}
 \end{figure}
 
 It immediately appears that the different robustness components may be somehow correlated, but do not overlap. The simulated behavior of networks A to E are illustrated in \SupMat~\ref{supp:simpanels}, and the corresponding $\bm W$ matrices are provided in \SupMat~\ref{supp:W}. The network denoted as "B" is robust to all five components, while network E is sensitive to all components except stability. Network C is unstable, but remains relatively canalized. Networks A and D illustrate intermediate decanalization behaviors, through different mechanisms (unstability for network D, and weak buffering for network A). 

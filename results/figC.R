@@ -99,7 +99,7 @@ if (!use.cache || !file.exists(cache.file)) {
 	          latemut=robindex.latemut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps),
 	          stability=robindex.stability(w, a, dev.steps))
 	    }, mc.cores=mc.cores)))
-	saveRDS(cache.file)
+	saveRDS(res, file=cache.file)
 } else {
 	res <- readRDS(cache.file)
 }

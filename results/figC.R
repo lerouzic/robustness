@@ -93,11 +93,11 @@ if (!use.cache || !file.exists(cache.file)) {
 	res <- cbind(res, do.call(rbind, mclapply(1:nrow(res), function(i) {
 	        w <- matrix(unlist(res[i,]), nrow=network.size)
 	        c(mean=model.M2(w, a, steps=dev.steps)$mean,
-	          initenv=robindex.initenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps),
-	          lateenv=robindex.lateenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps),
-	          initmut=robindex.initmut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps),
-	          latemut=robindex.latemut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps),
-	          stability=robindex.stability(w, a, dev.steps))
+	          initenv=robindex.initenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=TRUE),
+	          lateenv=robindex.lateenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=TRUE),
+	          initmut=robindex.initmut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps, log=TRUE),
+	          latemut=robindex.latemut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps, log=TRUE),
+	          stability=robindex.stability(w, a, dev.steps, log=TRUE))
 	    }, mc.cores=mc.cores)))
 	saveRDS(res, file=cache.file)
 } else {

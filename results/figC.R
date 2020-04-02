@@ -47,30 +47,6 @@ plotres <- function(res, crit="mean", stud=NULL, mask=NULL, contour=FALSE, mx = 
         invisible(sapply(rownames(stud), function(rn) text(x=stud[rn,1], y=stud[rn,2], rn, col="blue")))
 }
 
-illustrcase <- function(w11, w21, left=FALSE, right=FALSE, label="") {
-    w <- targetW(cbind(c(w11, w21), rep(NA, sz)), target=target)
-    xlim <- c(1, 25)
-    plot.test.homeo(w, a=0.2, xlim=xlim, replicates=40, exagg=4)
-    mtext(label, 3)
-    if (left) { axis(2); mtext(TERM.EXPRESSION, 2, line=3, cex=0.8) }
-    if (right) mtext(TERM.HOMEO.SHORT, 4, line=1.5)
-    
-    plot.test.envcan(w, a=0.2, xlim=xlim)
-    if (left) { axis(2); mtext(TERM.EXPRESSION, 2, line=3, cex=0.8) }
-    if (right) mtext(TERM.ENVCAN.SHORT, 4, line=1.5)
-
-    plot.test.gencan(w, a=0.2, xlim=xlim)
-    if (left) { axis(2); mtext(TERM.EXPRESSION, 2, line=3, cex=0.8) }
-    if (right) mtext(TERM.GENCAN.SHORT, 4, line=1.5)    
-    
-    plot.test.somcan(w, a=0.2, xlim=xlim)
-    if (left) { axis(2); mtext(TERM.EXPRESSION, 2, line=3, cex=0.8) }
-    if (right) mtext(TERM.SOM.SHORT, 4, line=1.5) 
-    
-    axis(1)
-    mtext(TERM.TIMESTEPS, 1, line=3, cex=0.8)
-}
-
 grid.size <- 101
 
 ww1 <- seq(-1.5, 2, length.out=grid.size)

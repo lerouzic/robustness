@@ -56,7 +56,7 @@ torun <- list(
 	sim.iev = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001, sim.initenv.sd=0.1),
 		reps=reps, series.name="real-iev", force.run=force.run),
 	sim.lev = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001, sim.lateenv.sd=0.1),
-		reps=reps, series.name="real-iev", force.run=force.run)
+		reps=reps, series.name="real-lev", force.run=force.run)
 )
 
 list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))

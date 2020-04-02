@@ -49,7 +49,7 @@ puresel <- function(W0, theta, a=0.2, s=10, grad.rob=rep(0, 5), N=1000, rep=100,
 				P <- model.M2(W=Wmut, a=a, S0=P, steps=1, measure=1)$mean
 			}
 			if (sim.lateenv.sd > 0) {
-				P <- model.M2(W=i$W, a=a, S0=renorm(P + rnorm(nrow(W), sd=sim.lateenv.sd)), steps=1, measure=1)$mean
+				P <- model.M2(W=i$W, a=a, S0=renorm(P + rnorm(nrow(i$W), sd=sim.lateenv.sd)), steps=1, measure=1)$mean
 			}
 			c(i, list(P=P))})
 

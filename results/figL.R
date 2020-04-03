@@ -28,7 +28,7 @@ W0 <- matrix(rnorm(n.genes^2, sd=0.000001), ncol=n.genes)
 reps <- 20
 test.rep <- 10
 N <- 1000
-G <- 5000
+G <- 20000
 force.run <- FALSE
 mut.rate <- 0.001
 nb.values <- 11

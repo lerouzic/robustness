@@ -4,40 +4,44 @@
 # from random gene networks
 
 source("./terminology.R")
+source("./defaults.R")
 source("../src/robindex.R")
+
 library(parallel)
-mc.cores <- min(detectCores()-1, 64)
+mc.cores <- default.mc.cores
+
+use.cache <- TRUE
 
 phen <- c(
-    #mean=TERM.EXPRESSION,
     initenv=substitute(x~(y), list(x=TERM.ENVCAN.LONG, y=ABBRV.ENVCAN[[1]])),
     lateenv=substitute(x~(y), list(x=TERM.HOMEO.LONG, y=ABBRV.HOMEO[[1]])),
     initmut=substitute(x~(y), list(x=TERM.GENCAN.LONG, y=ABBRV.GENCAN[[1]])),
     latemut=substitute(x~(y), list(x=TERM.SOM.LONG, y=ABBRV.SOM[[1]])),
     stability=substitute(x~(y), list(x=TERM.STAB.LONG, y=ABBRV.STAB[[1]])))
 
-use.cache <- TRUE
+# Most parameters use the defaults, some specificities
 
-net.size <- 10
+net.size <- 6
 reps <- 10000
-density <- 0.2
+
+density <- 1
 reg.mean <- -0.2
 reg.sd <- 1.2
 
-a <- 0.2
-dev.steps <- 20
-measure   <- 4
+a <- default.a
+dev.steps <- default.dev.steps
+measure   <- default.dev.measure
 
-rob.reps <- 100
-rob.initenv.sd <- 0.1
-rob.lateenv.sd  <- 0.1
-rob.mut.sd     <- 0.1
+rob.reps <- 1000
+rob.initenv.sd <- default.initenv.sd
+rob.lateenv.sd <- default.lateenv.sd
+rob.initmut.sd <- default.initmut.sd
+rob.latemut.sd <- default.latemut.sd
 
 maxplotpoints <- min(reps, 1000) # avoids overcrowded plots
-lowthresh <- 1e-4 # this is necessary when plotting log variances
 
 cache.dir <- "../cache"
-cache.file <- paste(cache.dir, "figA.Rda", sep="/")
+cache.file <- paste(cache.dir, "figA.rds", sep="/")
 if (!dir.exists(cache.dir)) dir.create(cache.dir)
 
 dd <- NULL
@@ -51,8 +55,8 @@ if (is.null(dd)) {
 			mean=model.M2(W, a, steps=dev.steps, measure=measure)$mean, 
 			initenv=robindex.initenv(W, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=TRUE),
 			lateenv=robindex.lateenv(W, a, dev.steps, measure, rob.lateenv.sd, rep=rob.reps, log=TRUE),
-			initmut=robindex.initmut(W, a, dev.steps, measure, rob.mut.sd, rep=rob.reps,log=TRUE),
-			latemut=robindex.latemut(W, a, dev.steps, measure, rob.mut.sd, rep=rob.reps, log=TRUE),
+			initmut=robindex.initmut(W, a, dev.steps, measure, rob.initmut.sd, rep=rob.reps, log=TRUE),
+			latemut=robindex.latemut(W, a, dev.steps, measure, rob.latemut.sd, rep=rob.reps, log=TRUE),
 			stability=robindex.stability(W, a, dev.steps, measure, log=TRUE)
 		)
 	}, mc.cores=mc.cores) 
@@ -71,26 +75,24 @@ whattoconsider<- function(x) x[[1]] # the first gene of the network
 whattoconsider <- function(x) mean(x) # the average index for all genes
 
 pdf("figA.pdf", width=10, height=10)
-layout(mm)
-par(mar=0.1+c(0,0,0,0), oma=c(4,5,0,0))
-for (ii in 1:(lp-1)) {
-    for (jj in ((ii+1):lp)) {
-        rrx <- sapply(dd[1:maxplotpoints], function(x) whattoconsider(x[[names(phen)[ii]]]))
-        rry <- sapply(dd[1:maxplotpoints], function(x) whattoconsider(x[[names(phen)[jj]]]))
-#~         rrx[rrx < lowthresh] <- lowthresh
-#~         rry[rry < lowthresh] <- lowthresh
-        plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray")
-        if (ii==1) {
-            axis(2)
-            mtext(as.expression(phen[jj]), side=2, line=3)
-        }
-        if (jj==lp) {
-            axis(1)
-            mtext(as.expression(phen[ii]), side=1, line=3)
-        }
-        # abline(lm( rr[,names(phen)[jj]] ~ rr[,names(phen)[ii]]), col="red")
-        legend("topleft", paste0("r=", round(cor(rrx, rry), digits=2)), bty="n", cex=1.5)
-    }
-}
+	layout(mm)
+	par(mar=0.1+c(0,0,0,0), oma=c(4,5,0,0))
+	for (ii in 1:(lp-1)) {
+	    for (jj in ((ii+1):lp)) {
+	        rrx <- sapply(dd[1:maxplotpoints], function(x) whattoconsider(x[[names(phen)[ii]]]))
+	        rry <- sapply(dd[1:maxplotpoints], function(x) whattoconsider(x[[names(phen)[jj]]]))
+	        plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray")
+	        if (ii==1) {
+	            axis(2)
+	            mtext(as.expression(phen[jj]), side=2, line=3)
+	        }
+	        if (jj==lp) {
+	            axis(1)
+	            mtext(as.expression(phen[ii]), side=1, line=3)
+	        }
+	        # abline(lm( rr[,names(phen)[jj]] ~ rr[,names(phen)[ii]]), col="red")
+	        legend("topleft", paste0("r=", round(cor(rrx, rry), digits=2)), bty="n", cex=1.5)
+	    }
+	}
 dev.off()
 

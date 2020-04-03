@@ -4,29 +4,34 @@ library(parallel)
 mc.cores <- min(64, detectCores()-1)
 
 source("./terminology.R")
+source("./defaults.R")
 source("./studycases.R")
 source("../src/robindex.R")
 
+use.cache <- TRUE
+
 phen <- c(
-    #mean=TERM.EXPRESSION,
     initenv=TERM.ENVCAN.LONG,
     lateenv=TERM.HOMEO.LONG,
     initmut=TERM.GENCAN.LONG,
     latemut=TERM.SOM.LONG,
     stability=TERM.STAB.LONG)
 
-a <- 0.2
-dev.steps <- 16
-measure <- 4
+grid.size      <- 101
 
-rob.reps <- 10000
-rob.initenv.sd <- 0.1
-rob.lateenv.sd  <- 0.1
-rob.mut.sd     <- 0.1
+a              <- default.a
+dev.steps      <- default.dev.steps
+measure        <- default.measure
+log            <- default.log.robustness
 
-use.cache <- TRUE
+rob.reps       <- 10000
+rob.initenv.sd <- default.initenv.sd
+rob.lateenv.sd <- default.lateenv.sd
+rob.initmut.sd <- default.initmut.sd
+rob.latemut.sd <- default.latemut.sd
+
 cache.dir <- "../cache"
-cache.file <- paste(cache.dir, "figC.Rda", sep="/")
+cache.file <- paste(cache.dir, "figC.rds", sep="/")
 if (!dir.exists(cache.dir)) dir.create(cache.dir)
 
 difftarget <- function(res, target) {
@@ -46,8 +51,6 @@ plotres <- function(res, crit="mean", stud=NULL, mask=NULL, contour=FALSE, mx = 
     if (!is.null(stud))
         invisible(sapply(rownames(stud), function(rn) text(x=stud[rn,1], y=stud[rn,2], rn, col="blue")))
 }
-
-grid.size <- 101
 
 ww1 <- seq(-1.5, 2, length.out=grid.size)
 ww2 <- seq(-1, 4, length.out=grid.size)
@@ -69,11 +72,11 @@ if (!use.cache || !file.exists(cache.file)) {
 	res <- cbind(res, do.call(rbind, mclapply(1:nrow(res), function(i) {
 	        w <- matrix(unlist(res[i,]), nrow=network.size)
 	        c(mean=model.M2(w, a, steps=dev.steps)$mean,
-	          initenv=robindex.initenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=TRUE),
-	          lateenv=robindex.lateenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=TRUE),
-	          initmut=robindex.initmut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps, log=TRUE),
-	          latemut=robindex.latemut(w, a, dev.steps, measure, rob.mut.sd, rep=rob.reps, log=TRUE),
-	          stability=robindex.stability(w, a, dev.steps, log=TRUE))
+	          initenv=robindex.initenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=log),
+	          lateenv=robindex.lateenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=log),
+	          initmut=robindex.initmut(w, a, dev.steps, measure, rob.initmut.sd, rep=rob.reps, log=log),
+	          latemut=robindex.latemut(w, a, dev.steps, measure, rob.latemut.sd, rep=rob.reps, log=log),
+	          stability=robindex.stability(w, a, dev.steps, log=log))
 	    }, mc.cores=mc.cores)))
 	saveRDS(res, file=cache.file)
 } else {
@@ -81,9 +84,9 @@ if (!use.cache || !file.exists(cache.file)) {
 }
 
 pdf("figC.pdf", width=12, height=8)
-layout(rbind(1:3, c(4:5, 0)))
-mm <- difftarget(res, target) > 0.15
-for (ppp in names(phen))
-	plotres(res, ppp, stud, mask=mm, contour=TRUE)
+	layout(rbind(1:3, c(4:5, 0)))
+	mm <- difftarget(res, target) > 0.15
+	for (ppp in names(phen))
+		plotres(res, ppp, stud, mask=mm, contour=TRUE)
 dev.off()
 

@@ -2,21 +2,25 @@
 
 source("./commonpure.R")
 source("./terminology.R")
+source("./defaults.R")
 
 library(parallel)
-mc.cores <- min(detectCores()-1, 128)
+mc.cores <- default.mc.cores
 
-n.genes <- 6
-sel.genes <- 3
-s <- c(rep(10, sel.genes), rep(0, n.genes-sel.genes))
-W0 <- matrix(rnorm(n.genes^2, sd=0.000001), ncol=n.genes)
-reps <- 20
-test.rep <- 10
-N <- 1000
-G <- 5000
-every <- round(G/100)
-force.run <- FALSE
-max.points <- 20
+use.cache <- TRUE
+
+n.genes        <- default.n
+sel.genes      <- default.nsel
+s              <- c(rep(default.s, sel.genes), rep(0, n.genes-sel.genes))
+W0             <- matrix(rnorm(n.genes^2, sd=default.initsd), ncol=n.genes)
+reps           <- default.sim.reps
+test.rep       <- default.rob.reps
+N              <- default.N
+G              <- 5000
+every          <- round(G/100)
+force.run      <- !use.cache
+
+max.points     <- 20
 
 phen <- c(
 	fitness="Fitness",
@@ -50,13 +54,13 @@ allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Gener
 
 torun <- list(
 	sim.ref = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001),
-		reps=reps, series.name="real-ref", force.run=force.run),
+		reps=reps, series.name="figK-ref", force.run=force.run),
 	sim.som = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001, som.mut.rate=0.1),
-		reps=reps, series.name="real-som", force.run=force.run),
+		reps=reps, series.name="figK-som", force.run=force.run),
 	sim.iev = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001, sim.initenv.sd=0.1),
-		reps=reps, series.name="real-iev", force.run=force.run),
+		reps=reps, series.name="figK-iev", force.run=force.run),
 	sim.lev = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, mut.rate=0.001, sim.lateenv.sd=0.1),
-		reps=reps, series.name="real-lev", force.run=force.run)
+		reps=reps, series.name="figK-lev", force.run=force.run)
 )
 
 list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))

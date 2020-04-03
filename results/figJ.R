@@ -1,28 +1,30 @@
 #
 # Evolvabilities and conditional evolvabilities (from M matrices)
 
-source("terminology.R")
-
+source("./terminology.R")
+source("./defaults.R")
 source("../src/netw.R")
 source("../src/robindex.R")
 
 library(parallel)
-mc.cores <- min(128, detectCores()-1)
+mc.cores <- default.mc.cores
 
-reps <- 10000
-rob.reps <- 1000
-a <- 0.2
-dev.steps <- 16
-measure <- 4
-initenv.sd <- 0.1
-lateenv.sd <- 0.1
-initmut.sd <- 0.1
-latemut.sd <- 0.1
-mut.sd     <- 0.1
-mut.correlated <- TRUE
-force.run <- FALSE
+use.cache <- TRUE
 
-ref.sim <- "pure-null"
+reps          <- 10000
+rob.reps      <- default.rob.reps
+a             <- default.a
+dev.steps     <- default.dev.steps
+measure       <- default.dev.measure
+initenv.sd    <- default.initenv.sd
+lateenv.sd    <- default.lateenv.sd
+initmut.sd    <- default.initmut.sd
+latemut.sd    <- default.latemut.sd
+mut.sd        <- default.sim.mutsd
+mut.correlated <- default.mut.correlated
+force.run     <- !use.cache
+
+ref.sim <- "figG-null"
 gen.sim <- "5000"
 
 mutate <- function(W, mut.sd) {
@@ -62,7 +64,7 @@ robs <- c("initenv", "lateenv", "initmut", "latemut", "stability")
 names(robs) <- c(TERM.ENVCAN.SHORT, TERM.HOMEO.SHORT, TERM.GENCAN.SHORT, TERM.SOM.SHORT, TERM.STAB.SHORT)
 cols <- c(initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut=COL.SOM, stability=COL.STAB)
 
-Mmats.cachefile <- "../cache/Mmats.rds"
+Mmats.cachefile <- "../cache/figJ-mats.rds"
 
 if (force.run || !file.exists(Mmats.cachefile)) {
 	Wmats <- lapply(list.files(path="../cache", pattern=paste0(ref.sim, "-.*\\.rds"),full.names=TRUE), function(ff) readRDS(ff)[[gen.sim]]$W)
@@ -80,12 +82,12 @@ lr <- length(robs)
 lt <- 3
 
 pdf("figJ.pdf", width=8, height=5)
-
-boxplot(evolv.free, at=1+(0:(lr-1))*(lt+1), xlim=c(0, (lt+1)*lr), log="y", xaxt="n",  ylab="Evolvability", border=cols, density=10, ylim=c(0.005,20))
-boxplot(evolv.phens, at=2+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="lightgray")
-boxplot(evolv.robs, at=3+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="bisque")
-
-axis(1, at=1+(lt-1)/2+(0:(lr-1))*(lt+1), labels=names(robs), tick=FALSE)
-legend("topleft", pch=22, pt.bg=c("white","lightgray","bisque"), legend=c("Unconditional", "Cond. gene expression","Cond. other robustness"), horiz=TRUE, bty="n", pt.cex=1.5)
+	
+	boxplot(evolv.free, at=1+(0:(lr-1))*(lt+1), xlim=c(0, (lt+1)*lr), log="y", xaxt="n",  ylab="Evolvability", border=cols, density=10, ylim=c(0.005,20))
+	boxplot(evolv.phens, at=2+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="lightgray")
+	boxplot(evolv.robs, at=3+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="bisque")
+	
+	axis(1, at=1+(lt-1)/2+(0:(lr-1))*(lt+1), labels=names(robs), tick=FALSE)
+	legend("topleft", pch=22, pt.bg=c("white","lightgray","bisque"), legend=c("Unconditional", "Cond. gene expression","Cond. other robustness"), horiz=TRUE, bty="n", pt.cex=1.5)
 
 dev.off()

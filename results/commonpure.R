@@ -1,35 +1,35 @@
 
 source("../src/puresel.R")
+source("./defaults.R")
 cache.dir <- "../cache"
 
 library(parallel)
 
-
-
 default.args <- list(
-	a=0.2,
-	mut.correlated=TRUE,
-	dev.steps=16,
-	measure=4,
-	G=100,
-	summary.every=10,
-	mc.cores=1,
-	N=100,
-	mut.rate=0.001,
-	som.mut.rate=0,
-	sim.initenv.sd=0,
-	sim.lateenv.sd=0,
-	mut.sd=0.1,
-	theta=0.5,
-	s=10,
-	grad.rob=rep(0, 5),
-	rep=100,
-	initenv.sd=0.1,
-	lateenv.sd=0.1,
-	initmut.sd=0.1,
-	latemut.sd=0.1,
-	log.robustness=TRUE,
-	plasticity=FALSE)
+	a               = default.a,
+	mut.correlated  = default.mut.correlated,
+	dev.steps       = default.dev.steps,
+	measure         = default.dev.measure,
+	G               = default.G,
+	summary.every   = round(default.G/100),
+	mc.cores        = 1,
+	N               = default.N,
+	mut.rate        = default.mut.rate,
+	som.mut.rate    = 0,
+	sim.initenv.sd  = 0,
+	sim.lateenv.sd  = 0,
+	mut.sd          = default.sim.mutsd,
+	theta           = 0.5,
+	s               = default.s,
+	grad.rob        = rep(0, 5),
+	rep             = default.rob.reps,
+	initenv.sd      = default.initenv.sd,
+	lateenv.sd      = default.lateenv.sd,
+	initmut.sd      = default.initmut.sd,
+	latemut.sd      = default.latemut.sd,
+	log.robustness  = default.log.robustness,
+	plasticity      = FALSE
+)
 	
 acrossrepMean <- function(fulllist) {
 	ans <- lapply(names(fulllist[[1]]), function(gen) meanlist(lapply(fulllist, "[[", gen)))

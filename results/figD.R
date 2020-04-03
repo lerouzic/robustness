@@ -2,19 +2,19 @@
 
 # Illustrates the robustness differences between all study cases
 
-
 source("../src/netw.R")
 source("./studycases.R")
 source("./terminology.R")
+source("./defaults.R")
 
 cols <- 1:2
 
-a <- 0.2
-initmut.sd <- 0.05
-latemut.sd <- 0.1
-initenv.sd <- 0.1
-lateenv.sd <- 0.05
-dev.steps <- 20
+a          <- default.a
+initmut.sd <- default.initmut.sd
+latemut.sd <- default.latemut.sd
+initenv.sd <- default.initenv.sd
+lateenv.sd <- default.lateenv.sd
+dev.steps <-  default.dev.steps
 
 
 makeTransparent<-function(someColor, alpha=70)
@@ -81,49 +81,49 @@ illustrate.lateenv <- function(W, rep=20, ...) {
 
 
 pdf("figD.pdf", width=12, height=12)
-layout(matrix(1:(4*nrow(stud)), ncol=4, byrow=TRUE))
-par(mar=c(0,0,0,0)+0.2, oma=c(4, 4, 4, 0), xpd=NA)
-
-for (rstud in 1:nrow(stud)) {
-	W <- targetW(cbind(stud[rstud,], rep(NA, network.size)), target=target, a=a)
+	layout(matrix(1:(4*nrow(stud)), ncol=4, byrow=TRUE))
+	par(mar=c(0,0,0,0)+0.2, oma=c(4, 4, 4, 0), xpd=NA)
 	
-	illustrate.reference(W, lwd=2)
-	illustrate.initmut(W)
-	axis(2)
-	mtext("Expression", 2, outer=FALSE, line=3)
-	if (rstud == 1) 
-		mtext(TERM.GENCAN.LONG, 3, line=2, cex=1.5)
-	if (rstud == nrow(stud)) {
-		axis(1)
-		mtext("Time steps", 1, outer=FALSE, line=3)
-	}
-	text(4, 0.95, LETTERS[rstud], cex=2)
-	
-	illustrate.reference(W, lwd=2)
-	illustrate.latemut(W)
-	if (rstud == 1) 
-		mtext(TERM.SOM.LONG, 3, line=2, cex=1.5)	
-	if (rstud == nrow(stud)) {
-		axis(1)
-		mtext("Time steps", 1, outer=FALSE, line=3)
-	}
+	for (rstud in 1:nrow(stud)) {
+		W <- targetW(cbind(stud[rstud,], rep(NA, network.size)), target=target, a=a)
 		
-	illustrate.reference(W, lwd=2)
-	illustrate.initenv(W)
-	if (rstud == 1) 
-		mtext(TERM.ENVCAN.LONG, 3, line=2, cex=1.5)
-	if (rstud == nrow(stud)) {
-		axis(1)
-		mtext("Time steps", 1, outer=FALSE, line=3)
-	}
+		illustrate.reference(W, lwd=2)
+		illustrate.initmut(W)
+		axis(2)
+		mtext("Expression", 2, outer=FALSE, line=3)
+		if (rstud == 1) 
+			mtext(TERM.GENCAN.LONG, 3, line=2, cex=1.5)
+		if (rstud == nrow(stud)) {
+			axis(1)
+			mtext("Time steps", 1, outer=FALSE, line=3)
+		}
+		text(4, 0.95, LETTERS[rstud], cex=2)
 		
-	illustrate.reference(W, lwd=2)
-	illustrate.lateenv(W)
-	if (rstud == 1) 
-		mtext(TERM.HOMEO.LONG, 3, line=2, cex=1.5)
-	if (rstud == nrow(stud)) {
-		axis(1)
-		mtext("Time steps", 1, outer=FALSE, line=3)
-	}		
-}
+		illustrate.reference(W, lwd=2)
+		illustrate.latemut(W)
+		if (rstud == 1) 
+			mtext(TERM.SOM.LONG, 3, line=2, cex=1.5)	
+		if (rstud == nrow(stud)) {
+			axis(1)
+			mtext("Time steps", 1, outer=FALSE, line=3)
+		}
+			
+		illustrate.reference(W, lwd=2)
+		illustrate.initenv(W)
+		if (rstud == 1) 
+			mtext(TERM.ENVCAN.LONG, 3, line=2, cex=1.5)
+		if (rstud == nrow(stud)) {
+			axis(1)
+			mtext("Time steps", 1, outer=FALSE, line=3)
+		}
+			
+		illustrate.reference(W, lwd=2)
+		illustrate.lateenv(W)
+		if (rstud == 1) 
+			mtext(TERM.HOMEO.LONG, 3, line=2, cex=1.5)
+		if (rstud == nrow(stud)) {
+			axis(1)
+			mtext("Time steps", 1, outer=FALSE, line=3)
+		}		
+	}
 dev.off()

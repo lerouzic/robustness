@@ -2,21 +2,25 @@
 
 source("./commonpure.R")
 source("./terminology.R")
+source("./defaults.R")
 
 library(parallel)
-mc.cores <- min(detectCores()-1, 128)
+mc.cores <- default.mc.cores
 
-n.genes <- 6
-sel.genes <- 3
-s <- c(rep(10, sel.genes), rep(0, n.genes-sel.genes))
-W0 <- matrix(rnorm(n.genes^2, sd=0.000001), ncol=n.genes)
-reps <- 20
-test.rep <- 10
-grad.effect <- 0.01
-N <- 500
-G <- 10000
-every <- round(G/100)
-force.run <- FALSE
+use.cache <- TRUE
+
+n.genes          <- default.n
+sel.genes        <- default.nsel
+s                <- c(rep(default.s, sel.genes), rep(0, n.genes-sel.genes))
+W0               <- matrix(rnorm(n.genes^2, sd=default.initsd), ncol=n.genes)
+
+reps             <- default.simreps
+test.rep         <- default.robreps
+grad.effect      <- 0.01
+N                <- default.N
+G                <- 10000
+every            <- round(G/100)
+force.run        <- !use.cache
 
 col.sim <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM, st=COL.STAB)
 col.phen <- c(fitness="black", initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut=COL.SOM, stability=COL.STAB)
@@ -55,38 +59,38 @@ allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Gener
 
 torun <- list(
 	oo.o = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,0)), 
-		reps=reps, series.name="pure-null", force.run=force.run), 
+		reps=reps, series.name="figG-null", force.run=force.run), 
 	ie.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,0,0)), 
-		reps=reps, series.name="pure-ie-m", force.run=force.run),
+		reps=reps, series.name="figG-ie-m", force.run=force.run),
 	le.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,-grad.effect,0,0,0)), 
-		reps=reps, series.name="pure-le-m", force.run=force.run),
+		reps=reps, series.name="figG-le-m", force.run=force.run),
 	im.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,-grad.effect,0,0)), 
-		reps=reps, series.name="pure-im-m", force.run=force.run),
+		reps=reps, series.name="figG-im-m", force.run=force.run),
 	lm.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,-grad.effect,0)), 
-		reps=reps, series.name="pure-lm-m", force.run=force.run),
+		reps=reps, series.name="figG-lm-m", force.run=force.run),
 	st.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,-grad.effect)), 
-		reps=reps, series.name="pure-st-m", force.run=force.run),
+		reps=reps, series.name="figG-st-m", force.run=force.run),
 	ie.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,0,0)), 
-		reps=reps, series.name="pure-ie-p", force.run=force.run),
+		reps=reps, series.name="figG-ie-p", force.run=force.run),
 	le.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,grad.effect,0,0,0)), 
-		reps=reps, series.name="pure-le-p", force.run=force.run),
+		reps=reps, series.name="figG-le-p", force.run=force.run),
 	im.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,grad.effect,0,0)), 
-		reps=reps, series.name="pure-im-p", force.run=force.run),
+		reps=reps, series.name="figG-im-p", force.run=force.run),
 	lm.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,grad.effect,0)), 
-		reps=reps, series.name="pure-lm-p", force.run=force.run),
+		reps=reps, series.name="figG-lm-p", force.run=force.run),
 	st.p = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,grad.effect)), 
-		reps=reps, series.name="pure-st-p", force.run=force.run)
+		reps=reps, series.name="figG-st-p", force.run=force.run)
 )
 
 list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
 
 pdf("figG.pdf", width=12, height=8)
-layout(rbind(1:3,4:6))
-par(cex=1, mar=c(5, 2, 4, 1))
-allplots(list.sim, what="initenv", focal=c("oo","ie"))
-allplots(list.sim, what="lateenv", focal=c("oo","le"))
-allplots(list.sim, what="initmut", focal=c("oo","im"))
-allplots(list.sim, what="latemut", focal=c("oo","lm"))
-allplots(list.sim, what="stability", focal=c("oo","st"))
+	layout(rbind(1:3,4:6))
+	par(cex=1, mar=c(5, 2, 4, 1))
+	allplots(list.sim, what="initenv", focal=c("oo","ie"))
+	allplots(list.sim, what="lateenv", focal=c("oo","le"))
+	allplots(list.sim, what="initmut", focal=c("oo","im"))
+	allplots(list.sim, what="latemut", focal=c("oo","lm"))
+	allplots(list.sim, what="stability", focal=c("oo","st"))
 dev.off()

@@ -3,9 +3,9 @@
 # Runs a PCA among robustness indexes and plots the results
 
 source("./terminology.R")
+source("./defaults.R")
 
 phen <- c(
-    #mean=TERM.EXPRESSION,
     initenv=TERM.ENVCAN.LONG,
     lateenv=TERM.HOMEO.LONG,
     initmut=TERM.GENCAN.LONG,
@@ -14,18 +14,14 @@ phen <- c(
     
 phen.pos.ref <- "initmut"
 
-lowthresh <- -40
-
 # This script uses the same data as figA. Run figA before. 
 cache.dir <- "../cache"
-cache.file <- paste(cache.dir, "figA.Rda", sep="/")
+cache.file <- paste(cache.dir, "figA.rds", sep="/")
 if (!dir.exists(cache.dir)) dir.create(cache.dir)
 
 dd <- NULL
 dd <- if (file.exists(cache.file)) readRDS(cache.file)
 if (is.null(dd)) stop("Unable to find the data file", cache.file)
-
-
 
 
 myplot.prcomp <- function(pr, 
@@ -48,16 +44,12 @@ myplot.prcomp <- function(pr,
     
 }
 
-
 whattoconsider<- function(x) x[[1]] # the first gene of the network
 whattoconsider <- function(x) mean(x) # the average index for all genes
 
 pdf("figB.pdf", width=7, height=7)
-
-rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(names(phen), function(ppp) whattoconsider(ddd[[ppp]]))))
-
-prp <- prcomp(rrr, scale.=TRUE)
-myplot.prcomp(prp)
-
-
+	rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(names(phen), function(ppp) whattoconsider(ddd[[ppp]]))))
+	
+	prp <- prcomp(rrr, scale.=TRUE)
+	myplot.prcomp(prp)
 dev.off()

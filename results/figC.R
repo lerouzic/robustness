@@ -21,7 +21,7 @@ grid.size      <- 101
 
 a              <- default.a
 dev.steps      <- default.dev.steps
-measure        <- default.measure
+measure        <- default.dev.measure
 log            <- default.log.robustness
 
 rob.reps       <- 10000

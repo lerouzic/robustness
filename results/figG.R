@@ -14,8 +14,8 @@ sel.genes        <- default.nsel
 s                <- c(rep(default.s, sel.genes), rep(0, n.genes-sel.genes))
 W0               <- matrix(rnorm(n.genes^2, sd=default.initsd), ncol=n.genes)
 
-reps             <- default.simreps
-test.rep         <- default.robreps
+reps             <- default.sim.reps
+test.rep         <- default.rob.reps
 grad.effect      <- 0.01
 N                <- default.N
 G                <- 10000

@@ -18,6 +18,11 @@ ABBRV.ENVCAN <- expression(rho[E])
 ABBRV.GENCAN <- expression(rho[M])
 ABBRV.SOM <- expression(rho[m])
 
+SDLETTER.HOMEO  <- "e"
+SDLETTER.ENVCAN <- "E"
+SDLETTER.GENCAN <- "M"
+SDLETTER.SOM    <- "m"
+
 COL.STAB <- "blue"
 COL.HOMEO <- "lightgreen"
 COL.ENVCAN <- "darkgreen"

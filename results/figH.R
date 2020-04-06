@@ -21,6 +21,7 @@ rob.initenv.sd  <- default.initenv.sd
 rob.lateenv.sd  <- default.lateenv.sd
 rob.initmut.sd  <- default.initmut.sd
 rob.latemut.sd  <- default.latemut.sd  
+log.robustness <- default.log.robustness
 
 # These should match figA and figB
 reg.mean <- -0.2
@@ -47,16 +48,15 @@ eigenV <- function(reps, rob.reps) {
 			W[sample.int(net.size^2, floor((1-density)*net.size^2))] <- 0
 			list(W=W, 
 				mean=model.M2(W, a, steps=dev.steps)$mean, 
-				initenv=robindex.initenv(W, a, dev.steps, measure=measure, env.sd=rob.initenv.sd, rep=rob.reps, log=TRUE),
-				lateenv=robindex.lateenv(W, a, dev.steps, measure=measure, env.sd=rob.lateenv.sd, rep=rob.reps, log=TRUE),
-				initmut=robindex.initmut(W, a, dev.steps, measure=measure, mut.sd=rob.mut.sd, rep=rob.reps,log=TRUE),
-				latemut=robindex.latemut(W, a, dev.steps, measure=measure, mut.sd=rob.mut.sd, rep=rob.reps, log=TRUE),
-				stability=robindex.stability(W, a, dev.steps, measure=measure, log=TRUE)
+				initenv=robindex.initenv(W, a, dev.steps, measure=measure, env.sd=rob.initenv.sd, rep=rob.reps, log=log.robustness),
+				lateenv=robindex.lateenv(W, a, dev.steps, measure=measure, env.sd=rob.lateenv.sd, rep=rob.reps, log=log.robustness),
+				initmut=robindex.initmut(W, a, dev.steps, measure=measure, mut.sd=rob.initmut.sd, rep=rob.reps,log=log.robustness),
+				latemut=robindex.latemut(W, a, dev.steps, measure=measure, mut.sd=rob.latemut.sd, rep=rob.reps, log=log.robustness),
+				stability=robindex.stability(W, a, dev.steps, measure=measure, log=log.robustness)
 			)
 		}, mc.cores=mc.cores) 
 		saveRDS(dd, cache.file)
 	}
-		
 	rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(c("initenv", "lateenv", "initmut", "latemut", "stability"), function(ppp) whattoconsider(ddd[[ppp]]))))
 	prp <- prcomp(rrr, scale.=TRUE)
 	prp$sdev^2/(sum(prp$sdev^2))

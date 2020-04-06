@@ -31,7 +31,7 @@ robindex.lateenv <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5))
 	transf(apply(ans, 1, FUN))
 }
 
-robindex.initmut <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5)), mut.sd, mut.correlated=FALSE, nbmut=1, rep=1000, FUN=var, log=FALSE) {
+robindex.initmut <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5)), mut.sd, mut.correlated=TRUE, nbmut=1, rep=1000, FUN=var, log=FALSE) {
 	ans <- replicate(rep,  
 		{
 			myW <- W
@@ -45,7 +45,7 @@ robindex.initmut <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5))
 	transf(apply(ans, 1, FUN))
 }
 
-robindex.latemut <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5)), mut.sd, mut.correlated=FALSE, nbmut=1, rep=1000, FUN=var, log=FALSE) {
+robindex.latemut <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5)), mut.sd, mut.correlated=TRUE, nbmut=1, rep=1000, FUN=var, log=FALSE) {
 	ref <- model.M2(W, a, S0=rep(a, ncol(W)) , steps=dev.steps, measure=measure)$mean
 	ans <- replicate(rep,  
 		{

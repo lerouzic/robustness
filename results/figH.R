@@ -36,8 +36,8 @@ whattoconsider <- function(x) mean(x) # the average index for all genes
 
 cols <- 1:5
 
-eigenV <- function(reps, rob.reps, reg.mean=reg.mean, reg.sd=reg.sd, net.size=net.size, density=density) {
-	
+eigenV <- function(reps, rob.reps) {
+	# needs global variables: reg.mean, reg.sd, net.size, density
 	cache.file <- paste0(cache.dir, "/", "figH-R", reps, "-r", rob.reps, ".rds")
 	dd <- NULL
 	dd <- if (use.cache && file.exists(cache.file)) readRDS(cache.file)
@@ -56,7 +56,7 @@ eigenV <- function(reps, rob.reps, reg.mean=reg.mean, reg.sd=reg.sd, net.size=ne
 		}, mc.cores=mc.cores) 
 		saveRDS(dd, cache.file)
 	}
-	
+		
 	rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(c("initenv", "lateenv", "initmut", "latemut", "stability"), function(ppp) whattoconsider(ddd[[ppp]]))))
 	prp <- prcomp(rrr, scale.=TRUE)
 	prp$sdev^2/(sum(prp$sdev^2))

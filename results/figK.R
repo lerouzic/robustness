@@ -13,7 +13,7 @@ n.genes        <- default.n
 sel.genes      <- default.nsel
 s              <- c(rep(default.s, sel.genes), rep(0, n.genes-sel.genes))
 W0             <- matrix(rnorm(n.genes^2, sd=default.initsd), ncol=n.genes)
-reps           <- default.sim.reps
+reps           <- 100
 test.rep       <- default.rob.reps
 N              <- default.N
 G              <- 50000

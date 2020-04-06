@@ -65,10 +65,10 @@ eigenV <- function(reps, rob.reps) {
 # Technically, this sounds pretty useless: it would be way more efficient to run the max number of replicates and sample them for lower
 # counts. Yet, the current code is simpler, and avoids correlations among samples. 
 allreps <- round(10^(seq(2, 4, length.out=7)))
-resreps <- lapply(allreps, function(reps) eigenV(reps, default.rob.reps))
+resreps <- lapply(allreps, function(rreps) eigenV(rreps, default.rob.reps))
 
 allrobs <- round(10^(seq(1, 5, length.out=9)))
-resrobs <- lapply(allrobs, function(robs) eigenV(default.reps, robs))
+resrobs <- lapply(allrobs, function(robs) eigenV(reps, robs))
 
 pdf("figH.pdf", width=8, height=4)
 	layout(t(1:2))

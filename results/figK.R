@@ -16,7 +16,7 @@ W0             <- matrix(rnorm(n.genes^2, sd=default.initsd), ncol=n.genes)
 reps           <- default.sim.reps
 test.rep       <- default.rob.reps
 N              <- default.N
-G              <- 5000
+G              <- 50000
 every          <- round(G/100)
 force.run      <- !use.cache
 

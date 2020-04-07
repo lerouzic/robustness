@@ -27,6 +27,8 @@ force.run     <- !use.cache
 ref.sim <- "figG-null"
 gen.sim <- "5000"
 
+nb.mut  <- 2
+
 mutate <- function(W, mut.sd) {
 	which.mut <- sample(size=1,  which(W != 0)) # Bug if only one W != 0
 	W[which.mut] <- rnorm(1, mean=if(mut.correlated) W[which.mut] else 0, sd=mut.sd)
@@ -46,9 +48,11 @@ fullPhen <- function(W) {
 	ans
 }
 
-fullM <- function(W) {
+fullM <- function(W, nbmut=nb.mut) {
 	mm <- do.call(rbind, mclapply(1:reps, function(i) {
-		myW <- mutate(W, mut.sd)
+		myW <- W
+		for (i in 1:nbmut)
+			myW <- mutate(myW, mut.sd)
 		fullPhen(myW)
 		}, mc.cores=mc.cores))
 	var(mm)
@@ -83,7 +87,7 @@ lt <- 3
 
 pdf("figJ.pdf", width=8, height=5)
 	
-	boxplot(evolv.free, at=1+(0:(lr-1))*(lt+1), xlim=c(0, (lt+1)*lr), log="y", xaxt="n",  ylab="Evolvability", border=cols, density=10, ylim=c(0.005,20))
+	boxplot(evolv.free, at=1+(0:(lr-1))*(lt+1), xlim=c(0, (lt+1)*lr), log="y", xaxt="n",  ylab="Evolvability", border=cols, density=10, ylim=c(0.02,20))
 	boxplot(evolv.phens, at=2+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="lightgray")
 	boxplot(evolv.robs, at=3+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="bisque")
 	

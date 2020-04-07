@@ -66,7 +66,7 @@ torun <- setNames(
 	c(paste0("ref.m", signif(mut.values, digits=2)), paste0("ref.N", N.values), paste0("ref.g", genes.values), paste0("ref.sg", selg.values), paste0("ref.s", signif(s.values, digits=2))))
 list.sim <- mclapply(torun, function(ff) eval(ff)(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
-ylims <- list(initenv=c(-44,-15), lateenv=c(-30,0), initmut=c(-28,-4), latemut=c(-30,-5), stability=c(-44,-12))
+ylims <- list(initenv=c(-44,-15), lateenv=c(-25,0), initmut=c(-13,-4), latemut=c(-13,-5), stability=c(-44,-12))
 
 pdf("figL.pdf", width=10, height=10)
 	layout(matrix(1:25, ncol=5))

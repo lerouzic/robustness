@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 # Compute and plot correlations among robustness indexes 
-# from random gene networks
+# from random or evolved gene networks
 
 source("./terminology.R")
 source("./defaults.R")
@@ -9,8 +9,10 @@ source("../src/robindex.R")
 
 library(parallel)
 mc.cores <- default.mc.cores
+mc.cores <- 1
 
 use.cache <- TRUE
+cache.dir <- "../cache"
 
 phen <- c(
     initenv=substitute(x~(y), list(x=TERM.ENVCAN.LONG, y=ABBRV.ENVCAN[[1]])),
@@ -19,80 +21,96 @@ phen <- c(
     latemut=substitute(x~(y), list(x=TERM.SOM.LONG, y=ABBRV.SOM[[1]])),
     stability=substitute(x~(y), list(x=TERM.STAB.LONG, y=ABBRV.STAB[[1]])))
 
+Wtoconsider <- c("random", "evolved")
+# whattoconsider<- function(x) x[[1]] # the first gene of the network
+whattoconsider <- function(x) mean(x) # the average index for all genes
+
 # Most parameters use the defaults, some specificities
+a              <- default.a
+dev.steps      <- default.dev.steps
+measure        <- default.dev.measure
+log.robustness <- default.log.robustness
 
-net.size <- 6
-reps <- 10000
-
-density <- 1
-reg.mean <- -0.2
-reg.sd <- 1.2
-
-a <- default.a
-dev.steps <- default.dev.steps
-measure   <- default.dev.measure
-
-rob.reps <- 1000
+rob.reps       <- 1000
 rob.initenv.sd <- default.initenv.sd
 rob.lateenv.sd <- default.lateenv.sd
 rob.initmut.sd <- default.initmut.sd
 rob.latemut.sd <- default.latemut.sd
 
-maxplotpoints <- min(reps, 1000) # avoids overcrowded plots
+# Graphical options
+maxplotpoints <- 1000 # avoids overcrowded plots
+xylims        <- c(-40,-2) # can be NULL
 
-cache.dir <- "../cache"
-cache.file <- paste(cache.dir, "figA.rds", sep="/")
-if (!dir.exists(cache.dir)) dir.create(cache.dir)
+# For random matrices
+net.size       <- 6
+reps           <- 10000
+density        <- 1
+reg.mean       <- -0.2
+reg.sd         <- 1.2
 
-dd <- NULL
-dd <- if (use.cache && file.exists(cache.file)) readRDS(cache.file)
+# For evolved matrices
+evolved.file.pattern <- 'figG-null-\\d+.rds'
+evolved.gen          <- NA    # NA: last generation of the simulations
 
-if (is.null(dd)) {
-	dd <- mclapply(1:reps, function(r) {
-		W <- matrix(rnorm(net.size^2, mean=reg.mean, sd=reg.sd), ncol=net.size)
-		W[sample.int(net.size^2, floor((1-density)*net.size^2))] <- 0
-		list(W=W, 
-			mean=model.M2(W, a, steps=dev.steps, measure=measure)$mean, 
-			initenv=robindex.initenv(W, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=TRUE),
-			lateenv=robindex.lateenv(W, a, dev.steps, measure, rob.lateenv.sd, rep=rob.reps, log=TRUE),
-			initmut=robindex.initmut(W, a, dev.steps, measure, rob.initmut.sd, rep=rob.reps, log=TRUE),
-			latemut=robindex.latemut(W, a, dev.steps, measure, rob.latemut.sd, rep=rob.reps, log=TRUE),
-			stability=robindex.stability(W, a, dev.steps, measure, log=TRUE)
-		)
-	}, mc.cores=mc.cores) 
-}
 
-if (length(dd) < reps || nrow(dd[[1]]$W) != net.size)
-	warning("The simulations stored in the cache do not fit the parameters. Consider cleaning the cache and run the script again.")
 
-saveRDS(dd, cache.file)
+for (Wstyle in Wtoconsider) {
 
-lp <- length(phen)
-mm <- matrix(0, ncol=lp-1, nrow=lp-1)
-mm[lower.tri(mm, diag=TRUE)] <- 1:(lp*(lp-1)/2)
+	cache.file <- paste0(cache.dir, "/figA-", Wstyle, ".rds")
+	if (!dir.exists(cache.dir)) dir.create(cache.dir)	
 
-whattoconsider<- function(x) x[[1]] # the first gene of the network
-whattoconsider <- function(x) mean(x) # the average index for all genes
+	dd <- NULL
+	dd <- if (use.cache && file.exists(cache.file)) readRDS(cache.file)
+	
+	loopover <- if (Wstyle == "random") 1:reps else if (Wstyle == "evolved") list.files(path=cache.dir, pattern=evolved.file.pattern, full.names=TRUE)
 
-pdf("figA.pdf", width=10, height=10)
-	layout(mm)
-	par(mar=0.1+c(0,0,0,0), oma=c(4,5,0,0))
-	for (ii in 1:(lp-1)) {
-	    for (jj in ((ii+1):lp)) {
-	        rrx <- sapply(dd[1:maxplotpoints], function(x) whattoconsider(x[[names(phen)[ii]]]))
-	        rry <- sapply(dd[1:maxplotpoints], function(x) whattoconsider(x[[names(phen)[jj]]]))
-	        plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray")
-	        if (ii==1) {
-	            axis(2)
-	            mtext(as.expression(phen[jj]), side=2, line=3)
-	        }
-	        if (jj==lp) {
-	            axis(1)
-	            mtext(as.expression(phen[ii]), side=1, line=3)
-	        }
-	        # abline(lm( rr[,names(phen)[jj]] ~ rr[,names(phen)[ii]]), col="red")
-	        legend("topleft", paste0("r=", format(round(cor(rrx, rry), digits=2), nsmall=2)), bty="n", cex=1.5)
-	    }
+	if (is.null(dd)) {
+		dd <- mclapply(loopover, function(r) {
+			if (Wstyle == "random") {
+				W <- matrix(rnorm(net.size^2, mean=reg.mean, sd=reg.sd), ncol=net.size)
+				W[sample.int(net.size^2, floor((1-density)*net.size^2))] <- 0
+			} else if (Wstyle == "evolved") {
+				ss <- readRDS(r)
+				if (is.na(evolved.gen) || !as.character(evolved.gen) %in% names(ss)) evolved.gen <- names(ss)[length(ss)]
+				W <- ss[[as.character(evolved.gen)]]$W
+			}
+			
+			list(W=W, 
+				mean=model.M2(W, a, steps=dev.steps, measure=measure)$mean, 
+				initenv=robindex.initenv(W, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=log.robustness),
+				lateenv=robindex.lateenv(W, a, dev.steps, measure, rob.lateenv.sd, rep=rob.reps, log=log.robustness),
+				initmut=robindex.initmut(W, a, dev.steps, measure, rob.initmut.sd, rep=rob.reps, log=log.robustness),
+				latemut=robindex.latemut(W, a, dev.steps, measure, rob.latemut.sd, rep=rob.reps, log=log.robustness),
+				stability=robindex.stability(W, a, dev.steps, measure, log=log.robustness)
+			)
+		}, mc.cores=mc.cores) 
 	}
-dev.off()
 
+	saveRDS(dd, cache.file)
+
+	lp <- length(phen)
+	mm <- matrix(0, ncol=lp-1, nrow=lp-1)
+	mm[lower.tri(mm, diag=TRUE)] <- 1:(lp*(lp-1)/2)
+
+	pdf(paste0("figA-", Wstyle, ".pdf"), width=10, height=10)
+		layout(mm)
+		par(mar=0.1+c(0,0,0,0), oma=c(4,5,0,0))
+		for (ii in 1:(lp-1)) {
+		    for (jj in ((ii+1):lp)) {
+		        rrx <- sapply(dd[1:min(length(dd), maxplotpoints)], function(x) whattoconsider(x[[names(phen)[ii]]]))
+		        rry <- sapply(dd[1:min(length(dd), maxplotpoints)], function(x) whattoconsider(x[[names(phen)[jj]]]))
+		        plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray", xlim=xylims, ylim=xylims)
+		        if (ii==1) {
+		            axis(2)
+		            mtext(as.expression(phen[jj]), side=2, line=3)
+		        }
+		        if (jj==lp) {
+		            axis(1)
+		            mtext(as.expression(phen[ii]), side=1, line=3)
+		        }
+		        # abline(lm( rr[,names(phen)[jj]] ~ rr[,names(phen)[ii]]), col="red")
+		        legend("topleft", paste0("r=", format(round(cor(rrx, rry), digits=2), nsmall=2)), bty="n", cex=1.5)
+		    }
+		}
+	dev.off()
+ } # end of the for loop over Wstyles

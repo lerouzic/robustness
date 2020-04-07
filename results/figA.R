@@ -91,7 +91,7 @@ pdf("figA.pdf", width=10, height=10)
 	            mtext(as.expression(phen[ii]), side=1, line=3)
 	        }
 	        # abline(lm( rr[,names(phen)[jj]] ~ rr[,names(phen)[ii]]), col="red")
-	        legend("topleft", paste0("r=", round(cor(rrx, rry), digits=2)), bty="n", cex=1.5)
+	        legend("topleft", paste0("r=", format(round(cor(rrx, rry), digits=2), nsmall=2)), bty="n", cex=1.5)
 	    }
 	}
 dev.off()

@@ -30,14 +30,8 @@ genes.values <- round(seq(3, 20, length.out=nb.values))
 selg.values  <- 1:6
 s.values <- 10^seq(-2, 3, length.out=nb.values)
 
-phen <- c(
-	fitness="Fitness",
-    initenv=substitute(x~(y), list(x=TERM.ENVCAN.SHORT, y=ABBRV.ENVCAN[[1]])),
-    lateenv=substitute(x~(y), list(x=TERM.HOMEO.SHORT, y=ABBRV.HOMEO[[1]])),
-    initmut=substitute(x~(y), list(x=TERM.GENCAN.SHORT, y=ABBRV.GENCAN[[1]])),
-    latemut=substitute(x~(y), list(x=TERM.SOM.SHORT, y=ABBRV.SOM[[1]])),
-    stability=substitute(x~(y), list(x=TERM.STAB.SHORT, y=ABBRV.STAB[[1]])))
-    
+phen <- c(list(fitness="Fitness"), phen.expression)
+
 captions <- c(
 	m=expression("Mutation rate ("*mu*")"),
 	N="Population size (N)",

@@ -5,13 +5,7 @@
 source("./terminology.R")
 source("./defaults.R")
 
-phen <- c(
-    initenv=TERM.ENVCAN.LONG,
-    lateenv=TERM.HOMEO.LONG,
-    initmut=TERM.GENCAN.LONG,
-    latemut=TERM.SOM.LONG,
-    stability=TERM.STAB.LONG)
-    
+phen <- phen.expression      # from terminology.R    
 phen.pos.ref <- "initmut"
 
 # This script uses the same data as figA. Run figA before. 

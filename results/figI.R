@@ -23,19 +23,12 @@ force.run         <- !use.cache
 
 avgcol <- function(c1, c2) rgb(colorRamp(c(c1,c2))(0.5), max=255)
 
+phen <- c(list(fitness="Fitness"), phen.expression)
 col.sim <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM, st=COL.STAB, ie.lm=avgcol(COL.ENVCAN,COL.SOM), le.lm=avgcol(COL.HOMEO,COL.SOM), ie.st=avgcol(COL.ENVCAN,COL.STAB))
 col.phen <- c(fitness="black", initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut=COL.SOM, stability=COL.STAB)
 lty.sim <- c(p=0, m=0, o=0, pp=0, pm=0, mp=0, mm=0)
 pch.sim <- c(p=2, m=6, o=1, pp=24, mm=25, pm=0, mp=5)
 max.points <- 20
-
-phen <- c(
-	fitness="Fitness",
-    initenv=substitute(x~(y), list(x=TERM.ENVCAN.LONG, y=ABBRV.ENVCAN[[1]])),
-    lateenv=substitute(x~(y), list(x=TERM.HOMEO.LONG, y=ABBRV.HOMEO[[1]])),
-    initmut=substitute(x~(y), list(x=TERM.GENCAN.LONG, y=ABBRV.GENCAN[[1]])),
-    latemut=substitute(x~(y), list(x=TERM.SOM.LONG, y=ABBRV.SOM[[1]])),
-    stability=substitute(x~(y), list(x=TERM.STAB.LONG, y=ABBRV.STAB[[1]])))
 
 allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Generations", ylab=what, lwd=3, FUN=mean, ...) {
 	if(is.null(xlim)) xlim <- c(0, as.numeric(rev(names(list.sim[[1]]$mean))[1]))

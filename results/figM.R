@@ -28,12 +28,7 @@ sd.test <- list(
 	latemut = 10^seq(-4, 0, length.out=nb.values)
 )
 
-phen <- c(
-    initenv=substitute(x~(y), list(x=TERM.ENVCAN.LONG, y=ABBRV.ENVCAN[[1]])),
-    lateenv=substitute(x~(y), list(x=TERM.HOMEO.LONG, y=ABBRV.HOMEO[[1]])),
-    initmut=substitute(x~(y), list(x=TERM.GENCAN.LONG, y=ABBRV.GENCAN[[1]])),
-    latemut=substitute(x~(y), list(x=TERM.SOM.LONG, y=ABBRV.SOM[[1]])),
-    stability=substitute(x~(y), list(x=TERM.STAB.LONG, y=ABBRV.STAB[[1]])))
+phen <- phen.expression
     
 sigmas <- c(
 	initenv=substitute(sigma[x], list(x=SDLETTER.ENVCAN)), 

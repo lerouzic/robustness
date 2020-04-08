@@ -14,12 +14,7 @@ mc.cores <- 1
 use.cache <- TRUE
 cache.dir <- "../cache"
 
-phen <- c(
-    initenv=substitute(x~(y), list(x=TERM.ENVCAN.LONG, y=ABBRV.ENVCAN[[1]])),
-    lateenv=substitute(x~(y), list(x=TERM.HOMEO.LONG, y=ABBRV.HOMEO[[1]])),
-    initmut=substitute(x~(y), list(x=TERM.GENCAN.LONG, y=ABBRV.GENCAN[[1]])),
-    latemut=substitute(x~(y), list(x=TERM.SOM.LONG, y=ABBRV.SOM[[1]])),
-    stability=substitute(x~(y), list(x=TERM.STAB.LONG, y=ABBRV.STAB[[1]])))
+phen <- phen.expression   # from terminology.R
 
 Wtoconsider <- c("random", "evolved")
 # whattoconsider<- function(x) x[[1]] # the first gene of the network

@@ -10,12 +10,7 @@ source("../src/robindex.R")
 
 use.cache <- TRUE
 
-phen <- c(
-    initenv=TERM.ENVCAN.LONG,
-    lateenv=TERM.HOMEO.LONG,
-    initmut=TERM.GENCAN.LONG,
-    latemut=TERM.SOM.LONG,
-    stability=TERM.STAB.LONG)
+phen <- phen.expression
 
 grid.size      <- 101
 

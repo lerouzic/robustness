@@ -5,22 +5,20 @@
 source("./terminology.R")
 source("./defaults.R")
 
+Wtoconsider <- c("random", "evolved")
+whattoconsider <- function(x) mean(x) # the average index for all genes
+
 phen <- phen.expression      # from terminology.R    
 phen.pos.ref <- "initmut"
 
 # This script uses the same data as figA. Run figA before. 
 cache.dir <- "../cache"
-cache.file <- paste(cache.dir, "figA.rds", sep="/")
-if (!dir.exists(cache.dir)) dir.create(cache.dir)
 
-dd <- NULL
-dd <- if (file.exists(cache.file)) readRDS(cache.file)
-if (is.null(dd)) stop("Unable to find the data file", cache.file)
+default.labels <- c(initenv=ABBRV.ENVCAN, lateenv=ABBRV.HOMEO, initmut=ABBRV.GENCAN, latemut=ABBRV.SOM, stability=ABBRV.STAB)
+default.cols   <- c(initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut=COL.SOM, stability=COL.STAB)
 
-
-myplot.prcomp <- function(pr, 
-    labels=c(initenv=ABBRV.ENVCAN, lateenv=ABBRV.HOMEO, initmut=ABBRV.GENCAN, latemut=ABBRV.SOM, stability=ABBRV.STAB), 
-    cols=c(initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut=COL.SOM, stability=COL.STAB)) {
+myplot.prcomp <- function(pr, labels=default.labels, cols=default.cols) {
+		
     par(xpd=NA)
     nPC <- length(pr$sdev)
     layout(t(1:2))
@@ -35,15 +33,20 @@ myplot.prcomp <- function(pr,
     axis(2, at=1:nPC, labels=paste0("PC", nPC:1))
     
     barplot(100*rev(pr$sdev^2/(sum(pr$sdev^2))), horiz=TRUE, ylim=c(1, 2*nPC), ylab="", xlab="% variance", width=1, space=1)
-    
 }
 
-whattoconsider<- function(x) x[[1]] # the first gene of the network
-whattoconsider <- function(x) mean(x) # the average index for all genes
-
-pdf("figB.pdf", width=7, height=7)
-	rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(names(phen), function(ppp) whattoconsider(ddd[[ppp]]))))
+for (Wstyle in Wtoconsider) {
 	
-	prp <- prcomp(rrr, scale.=TRUE)
-	myplot.prcomp(prp)
-dev.off()
+	cache.file <- paste0(cache.dir, "/figA-", Wstyle, ".rds")
+	
+	dd <- NULL
+	dd <- if (file.exists(cache.file)) readRDS(cache.file)
+	if (is.null(dd)) stop("Unable to find the data file", cache.file)
+
+	pdf(paste0("figB-", Wstyle, ".pdf"), width=7, height=7)
+		rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(names(phen), function(ppp) whattoconsider(ddd[[ppp]]))))
+		
+		prp <- prcomp(rrr, scale.=TRUE)
+		myplot.prcomp(prp)
+	dev.off()
+}

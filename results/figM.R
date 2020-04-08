@@ -89,7 +89,7 @@ plotW <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL, type="l
 allW <- lapply(1:reps, function(i) randW(size=net.size, density=density, mean=reg.mean, sd=reg.sd))
 alltests <- mclapply(allW, test.W, mc.cores=mc.cores)
 
-pdf("figMa.pdf", width=10, height=10)
+pdf("figM-random.pdf", width=10, height=10)
 	layout(rbind(1:2,3:4))
 	
 	for (tt in seq_along(alltests)) 
@@ -126,7 +126,7 @@ allW <- lapply(
 
 alltests <- mclapply(allW, test.W, mc.cores=mc.cores)
 
-pdf("figMb.pdf", width=10, height=10)
+pdf("figM-evolved.pdf", width=10, height=10)
 	layout(rbind(1:2,3:4))
 	
 	for (tt in seq_along(alltests)) 

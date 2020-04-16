@@ -12,6 +12,7 @@ default.a              <- 0.2
 default.n              <- 6
 default.dev.steps      <- 16
 default.dev.measure    <- 4
+default.epsilon.zero   <- 0.01
 
 # Robustness index parameters
 

@@ -1,4 +1,4 @@
-
+source("./defaults.R")
 
 randW <- function(net.size, reg.mean, reg.sd, density = 1) {
 	# Returns a random matrix of specified size, mean, sd, and density. 
@@ -11,7 +11,7 @@ randW <- function(net.size, reg.mean, reg.sd, density = 1) {
 	t(W)
 }
 
-Wdist.fromWlist <- function(Wlist, epsilon.zero = 0.01) {
+Wdist.fromWlist <- function(Wlist, epsilon.zero = default.epsilon.zero) {
 	uu <- unlist(Wlist)
 	list(
 		mean = mean(uu[abs(uu) >= epsilon.zero]),
@@ -32,6 +32,6 @@ Wlist.fromfiles <- function(files, gen = NA, cols = NA, rows = NA) {
 	})
 } 
 
-Wdist.fromfiles <- function(files, gen = NA, epsilon.zero = 0.1, cols = NA, rows = NA) {
+Wdist.fromfiles <- function(files, gen = NA, epsilon.zero = default.epsilon.zero, cols = NA, rows = NA) {
 	Wdist.fromWlist(Wlist.fromfiles(files=files, gen=gen, cols=cols, rows=rows), epsilon.zero=epsilon.zero)
 } 

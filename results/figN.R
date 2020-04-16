@@ -1,4 +1,5 @@
 source("./randnetwork.R")
+source("./default.R")
 
 library(plotrix) # for the gapped barplot
 
@@ -6,7 +7,7 @@ cache.dir            <- "../cache"
 evolved.file.pattern <- 'figG-null-\\d+.rds'
 evolved.gen          <- NA    # NA: last generation of the simulations
 
-epsilon.zero         <- 0.01
+epsilon.zero         <- default.epsilon.zero
 
 evolved.files <- list.files(path=cache.dir, pattern=evolved.file.pattern, full.names=TRUE)
 

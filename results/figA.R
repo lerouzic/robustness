@@ -5,6 +5,7 @@
 
 source("./terminology.R")
 source("./defaults.R")
+source("./randnetwork.R")
 source("../src/robindex.R")
 
 library(parallel)
@@ -16,7 +17,7 @@ cache.dir <- "../cache"
 
 phen <- phen.expression   # from terminology.R
 
-Wtoconsider <- c("random", "evolved")
+Wtoconsider <- c("random", "evolved", "randevol")
 # whattoconsider<- function(x) x[[1]] # the first gene of the network
 whattoconsider <- function(x) mean(x) # the average index for all genes
 
@@ -39,15 +40,16 @@ xylims        <- c(-40,-2) # can be NULL
 # For random matrices
 net.size       <- 6
 reps           <- 10000
-density        <- 1
-reg.mean       <- -0.2
-reg.sd         <- 1.2
+rand.density   <- 1
+rand.mean      <- -0.2
+rand.sd        <- 1.2
 
 # For evolved matrices
 evolved.file.pattern <- 'figG-null-\\d+.rds'
 evolved.gen          <- NA    # NA: last generation of the simulations
 
-
+# For density estimates from evolved matrices
+epsilon.zero    <- 0.05 # W values below this will be considered as zero
 
 for (Wstyle in Wtoconsider) {
 
@@ -57,17 +59,26 @@ for (Wstyle in Wtoconsider) {
 	dd <- NULL
 	dd <- if (use.cache && file.exists(cache.file)) readRDS(cache.file)
 	
-	loopover <- if (Wstyle == "random") 1:reps else if (Wstyle == "evolved") list.files(path=cache.dir, pattern=evolved.file.pattern, full.names=TRUE)
+	evolved.files <- list.files(path=cache.dir, pattern=evolved.file.pattern, full.names=TRUE)
+	
+	reg.mean <- rand.mean
+	reg.sd   <- rand.sd
+	reg.density <- rand.density
+	if (Wstyle == "randevol") {
+		Wevoldist <- Wdist.fromfiles(evolved.files, epsilon.zero=epsilon.zero)
+		reg.mean <- Wevoldist$mean
+		reg.sd   <- Wevoldist$sd
+		reg.density<- Wevoldist$density
+	}
 
 	if (is.null(dd)) {
-		dd <- mclapply(loopover, function(r) {
-			if (Wstyle == "random") {
-				W <- matrix(rnorm(net.size^2, mean=reg.mean, sd=reg.sd), ncol=net.size)
-				W[sample.int(net.size^2, floor((1-density)*net.size^2))] <- 0
-			} else if (Wstyle == "evolved") {
+		dd <- mclapply(evolved.files, function(r) {
+			if (Wstyle == "evolved") {
 				ss <- readRDS(r)
 				if (is.na(evolved.gen) || !as.character(evolved.gen) %in% names(ss)) evolved.gen <- names(ss)[length(ss)]
 				W <- ss[[as.character(evolved.gen)]]$W
+			} else { # both random and randevol
+				W <- randW(net.size, reg.mean, reg.sd, reg.density)
 			}
 			
 			list(W=W, 

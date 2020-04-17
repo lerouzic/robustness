@@ -29,9 +29,9 @@ net.size        <- default.n
 epsilon.zero    <- default.epsilon.zero
 
 # These should match figA and figB
-rand.mean       <- -0.2
-rand.sd         <-  1.2
-rand.density    <-  1
+rand.mean       <- default.rand.mean
+rand.sd         <- default.rand.sd
+rand.density    <- default.density
 
 reps            <- 5000
 rob.reps        <- 500

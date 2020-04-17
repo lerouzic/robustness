@@ -35,9 +35,9 @@ force.run     <- !use.cache
 
 # For random matrices
 W.reps        <- 100
-rand.density  <- 1
-rand.mean     <- -0.2
-rand.sd       <- 1.2
+rand.density  <- default.density
+rand.mean     <- default.rand.mean
+rand.sd       <- default.rand.sd
 min.evolv     <- 1e-3 # could be NA (no plotting)
 
 # For evolved matrices

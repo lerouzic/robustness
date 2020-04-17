@@ -40,9 +40,9 @@ xylims        <- c(-40,-2) # can be NULL
 # For random matrices
 net.size       <- 6
 reps           <- 10000
-rand.density   <- 1
-rand.mean      <- -0.2
-rand.sd        <- 1.2
+rand.density   <- default.density
+rand.mean      <- default.rand.mean
+rand.sd        <- default.rand.sd
 
 # For evolved matrices
 evolved.file.pattern <- 'figG-null-\\d+.rds'

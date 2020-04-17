@@ -14,6 +14,14 @@ default.dev.steps      <- 16
 default.dev.measure    <- 4
 default.epsilon.zero   <- 0.01
 
+# Random networks
+
+default.density        <- 1
+#~ default.rand.mean      <- 0.07
+#~ default.rand.sd        <- 0.18
+default.rand.mean      <- 0
+default.rand.sd        <- 1
+
 # Robustness index parameters
 
 default.rob.reps      <- 100

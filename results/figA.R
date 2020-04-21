@@ -10,7 +10,6 @@ source("../src/robindex.R")
 
 library(parallel)
 mc.cores <- default.mc.cores
-mc.cores <- 1
 
 use.cache <- TRUE
 cache.dir <- "../cache"
@@ -38,8 +37,8 @@ maxplotpoints <- 1000 # avoids overcrowded plots
 xylims        <- c(-40,-2) # can be NULL
 
 # For random matrices
-net.size       <- 6
 reps           <- 10000
+net.size       <- default.n
 rand.density   <- default.density
 rand.mean      <- default.rand.mean
 rand.sd        <- default.rand.sd
@@ -49,7 +48,7 @@ evolved.file.pattern <- 'figG-null-\\d+.rds'
 evolved.gen          <- NA    # NA: last generation of the simulations
 
 # For density estimates from evolved matrices
-epsilon.zero    <- 0.05 # W values below this will be considered as zero
+epsilon.zero    <- default.epsilon.zero # W values below this will be considered as zero
 
 for (Wstyle in Wtoconsider) {
 
@@ -70,9 +69,9 @@ for (Wstyle in Wtoconsider) {
 		reg.sd   <- Wevoldist$sd
 		reg.density<- Wevoldist$density
 	}
-
+	
 	if (is.null(dd)) {
-		dd <- mclapply(evolved.files, function(r) {
+		dd <- mclapply(if (Wstyle=="evolved") evolved.files else seq_len(reps), function(r) {
 			if (Wstyle == "evolved") {
 				ss <- readRDS(r)
 				if (is.na(evolved.gen) || !as.character(evolved.gen) %in% names(ss)) evolved.gen <- names(ss)[length(ss)]

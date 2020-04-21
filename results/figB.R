@@ -5,7 +5,7 @@
 source("./terminology.R")
 source("./defaults.R")
 
-Wtoconsider <- c("random", "evolved")
+Wtoconsider <- c("random", "evolved" ,"randevol")
 whattoconsider <- function(x) mean(x) # the average index for all genes
 
 phen <- phen.expression      # from terminology.R    
@@ -32,7 +32,8 @@ myplot.prcomp <- function(pr, labels=default.labels, cols=default.cols) {
     lines(x=rep(0,2), y=c(1,nPC), lty=2)
     axis(2, at=1:nPC, labels=paste0("PC", nPC:1))
     
-    barplot(100*rev(pr$sdev^2/(sum(pr$sdev^2))), horiz=TRUE, ylim=c(1, 2*nPC), ylab="", xlab="% variance", width=1, space=1)
+    bb <- barplot(100*rev(pr$sdev^2/(sum(pr$sdev^2))), horiz=TRUE, ylim=c(1, 2*nPC), ylab="", xlab="% variance", width=1, space=1)
+    arrows(x0=seq(20, 80, 20), y0=1, y1=max(bb), col="gray", lty=3)
 }
 
 for (Wstyle in Wtoconsider) {
@@ -45,7 +46,6 @@ for (Wstyle in Wtoconsider) {
 
 	pdf(paste0("figB-", Wstyle, ".pdf"), width=7, height=7)
 		rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(names(phen), function(ppp) whattoconsider(ddd[[ppp]]))))
-		
 		prp <- prcomp(rrr, scale.=TRUE)
 		myplot.prcomp(prp)
 	dev.off()

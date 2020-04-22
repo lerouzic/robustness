@@ -39,7 +39,7 @@ plotres <- function(res, crit="mean", stud=NULL, mask=NULL, contour=FALSE, mx = 
     z[z>mx] <- mx
     if (!is.null(mask)) z[mask] <- NA
     
-    if (crit %in% names(phen)) main <- phen[crit] else main <- crit
+    if (crit %in% names(phen)) main <- as.expression(phen[crit]) else main <- crit
     
     image(x=ww1, y=ww2, z=matrix(z, nrow=sqrt(nrow(res))), main=main, xlab=expression(W[11]), ylab=expression(W[21]), col=heat.colors(128)[1:100])
     if (contour) contour(x=ww1, y=ww2, z=matrix(z, nrow=sqrt(nrow(res))), add=TRUE) 
@@ -68,7 +68,7 @@ if (!use.cache || !file.exists(cache.file)) {
 	        w <- matrix(unlist(res[i,]), nrow=network.size)
 	        c(mean=model.M2(w, a, steps=dev.steps)$mean,
 	          initenv=robindex.initenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=log),
-	          lateenv=robindex.lateenv(w, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=log),
+	          lateenv=robindex.lateenv(w, a, dev.steps, measure, rob.lateenv.sd, rep=rob.reps, log=log),
 	          initmut=robindex.initmut(w, a, dev.steps, measure, rob.initmut.sd, rep=rob.reps, log=log),
 	          latemut=robindex.latemut(w, a, dev.steps, measure, rob.latemut.sd, rep=rob.reps, log=log),
 	          stability=robindex.stability(w, a, dev.steps, log=log))

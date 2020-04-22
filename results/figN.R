@@ -1,7 +1,5 @@
 source("./randnetwork.R")
-source("./default.R")
-
-library(plotrix) # for the gapped barplot
+source("./defaults.R")
 
 cache.dir            <- "../cache"
 evolved.file.pattern <- 'figG-null-\\d+.rds'

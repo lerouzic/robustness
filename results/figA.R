@@ -89,14 +89,13 @@ for (Wstyle in Wtoconsider) {
 				stability=robindex.stability(W, a, dev.steps, measure, log=log.robustness)
 			)
 		}, mc.cores=mc.cores) 
+		saveRDS(dd, cache.file)
 	}
-
-	saveRDS(dd, cache.file)
 
 	lp <- length(phen)
 	mm <- matrix(0, ncol=lp-1, nrow=lp-1)
 	mm[lower.tri(mm, diag=TRUE)] <- 1:(lp*(lp-1)/2)
-
+	
 	pdf(paste0("figA-", Wstyle, ".pdf"), width=10, height=10)
 		layout(mm)
 		par(mar=0.1+c(0,0,0,0), oma=c(4,5,0,0))

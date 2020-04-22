@@ -24,11 +24,11 @@ nb.values <- 11
 
 defaults <- c(m=mut.rate, N=N, g=n.genes, sg=sel.genes, s=default.s)
 
-mut.values <- 10^seq(-4,-1, length.out=nb.values)
+mut.values <- 10^seq(-3,-1, length.out=nb.values)
 N.values   <- round(10^seq(1, 4, length.out=nb.values))
 genes.values <- round(seq(3, 20, length.out=nb.values))
 selg.values  <- 1:6
-s.values <- 10^seq(-2, 3, length.out=nb.values)
+s.values <- 10^seq(-1, 2, length.out=nb.values)
 
 phen <- c(list(fitness="Fitness"), phen.expression)
 
@@ -60,13 +60,14 @@ torun <- setNames(
 	c(paste0("ref.m", signif(mut.values, digits=2)), paste0("ref.N", N.values), paste0("ref.g", genes.values), paste0("ref.sg", selg.values), paste0("ref.s", signif(s.values, digits=2))))
 list.sim <- mclapply(torun, function(ff) eval(ff)(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
-ylims <- list(initenv=c(-44,-15), lateenv=c(-25,0), initmut=c(-13,-4), latemut=c(-13,-5), stability=c(-44,-12))
+ylims <- list(fitness=c(0.8,1), initenv=c(-44,-15), lateenv=c(-25,0), initmut=c(-13,-4), latemut=c(-13,-5), stability=c(-44,-12))
+ww <- c("fitness", "initenv", "lateenv","initmut","latemut", "stability")
 
-pdf("figL.pdf", width=10, height=10)
-	layout(matrix(1:25, ncol=5))
-	par(mar=c(0.5, 0.5, 0.1, 0.1), oma=c(5, 4, 0, 0), xpd=NA)
+pdf("figL.pdf", width=10, height=14)
+	layout(matrix(1:(length(ww)*length(captions)), ncol=length(captions)))
+	par(mar=c(0.5, 0.5, 0.1, 0.1), oma=c(5, 4, 0, 0), xpd=FALSE)
 	for (pp in names(captions)) {
-		for (what in c("initenv", "lateenv","initmut","latemut", "stability")) {
+		for (what in ww) {
 			ls <- list.sim[grep(names(list.sim), pattern=paste0("ref\\.",pp,"\\d"))]
 			xval <- sapply(strsplit(names(ls), split=paste0("\\.",pp)), function(sp) as.numeric(sp[2]))
 			yval <- sapply(ls, function(x) mean(x$mean[[as.character(G)]][[what]]))
@@ -76,11 +77,12 @@ pdf("figL.pdf", width=10, height=10)
 			points(xval, yval, type="o")
 			
 			abline(v=defaults[pp], col="gray", lty=3)
+			par(xpd=NA)
 			if(pp==names(captions)[1]) {
 				mtext(2, text=as.expression(phen[[what]]), line=2)
 				axis(2)
 			}
-			if (what=="stability") {
+			if (what==ww[length(ww)]) {
 				mtext(1, text=captions[pp], line=3)
 				axis(1)
 			}

@@ -34,7 +34,7 @@ rob.latemut.sd <- default.latemut.sd
 
 # Graphical options
 maxplotpoints <- 1000 # avoids overcrowded plots
-xylims        <- c(-40,-2) # can be NULL
+xylims        <- list(random=c(-40,-2), evolved=NULL, randevol=NULL) 
 
 # For random matrices
 reps           <- 10000
@@ -103,7 +103,7 @@ for (Wstyle in Wtoconsider) {
 		    for (jj in ((ii+1):lp)) {
 		        rrx <- sapply(dd[1:min(length(dd), maxplotpoints)], function(x) whattoconsider(x[[names(phen)[ii]]]))
 		        rry <- sapply(dd[1:min(length(dd), maxplotpoints)], function(x) whattoconsider(x[[names(phen)[jj]]]))
-		        plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray", xlim=xylims, ylim=xylims)
+		        plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray", xlim=xylims[[Wstyle]], ylim=xylims[[Wstyle]])
 		        if (ii==1) {
 		            axis(2)
 		            mtext(as.expression(phen[jj]), side=2, line=3)

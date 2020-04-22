@@ -146,7 +146,7 @@ for (Wstyle in Wtoconsider) {
 	
 	pdf(paste0("figJ-", Wstyle, ".pdf"), width=8, height=5)
 		
-		boxplot(evolv.free, at=1+(0:(lr-1))*(lt+1), xlim=c(0, (lt+1)*lr), log="y", xaxt="n",  ylab="Evolvability", border=cols, density=10, ylim=c(0.01,100), outline=boxplot.outline)
+		boxplot(evolv.free, at=1+(0:(lr-1))*(lt+1), xlim=c(0, (lt+1)*lr), log="y", xaxt="n",  ylab="Evolvability", border=cols, density=10, ylim=c(0.005,20), outline=boxplot.outline)
 		boxplot(evolv.phens, at=2+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="lightgray", outline=boxplot.outline)
 		boxplot(evolv.robs, at=3+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="bisque", outline=boxplot.outline)
 		

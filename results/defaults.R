@@ -38,7 +38,7 @@ default.G             <- 100
 default.summary.every <- 10
 default.N             <- 1000
 default.initsd        <- 0.001
-default.mut.rate      <- 0.001
+default.mut.rate      <- 0.01
 default.sim.mutsd     <- 0.1
 default.s             <- 10
 default.nsel          <- 3

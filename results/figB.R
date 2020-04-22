@@ -33,7 +33,7 @@ myplot.prcomp <- function(pr, labels=default.labels, cols=default.cols) {
     axis(2, at=1:nPC, labels=paste0("PC", nPC:1))
     
     bb <- barplot(100*rev(pr$sdev^2/(sum(pr$sdev^2))), horiz=TRUE, ylim=c(1, 2*nPC), ylab="", xlab="% variance", width=1, space=1)
-    arrows(x0=seq(20, 80, 20), y0=1, y1=max(bb), col="gray", lty=3)
+    arrows(x0=seq(20, 80, 20), y0=1, y1=max(bb), col="gray", lty=3, length=0)
 }
 
 for (Wstyle in Wtoconsider) {

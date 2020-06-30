@@ -12,7 +12,7 @@ use.cache <- TRUE
 n.genes          <- default.n
 sel.genes        <- default.nsel
 s                <- c(rep(default.s, sel.genes), rep(0, n.genes-sel.genes))
-W0               <- matrix(rnorm(n.genes^2, sd=default.initsd), ncol=n.genes)
+W0               <- NA # Random W0
 
 reps             <- default.sim.reps
 test.rep         <- default.rob.reps

@@ -1,6 +1,7 @@
 
 source("../src/puresel.R")
 source("./defaults.R")
+source("./studycases.R")
 cache.dir <- "../cache"
 
 library(parallel)
@@ -19,9 +20,9 @@ default.args <- list(
 	sim.initenv.sd  = 0,
 	sim.lateenv.sd  = 0,
 	mut.sd          = default.sim.mutsd,
-	theta           = 0.5,
+	theta           = rep(NA, default.n),
 	s               = default.s,
-	grad.rob        = rep(0, 5),
+	grad.rob        = rep(0, default.n),
 	rep             = default.rob.reps,
 	initenv.sd      = default.initenv.sd,
 	lateenv.sd      = default.lateenv.sd,
@@ -45,6 +46,15 @@ acrossrepVar <- function(fulllist) {
 
 pure.run.single <- function(W0, args=default.args, sim.name=NA, force.run=FALSE) {
 	myargs <- default.args
+	# NAs in the optimum are replaced by random values
+	myargs$theta[is.na(myargs$theta)] <- runif(sum(is.na(myargs$theta)))
+	if (is.na(W0)) {
+		# NA for W0 is replaced by a random matrix at the correct equilibrium
+		WW <- matrix(rnorm(length(myargs$theta)^2, default.rand.mean, default.rand.sd), ncol=length(myargs$theta))
+		for (i in 1:nrow(WW)) WW[i,sample(1:ncol(WW), 1)] <- NA
+		W0 <- targetW(WW, target=myargs$theta, a=myargs$a)
+	}
+	
 	myargs[names(args)] <- args # Mistakes in arg names etc. will make the simulation crash later
 	if (is.na(sim.name)) 
 		sim.name <- paste0("pure", paste(sample(c(letters, LETTERS), 10, replace=TRUE), collapse=""))

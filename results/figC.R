@@ -25,6 +25,8 @@ rob.lateenv.sd <- default.lateenv.sd
 rob.initmut.sd <- default.initmut.sd
 rob.latemut.sd <- default.latemut.sd
 
+difftarget.thresh <- 0.15
+
 cache.dir <- "../cache"
 cache.file <- paste(cache.dir, "figC.rds", sep="/")
 if (!dir.exists(cache.dir)) dir.create(cache.dir)
@@ -33,6 +35,28 @@ difftarget <- function(res, target) {
     df <- t(res[,grep("mean.", colnames(res))])-target
     apply(abs(df), 2, sum)
 }
+
+whyitfails <- function(W, a, dev.steps, measure, target) {
+	# 0: OK
+	# 1: Still evolving
+	# 2: Stuck to the border
+	# 3: Limit cycle
+	# -1: Unknown
+	evol.thresh <- 0.002
+	border.thresh <- 0.02
+	mm <- model.M2(W=W, a=a, steps=dev.steps, measure=measure, full=TRUE)
+	Smes <- mm$full[,(dev.steps-measure+2):(dev.steps+1)]
+	if (sum(abs(mm$mean-target)) <= difftarget.thresh) 
+		return (0)
+	if (any(apply(Smes, 1, function(x) length(unique(sign(diff(x))))==1 && all(abs(diff(x)) >= evol.thresh))))
+		return(1)
+	if (any(apply(Smes, 1, function(x) all(x < border.thresh) || all(x > 1 - border.thresh))))
+		return(2)
+	if (any(apply(Smes, 1, function(x) { lb <- x < border.thresh; lu <- x > 1 - border.thresh; return((any(lb) && !all(lb)) || (any(lu) && !all(lu)))})))
+		return(3)	
+	return(-1)
+}
+
 
 plotres <- function(res, crit="mean", stud=NULL, mask=NULL, contour=FALSE, mx = 0.2) {
     z <- res[,grep(colnames(res), pattern=crit)[1]] # take only the first gene
@@ -73,6 +97,11 @@ if (!use.cache || !file.exists(cache.file)) {
 	          latemut=robindex.latemut(w, a, dev.steps, measure, rob.latemut.sd, rep=rob.reps, log=log),
 	          stability=robindex.stability(w, a, dev.steps, log=log))
 	    }, mc.cores=mc.cores)))
+
+	res <- cbind(res, WIF=apply(res, 1, function(x) {
+		w <-  matrix(unlist(x[1:(network.size^2)]), nrow=network.size)
+		whyitfails(w, a, dev.steps, measure, target)
+	}))
 	saveRDS(res, file=cache.file)
 } else {
 	res <- readRDS(cache.file)
@@ -80,7 +109,7 @@ if (!use.cache || !file.exists(cache.file)) {
 
 pdf("figC.pdf", width=12, height=8)
 	layout(rbind(1:3, c(4:5, 0)))
-	mm <- difftarget(res, target) > 0.15
+	mm <- difftarget(res, target) > difftarget.thresh
 	for (ppp in names(phen))
 		plotres(res, ppp, stud, mask=mm, contour=TRUE)
 dev.off()

@@ -114,3 +114,10 @@ pdf("figC.pdf", width=12, height=8)
 		plotres(res, ppp, stud, mask=mm, contour=TRUE)
 dev.off()
 
+pdf("figCs.pdf", width=4, height=4)
+	zz <- matrix(res$WIF, nrow=sqrt(nrow(res)))
+	zz[zz==-1] <- 2 # When stuck to the border, this is still an alternative equilibrium
+	cc <- c('On target' = "white", 'Still changing'="yellow", 'Alternative eq.'="gray", 'Large osc.'="red")
+	image(x=ww1, y=ww2, z=zz, xlab=expression(W[11]), ylab=expression(W[21]), col=cc)
+	legend("topleft", inset=c(0,-0.1), pch=15, col=cc, legend=names(cc), horiz=TRUE, xpd=TRUE, cex=0.5, pt.cex=1.5)
+dev.off()

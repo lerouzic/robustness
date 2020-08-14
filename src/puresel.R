@@ -25,7 +25,7 @@ puresel <- function(W0, theta, a=0.2, s=10, grad.rob=rep(0, 5), N=1000, rep=100,
 	fmod <- function(x, m) x-m*floor(x/m) 
 	renorm <- function(x) {m <- fmod(x,1); x[x<0] <- 1-m[x<0]; x[x>1] <- 1-m[x>1]; x}
 	meanpop <- function(pop) meanlist(pop)
-	
+
 	stopifnot(is.matrix(W0), nrow(W0) > 0, nrow(W0) == ncol(W0))
 	stopifnot(length(theta) == 1 || length(theta) == ncol(W0))
 	stopifnot(length(s) == 1 || length(s) == ncol(W0))

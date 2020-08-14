@@ -22,7 +22,7 @@ default.args <- list(
 	mut.sd          = default.sim.mutsd,
 	theta           = rep(NA, default.n),
 	s               = default.s,
-	grad.rob        = rep(0, default.n),
+	grad.rob        = rep(0, 5),
 	rep             = default.rob.reps,
 	initenv.sd      = default.initenv.sd,
 	lateenv.sd      = default.lateenv.sd,
@@ -44,8 +44,9 @@ acrossrepVar <- function(fulllist) {
 	ans
 }
 
-pure.run.single <- function(W0, args=default.args, sim.name=NA, force.run=FALSE) {
-	myargs <- default.args
+pure.run.single <- function(W0, myargs=NULL, sim.name=NA, force.run=FALSE) {
+	missing.args <- names(default.args)[!(names(default.args) %in% names(myargs))]
+	myargs[missing.args] <- default.args[missing.args]
 	# NAs in the optimum are replaced by random values
 	myargs$theta[is.na(myargs$theta)] <- runif(sum(is.na(myargs$theta)))
 	if (is.na(W0)) {
@@ -55,7 +56,6 @@ pure.run.single <- function(W0, args=default.args, sim.name=NA, force.run=FALSE)
 		W0 <- targetW(WW, target=myargs$theta, a=myargs$a)
 	}
 	
-	myargs[names(args)] <- args # Mistakes in arg names etc. will make the simulation crash later
 	if (is.na(sim.name)) 
 		sim.name <- paste0("pure", paste(sample(c(letters, LETTERS), 10, replace=TRUE), collapse=""))
 	outfile <- paste0(cache.dir, "/", sim.name ,".rds")

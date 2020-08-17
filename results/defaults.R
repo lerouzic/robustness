@@ -21,7 +21,7 @@ default.density        <- 1
 #~ default.rand.sd        <- 0.18
 default.rand.mean      <- 0
 default.rand.sd        <- 1
-default.rand.sd.sim    <- 0
+default.rand.sd.sim    <- 1e-4
 
 # Robustness index parameters
 

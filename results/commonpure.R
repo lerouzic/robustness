@@ -51,7 +51,7 @@ pure.run.single <- function(W0, myargs=NULL, sim.name=NA, force.run=FALSE) {
 	myargs$theta[is.na(myargs$theta)] <- runif(sum(is.na(myargs$theta)))
 	if (is.na(W0)) {
 		# NA for W0 is replaced by a random matrix at the correct equilibrium
-		WW <- matrix(rnorm(length(myargs$theta)^2, default.rand.mean, default.rand.sd), ncol=length(myargs$theta))
+		WW <- matrix(rnorm(length(myargs$theta)^2, default.rand.mean, default.rand.sd.sim), ncol=length(myargs$theta))
 		for (i in 1:nrow(WW)) WW[i,sample(1:ncol(WW), 1)] <- NA
 		W0 <- targetW(WW, target=myargs$theta, a=myargs$a)
 	}

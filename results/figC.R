@@ -107,7 +107,7 @@ if (!use.cache || !file.exists(cache.file)) {
 	res <- readRDS(cache.file)
 }
 
-pdf("figC.pdf", width=12, height=8)
+pdf("figC.pdf", width=9, height=6)
 	layout(rbind(1:3, c(4:5, 0)))
 	mm <- difftarget(res, target) > difftarget.thresh
 	for (ppp in names(phen))

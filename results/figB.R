@@ -44,7 +44,7 @@ for (Wstyle in Wtoconsider) {
 	dd <- if (file.exists(cache.file)) readRDS(cache.file)
 	if (is.null(dd)) stop("Unable to find the data file", cache.file)
 
-	pdf(paste0("figB-", Wstyle, ".pdf"), width=7, height=7)
+	pdf(paste0("figB-", Wstyle, ".pdf"), width=7, height=5)
 		rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(names(phen), function(ppp) whattoconsider(ddd[[ppp]]))))
 		prp <- prcomp(rrr, scale.=TRUE)
 		myplot.prcomp(prp)

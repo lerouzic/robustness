@@ -146,9 +146,10 @@ for (Wstyle in Wtoconsider) {
 	
 	pdf(paste0("figJ-", Wstyle, ".pdf"), width=8, height=5)
 		
-		boxplot(evolv.free, at=1+(0:(lr-1))*(lt+1), xlim=c(0, (lt+1)*lr), log="y", xaxt="n",  ylab="Evolvability", border=cols, density=10, ylim=c(0.005,20), outline=boxplot.outline)
-		boxplot(evolv.phens, at=2+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="lightgray", outline=boxplot.outline)
-		boxplot(evolv.robs, at=3+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="bisque", outline=boxplot.outline)
+		boxplot(evolv.free, at=1+(0:(lr-1))*(lt+1), xlim=c(0, (lt+1)*lr), log="y", xaxt="n",  ylab="Evolvability", border=cols, density=10, ylim=c(0.005,20), outline=boxplot.outline, yaxt="n")
+		axis(2, at=c(0.01, 0.1, 1, 10, 100), labels=c("0.01", "0.1", "1", "10", "100"))
+		boxplot(evolv.phens, at=2+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="lightgray", outline=boxplot.outline, axes=FALSE)
+		boxplot(evolv.robs, at=3+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="bisque", outline=boxplot.outline, axes=FALSE)
 		
 		axis(1, at=1+(lt-1)/2+(0:(lr-1))*(lt+1), labels=names(robs), tick=FALSE)
 		legend("topleft", pch=22, pt.bg=c("white","lightgray","bisque"), legend=c("Unconditional", "Cond. gene expression","Cond. other robustness"), horiz=TRUE, bty="n", pt.cex=1.5)

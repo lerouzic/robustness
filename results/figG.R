@@ -19,7 +19,7 @@ test.rep         <- default.rob.reps
 grad.effect      <- 0.01
 N                <- default.N
 G                <- 10000
-every            <- round(G/100)
+every            <- max(1, round(G/100))
 force.run        <- !use.cache
 
 phen <- c(list(fitness="Fitness"), phen.expression)

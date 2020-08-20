@@ -89,12 +89,13 @@ plotW <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL, type="l
 allW <- lapply(1:reps, function(i) randW(size=net.size, density=density, mean=reg.mean, sd=reg.sd))
 alltests <- mclapply(allW, test.W, mc.cores=mc.cores)
 
-pdf("figM-random.pdf", width=10, height=10)
-	layout(rbind(1:2,3:4))
+pdf("figM-random.pdf", width=3, height=12)
+	layout(matrix(1:4, ncol=1))
 	
 	for (tt in seq_along(alltests)) 
 		plotW(alltests[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
 	abline(v=default.initenv.sd, lty=3, col="darkgray")
+	title("Random networks")
 		
 	for (tt in seq_along(alltests)) 
 		plotW(alltests[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-40,-3))		
@@ -126,15 +127,16 @@ allW <- lapply(
 
 alltests <- mclapply(allW, test.W, mc.cores=mc.cores)
 
-pdf("figM-evolved.pdf", width=10, height=10)
-	layout(rbind(1:2,3:4))
+pdf("figM-evolved.pdf", width=3, height=12)
+	layout(matrix(1:4, ncol=1))
 	
 	for (tt in seq_along(alltests)) 
-		plotW(alltests[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-15))
+		plotW(alltests[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
 	abline(v=default.initenv.sd, lty=3, col="darkgray")
+	title("Evolved networks")
 		
 	for (tt in seq_along(alltests)) 
-		plotW(alltests[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-25,-5))		
+		plotW(alltests[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-25,-3))		
 	abline(v=default.lateenv.sd, lty=3, col="darkgray")
 	
 	for (tt in seq_along(alltests)) 

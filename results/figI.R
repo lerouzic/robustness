@@ -30,17 +30,23 @@ lty.sim <- c(p=0, m=0, o=0, pp=0, pm=0, mp=0, mm=0)
 pch.sim <- c(p=2, m=6, o=1, pp=24, mm=25, pm=0, mp=5)
 max.points <- 20
 
-allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Generations", ylab=what, lwd=3, FUN=mean, ...) {
-	if(is.null(xlim)) xlim <- c(0, as.numeric(rev(names(list.sim[[1]]$mean))[1]))
-	allv <- do.call(rbind, lapply(list.sim, function(x) do.call(rbind, lapply(x$mean, function(xx) FUN(xx[[what]])))))
-	if(is.null(ylim)) ylim <- c(min(allv), max(allv))
-	plot(NULL, xlim=xlim, ylim=ylim, xlab=xlab, ylab="", main=as.expression(phen[what]), col.main=col.phen[what], ...)
-	for (nss in names(list.sim)) {
-		nnss <- strsplit(nss, split="\\.")[[1]]
-		if (length(nnss) == 3) nnss <- c(paste(nnss[1], nnss[2], sep="."), nnss[3])
-		xpp <- seq_along(as.numeric(names(list.sim[[nss]]$mean)))
-		xpp <- round(seq(xpp[1], xpp[length(xpp)], length.out=min(max.points, length(xpp))))
-		lines(as.numeric(names(list.sim[[nss]]$mean))[xpp], sapply(list.sim[[nss]]$mean, function(x) FUN(x[[what]]))[xpp], col=col.sim[nnss[1]], bg=col.sim[nnss[1]], lty=lty.sim[nnss[2]], pch=pch.sim[nnss[2]], type="o", lwd=lwd)
+allplots <- function(list.sim, r1, r2, what="fitnesses", ylab=as.expression(phen[what]), r1.series="p", r2.series="m", comb="pm", relative=NULL, xlim=NULL, ylim=NULL, xlab="Generations", lwd=1, ...) {
+	G <- as.numeric(names(list.sim[[1]]$mean))
+	which.G <- seq(1, length(G), length.out=20)
+	mylist.sim <- lapply(list.sim, function(x) sapply(x$mean, function(xx) mean(xx[[what]])))
+	mylist.sim <- mylist.sim[c("oo.o", paste(r1, r1.series,sep="."), paste(r2, r2.series,sep="."), paste(r1, r2, comb, sep="."))]
+	if (length(relative) > 0) {
+		mylist.sim <- lapply(mylist.sim, function(xx) xx-mean(mylist.sim[[relative]]))
+		mylist.sim[[relative]] <- NULL
+	}
+	if (is.null(xlim)) xlim <- range(G)
+	if (is.null(ylim)) ylim <- range(unlist(mylist.sim))
+	plot(NULL, xlim=xlim, ylim=ylim, ylab=ylab, xlab=xlab, ...)
+	for (ni in names(mylist.sim)) {
+		sp <- strsplit(ni, split="\\.")[[1]]
+		sp1 <- if(length(sp) == 2) sp[1] else paste(sp[1],sp[2],sep=".")
+		sp2 <- sp[length(sp)]
+		points(G[which.G], mylist.sim[[ni]][which.G], pch=pch.sim[sp2], col=col.sim[sp1], lwd=lwd)
 	}
 }
 
@@ -110,21 +116,43 @@ torun <- list(
 	ie.st.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,0,-grad.effect)), 
 		reps=reps, series.name="figI-ie-st-pm", force.run=force.run),
 	ie.st.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,0,grad.effect)), 
-		reps=reps, series.name="figI-ie-st-pp", force.run=force.run)
+		reps=reps, series.name="figI-ie-st-pp", force.run=force.run),
+#~ 	ie.im.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,-grad.effect,0)), 
+#~ 		reps=reps, series.name="figI-ie-im-mm", force.run=force.run),
+	ie.im.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,grad.effect,0)), 
+		reps=reps, series.name="figI-ie-im-mp", force.run=force.run),
+	ie.im.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,-grad.effect,0)), 
+		reps=reps, series.name="figI-ie-im-pm", force.run=force.run)
+#~ 	ie.im.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,grad.effect,0)), 
+#~ 		reps=reps, series.name="figI-ie-im-pp", force.run=force.run)
 )
 
 list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
-
-pdf("figI.pdf", width=8, height=12)
+pdf("figI.pdf", width=8, height=12) 
 	layout(rbind(1:2,3:4,5:6))
 	par(cex=1)
 	
-	allboxes(list.sim, "ie","lm",what="initenv", G="5000", lwd=3)
-	allboxes(list.sim, "ie","lm",what="latemut", G="5000", lwd=3)
+	allplots(list.sim, "ie","lm", what="initenv", r1.series="p", r2.series="m", comb="pm", lwd=3)
+	allplots(list.sim, "ie","lm", what="latemut", r1.series="p", r2.series="m", comb="pm", lwd=3)
 	
-	allboxes(list.sim, "le","lm",what="lateenv", G="5000", lwd=3)
-	allboxes(list.sim, "le","lm",what="latemut", G="5000", lwd=3)
+	allplots(list.sim, "le","lm", what="lateenv", r1.series="p", r2.series="m", comb="pm", lwd=3)
+	allplots(list.sim, "le","lm", what="latemut", r1.series="p", r2.series="m", comb="pm", lwd=3)
+	
+	allplots(list.sim, "ie","st", what="initenv", r1.series="p", r2.series="m", comb="pm", lwd=3)
+	allplots(list.sim, "ie","st", what="stability", r1.series="p", r2.series="m", comb="pm", lwd=3)
+dev.off()
+
+
+pdf("figIb.pdf", width=8, height=12)
+	layout(rbind(1:2,3:4,5:6))
+	par(cex=1)
+	
+	allboxes(list.sim, "ie","lm",what="initenv", G="5000", lwd=3, ylim=c(-40, -5))
+	allboxes(list.sim, "ie","lm",what="latemut", G="5000", lwd=3, ylim=c(-12, -6))
+	
+	allboxes(list.sim, "le","lm",what="lateenv", G="5000", lwd=3, ylim=c(-15, -4))
+	allboxes(list.sim, "le","lm",what="latemut", G="5000", lwd=3, ylim=c(-15, -6))
 	
 	allboxes(list.sim, "ie","st",what="initenv", G="5000", lwd=3)
 	allboxes(list.sim, "ie","st",what="stability", G="5000", lwd=3)

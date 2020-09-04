@@ -44,35 +44,35 @@ torun.mut <- lapply(mut.values, function(mm)
 		W0, 
 		list(s=s, G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mm), 
 		reps=reps, series.name=paste0("figL-ref-m", signif(mm, digits=2)), 
-		force.run=force.run), 
+		force.run=force.run, mc.cores=min(reps, mc.cores)), 
 	list(mm=mm)))
 torun.N <- lapply(N.values, function(nn) 
 	substitute(function() pure.run.reps(
 		W0, 
 		list(s=s, G=G, N=nn, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
 		reps=reps, series.name=paste0("figL-ref-N", nn), 
-		force.run=force.run), 
+		force.run=force.run, mc.cores=min(reps, mc.cores)), 
 	list(nn=nn)))
 torun.genes <- lapply(genes.values, function(gg) 
 	substitute(function() pure.run.reps(
 		W0, 
 		list(s=c(rep(10, min(gg, sel.genes)), rep(0 ,gg-min(gg,sel.genes))), theta=rep(NA, gg), G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
 		reps=reps, series.name=paste0("figL-ref-g", gg), 
-		force.run=force.run), 
+		force.run=force.run, mc.cores=min(reps, mc.cores)), 
 	list(gg=gg)))
 torun.selg <- lapply(selg.values, function(sg)
 	substitute(function() pure.run.reps(
 		W0, 
 		list(s=c(rep(10,sg),rep(0,n.genes-sg)), G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
 		reps=reps, series.name=paste0("figL-ref-sg", sg), 
-		force.run=force.run), 
+		force.run=force.run, mc.cores=min(reps, mc.cores)), 
 	list(sg=sg)))
 torun.sel <- lapply(s.values, function(ss)
 	substitute(function() pure.run.reps(
 		W0, 
 		list(s=c(rep(ss,sel.genes),rep(0,n.genes-sel.genes)), G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
 		reps=reps, series.name=paste0("figL-ref-s", signif(ss, digits=2)), 
-		force.run=force.run), 
+		force.run=force.run, mc.cores=min(reps, mc.cores)), 
 	list(ss=ss)))
 
 torun <- setNames(

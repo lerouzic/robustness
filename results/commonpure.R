@@ -20,7 +20,7 @@ default.args <- list(
 	sim.initenv.sd  = 0,
 	sim.lateenv.sd  = 0,
 	mut.sd          = default.sim.mutsd,
-	theta           = NA,
+	theta           = rep(NA, default.n),
 	s               = default.s,
 	grad.rob        = rep(0, 5),
 	rep             = default.rob.reps,
@@ -51,7 +51,7 @@ pure.run.single <- function(W0, myargs=NULL, sim.name=NA, force.run=FALSE) {
 	# If W0 is NA, the W matrix needs to be built from another source of information (the length of theta). 
 	# If W0 is a matrix, then we assume that the number of columns give the number of genes, and theta is updated accordingly
 	# If both W0 and theta are NA, then the network is assumed to have only one gene. 
-	if (ncol(W0) > 1) {
+	if (length(W0) > 1) {
 		if (length(myargs$theta) > ncol(W0)) myargs$theta <- myargs$theta[1:ncol(W0)]
 		if (length(myargs$theta) < ncol(W0)) myargs$theta <- c(myargs$theta, rep(NA, ncol(W0)-length(myargs$theta)))
 	}

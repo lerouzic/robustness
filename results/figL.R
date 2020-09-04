@@ -12,7 +12,7 @@ use.cache <- TRUE
 n.genes          <- default.n
 sel.genes        <- default.nsel
 s                <- c(rep(default.s, sel.genes), rep(0, n.genes-sel.genes))
-W0               <- matrix(rnorm(n.genes^2, sd=default.initsd), ncol=n.genes)
+W0               <- NA
 reps             <- default.sim.reps
 test.rep         <- default.rob.reps
 N                <- default.N
@@ -40,24 +40,49 @@ captions <- c(
 	s="Selection strength (s)")
 
 torun.mut <- lapply(mut.values, function(mm) 
-	substitute(function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mm), 
-		reps=reps, series.name=paste0("figL-ref-m", signif(mm, digits=2)), force.run=force.run), list(mm=mm)))
+	substitute(function() pure.run.reps(
+		W0, 
+		list(s=s, G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mm), 
+		reps=reps, series.name=paste0("figL-ref-m", signif(mm, digits=2)), 
+		force.run=force.run), 
+	list(mm=mm)))
 torun.N <- lapply(N.values, function(nn) 
-	substitute(function() pure.run.reps(W0, list(s=s, G=G, N=nn, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
-		reps=reps, series.name=paste0("figL-ref-N", nn), force.run=force.run), list(nn=nn)))
+	substitute(function() pure.run.reps(
+		W0, 
+		list(s=s, G=G, N=nn, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
+		reps=reps, series.name=paste0("figL-ref-N", nn), 
+		force.run=force.run), 
+	list(nn=nn)))
 torun.genes <- lapply(genes.values, function(gg) 
-	substitute(function() pure.run.reps(W0=matrix(rnorm(gg^2, sd=0.000001), ncol=gg), list(s=c(rep(10, sel.genes), rep(0 ,gg-sel.genes)), G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
-		reps=reps, series.name=paste0("figL-ref-g", gg), force.run=force.run), list(gg=gg)))
+	substitute(function() pure.run.reps(
+		W0, 
+		list(s=c(rep(10, min(gg, sel.genes)), rep(0 ,gg-min(gg,sel.genes))), theta=rep(NA, gg), G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
+		reps=reps, series.name=paste0("figL-ref-g", gg), 
+		force.run=force.run), 
+	list(gg=gg)))
 torun.selg <- lapply(selg.values, function(sg)
-	substitute(function() pure.run.reps(W0, list(s=c(rep(10,sg),rep(0,n.genes-sg)), G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
-		reps=reps, series.name=paste0("figL-ref-sg", sg), force.run=force.run), list(sg=sg)))
+	substitute(function() pure.run.reps(
+		W0, 
+		list(s=c(rep(10,sg),rep(0,n.genes-sg)), G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
+		reps=reps, series.name=paste0("figL-ref-sg", sg), 
+		force.run=force.run), 
+	list(sg=sg)))
 torun.sel <- lapply(s.values, function(ss)
-	substitute(function() pure.run.reps(W0, list(s=c(rep(ss,sel.genes),rep(0,n.genes-sel.genes)), G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
-		reps=reps, series.name=paste0("figL-ref-s", signif(ss, digits=2)), force.run=force.run), list(ss=ss)))
+	substitute(function() pure.run.reps(
+		W0, 
+		list(s=c(rep(ss,sel.genes),rep(0,n.genes-sel.genes)), G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
+		reps=reps, series.name=paste0("figL-ref-s", signif(ss, digits=2)), 
+		force.run=force.run), 
+	list(ss=ss)))
 
 torun <- setNames(
 	c(torun.mut, torun.N, torun.genes, torun.selg, torun.sel),
-	c(paste0("ref.m", signif(mut.values, digits=2)), paste0("ref.N", N.values), paste0("ref.g", genes.values), paste0("ref.sg", selg.values), paste0("ref.s", signif(s.values, digits=2))))
+	c(	paste0("ref.m", signif(mut.values, digits=2)), 
+		paste0("ref.N", N.values), 
+		paste0("ref.g", genes.values), 
+		paste0("ref.sg", selg.values), 
+		paste0("ref.s", signif(s.values, digits=2))))
+		
 list.sim <- mclapply(torun, function(ff) eval(ff)(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
 ylims <- list(fitness=c(0.8,1), initenv=c(-44,-15), lateenv=c(-25,0), initmut=c(-13,-4), latemut=c(-13,-5), stability=c(-44,-12))

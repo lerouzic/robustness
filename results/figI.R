@@ -12,7 +12,7 @@ use.cache <- TRUE
 n.genes           <- default.n
 sel.genes         <- default.nsel    
 s                 <- c(rep(default.s, sel.genes), rep(0, n.genes-sel.genes))
-W0                <- matrix(NA, ncol=n.genes, nrow=n.genes)
+W0                <- NA
 reps              <- default.sim.reps
 test.rep          <- default.rob.reps
 grad.effect       <- 0.01
@@ -24,7 +24,7 @@ force.run         <- !use.cache
 avgcol <- function(c1, c2) rgb(colorRamp(c(c1,c2))(0.5), max=255)
 
 phen <- c(list(fitness="Fitness"), phen.expression)
-col.sim <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM, st=COL.STAB, ie.lm=avgcol(COL.ENVCAN,COL.SOM), le.lm=avgcol(COL.HOMEO,COL.SOM), ie.st=avgcol(COL.ENVCAN,COL.STAB))
+col.sim <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM, st=COL.STAB, ie.lm=avgcol(COL.ENVCAN,COL.SOM), le.lm=avgcol(COL.HOMEO,COL.SOM), ie.st=avgcol(COL.ENVCAN,COL.STAB), ie.im=avgcol(COL.ENVCAN, COL.GENCAN))
 col.phen <- c(fitness="black", initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut=COL.SOM, stability=COL.STAB)
 lty.sim <- c(p=0, m=0, o=0, pp=0, pm=0, mp=0, mm=0)
 pch.sim <- c(p=2, m=6, o=1, pp=24, mm=25, pm=0, mp=5)
@@ -65,10 +65,74 @@ allboxes <- function(list.sim, r1, r2, G=NULL, what="fitnesses", xlab=phen[what]
 			c(if(length(relative) == 0) "Control" else NULL, "Indirect -", "Indirect +", "Direct -", "Direct +", "D-; I-", "D+; I-", "D-; I+", "D+; I+")
 	axis(2, las=2, at=-c(if(length(relative) == 0) 1 else NULL, 3:4, 6:7, 9:12), tick=FALSE, lty=0, line=-1, label=labels)
 }
-# Some pairs of indexes:
-# P1: low correlation, early environmental/late genetic
-# P2: medium correlation, late environmental/late genetic
-# P3: strong correlation, early environmental/stability
+
+geom.analysis <- function(list.sim, r1, r2, what1, what2, G=NULL, xlim=NULL, ylim=NULL, plot.grad=TRUE, means=TRUE, ..., ccol=setNames(rainbow(8), c("p1","pm","m2","mm","m1","mp","p2","pp"))) {
+	if (is.null(G)) G <- rev(names(list.sim[[1]]$mean))[1]
+	min.G <- names(list.sim[[1]]$mean)[1]
+	
+	O.x <- mean(list.sim[["oo.o"]]$mean[[min.G]][[what1]])
+	O.y <- mean(list.sim[["oo.o"]]$mean[[min.G]][[what2]])
+	
+	ssim <- c(paste(r1, c("m","p"),sep="."), paste(r2, c("m","p"),sep="."), paste(r1, r2, c("mm","mp","pm","pp"), sep="."))
+	mylist.sim1 <- lapply(list.sim[ssim], function(x) sapply(x$full, function(xx) mean(xx[[G]][[what1]])))
+	mylist.sim2 <- lapply(list.sim[ssim], function(x) sapply(x$full, function(xx) mean(xx[[G]][[what2]])))
+	
+	names(mylist.sim1) <- names(mylist.sim2) <- c("m1","p1", "m2","p2","mm", "mp", "pm", "pp")
+	
+	if (means) {
+		mylist.sim1 <- lapply(mylist.sim1, mean)
+		mylist.sim2 <- lapply(mylist.sim2, mean)
+	}
+	
+	if (is.null(xlim)) xlim <- range(unlist(mylist.sim1))
+	if (is.null(ylim)) ylim <- range(unlist(mylist.sim2))
+	
+	plot(NULL, xlim=xlim, ylim=ylim, xlab=as.expression(phen[what1]), ylab=as.expression(phen[what2]), ...)
+	points(O.x, O.y, pch=1, cex=3, col="black")
+	if (plot.grad) {
+		grad.size.x <- abs(min(O.x-xlim[1], xlim[2]-O.x))
+		grad.size.y <- abs(min(O.y - ylim[1], ylim[2]-O.y))
+		arrows(x0=O.x, y0=O.y, x1=O.x+c(1, 1, 0, -1, -1, -1, 0, 1)*grad.size.x, y1=O.y+c(0, -1, -1, -1, 0, 1, 1, 1, 0)*grad.size.y, col=ccol)
+	}
+	points(unlist(mylist.sim1), unlist(mylist.sim2), col=ccol[rep(names(mylist.sim1), sapply(mylist.sim1, length))])
+	text(sapply(mylist.sim1, mean), sapply(mylist.sim2, mean), names(mylist.sim1), pos=ifelse(sapply(mylist.sim1, mean) > O.x, 2, 4))
+}
+
+rel.response <- function(list.sim, r1, r2, what1, what2, G=NULL, normalize=FALSE) {
+	if (is.null(G)) G <- rev(names(list.sim[[1]]$mean))[1]
+	
+	ssim <- c(paste(r1, r2, c("mm","mp","pm","pp"), sep="."))
+	mylist.sim1 <- lapply(list.sim[ssim], function(x) sapply(x$full, function(xx) mean(xx[[G]][[what1]])))
+	mylist.sim2 <- lapply(list.sim[ssim], function(x) sapply(x$full, function(xx) mean(xx[[G]][[what2]])))
+	
+	# Four data points are necessary
+	allpoints <- rbind(	mm = c(mean(mylist.sim1[[paste(r1, r2,"mm", sep=".")]]), mean(mylist.sim2[[paste(r1, r2,"mm", sep=".")]])),
+						mp = c(mean(mylist.sim1[[paste(r1, r2,"mp", sep=".")]]), mean(mylist.sim2[[paste(r1, r2,"mp", sep=".")]])),
+						pm = c(mean(mylist.sim1[[paste(r1, r2,"pm", sep=".")]]), mean(mylist.sim2[[paste(r1, r2,"pm", sep=".")]])),
+						pp = c(mean(mylist.sim1[[paste(r1, r2,"pm", sep=".")]]), mean(mylist.sim2[[paste(r1, r2,"pm", sep=".")]])))
+	if (normalize) {
+		allpoints[,1] <- allpoints[,1]-allpoints["mm",1]
+		allpoints[,2] <- allpoints[,2]-allpoints["mm",2]
+		allpoints[,1] <- allpoints[,1] / allpoints["pp",1]
+		allpoints[,2] <- allpoints[,2] / allpoints["pp",2]
+	}
+	
+	# Direction of the most evolvability: mm to pp
+	a <- (allpoints["pp",2] - allpoints["mm",2])/(allpoints["pp",1] - allpoints["mm",1])
+	ap <- - 1/a # perpendicular direction
+	
+	mpp.x <- (allpoints["mp",1] + ap*allpoints["mp",2])/(1+ap^2)
+	mpp.y <- ap*(allpoints["mp",1] + ap*allpoints["mp",2])/(1+ap^2)
+	
+	pmp.x <- (allpoints["pm",1] + ap*allpoints["pm",2])/(1+ap^2)
+	pmp.y <- ap*(allpoints["pm",1] + ap*allpoints["pm",2])/(1+ap^2)
+	
+	dist.mm.pp <- sqrt((allpoints["mm",1]-allpoints["pp",1])^2 + (allpoints["mm",2] - allpoints["pp",2])^2)
+	dist.mp.pm <- sqrt((mpp.x - pmp.x)^2 + (mpp.y - pmp.y)^2)
+	return(c(max.dist=dist.mm.pp, min.dst=dist.mp.pm, ratio=dist.mp.pm/dist.mm.pp))
+}
+
+indx <- c(ie=1, le=2, im=3, lm=4, st=5)
 
 torun <- list(
 	oo.o = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,0)), 
@@ -92,45 +156,34 @@ torun <- list(
 	lm.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,grad.effect,0)), 
 		reps=reps, series.name="figG-lm-p", force.run=force.run),
 	st.p = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,grad.effect)), 
-		reps=reps, series.name="figG-st-p", force.run=force.run),
-	ie.lm.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,-grad.effect,0)), 
-		reps=reps, series.name="figI-ie-lm-mm", force.run=force.run),
-	ie.lm.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,grad.effect,0)), 
-		reps=reps, series.name="figI-ie-lm-mp", force.run=force.run),
-	ie.lm.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,-grad.effect,0)), 
-		reps=reps, series.name="figI-ie-lm-pm", force.run=force.run),
-	ie.lm.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,grad.effect,0)), 
-		reps=reps, series.name="figI-ie-lm-pp", force.run=force.run),
-	le.lm.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,-grad.effect,0,-grad.effect,0)), 
-		reps=reps, series.name="figI-le-lm-mm", force.run=force.run),
-	le.lm.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,-grad.effect,0,grad.effect,0)), 
-		reps=reps, series.name="figI-le-lm-mp", force.run=force.run),
-	le.lm.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,grad.effect,0,-grad.effect,0)), 
-		reps=reps, series.name="figI-le-lm-pm", force.run=force.run),
-	le.lm.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,grad.effect,0,grad.effect,0)), 
-		reps=reps, series.name="figI-le-lm-pp", force.run=force.run),
-	ie.st.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,0,-grad.effect)), 
-		reps=reps, series.name="figI-ie-st-mm", force.run=force.run),
-	ie.st.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,0,grad.effect)), 
-		reps=reps, series.name="figI-ie-st-mp", force.run=force.run),
-	ie.st.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,0,-grad.effect)), 
-		reps=reps, series.name="figI-ie-st-pm", force.run=force.run),
-	ie.st.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,0,grad.effect)), 
-		reps=reps, series.name="figI-ie-st-pp", force.run=force.run),
-#~ 	ie.im.mm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,-grad.effect,0)), 
-#~ 		reps=reps, series.name="figI-ie-im-mm", force.run=force.run),
-	ie.im.mp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,grad.effect,0)), 
-		reps=reps, series.name="figI-ie-im-mp", force.run=force.run),
-	ie.im.pm = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,-grad.effect,0)), 
-		reps=reps, series.name="figI-ie-im-pm", force.run=force.run)
-#~ 	ie.im.pp = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,grad.effect,0)), 
-#~ 		reps=reps, series.name="figI-ie-im-pp", force.run=force.run)
-)
+		reps=reps, series.name="figG-st-p", force.run=force.run))
+for (i1 in 1:(length(indx)-1))
+	for (i2 in (i1+1):length(indx)) {
+		nm1 <- names(indx)[i1]
+		nm2 <- names(indx)[i2]
+		torun[[paste(nm1, nm2, "mm", sep=".")]] <- function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, 
+			grad.rob=c(rep(0, i1-1), -grad.effect, rep(0, i2-i1-1), -grad.effect, rep(0, length(indx)-i2))), 
+			reps=reps, series.name=paste("figI", nm1, nm2, "mm", sep="-"), force.run=force.run)
+		torun[[paste(nm1, nm2, "pm", sep=".")]] <- function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, 
+			grad.rob=c(rep(0, i1-1), grad.effect, rep(0, i2-i1-1), -grad.effect, rep(0, length(indx)-i2))), 
+			reps=reps, series.name=paste("figI", nm1, nm2, "pm", sep="-"), force.run=force.run)
+		torun[[paste(nm1, nm2, "mp", sep=".")]] <- function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, 
+			grad.rob=c(rep(0, i1-1), -grad.effect, rep(0, i2-i1-1), grad.effect, rep(0, length(indx)-i2))), 
+			reps=reps, series.name=paste("figI", nm1, nm2, "mp", sep="-"), force.run=force.run)
+		torun[[paste(nm1, nm2, "pp", sep=".")]] <- function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, 
+			grad.rob=c(rep(0, i1-1), grad.effect, rep(0, i2-i1-1), grad.effect, rep(0, length(indx)-i2))), 
+			reps=reps, series.name=paste("figI", nm1, nm2, "pp", sep="-"), force.run=force.run)
+}
 
 list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
+
+
+geom.analysis(list.sim, "le","lm", what1="initenv", what2="initmut")
+rel.response(list.sim, "le","lm", what1="initenv", what2="initmut")
+
 pdf("figI.pdf", width=8, height=12) 
-	layout(rbind(1:2,3:4,5:6))
+	layout(rbind(1:2,3:4,5:6,7:8))
 	par(cex=1)
 	
 	allplots(list.sim, "ie","lm", what="initenv", r1.series="p", r2.series="m", comb="pm", lwd=3)
@@ -139,8 +192,14 @@ pdf("figI.pdf", width=8, height=12)
 	allplots(list.sim, "le","lm", what="lateenv", r1.series="p", r2.series="m", comb="pm", lwd=3)
 	allplots(list.sim, "le","lm", what="latemut", r1.series="p", r2.series="m", comb="pm", lwd=3)
 	
-	allplots(list.sim, "ie","st", what="initenv", r1.series="p", r2.series="m", comb="pm", lwd=3)
-	allplots(list.sim, "ie","st", what="stability", r1.series="p", r2.series="m", comb="pm", lwd=3)
+#~ 	allplots(list.sim, "ie","st", what="initenv", r1.series="p", r2.series="m", comb="pm", lwd=3)
+#~ 	allplots(list.sim, "ie","st", what="stability", r1.series="p", r2.series="m", comb="pm", lwd=3)
+
+	allplots(list.sim, "ie","st", what="initenv", r1.series="m", r2.series="p", comb="mp", lwd=3)
+	allplots(list.sim, "ie","st", what="stability", r1.series="m", r2.series="p", comb="mp", lwd=3)
+
+	allplots(list.sim, "ie","im", what="initenv", r1.series="m", r2.series="p", comb="mp", lwd=3)
+	allplots(list.sim, "ie","im", what="initmut", r1.series="m", r2.series="p", comb="mp", lwd=3)
 dev.off()
 
 
@@ -159,3 +218,53 @@ pdf("figIb.pdf", width=8, height=12)
 	
 dev.off()
 	
+
+# Explanatory figure for the relative response in the direction of most evolutionary
+# resistance
+# Note: this scheme is only partially symbolic, mm and pp are expected to be centered around (0,0)
+
+library(ellipse)
+pdf("figIe.pdf", width=5, height=5)
+par(mar=c(2,2,0.1,0.1))
+plot(NULL, xlim=c(-1,1), ylim=c(-1,1), xaxt="n", yaxt="n", xlab="", ylab="",asp=1)
+
+mtext(expression(rho[1]), 1, line=1)
+mtext(expression(rho[2]), 2, line=1)
+
+pp <- c(0.8,0.8)
+mm <- c(-0.8,-0.8)
+pm <- c(0.4, -0.1)
+mp <- c(-0.45, 0.)
+points(c(pp[1], mm[1]), c(pp[2], mm[2]), cex=2, pch=19, col=c("blue","red"))
+text(c(pp[1], mm[1]), c(pp[2], mm[2]), c(expression(rho[1]*"+,"*rho[2]*"+"), expression(rho[1]*"-,"*rho[2]*"-")), col=c("blue","red"), pos=c(2,4))
+
+slp <- (pp[2]-mm[2])/(pp[1]-mm[1])
+abline(a=0, b=slp, lty=3, col="darkgray")
+abline(a=0, b=-1/slp, lty=2, col="darkgray")
+sq.sz <- 0.05
+arrows(	x0=c(-slp*sq.sz, (slp-1)*sq.sz)/sqrt(1+slp^2),
+		y0=c(sq.sz, (1+slp)*sq.sz)/sqrt(1+slp^2),
+		x1=c((slp-1)*sq.sz, sq.sz)/sqrt(1+slp^2), 
+		y1=c((1+slp)*sq.sz, slp*sq.sz)/sqrt(1+slp^2), 
+		lty=1, col="darkgray", code=0)
+
+points(c(pm[1], mp[1]), c(pm[2], mp[2]), cex=2, pch=19, col=c("darkgreen", "orange"))
+text(c(pm[1], mp[1]), c(pm[2], mp[2]), c(expression(rho[1]*"+,"*rho[2]*"-"), expression(rho[1]*"-,"*rho[2]*"+")), col=c("darkgreen","orange"), pos=c(4,2))
+
+
+pm.proj <- c((pm[1]-pm[2]/slp)/(1+1/slp^2), -(pm[1]-pm[2]/slp)/slp/(1+1/slp^2))
+mp.proj <- c((mp[1]-mp[2]/slp)/(1+1/slp^2), -(mp[1]-mp[2]/slp)/slp/(1+1/slp^2))
+
+arrows(x0=c(pm[1], mp[1]), y0=c(pm[2], mp[2]), x1=c(pm.proj[1], mp.proj[1]) , y1=c(pm.proj[2], mp.proj[2]), col="red", length=0.1)
+
+arrows(x0=pp[1], x1=mm[1], y0=pp[2], y1=mm[2], code=3, length=0.2, angle=90, col="blue")
+text(-0.5*slp, -0.5*slp, expression(Delta[1]), col="blue", pos=1)
+
+arrows(x0=mp.proj[1], x1=pm.proj[1], y0=mp.proj[2], y1=pm.proj[2], col="deeppink", code=3, length=0.2, angle=90)
+text(-0.2/slp, 0.2/slp, expression(Delta[2]), col="deeppink", pos=4)
+
+text(0.3, -0.7, expression(R==Delta[2]/Delta[1]))
+
+lines(ellipse(0.8, scale=0.4*c(1,1)), col="black", lty=3)
+
+dev.off()

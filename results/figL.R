@@ -102,13 +102,12 @@ pdf("figL.pdf", width=10, height=14)
 			points(xval, yval, type="o")
 			
 			abline(v=defaults[pp], col="gray", lty=3)
-			par(xpd=NA)
 			if(pp==names(captions)[1]) {
-				mtext(2, text=as.expression(phen[[what]]), line=2)
+				mtext(2, text=as.expression(phen[[what]]), line=2, xpd=NA)
 				axis(2)
 			}
 			if (what==ww[length(ww)]) {
-				mtext(1, text=captions[pp], line=3)
+				mtext(1, text=captions[pp], line=3, xpd=NA)
 				axis(1)
 			}
 		}

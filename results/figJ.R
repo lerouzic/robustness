@@ -14,7 +14,7 @@ Wtoconsider <- c("random", "evolved", "randevol")
 use.cache <- TRUE
 cache.dir <- "../cache"
 
-M.reps        <- 100
+M.reps        <- 1000
 rob.reps      <- default.rob.reps
 a             <- default.a
 dev.steps     <- default.dev.steps
@@ -132,11 +132,22 @@ for (Wstyle in Wtoconsider) {
 		saveRDS(dd, file=cache.file)
 	}
 	
-	evolv.free  <- lapply(robs, function(rob) sapply(dd, function(M) condEvolv(M, paste0(rob, ".mean"), NULL)))
-	evolv.phens <- lapply(robs, function(rob) sapply(dd, function(M) condEvolv(M, paste0(rob, ".mean"), paste0("phen.", 1:netsel.size))))
-	evolv.robs  <- lapply(robs, function(rob) sapply(dd, function(M) condEvolv(M, paste0(rob, ".mean"), paste0(robs[!robs %in% rob], ".mean"))))
+	# dd is a list of M matrices including everything that can be measured on the network.
 	
-	if (sum(unlist(evolv.free) == min.evolv) > 0) warning(Wstyle, ":", sum(unlist(evolv.free) == min.evolv), "/", length(unlist(evolv.free)), " unconditional evolvabilities not computed (singular G)")
+	evolv.robs  <- lapply(robs, function(rob) lapply(dd, function(M) {
+			lapply(0:(length(robs)-1), function(nn) { ## nn is the number of evolvabilities to condition to
+				cc <- combn(robs[robs != rob], nn)
+				c(apply(cc, 2, function(xx) condEvolv(M, paste0(rob, ".mean"), if (length(xx) > 0) paste0(xx, ".mean") else NULL)))
+			})
+		}))
+	evolv.phens <- lapply(robs, function(rob) lapply(dd, function(M) {
+		lapply(0:netsel.size, function(nn) { # nn is the number of genes to compute conditional evolvability against
+				cc <- combn(1:netsel.size, nn)
+				apply(cc, 2, function(xx) condEvolv(M, paste0(rob, ".mean"), if (length(xx) > 0) paste0("phen.", xx) else NULL))
+			})
+		}))
+	names(evolv.robs) <- names(evolv.phens) <- robs
+	
 	if (sum(unlist(evolv.phens) == min.evolv) > 0) warning(Wstyle, ":", sum(unlist(evolv.phens) == min.evolv), "/", length(unlist(evolv.phens)), " phenotypic conditional evolvabilities not computed (singular G)")
 	if (sum(unlist(evolv.robs) == min.evolv) > 0) warning(Wstyle, ":", sum(unlist(evolv.robs) == min.evolv), "/", length(unlist(evolv.robs)), " robustness conditional evolvabilities not computed (singular G)")
 
@@ -144,15 +155,44 @@ for (Wstyle in Wtoconsider) {
 	lr <- length(robs)
 	lt <- 3 # number of evolvabilities to display
 	
-	pdf(paste0("figJ-", Wstyle, ".pdf"), width=8, height=5)
+	pdf(paste0("figJ-", Wstyle, ".pdf"), width=6, height=10)
+		par(mar=c(0.3, 0.3, 0.3, 0.3), oma=c(5, 5, 0, 0))
+		layout(matrix(1:(length(robs)*2), byrow=FALSE, nrow=length(robs)))
 		
-		boxplot(evolv.free, at=1+(0:(lr-1))*(lt+1), xlim=c(0, (lt+1)*lr), log="y", xaxt="n",  ylab="Evolvability", border=cols, density=10, ylim=c(0.005,20), outline=boxplot.outline, yaxt="n")
-		axis(2, at=c(0.01, 0.1, 1, 10, 100), labels=c("0.01", "0.1", "1", "10", "100"))
-		boxplot(evolv.phens, at=2+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="lightgray", outline=boxplot.outline, axes=FALSE)
-		boxplot(evolv.robs, at=3+(0:(lr-1))*(lt+1), xaxt="n", add=TRUE, border=cols, col="bisque", outline=boxplot.outline, axes=FALSE)
-		
-		axis(1, at=1+(lt-1)/2+(0:(lr-1))*(lt+1), labels=names(robs), tick=FALSE)
-		legend("topleft", pch=22, pt.bg=c("white","lightgray","bisque"), legend=c("Unconditional", "Cond. gene expression","Cond. other robustness"), horiz=TRUE, bty="n", pt.cex=1.5)
+		for (rob in robs) {
+			plot(NULL, xlim=c(0-0.2, length(robs)-1+0.2), ylim=c(0.005, 20), log="y", xlab="", ylab="", xaxt="n", yaxt="n")
+			mtext(paste0("Evolvability ", names(robs)[which(robs==rob)]), 2, xpd=NA, line=3)
+			axis(2, at=c(0.01,0.1,1,10))
+			if (rob == robs[length(robs)]) {
+				mtext("Cond. rob. components", 1, xpd=NA, line=3)
+				axis(1, at=0:(length(robs)-1))
+			}
+			trend <- NULL
+			for (i in 1:length(robs)) {
+				ee <- sapply(evolv.robs[[rob]], function(x) x[[i]])
+				nrep <- length(evolv.robs[[rob]])
+				rr <- rep(1:nrep, each=length(ee)/nrep)
+				points(i-1+rnorm(nrep, sd=0.1)[rr],  ee, col=rr)
+				trend <- c(trend, mean(ee))
+			 }
+			 lines(0:(length(robs)-1), trend)
+		}
+		for (rob in robs) {
+			plot(NULL, xlim=c(0-0.2, netsel.size+0.2), ylim=c(0.005, 20), log="y", xlab="", ylab="", xaxt="n", yaxt="n") 
+			if (rob == robs[length(robs)]) {
+				mtext("Cond. genes", 1, xpd=NA, line=3)
+				axis(1, at=0:netsel.size)
+			}
+			trend <- NULL
+			for (i in 1:(netsel.size+1)) {
+				ee <- sapply(evolv.phens[[rob]], function(x) x[[i]])
+				nrep <- length(evolv.phens[[rob]])
+				rr <- rep(1:nrep, each=length(ee)/nrep)
+				points(i-1+rnorm(nrep, sd=0.1)[rr],  ee, col=rr)
+				trend <- c(trend, mean(ee))
+			 }
+			 lines(0:netsel.size, trend)
+		}
 	
 	dev.off()
 }

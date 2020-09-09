@@ -90,7 +90,7 @@ ww <- c("fitness", "initenv", "lateenv","initmut","latemut", "stability")
 
 pdf("figL.pdf", width=10, height=14)
 	layout(matrix(1:(length(ww)*length(captions)), ncol=length(captions)))
-	par(mar=c(0.5, 0.5, 0.1, 0.1), oma=c(5, 4, 0, 0), xpd=FALSE)
+	par(mar=c(0.5, 0.5, 0.1, 0.1), oma=c(5, 4, 0, 0))
 	for (pp in names(captions)) {
 		for (what in ww) {
 			ls <- list.sim[grep(names(list.sim), pattern=paste0("ref\\.",pp,"\\d"))]

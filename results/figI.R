@@ -157,7 +157,7 @@ for (i1 in 1:(length(indx)-1))
 	}
 
 list.sim <- mclapply(torun, function(ff) 
-	pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob),	reps=reps, series.name=ff$series.names, force.run=force.run), 
+	pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob),	reps=reps, series.name=ff$series.name, force.run=force.run), 
 	mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
 

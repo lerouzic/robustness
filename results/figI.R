@@ -133,49 +133,32 @@ rel.response <- function(list.sim, r1, r2, what1, what2, G=NULL, normalize=FALSE
 }
 
 indx <- c(ie=1, le=2, im=3, lm=4, st=5)
+gradvec1 <- function(i, grd) c(rep(0, i-1), grd, rep(0, length(indx)-i))
+gradvec2 <- function(i1, i2, grd1, grd2) c(rep(0, i1-1), grd1, rep(0, i2-i1-1), grd2, rep(0, length(indx)-i2))
+
+
+# Make a list of simulation names and gradients
 
 torun <- list(
-	oo.o = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,0)), 
-		reps=reps, series.name="figG-null", force.run=force.run), 
-	ie.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,0,0)), 
-		reps=reps, series.name="figG-ie-m", force.run=force.run),
-	le.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,-grad.effect,0,0,0)), 
-		reps=reps, series.name="figG-le-m", force.run=force.run),
-	im.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,-grad.effect,0)), 
-		reps=reps, series.name="figG-lm-m", force.run=force.run),
-	lm.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,-grad.effect,0)), 
-		reps=reps, series.name="figG-lm-m", force.run=force.run),
-	st.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,-grad.effect)), 
-		reps=reps, series.name="figG-st-m", force.run=force.run),
-	ie.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,0,0)), 
-		reps=reps, series.name="figG-ie-p", force.run=force.run),
-	le.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,grad.effect,0,0,0)), 
-		reps=reps, series.name="figG-le-p", force.run=force.run),
-	im.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,grad.effect,0,0)), 
-		reps=reps, series.name="figG-im-p", force.run=force.run),
-	lm.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,grad.effect,0)), 
-		reps=reps, series.name="figG-lm-p", force.run=force.run),
-	st.p = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,grad.effect)), 
-		reps=reps, series.name="figG-st-p", force.run=force.run))
+	oo.o = list(series.name="figG-null", grad.rob=c(0,0,0,0,0)))
+for (i in indx) {
+	nm <- names(indx)[i]
+	torun[[paste(nm, "m", sep=".")]] <- list(series.name=paste("figG", nm, "m", sep="-"), grad.rob=gradvec1(i, -grad.effect))
+	torun[[paste(nm, "p", sep=".")]] <- list(series.name=paste("figG", nm, "p", sep="-"), grad.rob=gradvec1(i,  grad.effect))
+}
 for (i1 in 1:(length(indx)-1))
 	for (i2 in (i1+1):length(indx)) {
 		nm1 <- names(indx)[i1]
 		nm2 <- names(indx)[i2]
-		torun[[paste(nm1, nm2, "mm", sep=".")]] <- function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, 
-			grad.rob=c(rep(0, i1-1), -grad.effect, rep(0, i2-i1-1), -grad.effect, rep(0, length(indx)-i2))), 
-			reps=reps, series.name=paste("figI", nm1, nm2, "mm", sep="-"), force.run=force.run)
-		torun[[paste(nm1, nm2, "pm", sep=".")]] <- function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, 
-			grad.rob=c(rep(0, i1-1), grad.effect, rep(0, i2-i1-1), -grad.effect, rep(0, length(indx)-i2))), 
-			reps=reps, series.name=paste("figI", nm1, nm2, "pm", sep="-"), force.run=force.run)
-		torun[[paste(nm1, nm2, "mp", sep=".")]] <- function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, 
-			grad.rob=c(rep(0, i1-1), -grad.effect, rep(0, i2-i1-1), grad.effect, rep(0, length(indx)-i2))), 
-			reps=reps, series.name=paste("figI", nm1, nm2, "mp", sep="-"), force.run=force.run)
-		torun[[paste(nm1, nm2, "pp", sep=".")]] <- function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, 
-			grad.rob=c(rep(0, i1-1), grad.effect, rep(0, i2-i1-1), grad.effect, rep(0, length(indx)-i2))), 
-			reps=reps, series.name=paste("figI", nm1, nm2, "pp", sep="-"), force.run=force.run)
-}
+		torun[[paste(nm1, nm2, "mm", sep=".")]] <- list(series.name=paste("figI", nm1, nm2, "mm", sep="-"), grad.rob=gradvec2(i1, i2, -grad.effect, -grad.effect))
+		torun[[paste(nm1, nm2, "mp", sep=".")]] <- list(series.name=paste("figI", nm1, nm2, "mp", sep="-"), grad.rob=gradvec2(i1, i2, -grad.effect,  grad.effect))
+		torun[[paste(nm1, nm2, "pm", sep=".")]] <- list(series.name=paste("figI", nm1, nm2, "pm", sep="-"), grad.rob=gradvec2(i1, i2,  grad.effect, -grad.effect))
+		torun[[paste(nm1, nm2, "pp", sep=".")]] <- list(series.name=paste("figI", nm1, nm2, "pp", sep="-"), grad.rob=gradvec2(i1, i2,  grad.effect,  grad.effect))
+	}
 
-list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
+list.sim <- mclapply(torun, function(ff) 
+	pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob),	reps=reps, series.name=ff$series.names, force.run=force.run), 
+	mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
 
 

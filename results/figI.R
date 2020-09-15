@@ -69,7 +69,7 @@ allboxes <- function(list.sim, r1, r2, G=NULL, what="fitnesses", xlab=phen[what]
 geom.analysis <- function(list.sim, r1, r2, what1, what2, G=NULL, xlim=NULL, ylim=NULL, plot.grad=TRUE, means=TRUE, ..., ccol=setNames(rainbow(8), c("p1","pm","m2","mm","m1","mp","p2","pp"))) {
 	if (is.null(G)) G <- rev(names(list.sim[[1]]$mean))[1]
 	min.G <- names(list.sim[[1]]$mean)[1]
-	
+				
 	O.x <- mean(list.sim[["oo.o"]]$mean[[min.G]][[what1]])
 	O.y <- mean(list.sim[["oo.o"]]$mean[[min.G]][[what2]])
 	
@@ -84,8 +84,10 @@ geom.analysis <- function(list.sim, r1, r2, what1, what2, G=NULL, xlim=NULL, yli
 		mylist.sim2 <- lapply(mylist.sim2, mean)
 	}
 	
-	if (is.null(xlim)) xlim <- range(unlist(mylist.sim1))
+	xlim <- if (is.null(xlim)) range(unlist(mylist.sim1))
 	if (is.null(ylim)) ylim <- range(unlist(mylist.sim2))
+	
+
 	
 	plot(NULL, xlim=xlim, ylim=ylim, xlab=as.expression(phen[what1]), ylab=as.expression(phen[what2]), ...)
 	points(O.x, O.y, pch=1, cex=3, col="black")
@@ -98,18 +100,15 @@ geom.analysis <- function(list.sim, r1, r2, what1, what2, G=NULL, xlim=NULL, yli
 	text(sapply(mylist.sim1, mean), sapply(mylist.sim2, mean), names(mylist.sim1), pos=ifelse(sapply(mylist.sim1, mean) > O.x, 2, 4))
 }
 
-rel.response <- function(list.sim, r1, r2, what1, what2, G=NULL, normalize=FALSE) {
-	if (is.null(G)) G <- rev(names(list.sim[[1]]$mean))[1]
+
+rel.response.onesim <- function(mm, mp, pm, pp, what1, what2, G=NULL, normalize=FALSE) {
+	if (is.null(G)) G <- rev(names(mm))[1]
 	
-	ssim <- c(paste(r1, r2, c("mm","mp","pm","pp"), sep="."))
-	mylist.sim1 <- lapply(list.sim[ssim], function(x) sapply(x$full, function(xx) mean(xx[[G]][[what1]])))
-	mylist.sim2 <- lapply(list.sim[ssim], function(x) sapply(x$full, function(xx) mean(xx[[G]][[what2]])))
-	
-	# Four data points are necessary
-	allpoints <- rbind(	mm = c(mean(mylist.sim1[[paste(r1, r2,"mm", sep=".")]]), mean(mylist.sim2[[paste(r1, r2,"mm", sep=".")]])),
-						mp = c(mean(mylist.sim1[[paste(r1, r2,"mp", sep=".")]]), mean(mylist.sim2[[paste(r1, r2,"mp", sep=".")]])),
-						pm = c(mean(mylist.sim1[[paste(r1, r2,"pm", sep=".")]]), mean(mylist.sim2[[paste(r1, r2,"pm", sep=".")]])),
-						pp = c(mean(mylist.sim1[[paste(r1, r2,"pm", sep=".")]]), mean(mylist.sim2[[paste(r1, r2,"pm", sep=".")]])))
+	allpoints <- rbind( mm = c(mean(mm[[G]][[what1]]), mean(mm[[G]][[what2]])), 
+						mp = c(mean(mp[[G]][[what1]]), mean(mp[[G]][[what2]])), 
+						pm = c(mean(pm[[G]][[what1]]), mean(pm[[G]][[what2]])), 
+						pp = c(mean(pp[[G]][[what1]]), mean(pp[[G]][[what2]])))
+						
 	if (normalize) {
 		allpoints[,1] <- allpoints[,1]-allpoints["mm",1]
 		allpoints[,2] <- allpoints[,2]-allpoints["mm",2]
@@ -129,7 +128,26 @@ rel.response <- function(list.sim, r1, r2, what1, what2, G=NULL, normalize=FALSE
 	
 	dist.mm.pp <- sqrt((allpoints["mm",1]-allpoints["pp",1])^2 + (allpoints["mm",2] - allpoints["pp",2])^2)
 	dist.mp.pm <- sqrt((mpp.x - pmp.x)^2 + (mpp.y - pmp.y)^2)
-	return(c(max.dist=dist.mm.pp, min.dst=dist.mp.pm, ratio=dist.mp.pm/dist.mm.pp))
+	return(c(max.dist=dist.mm.pp, min.dst=dist.mp.pm, ratio=dist.mp.pm/dist.mm.pp))		 
+}
+
+rel.response <- function(list.sim, r1, r2, what1, what2, G=NULL, normalize=FALSE) {
+	
+	ssim <- c(paste(r1, r2, c("mm","mp","pm","pp"), sep="."))
+	
+	if (any(!ssim %in% names(list.sim))) return(list(mean.ratio=NA, sd.ratio=NA, se.ratio=NA))
+	
+	# loop over replicates
+	rep <- length(list.sim[[ssim[1]]]$full)
+	ans <- lapply(1:rep, function(i) 
+		rel.response.onesim(mm = list.sim[[ssim[1]]]$full[[i]], 
+		                    mp = list.sim[[ssim[2]]]$full[[i]], 
+		                    pm = list.sim[[ssim[3]]]$full[[i]], 
+		                    pp = list.sim[[ssim[4]]]$full[[i]],
+		                    what1=what1, what2=what2, G=G, normalize=normalize))
+	
+	rat <- sapply(ans, "[", "ratio.mp")
+	list(mean.ratio = mean(rat), sd.ratio = sd(rat), se.ratio = sd(rat)/sqrt(rep))
 }
 
 indx <- c(ie=1, le=2, im=3, lm=4, st=5)
@@ -156,14 +174,30 @@ for (i1 in 1:(length(indx)-1))
 		torun[[paste(nm1, nm2, "pp", sep=".")]] <- list(series.name=paste("figI", nm1, nm2, "pp", sep="-"), grad.rob=gradvec2(i1, i2,  grad.effect,  grad.effect))
 	}
 
-list.sim <- mclapply(torun, function(ff) 
+list.sim <- mclapply(torun[c(1:11, 20:23,32:35)], function(ff) 
 	pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob),	reps=reps, series.name=ff$series.name, force.run=force.run), 
 	mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
 
+indwhat <- c(ie="initenv", le="lateenv", im="initmut", lm="latemut", st="stability")
+tt <- matrix("", ncol=length(indwhat)-1, nrow=length(indwhat)-1)
+colnames(tt) <- names(indwhat)[1:(length(indwhat)-1)]
+rownames(tt) <- names(indwhat)[2:length(indwhat)]
 
-geom.analysis(list.sim, "le","lm", what1="initenv", what2="initmut")
-rel.response(list.sim, "le","lm", what1="initenv", what2="initmut")
+for (i1 in 1:(length(indwhat)-1))
+	for (i2 in(i1+1):length(indwhat)) {
+		n1 <- names(indwhat)[i1]
+		n2 <- names(indwhat)[i2]
+		rr <- rel.response(list.sim, n1, n2, indwhat[i1], indwhat[i2], normalize=FALSE)
+		tt[n2, n1] <- paste0(round(rr$mean.ratio, digits=2), " +/- ", round(rr$sd.ratio, digits=2))
+	}
+
+
+
+geom.analysis(list.sim, "le","lm", what1="lateenv", what2="latemut")
+rel.response(list.sim, "le","lm", what1="lateenv", what2="latemut")
+
+
 
 pdf("figI.pdf", width=8, height=12) 
 	layout(rbind(1:2,3:4,5:6,7:8))

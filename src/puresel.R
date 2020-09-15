@@ -76,7 +76,7 @@ puresel <- function(W0, theta, a=0.2, s=10, grad.rob=rep(0, 5), N=1000, rep=100,
 			} else { rep(0, nrow(W0)) }
 			)))
 		pop <- lapply(pop, function(i) c(i, list(fitness=fitness(i, theta=renorm(theta+plastic)))))
-		if (gg==1 || gg %% summary.every == 0) mpop[[as.character(gg)]] <- meanpop(pop)
+		if (gg==1 || gg %% summary.every == 0) mpop[[as.character(gg)]] <- meanpop(pop)
 		pop <- lapply(pop[sample(seq_along(pop), N, replace=TRUE, prob=sapply(pop, "[", "fitness"))], function(i) list(W=i$W))
 	}
 	mpop

@@ -335,6 +335,8 @@ These indicators were chosen based on the possibility to measure them in numeric
 
 Some popular measurements of developmental robustness were not considered here for technical reasons. For instance, fluctuating asymetry (the variance between the same phenotypic trait measured in the right and the left body parts of symmetric organisms) is a convenient measurement of microenvironmental effects on the development \citep{DD01,LK05}, but it has no equivalent at the level of gene expression in a regulation network. The deterministic sensitivity to a directional environmental gradient could also be used to measure phenotypic plasticity, which is central to the question of phenotypic robustness. Yet, there are several ways to model phenotypic plasticity in a gene network \citep{Mas04,ORL18}, and it requires a specific selection setup (different expression optimums as a function of the environment). Because of this additional complexity, phenotypic plasticity was excluded from the focus of this work, although the evolution of plasticity of gene expression remains an intriguing and fundamental question. In particular, phenotypic plasticity (i.e. an adaptive lack of robustness to some environmental signal) may itself be canalized to genetic or other environmental disturbances \citep{SK94}, which raises uncomfortable questions about robustness properties of the genetic architecture of robustness itself.  
 
+\section*{Acknowledgements}
+
 
 
 \printbibliography
@@ -359,7 +361,7 @@ Some popular measurements of developmental robustness were not considered here f
 	\includegraphics[width=15cm]{../results/figS1}
 	\end{flushright}
 
-	\color{Gray} Correlations between all five robustness components among 10,000 random 10-gene networks ($\mu_0=-0.2, \sigma_0=1.2$). 
+	\color{Gray} Correlations between all five robustness components among 10,000 random 6-gene networks ($\mu_0=0, \sigma_0=1$). 
 	\end{adjustwidth}
 
   \clearpage
@@ -368,11 +370,11 @@ Some popular measurements of developmental robustness were not considered here f
     \subsection*{Sampling effects on Principal Components}
     
 	\begin{center}
-	\includegraphics[width=6cm]{../results/figS2}
+	\includegraphics[width=12cm]{../results/figS2}
 	\end{center}    
 
 	{\color{Gray} Influence of the sampling effect (number of networks and number of replicates $R$ to estimate robustness) on the relative
-	weight of the principal components. All PCs except the last one are robust to sampling size. }
+	weight of the principal components. All PCs except the last one are robust to sampling. }
 
 
   \clearpage
@@ -401,7 +403,7 @@ Some popular measurements of developmental robustness were not considered here f
     \label{supp:whyitfails}
     \subsection*{Reasons for not reaching the desired equilibrium}
 	\begin{center}
-	\includegraphics[width=6cm]{../results/figS4}
+	\includegraphics[width=8cm]{../results/figS4}
 	\end{center}
 	
 	{\color{Gray} Although equation~\ref{eq:predef} guarantees that an equilibrium exists at the target phenotypic expression, the equilibrium might not reachable in practice when simulating the gene network dynamics. The colored area in the figure corresponds to networks that failed to produced the target phenotype, each color representing a distinct reason; Yellow: network dynamics was slow and the final gene expression has not been reached yet after 16 time steps; Gray: an alternative equilibrium was reached (most of the time implying that one or both genes are either completely silenced to fully expressed). Red: The network steady state featured oscillations that were so large that they hit the maximum or minimum expression, shifting the average expression away from the target expression. }
@@ -426,7 +428,7 @@ Some popular measurements of developmental robustness were not considered here f
     \label{supp:sensitmag}
     \subsection*{Sensitivity of the robustness measurements to the magnitude of the disturbance}
 	\begin{center}
-	\includegraphics[width=5cm]{../results/figS6}
+	\includegraphics[width=8cm]{../results/figS6}
 	\end{center}
 	{\color{Gray} Four out of five robustness indicators ($\earlyenv$, $\lateenv$, $\earlymut$, $\latemut$) depend on the magnitude of the disturbance. The figure displays the influence of the size of the disturbance on the robustness measurement (left: random networks, right: evolved networks). Robustness scores appear very reliable for evolved networks (the rank of different genotypes in terms of robustness does not depend on the size of the disturbance), while the picture is more messy for random networks, which can be differentially robust to large or small disturbances. }
 

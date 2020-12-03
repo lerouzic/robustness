@@ -40,7 +40,7 @@ allplots <- function(list.sim, r1, r2, what="fitnesses", ylab=as.expression(phen
 		mylist.sim[[relative]] <- NULL
 	}
 	if (is.null(xlim)) xlim <- range(G)
-	if (is.null(ylim)) ylim <- range(unlist(mylist.sim))
+	if (is.null(ylim)) ylim <- range(unlist(mylist.sim), na.rm=TRUE)
 	plot(NULL, xlim=xlim, ylim=ylim, ylab=ylab, xlab=xlab, ...)
 	for (ni in names(mylist.sim)) {
 		sp <- strsplit(ni, split="\\.")[[1]]
@@ -134,7 +134,7 @@ rel.response.onesim <- function(mm, mp, pm, pp, what1, what2, G=NULL, normalize=
 rel.response <- function(list.sim, r1, r2, what1, what2, G=NULL, normalize=FALSE) {
 	
 	ssim <- c(paste(r1, r2, c("mm","mp","pm","pp"), sep="."))
-	
+		
 	if (any(!ssim %in% names(list.sim))) return(list(mean.ratio=NA, sd.ratio=NA, se.ratio=NA))
 	
 	# loop over replicates
@@ -174,7 +174,7 @@ for (i1 in 1:(length(indx)-1))
 		torun[[paste(nm1, nm2, "pp", sep=".")]] <- list(series.name=paste("figI", nm1, nm2, "pp", sep="-"), grad.rob=gradvec2(i1, i2,  grad.effect,  grad.effect))
 	}
 
-list.sim <- mclapply(torun[c(1:11, 20:23,32:35)], function(ff) 
+list.sim <- mclapply(torun, function(ff) 
 	pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob),	reps=reps, series.name=ff$series.name, force.run=force.run), 
 	mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 

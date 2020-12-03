@@ -98,15 +98,19 @@ resrobs <- lapply(allrobs, function(robs) eigenV(reps, robs, Wstyle))
 pdf(paste0("figS2.pdf"), width=8, height=4)
 	layout(t(1:2))
 	
-	plot(NULL, xlim=c(0.4,1)*range(allreps), ylim=c(1e-3,1), log="xy", xlab="Number of simulated networks", ylab="Proportion variance explained")
+	plot(NULL, xlim=c(0.4,1)*range(allreps), ylim=c(1e-3,1), log="xy", xlab="Number of simulated networks", ylab="Proportion variance explained", yaxt="n", xaxt="n")
 	for (i in 1:5)
 		lines(allreps, sapply(resreps, function(r) r[i]), col=cols[i], type="o", pch=16)
 	text(allreps[1], resreps[[1]], col=cols, pos=2, paste0("PC", seq_along(cols)))
+	axis(2, at=c(0.001,0.01,0.1,1), labels=c("0.1%", "1%", "10%", "100%"))
+	axis(1, at=c(100, 1000, 10000))
 	
-	plot(NULL, xlim=c(0.2,1)*range(allrobs), ylim=c(1e-3,1), log="xy", xlab="Number of robustness tests", ylab="Proportion variance explained")
+	plot(NULL, xlim=c(0.2,1)*range(allrobs), ylim=c(1e-3,1), log="xy", xlab="Number of robustness tests", ylab="Proportion variance explained", yaxt="n", xaxt="n")
 	for (i in 1:5)
 		lines(allrobs, sapply(resrobs, function(r) r[i]), col=cols[i], type="o", pch=16)
 	text(allrobs[1], resrobs[[1]], col=cols, pos=2, paste0("PC", seq_along(cols)))	
+	axis(2, at=c(0.001,0.01,0.1,1), labels=c("0.1%", "1%", "10%", "100%"))
+	axis(1, at=c(10, 1000, 100000), labels=c("10", "1000", "100000"))
 	
 dev.off()
 

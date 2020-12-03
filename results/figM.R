@@ -84,13 +84,16 @@ plotW <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL, type="l
 }
 
 
-# Random W matrices
 
-allW <- lapply(1:reps, function(i) randW(size=net.size, density=density, mean=reg.mean, sd=reg.sd))
-alltests <- mclapply(allW, test.W, mc.cores=mc.cores)
 
-pdf("figM-random.pdf", width=3, height=12)
-	layout(matrix(1:4, ncol=1))
+pdf("figM.pdf", width=6, height=12)
+	layout(matrix(1:8, ncol=2))
+	par(mar=c(4,4,3,0.5))
+
+	# Random W matrices
+
+	allW <- lapply(1:reps, function(i) randW(size=net.size, density=density, mean=reg.mean, sd=reg.sd))
+	alltests <- mclapply(allW, test.W, mc.cores=mc.cores)
 	
 	for (tt in seq_along(alltests)) 
 		plotW(alltests[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
@@ -109,27 +112,22 @@ pdf("figM-random.pdf", width=3, height=12)
 		plotW(alltests[[tt]], what="latemut", add=tt>1, col=tt, ylim=c(-40,-3))
 	abline(v=default.latemut.sd, lty=3, col="darkgray")
 
-dev.off()
 
-
-# Evolved W matrices (from reference simulations, figG-null)
-
-pattern <- 'figG-null-\\d+.rds'
-gen <- NA
-
-allW <- lapply(
-	sample(list.files(path="../cache", pattern=pattern, full.names=TRUE), reps, replace=FALSE), 
-	function(ff) {
-		ss <- readRDS(ff)
-		if (is.na(gen) || !as.character(gen) %in% names(ss)) gen <- names(ss)[length(ss)]
-		ss[[as.character(gen)]]$W
-	})
-
-alltests <- mclapply(allW, test.W, mc.cores=mc.cores)
-
-pdf("figM-evolved.pdf", width=3, height=12)
-	layout(matrix(1:4, ncol=1))
+	# Evolved W matrices (from reference simulations, figG-null)
 	
+	pattern <- 'figG-null-\\d+.rds'
+	gen <- NA
+	
+	allW <- lapply(
+		sample(list.files(path="../cache", pattern=pattern, full.names=TRUE), reps, replace=FALSE), 
+		function(ff) {
+			ss <- readRDS(ff)
+			if (is.na(gen) || !as.character(gen) %in% names(ss)) gen <- names(ss)[length(ss)]
+			ss[[as.character(gen)]]$W
+		})
+	
+	alltests <- mclapply(allW, test.W, mc.cores=mc.cores)
+
 	for (tt in seq_along(alltests)) 
 		plotW(alltests[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
 	abline(v=default.initenv.sd, lty=3, col="darkgray")
@@ -148,4 +146,3 @@ pdf("figM-evolved.pdf", width=3, height=12)
 	abline(v=default.latemut.sd, lty=3, col="darkgray")
 
 dev.off()
-		

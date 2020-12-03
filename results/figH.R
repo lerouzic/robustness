@@ -14,7 +14,7 @@ cache.dir <- "../cache"
 if (!dir.exists(cache.dir)) dir.create(cache.dir)
 
 use.cache <- TRUE
-Wtoconsider <- c("random", "evolved", "randevol")
+Wstyle <- "random" # Possible: "random", "evolved", "randevol"
 
 a               <- default.a        
 dev.steps       <- default.dev.steps
@@ -90,24 +90,23 @@ eigenV <- function(reps, rob.reps, Wstyle) {
 	prp$sdev^2/(sum(prp$sdev^2))
 }
 
-for (Wstyle in Wtoconsider) {
-	# Technically, this sounds pretty useless: it would be way more efficient to run the max number of replicates and sample them for lower
-	# counts. Yet, the current code is simpler, and avoids correlations among samples. 
-	resreps <- lapply(allreps, function(rreps) eigenV(rreps, default.rob.reps, Wstyle))
-	resrobs <- lapply(allrobs, function(robs) eigenV(reps, robs, Wstyle))
+# Technically, this sounds pretty useless: it would be way more efficient to run the max number of replicates and sample them for lower
+# counts. Yet, the current code is simpler, and avoids correlations among samples. 
+resreps <- lapply(allreps, function(rreps) eigenV(rreps, default.rob.reps, Wstyle))
+resrobs <- lapply(allrobs, function(robs) eigenV(reps, robs, Wstyle))
 
-	pdf(paste0("figH-", Wstyle, ".pdf"), width=8, height=4)
-		layout(t(1:2))
-		
-		plot(NULL, xlim=c(0.4,1)*range(allreps), ylim=c(1e-3,1), log="xy", xlab="Number of simulated networks", ylab="Proportion variance explained")
-		for (i in 1:5)
-			lines(allreps, sapply(resreps, function(r) r[i]), col=cols[i], type="o", pch=16)
-		text(allreps[1], resreps[[1]], col=cols, pos=2, paste0("PC", seq_along(cols)))
-		
-		plot(NULL, xlim=c(0.2,1)*range(allrobs), ylim=c(1e-3,1), log="xy", xlab="Number of robustness tests", ylab="Proportion variance explained")
-		for (i in 1:5)
-			lines(allrobs, sapply(resrobs, function(r) r[i]), col=cols[i], type="o", pch=16)
-		text(allrobs[1], resrobs[[1]], col=cols, pos=2, paste0("PC", seq_along(cols)))	
-		
-	dev.off()
-}
+pdf(paste0("figH.pdf"), width=8, height=4)
+	layout(t(1:2))
+	
+	plot(NULL, xlim=c(0.4,1)*range(allreps), ylim=c(1e-3,1), log="xy", xlab="Number of simulated networks", ylab="Proportion variance explained")
+	for (i in 1:5)
+		lines(allreps, sapply(resreps, function(r) r[i]), col=cols[i], type="o", pch=16)
+	text(allreps[1], resreps[[1]], col=cols, pos=2, paste0("PC", seq_along(cols)))
+	
+	plot(NULL, xlim=c(0.2,1)*range(allrobs), ylim=c(1e-3,1), log="xy", xlab="Number of robustness tests", ylab="Proportion variance explained")
+	for (i in 1:5)
+		lines(allrobs, sapply(resrobs, function(r) r[i]), col=cols[i], type="o", pch=16)
+	text(allrobs[1], resrobs[[1]], col=cols, pos=2, paste0("PC", seq_along(cols)))	
+	
+dev.off()
+

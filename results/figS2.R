@@ -95,7 +95,7 @@ eigenV <- function(reps, rob.reps, Wstyle) {
 resreps <- lapply(allreps, function(rreps) eigenV(rreps, default.rob.reps, Wstyle))
 resrobs <- lapply(allrobs, function(robs) eigenV(reps, robs, Wstyle))
 
-pdf(paste0("figH.pdf"), width=8, height=4)
+pdf(paste0("figS2.pdf"), width=8, height=4)
 	layout(t(1:2))
 	
 	plot(NULL, xlim=c(0.4,1)*range(allreps), ylim=c(1e-3,1), log="xy", xlab="Number of simulated networks", ylab="Proportion variance explained")

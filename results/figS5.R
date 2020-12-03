@@ -80,7 +80,7 @@ illustrate.lateenv <- function(W, rep=20, ...) {
 
 
 
-pdf("figD.pdf", width=12, height=12)
+pdf("figS5.pdf", width=12, height=12)
 	layout(matrix(1:(4*nrow(stud)), ncol=4, byrow=TRUE))
 	par(mar=c(0,0,0,0)+0.2, oma=c(4, 4, 4, 0), xpd=NA)
 	

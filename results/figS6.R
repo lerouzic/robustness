@@ -86,7 +86,7 @@ plotW <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL, type="l
 
 
 
-pdf("figM.pdf", width=6, height=12)
+pdf("figS6.pdf", width=6, height=12)
 	layout(matrix(1:8, ncol=2))
 	par(mar=c(4,4,3,0.5))
 

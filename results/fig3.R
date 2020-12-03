@@ -79,7 +79,7 @@ torun <- list(
 list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
 
-pdf("figG.pdf", width=12, height=8)
+pdf("fig3.pdf", width=12, height=8)
 	layout(rbind(1:3,4:6))
 	par(cex=1, mar=c(5, 2, 4, 1))
 	allplots(list.sim, what="initenv", focal=c("oo","ie"))

@@ -107,14 +107,14 @@ if (!use.cache || !file.exists(cache.file)) {
 	res <- readRDS(cache.file)
 }
 
-pdf("figC.pdf", width=9, height=6)
+pdf("fig2.pdf", width=9, height=6)
 	layout(rbind(1:3, c(4:5, 0)))
 	mm <- difftarget(res, target) > difftarget.thresh
 	for (ppp in names(phen))
 		plotres(res, ppp, stud, mask=mm, contour=TRUE)
 dev.off()
 
-pdf("figCs.pdf", width=4, height=4)
+pdf("figS4.pdf", width=4, height=4)
 	zz <- matrix(res$WIF, nrow=sqrt(nrow(res)))
 	zz[zz==-1] <- 2 # When stuck to the border, this is still an alternative equilibrium
 	cc <- c('On target' = "white", 'Still changing'="yellow", 'Alternative eq.'="gray", 'Large osc.'="red")

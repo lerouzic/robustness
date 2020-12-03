@@ -43,7 +43,7 @@ dd <- NULL
 dd <- if (file.exists(cache.file)) readRDS(cache.file)
 if (is.null(dd)) stop("Unable to find the data file", cache.file)
 
-pdf(paste0("figB.pdf"), width=7, height=5)
+pdf(paste0("fig1.pdf"), width=7, height=5)
 	rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(names(phen), function(ppp) whattoconsider(ddd[[ppp]]))))
 	prp <- prcomp(rrr, scale.=TRUE)
 	myplot.prcomp(prp)

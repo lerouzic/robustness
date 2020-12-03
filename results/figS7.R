@@ -88,7 +88,7 @@ list.sim <- mclapply(torun, function(ff) eval(ff)(), mc.cores=min(length(torun),
 ylims <- list(fitness=c(0.8,1), initenv=c(-44,-15), lateenv=c(-25,0), initmut=c(-13,-4), latemut=c(-13,-5), stability=c(-44,-12))
 ww <- c("fitness", "initenv", "lateenv","initmut","latemut", "stability")
 
-pdf("figL.pdf", width=10, height=14)
+pdf("figS7.pdf", width=10, height=14)
 	layout(matrix(1:(length(ww)*length(captions)), ncol=length(captions)))
 	par(mar=c(0.5, 0.5, 0.1, 0.1), oma=c(5, 4, 0, 0))
 	for (pp in names(captions)) {

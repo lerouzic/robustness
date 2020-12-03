@@ -94,7 +94,7 @@ lp <- length(phen)
 mm <- matrix(0, ncol=lp-1, nrow=lp-1)
 mm[lower.tri(mm, diag=TRUE)] <- 1:(lp*(lp-1)/2)
 
-pdf(paste0("figA.pdf"), width=10, height=10)
+pdf(paste0("figS1.pdf"), width=10, height=10)
 	layout(mm)
 	par(mar=0.1+c(0,0,0,0), oma=c(4,5,0,0))
 	for (ii in 1:(lp-1)) {

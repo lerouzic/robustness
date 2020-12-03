@@ -28,7 +28,7 @@ set.seed(0123456) # Making sure to get a reproducible example
 
 W <- randW(net.size, rand.mean, rand.sd, rand.density)
 
-pdf("figP.pdf", height=3, width=3*length(n.mut))
+pdf("figS8.pdf", height=3, width=3*length(n.mut))
 layout(t(seq_along(n.mut)))
 for (nn in n.mut) {
 	plot(NULL, xlab="Expression gene 1", ylab="Expression gene 2", xlim=0:1, ylim=0:1, main=paste0(nn, " mutation", if(nn>1) "s" else ""))

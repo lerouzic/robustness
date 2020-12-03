@@ -86,9 +86,9 @@ plotW <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL, type="l
 
 
 
-pdf("figS6.pdf", width=6, height=12)
+pdf("figS6.pdf", width=4, height=6)
 	layout(matrix(1:8, ncol=2))
-	par(mar=c(4,4,3,0.5))
+	par(mar=c(4,4,0.5,0.5), oma=c(0,0,3,0))
 
 	# Random W matrices
 
@@ -98,7 +98,7 @@ pdf("figS6.pdf", width=6, height=12)
 	for (tt in seq_along(alltests)) 
 		plotW(alltests[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
 	abline(v=default.initenv.sd, lty=3, col="darkgray")
-	title("Random networks")
+	title("Random networks", xpd=NA)
 		
 	for (tt in seq_along(alltests)) 
 		plotW(alltests[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-40,-3))		
@@ -131,7 +131,7 @@ pdf("figS6.pdf", width=6, height=12)
 	for (tt in seq_along(alltests)) 
 		plotW(alltests[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
 	abline(v=default.initenv.sd, lty=3, col="darkgray")
-	title("Evolved networks")
+	title("Evolved networks", xpd=NA)
 		
 	for (tt in seq_along(alltests)) 
 		plotW(alltests[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-25,-3))		

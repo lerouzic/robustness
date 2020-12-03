@@ -267,7 +267,7 @@ Correlations were calculated between all five robustness components over 10,000 
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=10cm]{../results/figB-random}
+\includegraphics[width=10cm]{../results/fig1}
 \caption{\color{Gray} \label{fig:pca} Summary of the principal component analysis on the five robustness components over 10,000 random 6-gene networks ($\mu_0=0, \sigma_0=1$). Left: position of the five robustness components on all five (normalized) Principal Components (PC); $\stability$: Stability, $\earlyenv$: Early environmental, $\lateenv$: Late environmental, $\earlymut$: Early genetic, $\latemut$: Late genetic. Right: relative contribution of the five PCs to the total variance.}
 \end{center}
 \end{figure}
@@ -279,7 +279,7 @@ In the following, I considered the particular case of $\bm P_\infty$ = (0.3, 0.6
 \begin{figure}[t]
 \begin{adjustwidth}{-1in}{0in}
 \begin{flushright}
-\includegraphics[width=15cm]{../results/figC}
+\includegraphics[width=15cm]{../results/fig2}
 \caption{\color{Gray} \label{fig:imgpanels} Robustness indicators ($\stability$, $\earlyenv$, $\lateenv$, $\earlymut$, $\latemut$) estimated for an exhaustive continuum of two-gene networks with an arbitrary expression equilibrium at $\bm P_\infty = (0.3, 0.6)$. Although two-gene networks have four independent genetic parameters, only two are represented here, the two others being computed to ensure the desired equilibrium. Red stands for the maximum robustness (lowest scores); yellow for minimum robustness (highest scores). For readability, color scales are different across panels. Letters A to E stand for five example networks illustrated in \SupMat~\ref{supp:simpanels}.}
 \end{flushright}\end{adjustwidth}
 \end{figure}
@@ -300,7 +300,7 @@ Selection on all robustness components also lead to an indirect response of all 
 \begin{figure}[t]
 \begin{adjustwidth}{-1in}{0in}
 \begin{flushright}
-\includegraphics[width=15cm]{../results/figG}
+\includegraphics[width=15cm]{../results/fig3}
 \caption{\color{Gray} \label{fig:evol} The evolution of all five robustness indicators (five figure panels) was recorded for 10,000 generations in individual-based simulations. The figures show the average robustness over 20 replicated simulations. The control simulations (black circles) correspond to stabilizing selection only. Colored symbols correspond to simulations in which various robusntess indicators were selected up or down (upward or downward triangles). Bold-faced symbols indicate the result of direct selection (the robustness indicator displayed in the panel was directly selected), while thin symbols stand for indirect selection (the response is the result of selection on another indicator, which can be identified based on its color). }
 \end{flushright}\end{adjustwidth}
 \end{figure}
@@ -309,7 +309,7 @@ These differences in selection responses can be attributed to differences in mut
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=8cm]{../results/figJ-evolved}
+%~ \includegraphics[width=8cm]{../results/figJ-evolved}
 \caption{\color{Gray} \label{fig:evolvability} Estimation of the conditional evolvability (mutational variance) of all five robustness indicators in gene networks at mutation-selection-drift equilibrium (average genotype at genetation 10,000 in populations under stabilizing selection, corresponding to black circles in Figure~\ref{fig:evol}). The figure displays conditional evolvability over one to all robustness components (left) and over gene expression (right) (i.e.\ the possibility to change robustness without affecting fitness under stabilizing selection on gene expression). Black lines correspond to averages, colors indicate different genetic architectures from independent simulations.  }
 \end{center}
 \end{figure}
@@ -356,11 +356,23 @@ Some popular measurements of developmental robustness were not considered here f
     \subsection*{Correlations among robustness indexes}
 	\begin{adjustwidth}{-1in}{0in}
 	\begin{flushright}
-	\includegraphics[width=15cm]{../results/figA}
+	\includegraphics[width=15cm]{../results/figS1}
 	\end{flushright}
 
 	\color{Gray} Correlations between all five robustness components among 10,000 random 10-gene networks ($\mu_0=-0.2, \sigma_0=1.2$). 
 	\end{adjustwidth}
+
+  \clearpage
+  \section{}
+    \label{supp:PC}
+    \subsection*{Sampling effects on Principal Components}
+    
+	\begin{center}
+	\includegraphics[width=6cm]{../results/figS2}
+	\end{center}    
+
+	{\color{Gray} Influence of the sampling effect (number of networks and number of replicates $R$ to estimate robustness) on the relative
+	weight of the principal components. All PCs except the last one are robust to sampling size. }
 
 
   \clearpage
@@ -389,7 +401,7 @@ Some popular measurements of developmental robustness were not considered here f
     \label{supp:whyitfails}
     \subsection*{Reasons for not reaching the desired equilibrium}
 	\begin{center}
-	\includegraphics[width=6cm]{../results/figCs}
+	\includegraphics[width=6cm]{../results/figS4}
 	\end{center}
 	
 	{\color{Gray} Although equation~\ref{eq:predef} guarantees that an equilibrium exists at the target phenotypic expression, the equilibrium might not reachable in practice when simulating the gene network dynamics. The colored area in the figure corresponds to networks that failed to produced the target phenotype, each color representing a distinct reason; Yellow: network dynamics was slow and the final gene expression has not been reached yet after 16 time steps; Gray: an alternative equilibrium was reached (most of the time implying that one or both genes are either completely silenced to fully expressed). Red: The network steady state featured oscillations that were so large that they hit the maximum or minimum expression, shifting the average expression away from the target expression. }
@@ -404,7 +416,7 @@ Some popular measurements of developmental robustness were not considered here f
 
 	\begin{adjustwidth}{-1in}{0in}
 	\begin{flushright}
-	\includegraphics[width=15cm]{../results/figD}
+	\includegraphics[width=15cm]{../results/figS5}
 	\end{flushright}
 	\color{Gray} The figure displays a subset of the replicated tests for four robustness indexes. Columns A to E correspond to the five networks described in \SupMat~\ref{supp:W}. In each panel, the default (undisturbed) network kinetics is displayed as plain lines (black for gene~1, red for gene~2). By construction, all networks have an equilibrium at (0.3, 0.6). The network stability can be assessed from the amplitude of the cycles in the undisturbed kinetics. Network homeostasis (first line) was estimated by disturbing the expression state of the genes (for readability, the network response was expanded over several time steps). Environmental canalization (second line) was estimated by disturbing the initial state (semi-transparent lines). Genetic canalization (third line) was measured as the variance in the final state when mutating the network at the beginning of the development. Finally, the robustness to late mutations (last line) consisted in mutating the network after having reached the equilibrium.
 	\end{adjustwidth}
@@ -414,7 +426,7 @@ Some popular measurements of developmental robustness were not considered here f
     \label{supp:sensitmag}
     \subsection*{Sensitivity of the robustness measurements to the magnitude of the disturbance}
 	\begin{center}
-	\includegraphics[width=5cm]{../results/figM-random} \includegraphics[width=5cm]{../results/figM-evolved}
+	\includegraphics[width=5cm]{../results/figS6}
 	\end{center}
 	{\color{Gray} Four out of five robustness indicators ($\earlyenv$, $\lateenv$, $\earlymut$, $\latemut$) depend on the magnitude of the disturbance. The figure displays the influence of the size of the disturbance on the robustness measurement (left: random networks, right: evolved networks). Robustness scores appear very reliable for evolved networks (the rank of different genotypes in terms of robustness does not depend on the size of the disturbance), while the picture is more messy for random networks, which can be differentially robust to large or small disturbances. }
 
@@ -424,7 +436,7 @@ Some popular measurements of developmental robustness were not considered here f
     \label{supp:explo}
     \subsection*{Exploration of the parameter set}
 	\begin{center}
-	\includegraphics[width=12cm]{../results/figL} 
+	\includegraphics[width=12cm]{../results/figS7} 
 	\end{center}
 	
 	{\color{Gray}Influence of various simulation parameters (mutation rate $\mu$, population size $N$, total number of genes $n$, number of selected genes $n^\prime$, and strenght of selection $s$) on fitness and robustness indexes at equilibrium. The figure reports the mean $\pm$ standard deviation across 20 replicated simulations. Vertical dotted lines stand for the default parameter values in the simulations. }
@@ -434,7 +446,7 @@ Some popular measurements of developmental robustness were not considered here f
     \label{supp:mutdist}
     \subsection*{Distribution of mutational effects}
 	\begin{center}
-	\includegraphics[width=12cm]{../results/figP} 
+	\includegraphics[width=12cm]{../results/figS8} 
 	\end{center}
 	
 	{\color{Gray}Distribution of mutational effects in the multivariate space of gene expressions. Due to the constraints from the gene network dynamics, mutations are generally not smoothly distributed in the phenotypic space (the blue ring locates the original genotype). The example shows the distribution of the mutant phenotypes in a random 6-gene network of density 0.5. Increasing the number of mutations enlarged the set of phenotypic dimensions that can be achieved.}

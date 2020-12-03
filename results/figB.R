@@ -5,7 +5,7 @@
 source("./terminology.R")
 source("./defaults.R")
 
-Wtoconsider <- c("random", "evolved" ,"randevol")
+Wstyle <- "random" # Possible: "random", "evolved" ,"randevol"
 whattoconsider <- function(x) mean(x) # the average index for all genes
 
 phen <- phen.expression      # from terminology.R    
@@ -36,17 +36,15 @@ myplot.prcomp <- function(pr, labels=default.labels, cols=default.cols) {
     arrows(x0=seq(20, 80, 20), y0=1, y1=max(bb), col="gray", lty=3, length=0)
 }
 
-for (Wstyle in Wtoconsider) {
-	
-	cache.file <- paste0(cache.dir, "/figA-", Wstyle, ".rds")
-	
-	dd <- NULL
-	dd <- if (file.exists(cache.file)) readRDS(cache.file)
-	if (is.null(dd)) stop("Unable to find the data file", cache.file)
 
-	pdf(paste0("figB-", Wstyle, ".pdf"), width=7, height=5)
-		rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(names(phen), function(ppp) whattoconsider(ddd[[ppp]]))))
-		prp <- prcomp(rrr, scale.=TRUE)
-		myplot.prcomp(prp)
-	dev.off()
-}
+cache.file <- paste0(cache.dir, "/figA-", Wstyle, ".rds")
+
+dd <- NULL
+dd <- if (file.exists(cache.file)) readRDS(cache.file)
+if (is.null(dd)) stop("Unable to find the data file", cache.file)
+
+pdf(paste0("figB.pdf"), width=7, height=5)
+	rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(names(phen), function(ppp) whattoconsider(ddd[[ppp]]))))
+	prp <- prcomp(rrr, scale.=TRUE)
+	myplot.prcomp(prp)
+dev.off()

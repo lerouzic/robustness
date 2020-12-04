@@ -3,6 +3,8 @@ results/*.pdf
 src/scripts.old
 paper/*.aux
 paper/*.log
+paper/*.bbl
+paper/*.blg
 paper/*.pdf
 paper/*.xml
 paper/*.bcf

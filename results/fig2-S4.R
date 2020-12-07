@@ -1,15 +1,14 @@
 #!/usr/bin/env Rscript
 
-library(parallel)
-mc.cores <- min(64, detectCores()-1)
+# For convenience, two figures (fig 2 and fig S4) are plotted at the same time. 
 
 source("./terminology.R")
 source("./defaults.R")
 source("./studycases.R")
 source("../src/robindex.R")
 
-use.cache <- TRUE
-
+################## Options
+mc.cores <- default.mc.cores
 phen <- phen.expression
 
 grid.size      <- 101
@@ -27,11 +26,10 @@ rob.latemut.sd <- default.latemut.sd
 
 difftarget.thresh <- 0.15
 
-cache.dir <- "../cache"
-cache.file <- paste(cache.dir, "figC.rds", sep="/")
-if (!dir.exists(cache.dir)) dir.create(cache.dir)
 
+################# Functions
 difftarget <- function(res, target) {
+	# Difference between the network output and the target (simply the sum of the absolute values of the differences)
     df <- t(res[,grep("mean.", colnames(res))])-target
     apply(abs(df), 2, sum)
 }
@@ -57,8 +55,8 @@ whyitfails <- function(W, a, dev.steps, measure, target) {
 	return(-1)
 }
 
-
 plotres <- function(res, crit="mean", stud=NULL, mask=NULL, contour=FALSE, mx = 0.2) {
+	# Helper function for the 2D plot
     z <- res[,grep(colnames(res), pattern=crit)[1]] # take only the first gene
     z[z>mx] <- mx
     if (!is.null(mask)) z[mask] <- NA
@@ -66,10 +64,14 @@ plotres <- function(res, crit="mean", stud=NULL, mask=NULL, contour=FALSE, mx = 
     if (crit %in% names(phen)) main <- as.expression(phen[crit]) else main <- crit
     
     image(x=ww1, y=ww2, z=matrix(z, nrow=sqrt(nrow(res))), main=main, xlab=expression(W[11]), ylab=expression(W[21]), col=heat.colors(128)[1:100])
-    if (contour) contour(x=ww1, y=ww2, z=matrix(z, nrow=sqrt(nrow(res))), add=TRUE) 
+    if (contour) contour(x=ww1, y=ww2, z=matrix(z, nrow=sqrt(nrow(res))), add=TRUE, col="gray45") 
     if (!is.null(stud))
         invisible(sapply(rownames(stud), function(rn) text(x=stud[rn,1], y=stud[rn,2], rn, col="blue")))
 }
+
+##################### Calc
+cache.file <- paste(cache.dir, "figC.rds", sep="/")
+if (!dir.exists(cache.dir)) dir.create(cache.dir)
 
 ww1 <- seq(-1.5, 2, length.out=grid.size)
 ww2 <- seq(-1, 4, length.out=grid.size)
@@ -77,7 +79,6 @@ ww2 <- seq(-1, 4, length.out=grid.size)
 #   a   NA
 #   b   NA
 # (should not be important)
-
 
 if (!use.cache || !file.exists(cache.file)) {
 	res <- expand.grid(ww1, ww2)
@@ -107,8 +108,12 @@ if (!use.cache || !file.exists(cache.file)) {
 	res <- readRDS(cache.file)
 }
 
+
+######################## Figures
+
 pdf("fig2.pdf", width=9, height=6)
 	layout(rbind(1:3, c(4:5, 0)))
+	par(mar=c(3,3,2,0.5), mgp=c(2,1,0))
 	mm <- difftarget(res, target) > difftarget.thresh
 	for (ppp in names(phen))
 		plotres(res, ppp, stud, mask=mm, contour=TRUE)

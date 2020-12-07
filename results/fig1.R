@@ -5,20 +5,16 @@
 source("./terminology.R")
 source("./defaults.R")
 
+#################### Options
+
 Wstyle <- "random" # Possible: "random", "evolved" ,"randevol"
 whattoconsider <- function(x) mean(x) # the average index for all genes
 
 phen <- phen.expression      # from terminology.R    
-phen.pos.ref <- "initmut"
+phen.pos.ref <- "initmut"    # this guy will always be positive (so that the figure is reproducible)
 
-# This script uses the same data as figA. Run figA before. 
-cache.dir <- "../cache"
-
-default.labels <- c(initenv=ABBRV.ENVCAN, lateenv=ABBRV.HOMEO, initmut=ABBRV.GENCAN, latemut=ABBRV.SOM, stability=ABBRV.STAB)
-default.cols   <- c(initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut=COL.SOM, stability=COL.STAB)
-
+################### Functions
 myplot.prcomp <- function(pr, labels=default.labels, cols=default.cols) {
-		
     par(xpd=NA)
     nPC <- length(pr$sdev)
     layout(t(1:2))
@@ -36,6 +32,8 @@ myplot.prcomp <- function(pr, labels=default.labels, cols=default.cols) {
     arrows(x0=seq(20, 80, 20), y0=1, y1=max(bb), col="gray", lty=3, length=0)
 }
 
+#################### Calc
+source("./figS1.R") # This script uses dataset figA. Run figS1 before
 
 cache.file <- paste0(cache.dir, "/figA-", Wstyle, ".rds")
 
@@ -43,6 +41,7 @@ dd <- NULL
 dd <- if (file.exists(cache.file)) readRDS(cache.file)
 if (is.null(dd)) stop("Unable to find the data file", cache.file)
 
+################## Figure
 pdf(paste0("fig1.pdf"), width=7, height=5)
 	rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(names(phen), function(ppp) whattoconsider(ddd[[ppp]]))))
 	prp <- prcomp(rrr, scale.=TRUE)

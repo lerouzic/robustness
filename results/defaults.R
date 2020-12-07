@@ -5,6 +5,9 @@
 library(parallel)
 default.mc.cores <- min(detectCores()-1, 128)
 
+use.cache <- TRUE
+cache.dir <- "../cache/"
+
 # General parameters
 
 default.mut.correlated <- TRUE
@@ -17,8 +20,6 @@ default.epsilon.zero   <- 0.01
 # Random networks
 
 default.density        <- 1
-#~ default.rand.mean      <- 0.07
-#~ default.rand.sd        <- 0.18
 default.rand.mean      <- 0
 default.rand.sd        <- 1
 default.rand.sd.sim    <- 1e-4

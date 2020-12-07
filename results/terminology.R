@@ -36,3 +36,17 @@ phen.expression <- c(
     latemut=substitute(x~(y), list(x=TERM.SOM.LONG, y=ABBRV.SOM[[1]])),
     stability=substitute(x~(y), list(x=TERM.STAB.LONG, y=ABBRV.STAB[[1]]))
 )
+
+default.labels <- c(
+	initenv=ABBRV.ENVCAN, 
+	lateenv=ABBRV.HOMEO, 
+	initmut=ABBRV.GENCAN, 
+	latemut=ABBRV.SOM, 
+	stability=ABBRV.STAB)
+
+default.cols   <- c(
+	initenv=COL.ENVCAN, 
+	lateenv=COL.HOMEO, 
+	initmut=COL.GENCAN, 
+	latemut=COL.SOM, 
+	stability=COL.STAB)

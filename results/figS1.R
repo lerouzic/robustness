@@ -6,19 +6,20 @@
 source("./terminology.R")
 source("./defaults.R")
 source("./randnetwork.R")
+
 source("../src/robindex.R")
 
-library(parallel)
+################## Options
 mc.cores <- default.mc.cores
-
-use.cache <- TRUE
-cache.dir <- "../cache"
 
 phen <- phen.expression   # from terminology.R
 
 Wstyle <- "random" # Possible: "random", "evolved", "randevol"
-# whattoconsider<- function(x) x[[1]] # the first gene of the network
 whattoconsider <- function(x) mean(x) # the average index for all genes
+
+# Graphical options
+maxplotpoints <- 1000 # avoids overcrowded plots
+xylims        <- list(random=c(-40,-2), evolved=NULL, randevol=NULL) 
 
 # Most parameters use the defaults, some specificities
 a              <- default.a
@@ -31,10 +32,6 @@ rob.initenv.sd <- default.initenv.sd
 rob.lateenv.sd <- default.lateenv.sd
 rob.initmut.sd <- default.initmut.sd
 rob.latemut.sd <- default.latemut.sd
-
-# Graphical options
-maxplotpoints <- 1000 # avoids overcrowded plots
-xylims        <- list(random=c(-40,-2), evolved=NULL, randevol=NULL) 
 
 # For random matrices
 reps           <- 10000
@@ -50,6 +47,8 @@ evolved.gen          <- NA    # NA: last generation of the simulations
 # For density estimates from evolved matrices
 epsilon.zero    <- default.epsilon.zero # W values below this will be considered as zero
 
+
+################## Calc
 cache.file <- paste0(cache.dir, "/figA-", Wstyle, ".rds")
 if (!dir.exists(cache.dir)) dir.create(cache.dir)	
 
@@ -90,6 +89,8 @@ if (is.null(dd)) {
 	saveRDS(dd, cache.file)
 }
 
+
+##################### Figure
 lp <- length(phen)
 mm <- matrix(0, ncol=lp-1, nrow=lp-1)
 mm[lower.tri(mm, diag=TRUE)] <- 1:(lp*(lp-1)/2)

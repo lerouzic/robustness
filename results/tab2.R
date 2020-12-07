@@ -4,6 +4,7 @@ source("./commonpure.R")
 source("./terminology.R")
 source("./defaults.R")
 source("../src/robindex.R")
+cache.dir <- "../cache"
 
 library(parallel)
 library(abind)
@@ -16,7 +17,7 @@ n.genes           <- default.n
 sel.genes         <- default.nsel    
 s                 <- c(rep(default.s, sel.genes), rep(0, n.genes-sel.genes))
 W0                <- NA
-reps              <- default.sim.reps
+reps              <- 10
 test.rep          <- default.rob.reps
 mut.rep           <- 1000
 grad.effect       <- 0.01
@@ -60,7 +61,7 @@ rel.response.points <- function(allpoints, normalize=FALSE) {
 	
 	dist.mm.pp <- sqrt((allpoints["mm",1]-allpoints["pp",1])^2 + (allpoints["mm",2] - allpoints["pp",2])^2)
 	dist.mp.pm <- sqrt((mpp.x - pmp.x)^2 + (mpp.y - pmp.y)^2)
-	return(c(max.dist=dist.mm.pp, min.dst=dist.mp.pm, ratio=dist.mp.pm/dist.mm.pp))	
+	return(c(max.dist=unname(dist.mm.pp), min.dst=unname(dist.mp.pm), ratio=unname(dist.mp.pm/dist.mm.pp)))
 }
 
 rel.response.onesim <- function(mm, mp, pm, pp, what1, what2, G=NULL, normalize=FALSE) {
@@ -154,8 +155,8 @@ for (i1 in 1:(length(indx)-1))
 	}
 
 list.sim <- mclapply(torun, function(ff) 
-	pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob),	reps=reps, series.name=ff$series.name, force.run=force.run), 
-	mc.cores=min(length(torun), ceiling(mc.cores/reps)))
+	pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob), reps=reps, series.name=ff$series.name, force.run=force.run, mc.cores=reps), 
+	mc.cores=ceiling(mc.cores/reps))
 
 
 indwhat <- c(ie="initenv", le="lateenv", im="initmut", lm="latemut", st="stability")
@@ -175,11 +176,17 @@ for (i1 in 1:(length(indwhat)-1))
 
 
 # Mutational evolvabilities
-mut.evolv <- matrix("", ncol=length(indwhat)-1, nrow=length(indwhat)-1)
+mut.evolv <- matrix(NA, ncol=length(indwhat)-1, nrow=length(indwhat)-1)
 colnames(mut.evolv) <- names(indwhat)[1:(length(indwhat)-1)]
 rownames(mut.evolv) <- names(indwhat)[2:length(indwhat)]
 
-avgM <- avg.M.mat(W.rep=100) # average from 100 starting W0 matrices
+mut.cache.file <- file.path(cache.dir, "figI-mut.rds")
+if (use.cache && file.exists(mut.cache.file)) {
+	avgM <- readRDS(mut.cache.file)
+} else {
+	avgM <- avg.M.mat(W.rep=100) # average from 100 starting W0 matrices
+	saveRDS(avgM, mut.cache.file)
+}
 
 for (i1 in 1:(length(indwhat)-1))
 	for (i2 in(i1+1):length(indwhat)) {
@@ -191,6 +198,7 @@ for (i1 in 1:(length(indwhat)-1))
 		n1 <- names(indwhat)[i1]
 		n2 <- names(indwhat)[i2]
 		rr <- rel.response.points(resp, normalize=FALSE)
-		mut.evolv[n2, n1] <- paste0(round(rr$mean.ratio, digits=2))
+		mut.evolv[n2, n1] <- rr["ratio"] 
 	}
-	
+
+format(mut.evolv, nsmall=2, digits=2)

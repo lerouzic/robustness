@@ -1,14 +1,12 @@
 #!/usr/bin/env Rscript
 
+# Evolutionary trajectories, direct selection
+
 source("./commonpure.R")
 source("./terminology.R")
 source("./defaults.R")
 
-library(parallel)
-mc.cores <- default.mc.cores
-
-use.cache <- TRUE
-
+#################### Options
 n.genes          <- default.n
 sel.genes        <- default.nsel
 s                <- c(rep(default.s, sel.genes), rep(0, n.genes-sel.genes))
@@ -22,13 +20,17 @@ G                <- 10000
 every            <- max(1, round(G/100))
 force.run        <- !use.cache
 
+mc.cores         <- default.mc.cores
+
 phen <- c(list(fitness="Fitness"), phen.expression)
-col.sim <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM, st=COL.STAB)
+
+col.sim  <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM, st=COL.STAB)
 col.phen <- c(fitness="black", initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut=COL.SOM, stability=COL.STAB)
 lty.sim <- c(p=0, m=0, o=0)
 pch.sim <- c(p=2, m=6, o=1)
 max.points <- 20
 
+######################### Functions
 allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Generations", ylab=what, lwd=3, FUN=mean, focal="oo", ...) {
 	# Helper function to plot robustness time series
 	
@@ -51,6 +53,7 @@ allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Gener
 	}
 }
 
+################################ Calc
 torun <- list(
 	oo.o = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,0)), 
 		reps=reps, series.name="figG-null", force.run=force.run), 
@@ -78,10 +81,11 @@ torun <- list(
 
 list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
 
+########################## Figure
 
 pdf("fig3.pdf", width=12, height=8)
 	layout(rbind(1:3,4:6))
-	par(cex=1, mar=c(5, 2, 4, 1))
+	par(cex=1, mar=c(3, 2, 2, 1), mgp=c(1.8,0.6,0))
 	allplots(list.sim, what="initenv", focal=c("oo","ie"))
 	allplots(list.sim, what="lateenv", focal=c("oo","le"))
 	allplots(list.sim, what="initmut", focal=c("oo","im"))

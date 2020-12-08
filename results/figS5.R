@@ -7,6 +7,7 @@ source("./studycases.R")
 source("./terminology.R")
 source("./defaults.R")
 
+################ Options
 cols <- 1:2
 
 a          <- default.a
@@ -16,7 +17,7 @@ initenv.sd <- default.initenv.sd
 lateenv.sd <- default.lateenv.sd
 dev.steps <-  default.dev.steps
 
-
+############## Functions
 makeTransparent<-function(someColor, alpha=70)
 { # from https://stackoverflow.com/questions/8047668/transparent-equivalent-of-given-color
   newColor<-col2rgb(someColor)
@@ -79,6 +80,7 @@ illustrate.lateenv <- function(W, rep=20, ...) {
 }
 
 
+#################### Figure
 
 pdf("figS5.pdf", width=12, height=12)
 	layout(matrix(1:(4*nrow(stud)), ncol=4, byrow=TRUE))

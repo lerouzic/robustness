@@ -1,9 +1,10 @@
+#!/usr/bin/env Rscript
+
 source("./terminology.R")
 source("./defaults.R")
 source("../src/robindex.R")
 
-library(parallel)
-
+############### Options	
 a             <- default.a
 dev.steps     <- default.dev.steps
 dev.measure   <- default.dev.measure
@@ -15,8 +16,8 @@ net.size      <- default.n
 reps <- 8
 
 density        <- 1
-reg.mean       <- -0.2
-reg.sd         <- 1.2
+reg.mean       <- default.rand.mean
+reg.sd         <- default.rand.sd
 
 mc.cores       <- default.mc.cores
 
@@ -39,6 +40,7 @@ sigmas <- c(
 
 col.phen <- c(initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut=COL.SOM, stability=COL.STAB)
 
+##################### Functions
 randW <- function(size, density, mean, sd) {
 	W <- matrix(rnorm(size^2, mean=mean, sd=sd), ncol=size)
 	W[sample.int(size^2, floor((1-density)*size^2))] <- 0
@@ -84,11 +86,10 @@ plotW <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL, type="l
 }
 
 
-
-
+######################## Figure
 pdf("figS6.pdf", width=4, height=6)
 	layout(matrix(1:8, ncol=2))
-	par(mar=c(4,4,0.5,0.5), oma=c(0,0,3,0))
+	par(mar=c(3,3,0.5,0.5), oma=c(0,0,2,0), cex=0.6, mgp=c(2,1,0))
 
 	# Random W matrices
 
@@ -98,7 +99,7 @@ pdf("figS6.pdf", width=4, height=6)
 	for (tt in seq_along(alltests)) 
 		plotW(alltests[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
 	abline(v=default.initenv.sd, lty=3, col="darkgray")
-	title("Random networks", xpd=NA)
+	title("Random networks", xpd=NA, line=1)
 		
 	for (tt in seq_along(alltests)) 
 		plotW(alltests[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-40,-3))		
@@ -131,7 +132,7 @@ pdf("figS6.pdf", width=4, height=6)
 	for (tt in seq_along(alltests)) 
 		plotW(alltests[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
 	abline(v=default.initenv.sd, lty=3, col="darkgray")
-	title("Evolved networks", xpd=NA)
+	title("Evolved networks", xpd=NA, line=1)
 		
 	for (tt in seq_along(alltests)) 
 		plotW(alltests[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-25,-3))		

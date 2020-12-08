@@ -7,13 +7,7 @@ source("./defaults.R")
 source("./randnetwork.R")
 source("../src/robindex.R")
 
-library(parallel)
-mc.cores <- default.mc.cores
-
-cache.dir <- "../cache"
-if (!dir.exists(cache.dir)) dir.create(cache.dir)
-
-use.cache <- TRUE
+######################## Options
 Wstyle <- "random" # Possible: "random", "evolved", "randevol"
 
 a               <- default.a        
@@ -39,15 +33,17 @@ rob.reps        <- 500
 allreps         <- round(10^(seq(2, 4, length.out=7)))
 allrobs         <- round(10^(seq(1, 5, length.out=9)))
 
+mc.cores         <- default.mc.cores
+
 evolved.file.pattern <- 'figG-null-\\d+.rds'
 evolved.files <- list.files(path=cache.dir, pattern=evolved.file.pattern, full.names=TRUE)
 evolved.gen          <- NA
 
-#~ whattoconsider<- function(x) x[[1]] # the first gene of the network
 whattoconsider <- function(x) mean(x) # the average index for all genes
 
 cols <- 1:5
 
+########################### Functions
 eigenV <- function(reps, rob.reps, Wstyle) {
 	# needs global variables: reg.mean, reg.sd, net.size, density
 	cache.file <- paste0(cache.dir, "/", "figH-", Wstyle, "-R", reps, "-r", rob.reps, ".rds")
@@ -90,10 +86,13 @@ eigenV <- function(reps, rob.reps, Wstyle) {
 	prp$sdev^2/(sum(prp$sdev^2))
 }
 
+########################### Calc
 # Technically, this sounds pretty useless: it would be way more efficient to run the max number of replicates and sample them for lower
 # counts. Yet, the current code is simpler, and avoids correlations among samples. 
 resreps <- lapply(allreps, function(rreps) eigenV(rreps, default.rob.reps, Wstyle))
 resrobs <- lapply(allrobs, function(robs) eigenV(reps, robs, Wstyle))
+
+############################ Figure
 
 pdf(paste0("figS2.pdf"), width=8, height=4)
 	layout(t(1:2))

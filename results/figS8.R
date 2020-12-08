@@ -1,7 +1,12 @@
+#!/usr/bin/env Rscript
+
+# Displays the shape of the mutation structure for gene expression
+
 source("./defaults.R")
 source("./randnetwork.R")
 source("../src/netw.R")
 
+################ Options
 a             <- default.a
 dev.steps     <- default.dev.steps
 
@@ -13,18 +18,21 @@ rand.mean     <- default.rand.mean
 rand.sd       <- default.rand.sd
 net.size      <- default.n
 
+n.mut         <- c(1,2,5)
+replicates    <- 200
 
-# Duplicated from fig J
+set.seed(0123456) # Making sure to get a reproducible example
+
+
+################ Functions
 mutate <- function(W, mut.sd) {
 	which.mut <- sample(size=1,  which(W != 0)) # Bug if only one W != 0
 	W[which.mut] <- rnorm(1, mean=if(mut.correlated) W[which.mut] else 0, sd=mut.sd)
 	W
 }
 
-n.mut <- c(1,2,5)
-replicates <- 200
 
-set.seed(0123456) # Making sure to get a reproducible example
+################ Figure
 
 W <- randW(net.size, rand.mean, rand.sd, rand.density)
 

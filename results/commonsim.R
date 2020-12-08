@@ -1,5 +1,5 @@
 
-source("../src/puresel.R")
+source("../src/simsel.R")
 source("./defaults.R")
 source("./studycases.R")
 cache.dir <- "../cache"
@@ -44,7 +44,7 @@ acrossrepVar <- function(fulllist) {
 	ans
 }
 
-pure.run.single <- function(W0, myargs=NULL, sim.name=NA, force.run=FALSE) {
+sim.run.single <- function(W0, myargs=NULL, sim.name=NA, force.run=FALSE) {
 	missing.args <- names(default.args)[!(names(default.args) %in% names(myargs))]
 	myargs[missing.args] <- default.args[missing.args]
 	# Here the algorithm gets a bit complex, the problem is due to the fact that the number of genes can be deduced from different sources.
@@ -68,7 +68,7 @@ pure.run.single <- function(W0, myargs=NULL, sim.name=NA, force.run=FALSE) {
 		sim.name <- paste0("pure", paste(sample(c(letters, LETTERS), 10, replace=TRUE), collapse=""))
 	outfile <- paste0(cache.dir, "/", sim.name ,".rds")
 	if (force.run || !file.exists(outfile)) {
-		ans <- do.call(puresel, c(list(W0=W0), myargs))
+		ans <- do.call(simsel, c(list(W0=W0), myargs))
 		saveRDS(ans, file=outfile, version=2)
 	} else {
 		ans <- readRDS(outfile)
@@ -76,9 +76,9 @@ pure.run.single <- function(W0, myargs=NULL, sim.name=NA, force.run=FALSE) {
 	ans
 }
 
-pure.run.reps <- function(W0, args=NULL, reps=10, series.name="pure", force.run=FALSE, mc.cores=detectCores()-1) {
+sim.run.reps <- function(W0, args=NULL, reps=10, series.name="pure", force.run=FALSE, mc.cores=detectCores()-1) {
 	ans <- mclapply(1:reps, function(r) {
-		ss <- pure.run.single(W0=W0, args, paste0(series.name, "-", r), force.run=force.run)
+		ss <- sim.run.single(W0=W0, args, paste0(series.name, "-", r), force.run=force.run)
 	}, mc.cores=mc.cores)
 
 	list(full=ans, mean=acrossrepMean(ans), var=acrossrepVar(ans))

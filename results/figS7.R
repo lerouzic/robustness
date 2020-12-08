@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-source("./commonpure.R")
+source("./commonsim.R")
 source("./terminology.R")
 source("./defaults.R")
 
@@ -48,7 +48,7 @@ captions <- c(
 
 ###################### Functions
 torun.mut <- lapply(mut.values, function(mm) 
-	substitute(function() pure.run.reps(
+	substitute(function() sim.run.reps(
 		W0, 
 		list(s=s, G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mm), 
 		reps=reps, series.name=paste0("figL-ref-m", signif(mm, digits=2)), 
@@ -56,7 +56,7 @@ torun.mut <- lapply(mut.values, function(mm)
 	list(mm=mm)))
 	
 torun.N <- lapply(N.values, function(nn) 
-	substitute(function() pure.run.reps(
+	substitute(function() sim.run.reps(
 		W0, 
 		list(s=s, G=G, N=nn, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
 		reps=reps, series.name=paste0("figL-ref-N", nn), 
@@ -64,7 +64,7 @@ torun.N <- lapply(N.values, function(nn)
 	list(nn=nn)))
 	
 torun.genes <- lapply(genes.values, function(gg) 
-	substitute(function() pure.run.reps(
+	substitute(function() sim.run.reps(
 		W0, 
 		list(s=c(rep(10, min(gg, sel.genes)), rep(0 ,gg-min(gg,sel.genes))), theta=rep(NA, gg), G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
 		reps=reps, series.name=paste0("figL-ref-g", gg), 
@@ -72,7 +72,7 @@ torun.genes <- lapply(genes.values, function(gg)
 	list(gg=gg)))
 	
 torun.selg <- lapply(selg.values, function(sg)
-	substitute(function() pure.run.reps(
+	substitute(function() sim.run.reps(
 		W0, 
 		list(s=c(rep(10,sg),rep(0,n.genes-sg)), G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
 		reps=reps, series.name=paste0("figL-ref-sg", sg), 
@@ -80,7 +80,7 @@ torun.selg <- lapply(selg.values, function(sg)
 	list(sg=sg)))
 	
 torun.sel <- lapply(s.values, function(ss)
-	substitute(function() pure.run.reps(
+	substitute(function() sim.run.reps(
 		W0, 
 		list(s=c(rep(ss,sel.genes),rep(0,n.genes-sel.genes)), G=G, N=N, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
 		reps=reps, series.name=paste0("figL-ref-s", signif(ss, digits=2)), 

@@ -12,7 +12,7 @@ varlist.u   <- function(ll) sumsqlist.u(ll)/length(ll) - meanlist.u(ll)^2
 meanlist    <- function(ll) setNames(lapply(names(ll[[1]]), function(nn) meanlist.u(lapply(ll, "[[", nn))), names(ll[[1]]))
 varlist     <- function(ll) setNames(lapply(names(ll[[1]]), function(nn) varlist.u(lapply(ll, "[[", nn))), names(ll[[1]]))
 
-puresel <- function(W0, theta, a=0.2, s=10, grad.rob=rep(0, 5), N=1000, rep=100, G=100, summary.every=1, 
+simsel <- function(W0, theta, a=0.2, s=10, grad.rob=rep(0, 5), N=1000, rep=100, G=100, summary.every=1, 
 		mut.rate=0.1, som.mut.rate = 0, mut.sd=0.1, initmut.sd=mut.sd, latemut.sd=mut.sd, sim.initenv.sd=0, sim.lateenv.sd=0, 
 		initenv.sd=0.1, lateenv.sd=0.1, dev.steps=16, measure=4, plasticity=rep(FALSE, length(theta)), log.robustness=TRUE, mut.correlated=TRUE, ...) {
 			

@@ -2,7 +2,7 @@
 
 # Evolutionary trajectories, direct selection
 
-source("./commonpure.R")
+source("./commonsim.R")
 source("./terminology.R")
 source("./defaults.R")
 
@@ -55,27 +55,27 @@ allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Gener
 
 ################################ Calc
 torun <- list(
-	oo.o = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,0)), 
+	oo.o = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,0)), 
 		reps=reps, series.name="figG-null", force.run=force.run), 
-	ie.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,0,0)), 
+	ie.m = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,0,0)), 
 		reps=reps, series.name="figG-ie-m", force.run=force.run),
-	le.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,-grad.effect,0,0,0)), 
+	le.m = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,-grad.effect,0,0,0)), 
 		reps=reps, series.name="figG-le-m", force.run=force.run),
-	im.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,-grad.effect,0,0)), 
+	im.m = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,-grad.effect,0,0)), 
 		reps=reps, series.name="figG-im-m", force.run=force.run),
-	lm.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,-grad.effect,0)), 
+	lm.m = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,-grad.effect,0)), 
 		reps=reps, series.name="figG-lm-m", force.run=force.run),
-	st.m = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,-grad.effect)), 
+	st.m = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,-grad.effect)), 
 		reps=reps, series.name="figG-st-m", force.run=force.run),
-	ie.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,0,0)), 
+	ie.p = function()sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,0,0)), 
 		reps=reps, series.name="figG-ie-p", force.run=force.run),
-	le.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,grad.effect,0,0,0)), 
+	le.p = function()sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,grad.effect,0,0,0)), 
 		reps=reps, series.name="figG-le-p", force.run=force.run),
-	im.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,grad.effect,0,0)), 
+	im.p = function()sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,grad.effect,0,0)), 
 		reps=reps, series.name="figG-im-p", force.run=force.run),
-	lm.p = function()pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,grad.effect,0)), 
+	lm.p = function()sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,grad.effect,0)), 
 		reps=reps, series.name="figG-lm-p", force.run=force.run),
-	st.p = function() pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,grad.effect)), 
+	st.p = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,grad.effect)), 
 		reps=reps, series.name="figG-st-p", force.run=force.run)
 )
 

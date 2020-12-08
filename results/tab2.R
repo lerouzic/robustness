@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-source("./commonpure.R")
+source("./commonsim.R")
 source("./terminology.R")
 source("./defaults.R")
 source("../src/robindex.R")
@@ -155,7 +155,7 @@ for (i1 in 1:(length(indx)-1))
 	}
 
 list.sim <- mclapply(torun, function(ff) 
-	pure.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob), reps=reps, series.name=ff$series.name, force.run=force.run, mc.cores=reps), 
+	sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob), reps=reps, series.name=ff$series.name, force.run=force.run, mc.cores=reps), 
 	mc.cores=ceiling(mc.cores/reps))
 
 

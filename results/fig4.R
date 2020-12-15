@@ -39,6 +39,30 @@ G                 <- 10000
 every             <- round(G/100)
 force.run         <- !use.cache
 
+plot.rel <- function(list.sim, what, G=NULL, pch=c(mm=1, mp=6, pm=2, pp=3), ...) {
+	if (is.null(G)) G <- rev(names(list.sim[[1]]$mean))[1] # Default: last generation
+
+	plot(NULL, xlim=c(-1.5,1), ylim=c(0.5,0.8 + length(what)), xlab="Relative response", ylab="", yaxt="n", bty="n", ...)
+	axis(2, at=seq_along(what), tick=FALSE, labels=as.expression(phen.expression[what]), las=2, mgp=c(3,0,0))
+	abline(v=0, lty=3, col="darkgray")
+	
+	for (i in seq_along(what)) {
+		ref.o <- mean(list.sim[["oo.o"]]$mean[[G]][[what[i]]])
+		ref.m <- mean(list.sim[[paste0(names(what)[i], ".m")]]$mean[[G]][[what[i]]])
+		ref.p <- mean(list.sim[[paste0(names(what)[i], ".p")]]$mean[[G]][[what[i]]])
+
+		arrows(x0=(ref.m-ref.o)/(ref.p-ref.m), x1=(ref.p-ref.o)/(ref.p-ref.m), y0=i, code=3, angle=90, length=0.05, col=default.cols[what[i]], lwd=3)
+
+		for (j in seq_along(what)) {
+			if (j == i) next
+			ss.name <- paste0(names(what)[if (i < j) i else j], ".", names(what)[if (i < j) j else i])
+			ss <- sapply(names(pch), function(nn) mean(list.sim[[paste0(ss.name, ".", nn)]]$mean[[G]][[what[i]]]))
+			points((ss-ref.o)/(ref.p-ref.m), rep(i+0.1*j, length(ss)), pch=pch[names(ss)], col=default.cols[what[j]])
+		}
+	}
+	legend("topright", pch=pch, legend=c("target - & corr -     ", "target -& corr +     ", "target +& corr -", "target + & corr +    "), horiz=TRUE, bty="n", xpd=NA, cex=0.7)
+}
+
 rel.response.points <- function(allpoints, normalize=FALSE) {
 	stopifnot(nrow(allpoints)==4, ncol(allpoints)==2)
 	
@@ -78,7 +102,7 @@ rel.response.onesim <- function(mm, mp, pm, pp, what1, what2, G=NULL, normalize=
 rel.response <- function(list.sim, r1, r2, what1, what2, G=NULL, normalize=FALSE) {
 	
 	ssim <- c(paste(r1, r2, c("mm","mp","pm","pp"), sep="."))
-		
+			
 	if (any(!ssim %in% names(list.sim))) return(list(mean.ratio=NA, sd.ratio=NA, se.ratio=NA))
 	
 	# loop over replicates
@@ -90,7 +114,7 @@ rel.response <- function(list.sim, r1, r2, what1, what2, G=NULL, normalize=FALSE
 		                    pp = list.sim[[ssim[4]]]$full[[i]],
 		                    what1=what1, what2=what2, G=G, normalize=normalize))
 	
-	rat <- sapply(ans, "[", "ratio.mp")
+	rat <- sapply(ans, "[", "ratio")
 	list(mean.ratio = mean(rat), sd.ratio = sd(rat), se.ratio = sd(rat)/sqrt(rep))
 }
 
@@ -154,24 +178,26 @@ for (i1 in 1:(length(indx)-1))
 		torun[[paste(nm1, nm2, "pp", sep=".")]] <- list(series.name=paste("figI", nm1, nm2, "pp", sep="-"), grad.rob=gradvec2(i1, i2,  grad.effect,  grad.effect))
 	}
 
+
+
 list.sim <- mclapply(torun, function(ff) 
 	sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob), reps=reps, series.name=ff$series.name, force.run=force.run, mc.cores=reps), 
 	mc.cores=ceiling(mc.cores/reps))
 
-
 indwhat <- c(ie="initenv", le="lateenv", im="initmut", lm="latemut", st="stability")
 
 # Realized evolvabilities
-real.evolv <- matrix("", ncol=length(indwhat)-1, nrow=length(indwhat)-1)
-colnames(real.evolv) <- names(indwhat)[1:(length(indwhat)-1)]
-rownames(real.evolv) <- names(indwhat)[2:length(indwhat)]
+real.evolv <- real.evolv.sd <- matrix(NA, ncol=length(indwhat)-1, nrow=length(indwhat)-1)
+colnames(real.evolv) <- colnames(real.evolv.sd) <- names(indwhat)[1:(length(indwhat)-1)]
+rownames(real.evolv) <- rownames(real.evolv.sd) <- names(indwhat)[2:length(indwhat)]
 
 for (i1 in 1:(length(indwhat)-1))
 	for (i2 in(i1+1):length(indwhat)) {
 		n1 <- names(indwhat)[i1]
 		n2 <- names(indwhat)[i2]
 		rr <- rel.response(list.sim, n1, n2, indwhat[i1], indwhat[i2], normalize=FALSE)
-		real.evolv[n2, n1] <- paste0(round(rr$mean.ratio, digits=2), " +/- ", round(rr$sd.ratio, digits=2))
+		real.evolv[n2, n1] <- rr$mean.ratio
+		real.evolv.sd[n2, n1] <- rr$sd.ratio
 	}
 
 
@@ -202,3 +228,10 @@ for (i1 in 1:(length(indwhat)-1))
 	}
 
 format(mut.evolv, nsmall=2, digits=2)
+
+
+pdf("fig4.pdf", width=6, height=5)
+	par(mar=c(4, 10, 1, 1))
+	plot.rel(list.sim, indwhat)
+dev.off()
+

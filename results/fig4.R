@@ -41,10 +41,10 @@ force.run         <- !use.cache
 
 pch.sim <- c(o=1, m=6, p=2, mm=10, pp=11, mp=9, pm=7)
 
-plot.rel <- function(list.sim, what, G=NULL, pch=pch.sim[c("mm","mp","pm","pp")], ...) {
+plot.rel <- function(list.sim, what, G=NULL, pch=pch.sim[c("mm","mp","pm","pp")], xlab="Relative response", ...) {
 	if (is.null(G)) G <- rev(names(list.sim[[1]]$mean))[1] # Default: last generation
 
-	plot(NULL, xlim=c(-2,1), ylim=c(0.5,0.8 + length(what)), xlab="Relative response", ylab="", yaxt="n", bty="n", ...)
+	plot(NULL, xlim=c(-2,1), ylim=c(0.5,0.8 + length(what)), xlab=xlab, ylab="", yaxt="n", bty="n", ...)
 	axis(2, at=seq_along(what), tick=FALSE, labels=as.expression(phen.expression[what]), las=2, mgp=c(3,0,0))
 	abline(v=0, lty=3, col="darkgray")
 	
@@ -275,16 +275,20 @@ format(mut.evolv, nsmall=2, digits=2)
 
 
 pdf("fig4.pdf", width=8, height=5)
-	layout(cbind(c(1,1),c(2,3)), widths=c(2,1))
-	par(mar=c(4, 10, 1, 1))
-	plot.rel(list.sim, indwhat)
+	layout(cbind(c(1,1,1),c(2,3,4)), widths=c(2,1))
+	par(mar=c(4, 10, 1, 1), cex=0.75, oma=c(2,0,0,0))
+	plot.rel(list.sim, indwhat, xlab="")
+	mtext(side=1, "Relative response", xpd=NA, line=3, cex=0.75)
 	
-	arrows(x0=0.8, y0=3.15, x1=1.4, y1=3.5, lwd=2, xpd=NA, length=0.1, col=default.cols["initenv"])
-	arrows(x0=0.7, y0=1.5, x1=1.3, y1=1.6, lwd=2, xpd=NA, length=0.1, col=default.cols["stability"])
+	arrows(x0=0.5, y0=5.4, x1=1.2, y1=5.4, lwd=2, xpd=NA, length=0.1, col=default.cols["latemut"])
+	arrows(x0=0.5, y0=3.2, x1=1.3, y1=3.25, lwd=2, xpd=NA, length=0.1, col=default.cols["lateenv"])
+	arrows(x0=0.7, y0=1.5, x1=1.3, y1=1.3, lwd=2, xpd=NA, length=0.1, col=default.cols["stability"])
 	
-	par(mar=c(4, 4, 1, 1))
-	plot.ts(list.sim, "initmut", "initmut", "initenv", xlab="", mgp=c(2,1,0))
-	plot.ts(list.sim, "initenv", "initenv", "stability", mgp=c(2,1,0))
+	par(mar=c(2, 4, 1, 1))
+	plot.ts(list.sim, "stability", "stability", "latemut", xlab="", mgp=c(2,1,0))
+	plot.ts(list.sim, "initmut", "initmut", "lateenv", xlab="", mgp=c(2,1,0), ylim=c(-11,-6))
+	plot.ts(list.sim, "initenv", "initenv", "stability", xlab="", mgp=c(2,1,0))
+	mtext(side=1, "Generations", xpd=NA, line=2.5, cex=0.75)
 	
 dev.off()
 

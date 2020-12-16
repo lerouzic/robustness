@@ -50,3 +50,10 @@ default.cols   <- c(
 	initmut=COL.GENCAN, 
 	latemut=COL.SOM, 
 	stability=COL.STAB)
+
+default.shortcode <- c(
+	initenv="ie",
+	lateenv="le",
+	initmut="im",
+	latemut="lm",
+	stability="st")

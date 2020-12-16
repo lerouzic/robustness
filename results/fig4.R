@@ -39,28 +39,61 @@ G                 <- 10000
 every             <- round(G/100)
 force.run         <- !use.cache
 
-plot.rel <- function(list.sim, what, G=NULL, pch=c(mm=1, mp=6, pm=2, pp=3), ...) {
+pch.sim <- c(o=1, m=6, p=2, mm=10, pp=11, mp=9, pm=7)
+
+plot.rel <- function(list.sim, what, G=NULL, pch=pch.sim[c("mm","mp","pm","pp")], ...) {
 	if (is.null(G)) G <- rev(names(list.sim[[1]]$mean))[1] # Default: last generation
 
-	plot(NULL, xlim=c(-1.5,1), ylim=c(0.5,0.8 + length(what)), xlab="Relative response", ylab="", yaxt="n", bty="n", ...)
+	plot(NULL, xlim=c(-2,1), ylim=c(0.5,0.8 + length(what)), xlab="Relative response", ylab="", yaxt="n", bty="n", ...)
 	axis(2, at=seq_along(what), tick=FALSE, labels=as.expression(phen.expression[what]), las=2, mgp=c(3,0,0))
 	abline(v=0, lty=3, col="darkgray")
 	
 	for (i in seq_along(what)) {
 		ref.o <- mean(list.sim[["oo.o"]]$mean[[G]][[what[i]]])
-		ref.m <- mean(list.sim[[paste0(names(what)[i], ".m")]]$mean[[G]][[what[i]]])
-		ref.p <- mean(list.sim[[paste0(names(what)[i], ".p")]]$mean[[G]][[what[i]]])
+		ref.m <- mean(list.sim[[paste0(default.shortcode[what[i]], ".m")]]$mean[[G]][[what[i]]])
+		ref.p <- mean(list.sim[[paste0(default.shortcode[what[i]], ".p")]]$mean[[G]][[what[i]]])
 
 		arrows(x0=(ref.m-ref.o)/(ref.p-ref.m), x1=(ref.p-ref.o)/(ref.p-ref.m), y0=i, code=3, angle=90, length=0.05, col=default.cols[what[i]], lwd=3)
 
 		for (j in seq_along(what)) {
 			if (j == i) next
-			ss.name <- paste0(names(what)[if (i < j) i else j], ".", names(what)[if (i < j) j else i])
+			ss.name <- paste0(default.shortcode[what[i]], ".", default.shortcode[what[j]])
 			ss <- sapply(names(pch), function(nn) mean(list.sim[[paste0(ss.name, ".", nn)]]$mean[[G]][[what[i]]]))
 			points((ss-ref.o)/(ref.p-ref.m), rep(i+0.1*j, length(ss)), pch=pch[names(ss)], col=default.cols[what[j]])
 		}
 	}
-	legend("topright", pch=pch, legend=c("target - & corr -     ", "target -& corr +     ", "target +& corr -", "target + & corr +    "), horiz=TRUE, bty="n", xpd=NA, cex=0.7)
+	legend("topright", pch=pch, legend=c("target - & corr -     ", "target - & corr +     ", "target + & corr -", "target + & corr +    "), horiz=TRUE, bty="n", xpd=NA, cex=0.8)
+}
+
+plot.ts <- function(list.sim, what, w1, w2, xlab="Generation", ylab=as.expression(phen.expression[what]), ylim=NULL, lwd=2, ...) {
+	Gmax <- as.numeric(rev(names(list.sim[[1]]$mean))[1])
+	xx <- unique(round(seq(from=1, to=length(list.sim[[1]]$mean), length.out=15)))
+	
+	sw1 <- default.shortcode[w1]
+	sw2 <- default.shortcode[w2]
+	
+	ref.o <- sapply(list.sim[["oo.o"]]$mean, function(x) mean(x[[what]]))
+	ref.m <- sapply(list.sim[[paste0(sw1, ".m")]]$mean, function(x) mean(x[[what]]))
+	ref.p <- sapply(list.sim[[paste0(sw1, ".p")]]$mean, function(x) mean(x[[what]]))
+	
+	sim.mm <- sapply(list.sim[[paste0(sw1, ".", sw2, ".mm")]]$mean, function(x) mean(x[[what]]))
+	sim.mp <- sapply(list.sim[[paste0(sw1, ".", sw2, ".mp")]]$mean, function(x) mean(x[[what]]))
+	sim.pm <- sapply(list.sim[[paste0(sw1, ".", sw2, ".pm")]]$mean, function(x) mean(x[[what]]))
+	sim.pp <- sapply(list.sim[[paste0(sw1, ".", sw2, ".pp")]]$mean, function(x) mean(x[[what]]))
+	
+	if (is.null(ylim))
+		ylim <- range(c(ref.m, ref.p, sim.mm, sim.pp))
+	
+	plot(NULL, xlim=c(1, Gmax), ylim=ylim, xlab=xlab, ylab=ylab, ...)
+	lines(as.numeric(names(ref.o))[xx], ref.o[xx], pch=pch.sim["o"], lwd=lwd)
+	lines(as.numeric(names(ref.p))[xx], ref.p[xx], lty=1, col=default.cols[w1], lwd=lwd) #pch=pch.sim["p"])
+	lines(as.numeric(names(ref.m))[xx], ref.m[xx], lty=1, col=default.cols[w1], lwd=lwd) #pch=pch.sim["m"])
+	
+	points(as.numeric(names(sim.mm))[xx], sim.mm[xx], pch=pch.sim["mm"], col=default.cols[w2])
+	points(as.numeric(names(sim.mp))[xx], sim.mp[xx], pch=pch.sim["mp"], col=default.cols[w2])
+	points(as.numeric(names(sim.pm))[xx], sim.pm[xx], pch=pch.sim["pm"], col=default.cols[w2])
+	points(as.numeric(names(sim.pp))[xx], sim.pp[xx], pch=pch.sim["pp"], col=default.cols[w2])
+
 }
 
 rel.response.points <- function(allpoints, normalize=FALSE) {
@@ -186,6 +219,17 @@ list.sim <- mclapply(torun, function(ff)
 
 indwhat <- c(ie="initenv", le="lateenv", im="initmut", lm="latemut", st="stability")
 
+# It is more convenient to have all combinations in the list.sim variable (should not take more memory)
+for (i in 1:(length(indwhat)-1))
+	for (j in (i+1):length(indwhat)) {
+		nc <- paste0(names(indwhat)[i], ".", names(indwhat)[j], ".")
+		inc <- paste0(names(indwhat)[j], ".", names(indwhat)[i], ".")
+		list.sim[[paste0(inc, "pp")]] <- list.sim[[paste0(nc, "pp")]]
+		list.sim[[paste0(inc, "mp")]] <- list.sim[[paste0(nc, "pm")]]
+		list.sim[[paste0(inc, "pm")]] <- list.sim[[paste0(nc, "mp")]]
+		list.sim[[paste0(inc, "mm")]] <- list.sim[[paste0(nc, "mm")]]
+	}
+
 # Realized evolvabilities
 real.evolv <- real.evolv.sd <- matrix(NA, ncol=length(indwhat)-1, nrow=length(indwhat)-1)
 colnames(real.evolv) <- colnames(real.evolv.sd) <- names(indwhat)[1:(length(indwhat)-1)]
@@ -230,8 +274,19 @@ for (i1 in 1:(length(indwhat)-1))
 format(mut.evolv, nsmall=2, digits=2)
 
 
-pdf("fig4.pdf", width=6, height=5)
+pdf("fig4.pdf", width=8, height=5)
+	layout(cbind(c(1,1),c(2,3)), widths=c(2,1))
 	par(mar=c(4, 10, 1, 1))
 	plot.rel(list.sim, indwhat)
+	
+	arrows(x0=0.8, y0=3.15, x1=1.4, y1=3.5, lwd=2, xpd=NA, length=0.1, col=default.cols["initenv"])
+	arrows(x0=0.7, y0=1.5, x1=1.3, y1=1.6, lwd=2, xpd=NA, length=0.1, col=default.cols["stability"])
+	
+	par(mar=c(4, 4, 1, 1))
+	plot.ts(list.sim, "initmut", "initmut", "initenv", xlab="", mgp=c(2,1,0))
+	plot.ts(list.sim, "initenv", "initenv", "stability", mgp=c(2,1,0))
+	
 dev.off()
+
+
 

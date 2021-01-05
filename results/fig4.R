@@ -157,7 +157,7 @@ pdf("fig4.pdf", width=8, height=5)
 	par(mar=c(2, 4, 1, 1))
 	plot.ts(list.sim, "stability", "stability", "latemut", xlab="", mgp=c(2,1,0))
 	plot.ts(list.sim, "initmut", "initmut", "lateenv", xlab="", mgp=c(2,1,0), ylim=c(-11,-6))
-	plot.ts(list.sim, "initenv", "initenv", "stability", xlab="", mgp=c(2,1,0))
+	plot.ts(list.sim, "initenv", "initenv", "stability", xlab="", mgp=c(2,1,0), ylim=c(-38,-6))
 	mtext(side=1, "Generations", xpd=NA, line=2.5, cex=0.75)
 	
 dev.off()

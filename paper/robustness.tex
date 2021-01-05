@@ -1,7 +1,8 @@
 \documentclass[10pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 
-
+\pdfoutput=1
+ 
 %~ \usepackage{cite}
 %~ \makeatletter
 %~ \renewcommand{\@biblabel}[1]{\quad#1.}
@@ -10,7 +11,7 @@
 
 \usepackage{nameref}
 \usepackage[colorlinks=true,citecolor={Gray}]{hyperref}
-\usepackage[right]{lineno}
+%~ \usepackage[right]{lineno}
 
 \usepackage{url}
 
@@ -48,7 +49,7 @@
 \usepackage[fulladjust]{marginnote}
 \reversemarginpar
 
-\usepackage[natbib=true, style=authoryear, uniquename=false, maxcitenames=2, maxbibnames=99, firstinits=true, doi=false, url=false]{biblatex}
+\usepackage[natbib=true, style=authoryear, uniquename=false, maxcitenames=2, maxbibnames=99, firstinits=true, doi=false, url=false, backend=bibtex]{biblatex}
 \bibliography{robustness.bib}
 \renewbibmacro{in:}{}                                  % remove In:
 \DeclareFieldFormat[article, inbook]{title}{#1}        % remove quotes around titles
@@ -109,7 +110,7 @@ Arnaud Le~Rouzic\textsuperscript{1,*}
 
 Robustness to genetic or environmental disturbances is often considered as a key property of living systems. Yet, in spite of being discussed since the 1950s, how robustness emerges from the complexity of genetic architectures and how it evolves still remains unclear. In particular, whether or not robustness to various sources of perturbations is independent conditions the range of adaptive scenarios that can be considered. For instance, selection for robustness to heritable mutations is likely to be modest and indirect, and its evolution might result from indirect selection on a pleiotropically-related character (e.g., homeostasis) rather than adaptation. Here, I propose to treat various robustness measurements as quantitative characters, and study theoretically, by individual-based simulations, their propensity to evolve independently. Based on a simple evolutionary model of a gene regulatory network, I showed that different ways to measure the robustness of gene expression to genetic or non-genetic disturbances were substantially correlated. Yet, robustness was evolvable in several dimensions, and  robustness components could evolve differentially under direct selection pressure. Therefore, the fact that the sensitivity of gene expression to e.g. mutations and environmental factors rely on the same gene networks does not preclude that robustness components may have distinct evolutionary histories. 
 
-\linenumbers
+%~ \linenumbers
 
 \section{Introduction}
 
@@ -215,7 +216,7 @@ Correlations were calculated between all five robustness components over 10,000 
 
 \begin{figure}[t]
 \begin{center}
-\includegraphics[width=10cm]{../results/fig1}
+\includegraphics[width=10cm]{results/fig1}
 \caption{\color{Gray} \label{fig:pca} Summary of the principal component analysis on the five robustness components over 10,000 random 6-gene networks ($\mu_0=0, \sigma_0=1$). Left: position of the five robustness components on all five (normalized) Principal Components (PC); $\stability$: Stability, $\earlyenv$: Early environmental, $\lateenv$: Late environmental, $\earlymut$: Early genetic, $\latemut$: Late genetic. Right: relative contribution of the five PCs to the total variance.}
 \end{center}
 \end{figure}
@@ -227,7 +228,7 @@ In the following, I considered the particular case of $\Pp_\infty$ = (0.3, 0.6) 
 \begin{figure}[t]
 \begin{adjustwidth}{-1in}{0in}
 \begin{flushright}
-\includegraphics[width=15cm]{../results/fig2}
+\includegraphics[width=15cm]{results/fig2}
 \caption{\color{Gray} \label{fig:imgpanels} Robustness indicators ($\stability$, $\earlyenv$, $\lateenv$, $\earlymut$, $\latemut$) estimated for an exhaustive continuum of two-gene networks with an arbitrary expression equilibrium at $\Pp_\infty = (0.3, 0.6)$. Although two-gene networks have four independent genetic parameters, only two were represented here, the two others being computed to ensure the desired equilibrium. Red stands for the maximum robustness (lowest variance scores); yellow for minimum robustness (highest scores). For readability, color scales are different across panels. Letters A to E stand for five example networks illustrated in \SupMat~\ref{supp:simpanels}.}
 \end{flushright}\end{adjustwidth}
 \end{figure}
@@ -248,7 +249,7 @@ Selection on all robustness components also lead to an indirect response of all 
 \begin{figure}[t]
 \begin{adjustwidth}{-1in}{0in}
 \begin{flushright}
-\includegraphics[width=15cm]{../results/fig3}
+\includegraphics[width=15cm]{results/fig3}
 \caption{\color{Gray} \label{fig:evol} The evolution of all five robustness indicators (five figure panels) was recorded for 10,000 generations in individual-based simulations. The figures show the average robustness over 20 replicated simulations. The control simulations (black circles) correspond to stabilizing selection only. Colored symbols correspond to simulations in which various robusntess indicators were selected up or down (upward or downward triangles). Bold-faced symbols indicate the result of direct selection (the robustness indicator displayed in the panel was directly selected), while thin symbols stand for indirect selection (the response is the result of selection on another indicator, which can be identified based on its color). }
 \end{flushright}\end{adjustwidth}
 \end{figure}
@@ -258,7 +259,7 @@ Differences in evolvability can be attributed to differences in the strength of 
 \begin{figure}[t]
 \begin{adjustwidth}{-1in}{0in}
 \begin{flushright}
-\includegraphics[width=15cm]{../results/fig4}
+\includegraphics[width=15cm]{results/fig4}
 \caption{\color{Gray} \label{fig:evolvability} Bivariate response to selection (average over 20 simulation replicates) for all combinations of robustness indicators. Left: relative response (normalized by the up - down difference at generation 10,000) to univariare selection (thick horizontal lines) and bivariate selection (symbols). Zero stands for the control at generation 10,000. Four bivariate selection treatments were simulated: negative selection of both traits, negative for the target trait and positive for the correlated trait, positive for the target trait and negative for the correlated trait, and positive selection on both traits. Symbol colors stand for the correlated trait. Right panels: three characteristic dynamics representing different outcome for bivariate response (top: the target trait responded freely to selection in spite of antagonistic selection on the correlated trait; middle: the target traits responded, but at a lower pace as when selected alone; bottom: the target trait failed to respond to selection when the correlated trait was selected in the opposite direction. }
 \end{flushright}\end{adjustwidth}
 \end{figure}
@@ -302,7 +303,7 @@ The author of this article declares that he has no financial conflict of interes
     \label{supp:sensitmag}
     \subsection*{Sensitivity of the robustness measurements to the magnitude of the disturbance}
 	\begin{center}
-	\includegraphics[width=8cm]{../results/figS1}
+	\includegraphics[width=8cm]{results/figS1}
 	\end{center}
 	{\color{Gray} Four out of five robustness indicators ($\earlyenv$, $\lateenv$, $\earlymut$, $\latemut$) depend on the magnitude of the disturbance. The figure displays the influence of the size of the disturbance on the robustness measurement (left: random networks, right: evolved networks). Robustness scores appear very reliable for evolved networks (the rank of different genotypes in terms of robustness does not depend on the size of the disturbance), while the picture is more messy for random networks, which can be differentially robust to large or small disturbances. }
 
@@ -313,7 +314,7 @@ The author of this article declares that he has no financial conflict of interes
     \subsection*{Correlations among robustness indexes}
 	\begin{adjustwidth}{-1in}{0in}
 	\begin{flushright}
-	\includegraphics[width=15cm]{../results/figS2}
+	\includegraphics[width=15cm]{results/figS2}
 	\end{flushright}
 
 	\color{Gray} Correlations between all five robustness components among 10,000 random 6-gene networks ($\mu_0=0, \sigma_0=1$). 
@@ -326,7 +327,7 @@ The author of this article declares that he has no financial conflict of interes
     \subsection*{Sampling effects on Principal Components}
     
 	\begin{center}
-	\includegraphics[width=12cm]{../results/figS3}
+	\includegraphics[width=12cm]{results/figS3}
 	\end{center}    
 
 	{\color{Gray} Influence of the sampling effect (number of networks and number of replicates $R$ to estimate robustness) on the relative
@@ -338,7 +339,7 @@ The author of this article declares that he has no financial conflict of interes
     \label{supp:whyitfails}
     \subsection*{Reasons for not reaching the desired equilibrium}
 	\begin{center}
-	\includegraphics[width=8cm]{../results/figS4}
+	\includegraphics[width=8cm]{results/figS4}
 	\end{center}
 	
 	{\color{Gray} Although equation~\ref{eq:predef} guarantees that an equilibrium exists at the target phenotypic expression, the equilibrium might not reachable in practice when simulating the gene network dynamics. The colored area in the figure corresponds to networks that failed to produced the target phenotype, each color representing a distinct reason; Yellow: network dynamics was slow and the final gene expression has not been reached yet after 16 time steps; Gray: an alternative equilibrium was reached (most of the time implying that one or both genes are either completely silenced to fully expressed). Red: The network steady state featured oscillations that were so large that they hit the maximum or minimum expression, shifting the average expression away from the target expression. }
@@ -351,7 +352,7 @@ The author of this article declares that he has no financial conflict of interes
 
 	\begin{adjustwidth}{-1in}{0in}
 	\begin{flushright}
-	\includegraphics[width=15cm]{../results/figS5}
+	\includegraphics[width=15cm]{results/figS5}
 	\end{flushright}
 	{\color{Gray} The figure displays a subset of the replicated tests for four robustness indexes. Columns A to E correspond to the five networks described in \SupMat~\ref{supp:W}. In each panel, the default (undisturbed) network kinetics is displayed as plain lines (black for gene~1, red for gene~2). By construction, all networks have an equilibrium at (0.3, 0.6). The network stability can be assessed from the amplitude of the cycles in the undisturbed kinetics. Network homeostasis (first line) was estimated by disturbing the expression state of the genes (for readability, the network response was expanded over several time steps). Environmental canalization (second line) was estimated by disturbing the initial state (semi-transparent lines). Genetic canalization (third line) was measured as the variance in the final state when mutating the network at the beginning of the development. Finally, the robustness to late mutations (last line) consisted in mutating the network after having reached the equilibrium.}
 	\end{adjustwidth}
@@ -383,7 +384,7 @@ The author of this article declares that he has no financial conflict of interes
     \label{supp:explo}
     \subsection*{Exploration of the parameter set}
 	\begin{center}
-	\includegraphics[width=12cm]{../results/figS7} 
+	\includegraphics[width=12cm]{results/figS7} 
 	\end{center}
 	
 	{\color{Gray}Influence of various simulation parameters (mutation rate $\mu$, population size $N$, total number of genes $n$, number of selected genes $n^\prime$, and strenght of selection $s$) on fitness and robustness indexes at equilibrium. The figure reports the mean $\pm$ standard deviation across 20 replicated simulations. Vertical dotted lines stand for the default parameter values in the simulations. }

@@ -1,115 +1,119 @@
 #!/usr/bin/env Rscript
 
-# Ensures that the last PCs are real (not due to stochastic noise)
+# Compute and plot correlations among robustness indexes 
+# from random or evolved gene networks
 
 source("./terminology.R")
 source("./defaults.R")
 source("./randnetwork.R")
+
 source("../src/robindex.R")
 
-######################## Options
+################## Options
+mc.cores <- default.mc.cores
+
+phen <- phen.expression   # from terminology.R
+
 Wstyle <- "random" # Possible: "random", "evolved", "randevol"
-
-a               <- default.a        
-dev.steps       <- default.dev.steps
-measure         <- default.dev.measure
-rob.initenv.sd  <- default.initenv.sd
-rob.lateenv.sd  <- default.lateenv.sd
-rob.initmut.sd  <- default.initmut.sd
-rob.latemut.sd  <- default.latemut.sd  
-log.robustness  <- default.log.robustness
-
-net.size        <- default.n
-epsilon.zero    <- default.epsilon.zero
-
-# These should match figA and figB
-rand.mean       <- default.rand.mean
-rand.sd         <- default.rand.sd
-rand.density    <- default.density
-
-reps            <- 5000
-rob.reps        <- 500
-
-allreps         <- round(10^(seq(2, 4, length.out=7)))
-allrobs         <- round(10^(seq(1, 5, length.out=9)))
-
-mc.cores         <- default.mc.cores
-
-evolved.file.pattern <- 'figG-null-\\d+.rds'
-evolved.files <- list.files(path=cache.dir, pattern=evolved.file.pattern, full.names=TRUE)
-evolved.gen          <- NA
-
 whattoconsider <- function(x) mean(x) # the average index for all genes
 
-cols <- 1:5
+# Graphical options
+maxplotpoints <- 1000 # avoids overcrowded plots
+xylims        <- list(random=c(-40,-2), evolved=NULL, randevol=NULL) 
 
-########################### Functions
-eigenV <- function(reps, rob.reps, Wstyle) {
-	# needs global variables: reg.mean, reg.sd, net.size, density
-	cache.file <- paste0(cache.dir, "/", "figH-", Wstyle, "-R", reps, "-r", rob.reps, ".rds")
-	
-	dd <- NULL
-	dd <- if (use.cache && file.exists(cache.file)) readRDS(cache.file)
-	
-	reg.mean <- rand.mean
-	reg.sd   <- rand.sd
-	reg.density <- rand.density
-	if (Wstyle == "randevol") {
-		Wevoldist <- Wdist.fromfiles(evolved.files, epsilon.zero=epsilon.zero)
-		reg.mean <- Wevoldist$mean
-		reg.sd   <- Wevoldist$sd
-		reg.density<- Wevoldist$density
-	}	
-	
-	if (is.null(dd)) {
-		dd <- mclapply(evolved.files, function(f) {
-			if (Wstyle == "evolved") {
-				ss <- readRDS(f)
-				if (is.na(evolved.gen) || !as.character(evolved.gen) %in% names(ss)) evolved.gen <- names(ss)[length(ss)]
-				W <- ss[[as.character(evolved.gen)]]$W				
-			} else {
-				W <- randW(net.size, reg.mean, reg.sd, reg.density)
-			}
-			list(W=W, 
-				mean=model.M2(W, a, steps=dev.steps)$mean, 
-				initenv=robindex.initenv(W, a, dev.steps, measure=measure, env.sd=rob.initenv.sd, rep=rob.reps, log=log.robustness),
-				lateenv=robindex.lateenv(W, a, dev.steps, measure=measure, env.sd=rob.lateenv.sd, rep=rob.reps, log=log.robustness),
-				initmut=robindex.initmut(W, a, dev.steps, measure=measure, mut.sd=rob.initmut.sd, rep=rob.reps,log=log.robustness),
-				latemut=robindex.latemut(W, a, dev.steps, measure=measure, mut.sd=rob.latemut.sd, rep=rob.reps, log=log.robustness),
-				stability=robindex.stability(W, a, dev.steps, measure=measure, log=log.robustness)
-			)
-		}, mc.cores=mc.cores) 
-		saveRDS(dd, cache.file)
-	}
-	rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(c("initenv", "lateenv", "initmut", "latemut", "stability"), function(ppp) whattoconsider(ddd[[ppp]]))))
-	prp <- prcomp(rrr, scale.=TRUE)
-	prp$sdev^2/(sum(prp$sdev^2))
+# Most parameters use the defaults, some specificities
+a              <- default.a
+dev.steps      <- default.dev.steps
+measure        <- default.dev.measure
+log.robustness <- default.log.robustness
+
+rob.reps       <- 1000
+rob.initenv.sd <- default.initenv.sd
+rob.lateenv.sd <- default.lateenv.sd
+rob.initmut.sd <- default.initmut.sd
+rob.latemut.sd <- default.latemut.sd
+
+# For random matrices
+reps           <- 10000
+net.size       <- default.n
+rand.density   <- default.density
+rand.mean      <- default.rand.mean
+rand.sd        <- default.rand.sd
+
+# For evolved matrices
+evolved.file.pattern <- 'figG-null-\\d+.rds'
+evolved.gen          <- NA    # NA: last generation of the simulations
+
+# For density estimates from evolved matrices
+epsilon.zero    <- default.epsilon.zero # W values below this will be considered as zero
+
+
+################## Calc
+cache.file <- paste0(cache.dir, "/figA-", Wstyle, ".rds")
+if (!dir.exists(cache.dir)) dir.create(cache.dir)	
+
+dd <- NULL
+dd <- if (use.cache && file.exists(cache.file)) readRDS(cache.file)
+
+evolved.files <- list.files(path=cache.dir, pattern=evolved.file.pattern, full.names=TRUE)
+
+reg.mean <- rand.mean
+reg.sd   <- rand.sd
+reg.density <- rand.density
+if (Wstyle == "randevol") {
+	Wevoldist <- Wdist.fromfiles(evolved.files, epsilon.zero=epsilon.zero)
+	reg.mean <- Wevoldist$mean
+	reg.sd   <- Wevoldist$sd
+	reg.density<- Wevoldist$density
 }
 
-########################### Calc
-# Technically, this sounds pretty useless: it would be way more efficient to run the max number of replicates and sample them for lower
-# counts. Yet, the current code is simpler, and avoids correlations among samples. 
-resreps <- lapply(allreps, function(rreps) eigenV(rreps, default.rob.reps, Wstyle))
-resrobs <- lapply(allrobs, function(robs) eigenV(reps, robs, Wstyle))
+if (is.null(dd)) {
+	dd <- mclapply(if (Wstyle=="evolved") evolved.files else seq_len(reps), function(r) {
+		if (Wstyle == "evolved") {
+			ss <- readRDS(r)
+			if (is.na(evolved.gen) || !as.character(evolved.gen) %in% names(ss)) evolved.gen <- names(ss)[length(ss)]
+			W <- ss[[as.character(evolved.gen)]]$W
+		} else { # both random and randevol
+			W <- randW(net.size, reg.mean, reg.sd, reg.density)
+		}
+		
+		list(W=W, 
+			mean=model.M2(W, a, steps=dev.steps, measure=measure)$mean, 
+			initenv=robindex.initenv(W, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=log.robustness),
+			lateenv=robindex.lateenv(W, a, dev.steps, measure, rob.lateenv.sd, rep=rob.reps, log=log.robustness),
+			initmut=robindex.initmut(W, a, dev.steps, measure, rob.initmut.sd, rep=rob.reps, log=log.robustness),
+			latemut=robindex.latemut(W, a, dev.steps, measure, rob.latemut.sd, rep=rob.reps, log=log.robustness),
+			stability=robindex.stability(W, a, dev.steps, measure, log=log.robustness)
+		)
+	}, mc.cores=mc.cores) 
+	saveRDS(dd, cache.file)
+}
 
-############################ Figure
 
-pdf(paste0("figS2.pdf"), width=8, height=4)
-	layout(t(1:2))
-	
-	plot(NULL, xlim=c(0.4,1)*range(allreps), ylim=c(1e-3,1), log="xy", xlab="Number of simulated networks", ylab="Proportion variance explained", yaxt="n", xaxt="n")
-	for (i in 1:5)
-		lines(allreps, sapply(resreps, function(r) r[i]), col=cols[i], type="o", pch=16)
-	text(allreps[1], resreps[[1]], col=cols, pos=2, paste0("PC", seq_along(cols)))
-	axis(2, at=c(0.001,0.01,0.1,1), labels=c("0.1%", "1%", "10%", "100%"))
-	axis(1, at=c(100, 1000, 10000))
-	
-	plot(NULL, xlim=c(0.2,1)*range(allrobs), ylim=c(1e-3,1), log="xy", xlab="Number of robustness tests", ylab="Proportion variance explained", yaxt="n", xaxt="n")
-	for (i in 1:5)
-		lines(allrobs, sapply(resrobs, function(r) r[i]), col=cols[i], type="o", pch=16)
-	text(allrobs[1], resrobs[[1]], col=cols, pos=2, paste0("PC", seq_along(cols)))	
-	axis(2, at=c(0.001,0.01,0.1,1), labels=c("0.1%", "1%", "10%", "100%"))
-	axis(1, at=c(10, 1000, 100000), labels=c("10", "1000", "100000"))
-	
+##################### Figure
+lp <- length(phen)
+mm <- matrix(0, ncol=lp-1, nrow=lp-1)
+mm[lower.tri(mm, diag=TRUE)] <- 1:(lp*(lp-1)/2)
+
+pdf(paste0("figS2.pdf"), width=10, height=10)
+	layout(mm)
+	par(mar=0.1+c(0,0,0,0), oma=c(4,5,0,0))
+	for (ii in 1:(lp-1)) {
+	    for (jj in ((ii+1):lp)) {
+	        rrx <- sapply(dd[1:min(length(dd), maxplotpoints)], function(x) whattoconsider(x[[names(phen)[ii]]]))
+	        rry <- sapply(dd[1:min(length(dd), maxplotpoints)], function(x) whattoconsider(x[[names(phen)[jj]]]))
+	        plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray", xlim=xylims[[Wstyle]], ylim=xylims[[Wstyle]])
+	        if (ii==1) {
+	            axis(2)
+	            mtext(as.expression(phen[jj]), side=2, line=3)
+	        }
+	        if (jj==lp) {
+	            axis(1)
+	            mtext(as.expression(phen[ii]), side=1, line=3)
+	        }
+	        # abline(lm( rr[,names(phen)[jj]] ~ rr[,names(phen)[ii]]), col="red")
+	        legend("topleft", paste0("r=", format(round(cor(rrx, rry), digits=2), nsmall=2)), bty="n", cex=1.5)
+	    }
+	}
 dev.off()
 

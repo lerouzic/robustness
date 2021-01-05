@@ -1,119 +1,149 @@
 #!/usr/bin/env Rscript
 
-# Compute and plot correlations among robustness indexes 
-# from random or evolved gene networks
-
 source("./terminology.R")
 source("./defaults.R")
-source("./randnetwork.R")
-
 source("../src/robindex.R")
 
-################## Options
-mc.cores <- default.mc.cores
+############### Options	
+a             <- default.a
+dev.steps     <- default.dev.steps
+dev.measure   <- default.dev.measure
+log.robindex  <- default.log.robustness
 
-phen <- phen.expression   # from terminology.R
+rob.reps      <- 1000
 
-Wstyle <- "random" # Possible: "random", "evolved", "randevol"
-whattoconsider <- function(x) mean(x) # the average index for all genes
+net.size      <- default.n
+reps <- 8
 
-# Graphical options
-maxplotpoints <- 1000 # avoids overcrowded plots
-xylims        <- list(random=c(-40,-2), evolved=NULL, randevol=NULL) 
+density        <- 1
+reg.mean       <- default.rand.mean
+reg.sd         <- default.rand.sd
 
-# Most parameters use the defaults, some specificities
-a              <- default.a
-dev.steps      <- default.dev.steps
-measure        <- default.dev.measure
-log.robustness <- default.log.robustness
+mc.cores       <- default.mc.cores
 
-rob.reps       <- 1000
-rob.initenv.sd <- default.initenv.sd
-rob.lateenv.sd <- default.lateenv.sd
-rob.initmut.sd <- default.initmut.sd
-rob.latemut.sd <- default.latemut.sd
+nb.values <- 21
+sd.test <- list(
+	initenv = 10^seq(-4, 0, length.out=nb.values),
+	lateenv = 10^seq(-4, 0, length.out=nb.values),
+	initmut = 10^seq(-4, 0, length.out=nb.values),
+	latemut = 10^seq(-4, 0, length.out=nb.values)
+)
 
-# For random matrices
-reps           <- 10000
-net.size       <- default.n
-rand.density   <- default.density
-rand.mean      <- default.rand.mean
-rand.sd        <- default.rand.sd
+phen <- phen.expression
+    
+sigmas <- c(
+	initenv=substitute(sigma[x], list(x=SDLETTER.ENVCAN)), 
+	lateenv=substitute(sigma[x], list(x=SDLETTER.HOMEO)),
+	initmut=substitute(sigma[x], list(x=SDLETTER.GENCAN)),
+	latemut=substitute(sigma[x], list(x=SDLETTER.SOM))
+)
 
-# For evolved matrices
-evolved.file.pattern <- 'figG-null-\\d+.rds'
-evolved.gen          <- NA    # NA: last generation of the simulations
+col.phen <- c(initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut=COL.SOM, stability=COL.STAB)
 
-# For density estimates from evolved matrices
-epsilon.zero    <- default.epsilon.zero # W values below this will be considered as zero
-
-
-################## Calc
-cache.file <- paste0(cache.dir, "/figA-", Wstyle, ".rds")
-if (!dir.exists(cache.dir)) dir.create(cache.dir)	
-
-dd <- NULL
-dd <- if (use.cache && file.exists(cache.file)) readRDS(cache.file)
-
-evolved.files <- list.files(path=cache.dir, pattern=evolved.file.pattern, full.names=TRUE)
-
-reg.mean <- rand.mean
-reg.sd   <- rand.sd
-reg.density <- rand.density
-if (Wstyle == "randevol") {
-	Wevoldist <- Wdist.fromfiles(evolved.files, epsilon.zero=epsilon.zero)
-	reg.mean <- Wevoldist$mean
-	reg.sd   <- Wevoldist$sd
-	reg.density<- Wevoldist$density
+##################### Functions
+randW <- function(size, density, mean, sd) {
+	W <- matrix(rnorm(size^2, mean=mean, sd=sd), ncol=size)
+	W[sample.int(size^2, floor((1-density)*size^2))] <- 0
+	W
 }
 
-if (is.null(dd)) {
-	dd <- mclapply(if (Wstyle=="evolved") evolved.files else seq_len(reps), function(r) {
-		if (Wstyle == "evolved") {
-			ss <- readRDS(r)
-			if (is.na(evolved.gen) || !as.character(evolved.gen) %in% names(ss)) evolved.gen <- names(ss)[length(ss)]
-			W <- ss[[as.character(evolved.gen)]]$W
-		} else { # both random and randevol
-			W <- randW(net.size, reg.mean, reg.sd, reg.density)
-		}
-		
-		list(W=W, 
-			mean=model.M2(W, a, steps=dev.steps, measure=measure)$mean, 
-			initenv=robindex.initenv(W, a, dev.steps, measure, rob.initenv.sd, rep=rob.reps, log=log.robustness),
-			lateenv=robindex.lateenv(W, a, dev.steps, measure, rob.lateenv.sd, rep=rob.reps, log=log.robustness),
-			initmut=robindex.initmut(W, a, dev.steps, measure, rob.initmut.sd, rep=rob.reps, log=log.robustness),
-			latemut=robindex.latemut(W, a, dev.steps, measure, rob.latemut.sd, rep=rob.reps, log=log.robustness),
-			stability=robindex.stability(W, a, dev.steps, measure, log=log.robustness)
-		)
-	}, mc.cores=mc.cores) 
-	saveRDS(dd, cache.file)
+test.rob.initenv <- function(W) {
+	sapply(sd.test[["initenv"]], function(initenv.sd) 
+		mean(robindex.initenv(W, a, dev.steps, dev.measure, initenv.sd, rep=rob.reps, log=log.robindex)))
 }
 
+test.rob.lateenv <- function(W) {
+	sapply(sd.test[["lateenv"]], function(lateenv.sd) 
+		mean(robindex.lateenv(W, a, dev.steps, dev.measure, lateenv.sd, rep=rob.reps, log=log.robindex)))
+}
 
-##################### Figure
-lp <- length(phen)
-mm <- matrix(0, ncol=lp-1, nrow=lp-1)
-mm[lower.tri(mm, diag=TRUE)] <- 1:(lp*(lp-1)/2)
+test.rob.initmut <- function(W) {
+	sapply(sd.test[["initmut"]], function(initmut.sd) 
+		mean(robindex.initmut(W, a, dev.steps, dev.measure, initmut.sd, rep=rob.reps, log=log.robindex)))
+}
 
-pdf(paste0("figS1.pdf"), width=10, height=10)
-	layout(mm)
-	par(mar=0.1+c(0,0,0,0), oma=c(4,5,0,0))
-	for (ii in 1:(lp-1)) {
-	    for (jj in ((ii+1):lp)) {
-	        rrx <- sapply(dd[1:min(length(dd), maxplotpoints)], function(x) whattoconsider(x[[names(phen)[ii]]]))
-	        rry <- sapply(dd[1:min(length(dd), maxplotpoints)], function(x) whattoconsider(x[[names(phen)[jj]]]))
-	        plot(rrx, rry, xaxt="n", yaxt="n", xlab="", ylab="", col="gray", xlim=xylims[[Wstyle]], ylim=xylims[[Wstyle]])
-	        if (ii==1) {
-	            axis(2)
-	            mtext(as.expression(phen[jj]), side=2, line=3)
-	        }
-	        if (jj==lp) {
-	            axis(1)
-	            mtext(as.expression(phen[ii]), side=1, line=3)
-	        }
-	        # abline(lm( rr[,names(phen)[jj]] ~ rr[,names(phen)[ii]]), col="red")
-	        legend("topleft", paste0("r=", format(round(cor(rrx, rry), digits=2), nsmall=2)), bty="n", cex=1.5)
-	    }
+test.rob.latemut <- function(W) {
+	sapply(sd.test[["latemut"]], function(latemut.sd) 
+		mean(robindex.latemut(W, a, dev.steps, dev.measure, latemut.sd, rep=rob.reps, log=log.robindex)))
+}
+
+test.W <- function(W) {
+	list(
+		initenv = test.rob.initenv(W),
+		lateenv = test.rob.lateenv(W),
+		initmut = test.rob.initmut(W),
+		latemut = test.rob.latemut(W)
+	)
+}
+
+plotW <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL, type="l", col=col.phen[what], ...) {
+	if (!add) {
+		if (is.null(xlim)) xlim <- range(sd.test[[what]])
+		if (is.null(ylim)) ylim <- range(testW[[what]])
+		plot(NULL, xlim=xlim, ylim=ylim, xlab=as.expression(sigmas[what]), ylab=as.expression(phen[what]), log="x")
 	}
-dev.off()
+	lines(sd.test[[what]], testW[[what]], col=col, type=type, ...)
+}
 
+
+######################## Figure
+pdf("figS1.pdf", width=4, height=6)
+	layout(matrix(1:8, ncol=2))
+	par(mar=c(3,3,0.5,0.5), oma=c(0,0,2,0), cex=0.6, mgp=c(2,1,0))
+
+	# Random W matrices
+
+	allW <- lapply(1:reps, function(i) randW(size=net.size, density=density, mean=reg.mean, sd=reg.sd))
+	alltests <- mclapply(allW, test.W, mc.cores=mc.cores)
+	
+	for (tt in seq_along(alltests)) 
+		plotW(alltests[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
+	abline(v=default.initenv.sd, lty=3, col="darkgray")
+	title("Random networks", xpd=NA, line=1)
+		
+	for (tt in seq_along(alltests)) 
+		plotW(alltests[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-40,-3))		
+	abline(v=default.lateenv.sd, lty=3, col="darkgray")
+	
+	for (tt in seq_along(alltests)) 
+		plotW(alltests[[tt]], what="initmut", add=tt>1, col=tt, ylim=c(-40,-3))
+	abline(v=default.initmut.sd, lty=3, col="darkgray")
+		
+	for (tt in seq_along(alltests)) 
+		plotW(alltests[[tt]], what="latemut", add=tt>1, col=tt, ylim=c(-40,-3))
+	abline(v=default.latemut.sd, lty=3, col="darkgray")
+
+
+	# Evolved W matrices (from reference simulations, figG-null)
+	
+	pattern <- 'figG-null-\\d+.rds'
+	gen <- NA
+	
+	allW <- lapply(
+		sample(list.files(path="../cache", pattern=pattern, full.names=TRUE), reps, replace=FALSE), 
+		function(ff) {
+			ss <- readRDS(ff)
+			if (is.na(gen) || !as.character(gen) %in% names(ss)) gen <- names(ss)[length(ss)]
+			ss[[as.character(gen)]]$W
+		})
+	
+	alltests <- mclapply(allW, test.W, mc.cores=mc.cores)
+
+	for (tt in seq_along(alltests)) 
+		plotW(alltests[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
+	abline(v=default.initenv.sd, lty=3, col="darkgray")
+	title("Evolved networks", xpd=NA, line=1)
+		
+	for (tt in seq_along(alltests)) 
+		plotW(alltests[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-25,-3))		
+	abline(v=default.lateenv.sd, lty=3, col="darkgray")
+	
+	for (tt in seq_along(alltests)) 
+		plotW(alltests[[tt]], what="initmut", add=tt>1, col=tt, ylim=c(-25,-3))
+	abline(v=default.initmut.sd, lty=3, col="darkgray")
+		
+	for (tt in seq_along(alltests)) 
+		plotW(alltests[[tt]], what="latemut", add=tt>1, col=tt, ylim=c(-25,-3))
+	abline(v=default.latemut.sd, lty=3, col="darkgray")
+
+dev.off()

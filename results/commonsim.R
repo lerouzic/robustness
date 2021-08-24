@@ -15,6 +15,7 @@ default.args <- list(
 	summary.every   = round(default.G/100),
 	mc.cores        = 1,
 	N               = default.N,
+	density         = 1,
 	mut.rate        = default.mut.rate,
 	som.mut.rate    = 0,
 	sim.initenv.sd  = 0,
@@ -60,6 +61,7 @@ sim.run.single <- function(W0, myargs=NULL, sim.name=NA, force.run=FALSE) {
 	if (all(is.na(W0))) {
 		# NA for W0 is replaced by a random matrix at the correct equilibrium
 		WW <- matrix(rnorm(length(myargs$theta)^2, default.rand.mean, default.rand.sd.sim), ncol=length(myargs$theta))
+		WW[sample(seq_along(WW), length(WW)*(1-myargs$density))] <- 0 # The next procedure ensures that at least one element per line is not 0
 		for (i in 1:nrow(WW)) WW[i,sample(1:ncol(WW), 1)] <- NA
 		W0 <- targetW(WW, target=myargs$theta, a=myargs$a)
 	}

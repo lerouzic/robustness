@@ -13,19 +13,22 @@ W0               <- NA
 reps             <- default.sim.reps
 test.rep         <- default.rob.reps
 N                <- default.N
+a                <- default.a
 G                <- 20000
 mut.rate         <- default.mut.rate
 force.run        <- !use.cache
 
 mc.cores         <- default.mc.cores
 
-defaults         <- c(m=mut.rate, N=N, g=n.genes, sg=sel.genes, s=default.s)
+defaults         <- c(m=mut.rate, a=a, N=N, g=n.genes, sg=sel.genes, d=1, s=default.s)
 
 nb.values        <- 11
 mut.values       <- 10^seq(-3,-1, length.out=nb.values)
 N.values         <- round(10^seq(1, 4, length.out=nb.values))
+a.values         <- seq(0.1, 0.5, length.out=nb.values)
 genes.values     <- round(seq(3, 20, length.out=nb.values))
 selg.values      <- 1:6
+d.values         <- seq(0.2, 1, length.out=nb.values)
 s.values         <- 10^seq(-1, 2, length.out=nb.values)
 
 phen             <- c(list(fitness="Fitness"), phen.expression)
@@ -41,8 +44,10 @@ ylims            <- list(
 captions <- c(
 	m=expression("Mutation rate ("*mu*")"),
 	N="Population size (N)",
+	a="Constitutive expression (a)",
 	g="Number of genes (n)",
 	sg="Selected genes (n\')",
+	d="Network density (d)",
 	s="Selection strength (s)")
 
 
@@ -54,6 +59,14 @@ torun.mut <- lapply(mut.values, function(mm)
 		reps=reps, series.name=paste0("figL-ref-m", signif(mm, digits=2)), 
 		force.run=force.run, mc.cores=min(reps, mc.cores)), 
 	list(mm=mm)))
+	
+torun.a <- lapply(a.values, function(aa) 
+	substitute(function() sim.run.reps(
+		W0, 
+		list(s=s, G=G, N=N, a=aa, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
+		reps=reps, series.name=paste0("figL-ref-a", signif(aa, digits=2)), 
+		force.run=force.run, mc.cores=min(reps, mc.cores)), 
+	list(aa=aa)))
 	
 torun.N <- lapply(N.values, function(nn) 
 	substitute(function() sim.run.reps(
@@ -79,6 +92,14 @@ torun.selg <- lapply(selg.values, function(sg)
 		force.run=force.run, mc.cores=min(reps, mc.cores)), 
 	list(sg=sg)))
 	
+torun.d <- lapply(d.values, function(dd) 
+	substitute(function() sim.run.reps(
+		W0, 
+		list(s=s, G=G, N=N, density=dd, rep=test.rep, summary.every=G, mut.rate=mut.rate), 
+		reps=reps, series.name=paste0("figL-ref-d", signif(dd, digits=2)), 
+		force.run=force.run, mc.cores=min(reps, mc.cores)), 
+	list(dd=dd)))
+	
 torun.sel <- lapply(s.values, function(ss)
 	substitute(function() sim.run.reps(
 		W0, 
@@ -88,11 +109,13 @@ torun.sel <- lapply(s.values, function(ss)
 	list(ss=ss)))
 
 torun <- setNames(
-	c(torun.mut, torun.N, torun.genes, torun.selg, torun.sel),
+	c(torun.mut, torun.a, torun.N, torun.genes, torun.selg, torun.d, torun.sel),
 	c(	paste0("ref.m", signif(mut.values, digits=2)), 
+		paste0("ref.a", signif(a.values, digits=2)),
 		paste0("ref.N", N.values), 
 		paste0("ref.g", genes.values), 
 		paste0("ref.sg", selg.values), 
+		paste0("red.d", signif(d.values, digits=2)),
 		paste0("ref.s", signif(s.values, digits=2))))
 	
 	
@@ -103,7 +126,7 @@ list.sim <- mclapply(torun, function(ff) eval(ff)(), mc.cores=min(length(torun),
 
 ww <- c("fitness", "initenv", "lateenv","initmut","latemut", "stability")
 
-pdf("figS7.pdf", width=10, height=14)
+pdf("figS7.pdf", width=14, height=14)
 	layout(matrix(1:(length(ww)*length(captions)), ncol=length(captions)))
 	par(mar=c(0.5, 0.5, 0.5, 0.1), oma=c(5, 4, 0, 0))
 	for (pp in names(captions)) {

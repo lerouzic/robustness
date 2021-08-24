@@ -113,6 +113,13 @@ plot2traits.legend <- function(col.x, col.y, corr.M=0.5, evol.dist=1.5, ...) {
 	arrows(x0=c(0,0,0,0), y0=c(0,0,0,0), x1=0.8*evol.dist*c(-1,-1,1,1), y1=0.8*evol.dist*c(-1,1,1,-1), col="darkgray",length=0.1)
 }
 
+plotM <- function(list.M, what.x, what.y) {
+	plot(NULL, xlim=mean(xylim[[what.x]])+c(-1,1)*diff(xylim[[what.x]]), ylim=mean(xylim[[what.y]])+c(-1,1)*diff(xylim[[what.y]]), xlab=what.x, ylab=what.y)
+	
+	for (i in seq_along(list.M[["oo.o"]]$full)) {
+		lines(ellipse(list.M[["oo.o"]]$full[[i]]$vcov[c(what.x, what.y), c(what.x, what.y)], centre=list.M[["oo.o"]]$full[[i]]$mean[c(what.x, what.y)]))
+	}
+}
 
 # Computes gradient verctors for one and two selected traits
 gradvec1 <- function(i, grd) c(rep(0, i-1), grd, rep(0, length(default.shortcode)-i))

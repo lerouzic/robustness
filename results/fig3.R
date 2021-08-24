@@ -53,6 +53,31 @@ allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Gener
 	}
 }
 
+dynplot <- function(list.sim, what="fitness", focal="oo", xlim=NULL, ylim=NULL, xlab="Generations", ylab=what, lwd=3, FUN=mean, control="oo", ...) {
+	if(is.null(xlim)) 
+		xlim <- c(0, as.numeric(rev(names(list.sim[[1]]$mean))[1]))
+	allv <- do.call(rbind, lapply(list.sim, function(x) do.call(rbind, lapply(x$mean, function(xx) FUN(xx[[what]])))))
+	if(is.null(ylim)) 
+		ylim <- c(min(allv), max(allv))
+	
+	plot(NULL, xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, ...)
+	for (nss in names(list.sim)) {
+		nnss <- strsplit(nss, split="\\.")[[1]]
+		if (! nnss[1] %in% c(focal, control)) next
+		xpp <- seq_along(as.numeric(names(list.sim[[nss]]$mean)))
+		xpp <- round(seq(xpp[1], xpp[length(xpp)], length.out=min(max.points, length(xpp))))
+		lines(
+			x   = as.numeric(names(list.sim[[nss]]$mean))[xpp], 
+			y   = sapply(list.sim[[nss]]$mean, function(x) FUN(x[[what]]))[xpp], 
+			col = col.sim[nnss[1]], 
+			lty = lty.sim[nnss[2]], 
+			pch = pch.sim[nnss[2]], 
+			lwd = if(default.shortcode[what] == focal && nnss[1] == focal) 3 else 1,
+			type= "o")
+	}
+}
+
+
 ################################ Calc
 torun <- list(
 	oo.o = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,0)), 
@@ -83,12 +108,32 @@ list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceili
 
 ########################## Figure
 
-pdf("fig3.pdf", width=12, height=8)
-	layout(rbind(1:3,4:6))
-	par(cex=1, mar=c(3, 2, 2, 1), mgp=c(1.8,0.6,0))
-	allplots(list.sim, what="initenv", focal=c("oo","ie"))
-	allplots(list.sim, what="lateenv", focal=c("oo","le"))
-	allplots(list.sim, what="initmut", focal=c("oo","im"))
-	allplots(list.sim, what="latemut", focal=c("oo","lm"))
-	allplots(list.sim, what="stability", focal=c("oo","st"))
+pdf("fig3.pdf", width=12, height=10)
+	layout(matrix(1:25, ncol=5))
+	par(cex=1, mar=c(0.5, 0.5, 0.2, 0.5), oma=c(5,5,4,3))
+	for (selsim in default.shortcode) {
+		for (what in names(default.shortcode)) {
+			first.col <- (selsim == default.shortcode[1])
+			last.col  <- (selsim == default.shortcode[length(default.shortcode)])
+			first.row <- (what == names(default.shortcode)[1])
+			last.row  <- (what == names(default.shortcode)[length(default.shortcode)])
+			
+			dynplot(list.sim, what=what, focal=selsim, xlab=if(last.row) "Generation" else "", ylab="", xaxt=if(last.row) "s" else "n", yaxt="n", xpd=NA)
+			if (first.col) {
+				mtext(default.labels[what], 2, line=1, cex=1.1, las=2)
+			}
+			if (last.col) {
+				axis(4, xpd=NA, las=2)
+			}
+			if (first.row) {
+				selsim.name <- names(default.shortcode)[default.shortcode == selsim]
+#~ 				mtext(as.expression(phen.expression[selsim.name]), 3, line=1, col=col.phen[selsim.name], font=2)
+				title(as.expression(phen.expression[selsim.name]), line=1, col.main=col.phen[selsim.name], xpd=NA, cex.main=1.1)
+			}
+			if (first.row && first.col) {
+				mtext("Selected robustness component", 3, outer=TRUE, line=2.5, font=2, cex=1.5)
+				mtext("Observed robustness component", 2, outer=TRUE, line=3.5, font=2, cex=1.5)
+			}
+		}
+	}
 dev.off()

@@ -16,6 +16,18 @@ rtruncnorm <- function(N, mean = 0, sd = 1, a = -Inf, b = Inf) {
   qnorm(U, mean, sd); }
   
 
+conditional <- function(M, constr) {
+	# Conditional evolvability, modified from Hansen & Houle 2008
+	if(!is.numeric(constr)) constr <- match(constr, rownames(M))
+	stopifnot(sum(is.na(constr)) == 0, all(constr %in% seq_len(ncol(M))))
+	nconstr <- seq_len(ncol(M))[!seq_len(ncol(M)) %in% constr]
+	My  <- M[nconstr,nconstr, drop=FALSE]
+	Myx <- M[nconstr, constr, drop=FALSE]
+	Mxy <- M[constr, nconstr, drop=FALSE]
+	Mx  <- M[constr, constr, drop=FALSE]
+	My - Myx %*% solve(Mx) %*% Mxy
+}
+
 robindex.initenv <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5)), env.sd, rep=1000, FUN=var, log=FALSE) {
 	ans <- replicate(rep,  
 		model.M2(W, a, S0=rtruncnorm(nrow(W), mean=a, sd=env.sd, 0, 1) , steps=dev.steps, measure=measure)$mean)
@@ -67,7 +79,7 @@ robindex.stability <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5
 	transf((ref-onemore)^2)
 }
 
-robindex.Mmatrix <- function(W, a, dev.steps, mut.sd=0.1, mut.correlated=FALSE, test.initmut.sd=mut.sd, test.latemut.sd=mut.sd, nbmut=1, test.initenv.sd=1, test.lateenv.sd=0.1, test.rep=100, rep=1000, log.robustness=FALSE) {
+robindex.Mmatrix <- function(W, a, dev.steps, mut.sd=0.1, mut.correlated=FALSE, test.initmut.sd=mut.sd, test.latemut.sd=mut.sd, nbmut=1, test.initenv.sd=1, test.lateenv.sd=0.1, test.rep=100, rep=1000, log.robustness=FALSE, include.expr=FALSE) {
 	all <- replicate(rep, {
 		myW <- W
 		nbmut <- min(nbmut, sum(W != 0))
@@ -75,13 +87,14 @@ robindex.Mmatrix <- function(W, a, dev.steps, mut.sd=0.1, mut.correlated=FALSE, 
 		mm <- if(mut.correlated) W[which.mut] else 0
 		myW[which.mut] <- rnorm(nbmut, mean=mm, sd=mut.sd)
 		c(
+		expr=if(include.expr) model.M2(W=myW, a=a, S0=rep(a, ncol(W)) , steps=dev.steps, measure=min(4, round(dev.steps/5)))$mean,
 		initenv=mean(robindex.initenv(W=myW, a=a, dev.steps=dev.steps, env.sd=test.initenv.sd, rep=test.rep, log=log.robustness)),
 		lateenv=mean(robindex.lateenv(W=myW, a=a, dev.steps=dev.steps, env.sd=test.lateenv.sd, rep=test.rep, log=log.robustness)),
 		initmut=mean(robindex.initmut(W=myW, a=a, dev.steps=dev.steps, mut.sd=test.initmut.sd, mut.correlated=mut.correlated, rep=test.rep, log=log.robustness)),
 		latemut=mean(robindex.latemut(W=myW, a=a, dev.steps=dev.steps, mut.sd=test.latemut.sd, mut.correlated=mut.correlated, rep=test.rep, log=log.robustness)),
 		stability=mean(robindex.stability(W=myW, a=a, dev.steps=dev.steps, log=log.robustness)))
 	})
-	list(mean=rowMeans(all), vcov=var(t(all), na.rm=TRUE))
+	list(mean=rowMeans(all), vcov=var(t(all), na.rm=TRUE)/nbmut)
 }
 
 robindex.Mmatrix.outfile <- function(out, gen=NA, ...) {

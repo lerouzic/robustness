@@ -35,7 +35,7 @@ default.log.robustness<- TRUE
 
 # Simulation parameters
 
-default.sim.reps      <- 20
+default.sim.reps      <- 100
 default.G             <- 100
 default.summary.every <- 10
 default.N             <- 1000

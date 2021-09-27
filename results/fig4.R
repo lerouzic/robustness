@@ -127,7 +127,7 @@ for (i1 in 1:(length(default.shortcode)-1))
 	}
 
 list.sim <- mclapply(torun, function(ff) 
-	sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob), reps=reps, series.name=ff$series.name, force.run=force.run, mc.cores=reps), 
+	sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob), reps=reps, series.name=ff$series.name, force.run=force.run, mc.cores=min(mc.cores, reps)), 
 	mc.cores=ceiling(mc.cores/reps))
 
 # It is more convenient to have all combinations in the list.sim variable (should not take more memory)

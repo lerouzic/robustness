@@ -30,7 +30,7 @@ force.run         <- !use.cache
 
 M.reps            <- 100
 M.nbmut           <- 5
-gen.display       <- 1000
+gen.display       <- 5000
 
 col.sim  <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM, st=COL.STAB)
 pch.sim <- c(o=1, m=6, p=2, mm=10, pp=11, mp=9, pm=7)
@@ -148,14 +148,48 @@ list.sim <- mclapply(torun, function(ff)
 	mc.cores=ceiling(mc.cores/reps))
 	
 # Computing M matrices (so far, only need the control for the first generation)
-list.M <- mclapply(list.sim["oo.o"], function(sim.series) {
+list.M <- mclapply(list.sim, function(sim.series) {
 		W0.all <- lapply(sim.series$full, function(x) x[[1]]$W)
 		M0.all <- mclapply(W0.all, robindex.Mmatrix, a=a, dev.steps=default.dev.steps, mut.sd=default.sim.mutsd, mut.correlated=default.mut.correlated, test.initmut.sd=default.initmut.sd, test.latemut.sd=default.latemut.sd, nbmut=M.nbmut, test.initenv.sd=default.initenv.sd, test.lateenv.sd=default.lateenv.sd, test.rep=test.rep, rep=M.reps, log.robustness=default.log.robustness, include.expr=TRUE, mc.cores=mc.cores)
 		list(
 			full      = M0.all, 
 			mean.M    = list.mean(lapply(M0.all, function(m) m$vcov[names(default.shortcode), names(default.shortcode)])),
 			mean.Mcond= list.mean(lapply(M0.all, function(m) conditional(m$vcov, paste0("expr", seq_len(sel.genes)))[names(default.shortcode), names(default.shortcode)]))) 
-	}, mc.cores=1)
+	}, mc.cores=8)
+	
+pred.evol <- function(M, grad) {
+	stopifnot(length(grad) == ncol(M))
+	pred <- M %*% grad
+}
+
+realized.evol <- function(sim, gen, gen0=100) {
+	G1 <- sapply(sim[[as.character(gen0)]][names(default.shortcode)], mean)
+	Gn <- sapply(sim[[as.character(gen)]][names(default.shortcode)], mean)
+	Gn-G1
+}
+
+angle <- function(x,y){
+  dot.prod <- x%*%y 
+  norm.x <- norm(x,type="2")
+  norm.y <- norm(y,type="2")
+  theta <- acos(dot.prod / (norm.x * norm.y))
+  as.numeric(theta)
+}
+
+dist.evol <- function(sim, gen=1000, M=NULL, grad, gen0=100) {
+	if (is.null(M)) 
+		M <- robindex.Mmatrix(W=sim[[as.character(gen)]], a=a, dev.steps=default.dev.steps, mut.sd=default.sim.mutsd, mut.correlated=default.mut.correlated, test.initmut.sd=default.initmut.sd, test.latemut.sd=default.latemut.sd, nbmut=M.nbmut, test.initenv.sd=default.initenv.sd, test.lateenv.sd=default.lateenv.sd, test.rep=test.rep, rep=M.reps, log.robustness=default.log.robustness)
+	
+	pp <- pred.evol(M=M, grad=grad)
+	rr <- realized.evol(sim=sim, gen=gen, gen0=gen0)
+	
+	list(
+		pred=pp,
+		realized=rr,
+		dist=c(dist(rbind(pp,rr))),
+		angle=angle(pp, rr)
+	)
+}
 		
 
 # It is more convenient to have all combinations in the list.sim variable (should not take more memory)

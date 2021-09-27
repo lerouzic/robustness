@@ -73,7 +73,11 @@ sim.run.single <- function(W0, myargs=NULL, sim.name=NA, force.run=FALSE) {
 		ans <- do.call(simsel, c(list(W0=W0), myargs))
 		saveRDS(ans, file=outfile, version=2)
 	} else {
-		ans <- readRDS(outfile)
+		ans <- try(readRDS(outfile))
+		if (class(ans) == "try-error") {
+			warning("Impossible to read cache file ", outfile)
+			ans <- NA
+		}
 	}
 	ans
 }

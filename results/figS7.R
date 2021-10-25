@@ -25,7 +25,7 @@ defaults         <- c(m=mut.rate, a=a, N=N, g=n.genes, sg=sel.genes, d=1, s=defa
 nb.values        <- 11
 mut.values       <- 10^seq(-3,-1, length.out=nb.values)
 N.values         <- round(10^seq(1, 4, length.out=nb.values))
-a.values         <- seq(0.1, 0.5, length.out=nb.values)
+a.values         <- seq(0.1, 0.5, length.out=9)
 genes.values     <- round(seq(3, 20, length.out=nb.values))
 selg.values      <- 1:6
 d.values         <- seq(0.2, 1, length.out=nb.values)
@@ -35,11 +35,11 @@ phen             <- c(list(fitness="Fitness"), phen.expression)
 
 ylims            <- list(
                        fitness=c(0.85,1), 
-                       initenv=c(-35,-15), 
+                       initenv=c(-35,-5), 
                        lateenv=c(-15,0), 
-                       initmut=c(-13,-4), 
-                       latemut=c(-15,-5), 
-                       stability=c(-35,-12))
+                       initmut=c(-15,0), 
+                       latemut=c(-20,-0), 
+                       stability=c(-35,-5))
 
 captions <- c(
 	m=expression("Mutation rate ("*mu*")"),
@@ -115,7 +115,7 @@ torun <- setNames(
 		paste0("ref.N", N.values), 
 		paste0("ref.g", genes.values), 
 		paste0("ref.sg", selg.values), 
-		paste0("red.d", signif(d.values, digits=2)),
+		paste0("ref.d", signif(d.values, digits=2)),
 		paste0("ref.s", signif(s.values, digits=2))))
 	
 	
@@ -135,7 +135,7 @@ pdf("figS7.pdf", width=14, height=14)
 			xval <- sapply(strsplit(names(ls), split=paste0("\\.",pp)), function(sp) as.numeric(sp[2]))
 			yval <- sapply(ls, function(x) mean(x$mean[[as.character(G)]][[what]]))
 			yvar <- sapply(ls, function(x) mean(x$var[[as.character(G)]][[what]]))
-			plot(NULL, log=if(pp %in% c("g","sg")) "" else "x", xaxt="n", yaxt="n", xlab="", ylab="", xlim=range(xval), ylim=ylims[[what]])
+			plot(NULL, log=if(pp %in% c("g","sg","a","d")) "" else "x", xaxt="n", yaxt="n", xlab="", ylab="", xlim=range(xval), ylim=ylims[[what]])
 			arrows(x0=xval, y0=yval-sqrt(yvar), y1=yval+sqrt(yvar), code=3, length=0, angle=90, col="darkgray")
 			points(xval, yval, type="p")
 			

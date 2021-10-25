@@ -3,7 +3,7 @@
 # Computing options
 
 library(parallel)
-default.mc.cores <- min(detectCores()-1, 128)
+default.mc.cores <- min(detectCores()-1, 100)
 
 use.cache <- TRUE
 cache.dir <- "../cache/"

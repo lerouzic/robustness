@@ -36,10 +36,11 @@ col.sim  <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM
 pch.sim <- c(o=1, m=6, p=2, mm=10, pp=11, mp=9, pm=7)
 xylim <- list(
 	initenv = c(-38, -12),
-	lateenv = c(- 8, - 5.8),
+	lateenv = c(-7.2, -5.8),
 	initmut = c(-8.5,- 6),
-	latemut = c(-10,- 7), 
+	latemut = c(-9.5,- 7.5), 
 	stability=c(-38, -12))
+asp <- 1
 
 list.mean <- function(ll) {
 	arr <- do.call(abind, c(ll, list(along=3)))
@@ -54,7 +55,7 @@ plot2traits <- function(list.sim, list.M=NULL, what.x, what.y, xlim=NULL, ylim=N
 	if (is.null(ylim))
 		ylim <- range(do.call(rbind, lapply(list.sim, function(x) do.call(rbind, lapply(x$mean, function(xx) FUN(xx[[what.y]]))))))
 	
-	plot(NULL, xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, ...)
+	plot(NULL, xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, asp=asp, ...)
 	
 	ref.x <- sapply(list.sim[["oo.o"]]$mean, function(x) FUN(x[[what.x]]))[1]
 	ref.y <- sapply(list.sim[["oo.o"]]$mean, function(x) FUN(x[[what.y]]))[1]
@@ -209,14 +210,15 @@ pdf("fig5.pdf", width=10, height=10)
 	lm[1,4] <- 11
 	layout(lm)
 	
-	par(mar=c(0.5, 0.5, 0.5, 0.5), oma=c(4, 4, 0, 2))
+	par(mar=c(2.5, 0.5, 0.5, 2.5), oma=c(4, 4, 0, 2))
 	
 	for (i in 1:4) {
 		for (j in (i+1):5) {
 			plot2traits(list.sim, list.M, names(default.shortcode)[i], names(default.shortcode)[j], xaxt="n", yaxt="n", xlab="", ylab="", xlim=xylim[[i]], ylim=xylim[[j]])
+			axis(1)
+			axis(4)
 			if (i==1) mtext(as.expression(phen.expression[j]), 2, line=2, xpd=NA, col=default.cols[j])
-			if (j==i+1) axis(4)
-			if (j==5) { axis(1); mtext(as.expression(phen.expression[i]), 1, line=3, xpd=NA, col=default.cols[i]) }
+			if (j==5) mtext(as.expression(phen.expression[i]), 1, line=3, xpd=NA, col=default.cols[i])
 		}
 	}
 	plot2traits.legend(default.cols[4], default.cols[2])

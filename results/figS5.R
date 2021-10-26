@@ -3,6 +3,7 @@
 # Illustrates the robustness differences between all study cases
 
 source("../src/netw.R")
+source("../src/tools.R")
 source("./studycases.R")
 source("./terminology.R")
 source("./defaults.R")
@@ -16,14 +17,6 @@ latemut.sd <- default.latemut.sd
 initenv.sd <- default.initenv.sd
 lateenv.sd <- default.lateenv.sd
 dev.steps <-  default.dev.steps
-
-############## Functions
-makeTransparent<-function(someColor, alpha=70)
-{ # from https://stackoverflow.com/questions/8047668/transparent-equivalent-of-given-color
-  newColor<-col2rgb(someColor)
-  apply(newColor, 2, function(curcoldata){rgb(red=curcoldata[1], green=curcoldata[2],
-    blue=curcoldata[3],alpha=alpha, maxColorValue=255)})
-}
 
 
 illustrate.reference <- function(W, ...) {

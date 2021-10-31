@@ -2,6 +2,7 @@
 
 # Evolutionary trajectories, direct selection
 
+source("../src/tools.R")
 source("./commonsim.R")
 source("./terminology.R")
 source("./defaults.R")
@@ -53,27 +54,60 @@ allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Gener
 	}
 }
 
-dynplot <- function(list.sim, what="fitness", focal="oo", xlim=NULL, ylim=NULL, xlab="Generations", ylab=what, lwd=3, FUN=mean, control="oo", ...) {
+dynplot <- function(list.sim, what="fitness", focal="oo", xlim=NULL, ylim=NULL, xlab="Generations", ylab=what, lwd=3, FUN=mean, control="oo", bg=NA, std.dev=TRUE, relative=FALSE, ...) {
 	if(is.null(xlim)) 
 		xlim <- c(0, as.numeric(rev(names(list.sim[[1]]$mean))[1]))
-	allv <- do.call(rbind, lapply(list.sim, function(x) do.call(rbind, lapply(x$mean, function(xx) FUN(xx[[what]])))))
+	allv  <- do.call(rbind, lapply(list.sim, function(x) do.call(rbind, lapply(x$mean, function(xx) FUN(xx[[what]])))))
+	allvv <- do.call(rbind, lapply(list.sim, function(x) do.call(rbind, lapply(x$var,  function(xx) FUN(xx[[what]])))))
+	mean.control <- FUN(list.sim[["oo.o"]]$mean[[1]][[what]])
+	var.control  <- FUN(list.sim[["oo.o"]]$var [[1]][[what]])
+	if (relative) {
+		allv  <- allv  - mean.control
+		allvv <- allvv - var.control
+		allvv[allvv < 0] <- 0 # Negative variances are problematic. 
+	}
 	if(is.null(ylim)) 
-		ylim <- c(min(allv), max(allv))
+		ylim <- if (std.dev) c(min(allv - sqrt(allvv)), max(allv + sqrt(allvv)))
+		        else         c(min(allv), max(allv))
 	
 	plot(NULL, xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, ...)
+	if (!is.na(bg)) # Not very clean: change the background color of the plotting area
+		rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = bg)
+		
+	jtt <- 0
 	for (nss in names(list.sim)) {
 		nnss <- strsplit(nss, split="\\.")[[1]]
 		if (! nnss[1] %in% c(focal, control)) next
+
 		xpp <- seq_along(as.numeric(names(list.sim[[nss]]$mean)))
 		xpp <- round(seq(xpp[1], xpp[length(xpp)], length.out=min(max.points, length(xpp))))
+		mean.line <- sapply(list.sim[[nss]]$mean, function(x) FUN(x[[what]]))[xpp]
+		if (relative)
+			mean.line <- mean.line - mean.control
 		lines(
-			x   = as.numeric(names(list.sim[[nss]]$mean))[xpp], 
-			y   = sapply(list.sim[[nss]]$mean, function(x) FUN(x[[what]]))[xpp], 
-			col = col.sim[nnss[1]], 
+			x   = as.numeric(names(list.sim[[nss]]$mean))[xpp] + jtt, 
+			y   = mean.line, 
+			col = if (nnss[1] == control) "black" else col.sim[default.shortcode[what]], 
 			lty = lty.sim[nnss[2]], 
 			pch = pch.sim[nnss[2]], 
-			lwd = if(default.shortcode[what] == focal && nnss[1] == focal) 3 else 1,
+			lwd = 1,
 			type= "o")
+		if (std.dev && nnss[1] != control) {
+			var.line <- 
+				if (relative) {
+					# Here things get more complicated. We want the variance among replicates, relative to the mean at the first generation
+					apply(do.call(rbind, lapply(list.sim[[nss]]$full, function(rep) sapply(rep[names(list.sim[[nss]]$mean)], function(gen) FUN(gen[[what]])) - FUN(rep[[1]][[what]]))), 2, var)
+				} else {
+					sapply(list.sim[[nss]]$var, function(x) FUN(x[[what]]))[xpp]
+				}
+			arrows(
+				x0 = as.numeric(names(list.sim[[nss]]$mean))[xpp] + jtt, 
+				y0 = mean.line - sqrt(var.line),
+				y1 = mean.line + sqrt(var.line),
+				col = makeTransparent(col.sim[default.shortcode[what]], alpha=40), 
+				length=0)
+			jtt <- jtt + 100
+		}
 	}
 }
 
@@ -118,7 +152,7 @@ pdf("fig3.pdf", width=12, height=10)
 			first.row <- (what == names(default.shortcode)[1])
 			last.row  <- (what == names(default.shortcode)[length(default.shortcode)])
 			
-			dynplot(list.sim, what=what, focal=selsim, xlab=if(last.row) "Generation" else "", ylab="", xaxt=if(last.row) "s" else "n", yaxt="n", xpd=NA)
+			dynplot(list.sim, what=what, focal=selsim, xlab=if(last.row) "Generation" else "", ylab="", xaxt=if(last.row) "s" else "n", yaxt="n", xpd=NA, bg=if(selsim != default.shortcode[what]) "gray92" else NA)
 			if (first.col) {
 				mtext(default.labels[what], 2, line=1, cex=1.1, las=2)
 			}

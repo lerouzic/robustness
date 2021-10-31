@@ -35,11 +35,11 @@ gen.display       <- 5000
 col.sim  <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM, st=COL.STAB)
 pch.sim <- c(o=1, m=6, p=2, mm=10, pp=11, mp=9, pm=7)
 xylim <- list(
-	initenv = c(-38, -12),
-	lateenv = c(-7.2, -5.8),
-	initmut = c(-8.5,- 6),
-	latemut = c(-9.5,- 7.5), 
-	stability=c(-38, -12))
+	initenv = c(-38, -10),
+	lateenv = c(-10, -5.8),
+	initmut = c(-9.3,- 6),
+	latemut = c(-11.5,- 7.5), 
+	stability=c(-38, -10))
 asp <- 1
 
 list.mean <- function(ll) {
@@ -145,18 +145,18 @@ for (i1 in 1:(length(default.shortcode)-1))
 	}
 
 list.sim <- mclapply(torun, function(ff) 
-	sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob), reps=reps, series.name=ff$series.name, force.run=force.run, mc.cores=reps), 
+	sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob), reps=reps, series.name=ff$series.name, force.run=force.run, mc.cores=max(1,floor(reps/mc.cores))), 
 	mc.cores=ceiling(mc.cores/reps))
 	
 # Computing M matrices (so far, only need the control for the first generation)
-list.M <- mclapply(list.sim, function(sim.series) {
+list.M <- mclapply(list.sim["oo.o"], function(sim.series) {
 		W0.all <- lapply(sim.series$full, function(x) x[[1]]$W)
-		M0.all <- mclapply(W0.all, robindex.Mmatrix, a=a, dev.steps=default.dev.steps, mut.sd=default.sim.mutsd, mut.correlated=default.mut.correlated, test.initmut.sd=default.initmut.sd, test.latemut.sd=default.latemut.sd, nbmut=M.nbmut, test.initenv.sd=default.initenv.sd, test.lateenv.sd=default.lateenv.sd, test.rep=test.rep, rep=M.reps, log.robustness=default.log.robustness, include.expr=TRUE, mc.cores=mc.cores)
+		M0.all <- mclapply(W0.all, robindex.Mmatrix, a=a, dev.steps=default.dev.steps, mut.sd=default.sim.mutsd, mut.correlated=default.mut.correlated, test.initmut.sd=default.initmut.sd, test.latemut.sd=default.latemut.sd, nbmut=M.nbmut, test.initenv.sd=default.initenv.sd, test.lateenv.sd=default.lateenv.sd, test.rep=test.rep, rep=M.reps, log.robustness=default.log.robustness, include.expr=TRUE, mc.cores=floor(mc.cores/length(list.sim)))
 		list(
 			full      = M0.all, 
 			mean.M    = list.mean(lapply(M0.all, function(m) m$vcov[names(default.shortcode), names(default.shortcode)])),
 			mean.Mcond= list.mean(lapply(M0.all, function(m) conditional(m$vcov, paste0("expr", seq_len(sel.genes)))[names(default.shortcode), names(default.shortcode)]))) 
-	}, mc.cores=8)
+	}, mc.cores=mc.cores)
 	
 pred.evol <- function(M, grad) {
 	stopifnot(length(grad) == ncol(M))
@@ -204,7 +204,7 @@ for (i in 1:(length(default.shortcode)-1))
 		list.sim[[paste0(inc, "mm")]] <- list.sim[[paste0(nc, "mm")]]
 	}
 
-pdf("fig5.pdf", width=10, height=10)
+pdf("fig4.pdf", width=10, height=10)
 	lm <- matrix(0, ncol=4, nrow=4)
 	lm[lower.tri(lm, diag=TRUE)] <- 1:10
 	lm[1,4] <- 11

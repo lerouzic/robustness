@@ -114,6 +114,24 @@ plot2traits.legend <- function(col.x, col.y, corr.M=0.5, evol.dist=1.5, ...) {
 	arrows(x0=c(0,0,0,0), y0=c(0,0,0,0), x1=0.8*evol.dist*c(-1,-1,1,1), y1=0.8*evol.dist*c(-1,1,1,-1), col="darkgray",length=0.1)
 }
 
+plotEvolv <- function(list.sim, M, grads, xlim=NULL, ylim=NULL, xlab="Predicted mutational evolvability", ylab=paste0("Observed evolvability at T=", gen.display), ...) {
+	list.sim <- list.sim[names(grads)] # Getting rid of the symmetric "virtual" simulations that were added for convenience
+	
+	ref <- sapply(list.sim[["oo.o"]]$mean[[1]][names(default.shortcode)], mean)
+	
+	pred.evolv <- sapply(names(list.sim), function(nn) if (nn=="oo.o") 0 else c(evolvability(M, grads[[nn]])))
+	real.evolv <- sapply(names(list.sim), function(nn) if (nn=="oo.o") 0 else (sapply(list.sim[[nn]]$mean[[as.character(gen.display)]][names(default.shortcode)], mean) - ref) %*% grads[[nn]] / norm(grads[[nn]], type="2"))
+		
+	if (is.null(xlim)) xlim <- range(pred.evolv)
+	if (is.null(ylim)) ylim <- range(real.evolv)
+	nnss <- strsplit(names(list.sim), split="\\.")
+	pchs <- pch.sim[sapply(nnss, function(x) x[length(x)])]
+	cols <- ifelse(sapply(nnss, length) == 2, col.sim[sapply(nnss, "[", 1)], "darkgray")
+	
+	plot(pred.evolv, real.evolv, xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, pch=pchs, col=cols, ...)
+	abline(lm(real.evolv ~ pred.evolv), col="darkorange", lty=2)
+}
+
 plotM <- function(list.M, what.x, what.y) {
 	plot(NULL, xlim=mean(xylim[[what.x]])+c(-1,1)*diff(xylim[[what.x]]), ylim=mean(xylim[[what.y]])+c(-1,1)*diff(xylim[[what.y]]), xlab=what.x, ylab=what.y)
 	
@@ -144,6 +162,7 @@ for (i1 in 1:(length(default.shortcode)-1))
 		torun[[paste(nm1, nm2, "pp", sep=".")]] <- list(series.name=paste("figI", nm1, nm2, "pp", sep="-"), grad.rob=gradvec2(i1, i2,  grad.effect,  grad.effect))
 	}
 
+
 list.sim <- mclapply(torun, function(ff) 
 	sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob), reps=reps, series.name=ff$series.name, force.run=force.run, mc.cores=max(1,floor(reps/mc.cores))), 
 	mc.cores=ceiling(mc.cores/reps))
@@ -151,7 +170,7 @@ list.sim <- mclapply(torun, function(ff)
 # Computing M matrices (so far, only need the control for the first generation)
 list.M <- mclapply(list.sim["oo.o"], function(sim.series) {
 		W0.all <- lapply(sim.series$full, function(x) x[[1]]$W)
-		M0.all <- mclapply(W0.all, robindex.Mmatrix, a=a, dev.steps=default.dev.steps, mut.sd=default.sim.mutsd, mut.correlated=default.mut.correlated, test.initmut.sd=default.initmut.sd, test.latemut.sd=default.latemut.sd, nbmut=M.nbmut, test.initenv.sd=default.initenv.sd, test.lateenv.sd=default.lateenv.sd, test.rep=test.rep, rep=M.reps, log.robustness=default.log.robustness, include.expr=TRUE, mc.cores=floor(mc.cores/length(list.sim)))
+		M0.all <- mclapply(W0.all, robindex.Mmatrix, a=a, dev.steps=default.dev.steps, mut.sd=default.sim.mutsd, mut.correlated=default.mut.correlated, test.initmut.sd=default.initmut.sd, test.latemut.sd=default.latemut.sd, nbmut=M.nbmut, test.initenv.sd=default.initenv.sd, test.lateenv.sd=default.lateenv.sd, test.rep=test.rep, rep=M.reps, log.robustness=default.log.robustness, include.expr=TRUE, mc.cores=max(1,floor(mc.cores/length(list.sim))))
 		list(
 			full      = M0.all, 
 			mean.M    = list.mean(lapply(M0.all, function(m) m$vcov[names(default.shortcode), names(default.shortcode)])),
@@ -207,7 +226,8 @@ for (i in 1:(length(default.shortcode)-1))
 pdf("fig4.pdf", width=10, height=10)
 	lm <- matrix(0, ncol=4, nrow=4)
 	lm[lower.tri(lm, diag=TRUE)] <- 1:10
-	lm[1,4] <- 11
+	lm[1,3] <- 11
+	lm[2,4] <- 12
 	layout(lm)
 	
 	par(mar=c(2.5, 0.5, 0.5, 2.5), oma=c(4, 4, 0, 2))
@@ -222,5 +242,7 @@ pdf("fig4.pdf", width=10, height=10)
 		}
 	}
 	plot2traits.legend(default.cols[4], default.cols[2])
-	mtext("Direction of selection", 1, cex=1.5, line=1)
+	mtext("Direction of selection", 1, cex=1.2, line=1)
+	
+	plotEvolv(list.sim, M=list.M[["oo.o"]]$mean.Mcond, grads=lapply(torun, "[[", "grad.rob"), xpd=NA, bg="bisque")
 dev.off()

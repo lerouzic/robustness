@@ -28,6 +28,11 @@ conditional <- function(M, constr) {
 	My - Myx %*% solve(Mx) %*% Mxy
 }
 
+evolvability <- function(M, beta) {
+	# Evolvability, i.e. potential for response in the direction of selection
+	(t(beta) %*% M %*% beta) / norm(beta, type="2")^2
+}
+
 robindex.initenv <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5)), env.sd, rep=1000, FUN=var, log=FALSE) {
 	ans <- replicate(rep,  
 		model.M2(W, a, S0=rtruncnorm(nrow(W), mean=a, sd=env.sd, 0, 1) , steps=dev.steps, measure=measure)$mean)

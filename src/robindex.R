@@ -136,3 +136,4 @@ robindex.Gmatrix.outfile <- function(out, gen=NA, ...) {
 	names(ans) <- as.character(gen)
 	ans
 }
+

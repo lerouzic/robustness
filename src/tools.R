@@ -8,3 +8,7 @@ makeTransparent<-function(someColor, alpha=70)
   apply(newColor, 2, function(curcoldata){rgb(red=curcoldata[1], green=curcoldata[2],
     blue=curcoldata[3],alpha=alpha, maxColorValue=255)})
 }
+
+subpanel <- function(x, adj=0.025, col="black", line=-1, outer=FALSE) {
+	title(adj=adj, main=x, cex.main=1.4, col.main=col, line=line, outer=outer)
+}

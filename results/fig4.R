@@ -114,13 +114,13 @@ plot2traits.legend <- function(col.x, col.y, corr.M=0.5, evol.dist=1.5, ...) {
 	arrows(x0=c(0,0,0,0), y0=c(0,0,0,0), x1=0.8*evol.dist*c(-1,-1,1,1), y1=0.8*evol.dist*c(-1,1,1,-1), col="darkgray",length=0.1)
 }
 
-plotEvolv <- function(list.sim, M, grads, xlim=NULL, ylim=NULL, xlab="Predicted mutational evolvability", ylab=paste0("Observed evolvability at T=", gen.display), ...) {
+plotEvolv <- function(list.sim, M, grads, gen=gen.display, xlim=NULL, ylim=NULL, xlab="Predicted mutational evolvability", ylab=paste0("Observed evolvability at T=", gen), bg=NULL, ...) {
 	list.sim <- list.sim[names(grads)] # Getting rid of the symmetric "virtual" simulations that were added for convenience
 	
 	ref <- sapply(list.sim[["oo.o"]]$mean[[1]][names(default.shortcode)], mean)
 	
 	pred.evolv <- sapply(names(list.sim), function(nn) if (nn=="oo.o") 0 else c(evolvability(M, grads[[nn]])))
-	real.evolv <- sapply(names(list.sim), function(nn) if (nn=="oo.o") 0 else (sapply(list.sim[[nn]]$mean[[as.character(gen.display)]][names(default.shortcode)], mean) - ref) %*% grads[[nn]] / norm(grads[[nn]], type="2"))
+	real.evolv <- sapply(names(list.sim), function(nn) if (nn=="oo.o") 0 else (sapply(list.sim[[nn]]$mean[[as.character(gen)]][names(default.shortcode)], mean) - ref) %*% grads[[nn]] / norm(grads[[nn]], type="2"))
 		
 	if (is.null(xlim)) xlim <- range(pred.evolv)
 	if (is.null(ylim)) ylim <- range(real.evolv)
@@ -128,8 +128,10 @@ plotEvolv <- function(list.sim, M, grads, xlim=NULL, ylim=NULL, xlab="Predicted 
 	pchs <- pch.sim[sapply(nnss, function(x) x[length(x)])]
 	cols <- ifelse(sapply(nnss, length) == 2, col.sim[sapply(nnss, "[", 1)], "darkgray")
 	
-	plot(pred.evolv, real.evolv, xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, pch=pchs, col=cols, ...)
-	abline(lm(real.evolv ~ pred.evolv), col="darkorange", lty=2)
+	plot(NULL, xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, ...)
+	if(!is.null(bg)) rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = bg)
+	points(rev(pred.evolv), rev(real.evolv), pch=rev(pchs), col=rev(cols))
+	abline(lm(real.evolv ~ 0 + pred.evolv), col="darkorange", lty=2)
 }
 
 plotM <- function(list.M, what.x, what.y) {
@@ -223,7 +225,7 @@ for (i in 1:(length(default.shortcode)-1))
 		list.sim[[paste0(inc, "mm")]] <- list.sim[[paste0(nc, "mm")]]
 	}
 
-pdf("fig4.pdf", width=10, height=10)
+pdf("fig4.pdf", width=10, height=9)
 	lm <- matrix(0, ncol=4, nrow=4)
 	lm[lower.tri(lm, diag=TRUE)] <- 1:10
 	lm[1,3] <- 11
@@ -244,5 +246,8 @@ pdf("fig4.pdf", width=10, height=10)
 	plot2traits.legend(default.cols[4], default.cols[2])
 	mtext("Direction of selection", 1, cex=1.2, line=1)
 	
-	plotEvolv(list.sim, M=list.M[["oo.o"]]$mean.Mcond, grads=lapply(torun, "[[", "grad.rob"), xpd=NA, bg="bisque")
+	plotEvolv(list.sim, M=list.M[["oo.o"]]$mean.Mcond, grads=lapply(torun, "[[", "grad.rob"), gen=1000, xlab="", ylab="", bg="bisque", bty="l")
+	mtext("Predicted evolvability", 1, cex=1.2, line=2.2)
+	mtext("Observed evolvability", 2, cex=1.2, line=2)
+	
 dev.off()

@@ -104,7 +104,7 @@ dynplot <- function(list.sim, what="fitness", focal="oo", xlim=NULL, ylim=NULL, 
 				x0 = as.numeric(names(list.sim[[nss]]$mean))[xpp] + jtt, 
 				y0 = mean.line - sqrt(var.line),
 				y1 = mean.line + sqrt(var.line),
-				col = makeTransparent(col.sim[default.shortcode[what]], alpha=40), 
+				col = makeTransparent(col.sim[default.shortcode[what]], alpha=70), 
 				length=0)
 			jtt <- jtt + 100
 		}

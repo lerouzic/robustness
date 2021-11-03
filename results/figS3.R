@@ -4,7 +4,7 @@
 
 source("./terminology.R")
 source("./defaults.R")
-source("./randnetwork.R")
+source("../src/randnetwork.R")
 source("../src/robindex.R")
 
 ######################## Options

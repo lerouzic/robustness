@@ -2,7 +2,9 @@
 
 source("./terminology.R")
 source("./defaults.R")
-source("../src/robindex.R")
+source("../src/randnetwork.R")
+source("../src/robindex.R")    # for test.W()
+
 
 ############### Options	
 a             <- default.a
@@ -41,11 +43,7 @@ sigmas <- c(
 col.phen <- c(initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut=COL.SOM, stability=COL.STAB)
 
 ##################### Functions
-randW <- function(size, density, mean, sd) {
-	W <- matrix(rnorm(size^2, mean=mean, sd=sd), ncol=size)
-	W[sample.int(size^2, floor((1-density)*size^2))] <- 0
-	W
-}
+
 
 test.rob.initenv <- function(W) {
 	sapply(sd.test[["initenv"]], function(initenv.sd) 
@@ -76,6 +74,7 @@ test.W <- function(W) {
 	)
 }
 
+
 plotW <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL, type="l", col=col.phen[what], ...) {
 	if (!add) {
 		if (is.null(xlim)) xlim <- range(sd.test[[what]])
@@ -93,7 +92,7 @@ pdf("figS1.pdf", width=4, height=6)
 
 	# Random W matrices
 
-	allW <- lapply(1:reps, function(i) randW(size=net.size, density=density, mean=reg.mean, sd=reg.sd))
+	allW <- lapply(1:reps, function(i) randW(net.size=net.size, reg.mean=reg.mean, reg.sd=reg.sd, density=density))
 	alltests <- mclapply(allW, test.W, mc.cores=mc.cores)
 	
 	for (tt in seq_along(alltests)) 

@@ -103,7 +103,7 @@ if (!use.cache || !file.exists(cache.file)) {
 		w <-  matrix(unlist(x[1:(network.size^2)]), nrow=network.size)
 		whyitfails(w, a, dev.steps, measure, target)
 	}))
-	saveRDS(res, file=cache.file)
+	saveRDS(res, file=cache.file, version=2)
 } else {
 	res <- readRDS(cache.file)
 }

@@ -2,26 +2,21 @@
 
 source("./terminology.R")
 source("./defaults.R")
+
 source("../src/randnetwork.R")
-source("../src/robindex.R")    # for test.W()
+source("../src/robindex.R")
 
+############### Options
 
-############### Options	
-a             <- default.a
-dev.steps     <- default.dev.steps
-dev.measure   <- default.dev.measure
-log.robindex  <- default.log.robustness
+param <- default
 
-rob.reps      <- 1000
+param$rob.reps      <- 1000
 
-net.size      <- default.n
-reps <- 8
+evolv.files.pattern <- 'figG-null-\\d+.rds'
+evolv.gen <- NA
 
-density        <- 1
-reg.mean       <- default.rand.mean
-reg.sd         <- default.rand.sd
+rep.show <- 8
 
-mc.cores       <- default.mc.cores
 
 nb.values <- 21
 sd.test <- list(
@@ -45,37 +40,37 @@ col.phen <- c(initenv=COL.ENVCAN, lateenv=COL.HOMEO, initmut=COL.GENCAN, latemut
 ##################### Functions
 
 
-test.rob.initenv <- function(W) {
+test.sensit.initenv <- function(W) {
 	sapply(sd.test[["initenv"]], function(initenv.sd) 
-		mean(robindex.initenv(W, a, dev.steps, dev.measure, initenv.sd, rep=rob.reps, log=log.robindex)))
+		mean(robindex.initenv(W, param$a, param$dev.steps, param$dev.measure, initenv.sd, rep=param$rob.reps, log=param$log.robustness)))
 }
 
-test.rob.lateenv <- function(W) {
+test.sensit.lateenv <- function(W) {
 	sapply(sd.test[["lateenv"]], function(lateenv.sd) 
-		mean(robindex.lateenv(W, a, dev.steps, dev.measure, lateenv.sd, rep=rob.reps, log=log.robindex)))
+		mean(robindex.lateenv(W, param$a, param$dev.steps, param$dev.measure, lateenv.sd, rep=param$rob.reps, log=param$log.robustness)))
 }
 
-test.rob.initmut <- function(W) {
+test.sensit.initmut <- function(W) {
 	sapply(sd.test[["initmut"]], function(initmut.sd) 
-		mean(robindex.initmut(W, a, dev.steps, dev.measure, initmut.sd, rep=rob.reps, log=log.robindex)))
+		mean(robindex.initmut(W, param$a, param$dev.steps, param$dev.measure, initmut.sd, rep=param$rob.reps, log=param$log.robustness)))
 }
 
-test.rob.latemut <- function(W) {
+test.sensit.latemut <- function(W) {
 	sapply(sd.test[["latemut"]], function(latemut.sd) 
-		mean(robindex.latemut(W, a, dev.steps, dev.measure, latemut.sd, rep=rob.reps, log=log.robindex)))
+		mean(robindex.latemut(W, param$a, param$dev.steps, param$dev.measure, latemut.sd, rep=param$rob.reps, log=param$log.robustness)))
 }
 
-test.W <- function(W) {
+test.sensit.W <- function(W) {
 	list(
-		initenv = test.rob.initenv(W),
-		lateenv = test.rob.lateenv(W),
-		initmut = test.rob.initmut(W),
-		latemut = test.rob.latemut(W)
+		initenv = test.sensit.initenv(W),
+		lateenv = test.sensit.lateenv(W),
+		initmut = test.sensit.initmut(W),
+		latemut = test.sensit.latemut(W)
 	)
 }
 
 
-plotW <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL, type="l", col=col.phen[what], ...) {
+plot.sensit.W <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL, type="l", col=col.phen[what], ...) {
 	if (!add) {
 		if (is.null(xlim)) xlim <- range(sd.test[[what]])
 		if (is.null(ylim)) ylim <- range(testW[[what]])
@@ -86,63 +81,62 @@ plotW <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL, type="l
 
 
 ######################## Figure
+
 pdf("figS1.pdf", width=4, height=6)
 	layout(matrix(1:8, ncol=2))
 	par(mar=c(3,3,0.5,0.5), oma=c(0,0,2,0), cex=0.6, mgp=c(2,1,0))
 
 	# Random W matrices
 
-	allW <- lapply(1:reps, function(i) randW(net.size=net.size, reg.mean=reg.mean, reg.sd=reg.sd, density=density))
-	alltests <- mclapply(allW, test.W, mc.cores=mc.cores)
+	allW.rand <- lapply(1:rep.show, function(i) randW(net.size=param$n, reg.mean=param$rand.mean, reg.sd=param$rand.sd, density=param$density))
+	alltests.rand <- mclapply(allW.rand, test.sensit.W, mc.cores=param$mc.cores)
 	
-	for (tt in seq_along(alltests)) 
-		plotW(alltests[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
-	abline(v=default.initenv.sd, lty=3, col="darkgray")
+	for (tt in seq_along(alltests.rand)) 
+		plot.sensit.W(alltests.rand[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
+	abline(v=param$initenv.sd, lty=3, col="darkgray")
 	title("Random networks", xpd=NA, line=1)
 		
-	for (tt in seq_along(alltests)) 
-		plotW(alltests[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-40,-3))		
-	abline(v=default.lateenv.sd, lty=3, col="darkgray")
+	for (tt in seq_along(alltests.rand)) 
+		plot.sensit.W(alltests.rand[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-40,-3))		
+	abline(v=param$lateenv.sd, lty=3, col="darkgray")
 	
-	for (tt in seq_along(alltests)) 
-		plotW(alltests[[tt]], what="initmut", add=tt>1, col=tt, ylim=c(-40,-3))
-	abline(v=default.initmut.sd, lty=3, col="darkgray")
+	for (tt in seq_along(alltests.rand)) 
+		plot.sensit.W(alltests.rand[[tt]], what="initmut", add=tt>1, col=tt, ylim=c(-40,-3))
+	abline(v=param$initmut.sd, lty=3, col="darkgray")
 		
-	for (tt in seq_along(alltests)) 
-		plotW(alltests[[tt]], what="latemut", add=tt>1, col=tt, ylim=c(-40,-3))
-	abline(v=default.latemut.sd, lty=3, col="darkgray")
+	for (tt in seq_along(alltests.rand)) 
+		plot.sensit.W(alltests.rand[[tt]], what="latemut", add=tt>1, col=tt, ylim=c(-40,-3))
+	abline(v=param$latemut.sd, lty=3, col="darkgray")
 
 
 	# Evolved W matrices (from reference simulations, figG-null)
 	
-	pattern <- 'figG-null-\\d+.rds'
-	gen <- NA
-	
-	allW <- lapply(
-		sample(list.files(path="../cache", pattern=pattern, full.names=TRUE), reps, replace=FALSE), 
+
+	allW.evolv <- lapply(
+		sample(list.files(path=param$cache.dir, pattern=evolv.files.pattern, full.names=TRUE), rep.show, replace=FALSE), 
 		function(ff) {
 			ss <- readRDS(ff)
-			if (is.na(gen) || !as.character(gen) %in% names(ss)) gen <- names(ss)[length(ss)]
-			ss[[as.character(gen)]]$W
+			if (is.na(evolv.gen) || !as.character(evolv.gen) %in% names(ss)) evolv.gen <- names(ss)[length(ss)]
+			ss[[as.character(evolv.gen)]]$W
 		})
 	
-	alltests <- mclapply(allW, test.W, mc.cores=mc.cores)
+	alltests.evolv <- mclapply(allW.evolv, test.sensit.W, mc.cores=param$mc.cores)
 
-	for (tt in seq_along(alltests)) 
-		plotW(alltests[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
-	abline(v=default.initenv.sd, lty=3, col="darkgray")
+	for (tt in seq_along(alltests.evolv)) 
+		plot.sensit.W(alltests.evolv[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
+	abline(v=param$initenv.sd, lty=3, col="darkgray")
 	title("Evolved networks", xpd=NA, line=1)
 		
-	for (tt in seq_along(alltests)) 
-		plotW(alltests[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-25,-3))		
-	abline(v=default.lateenv.sd, lty=3, col="darkgray")
+	for (tt in seq_along(alltests.evolv)) 
+		plot.sensit.W(alltests.evolv[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-25,-3))		
+	abline(v=param$lateenv.sd, lty=3, col="darkgray")
 	
-	for (tt in seq_along(alltests)) 
-		plotW(alltests[[tt]], what="initmut", add=tt>1, col=tt, ylim=c(-25,-3))
-	abline(v=default.initmut.sd, lty=3, col="darkgray")
+	for (tt in seq_along(alltests.evolv)) 
+		plotW(alltests.evolv[[tt]], what="initmut", add=tt>1, col=tt, ylim=c(-25,-3))
+	abline(v=param$initmut.sd, lty=3, col="darkgray")
 		
-	for (tt in seq_along(alltests)) 
-		plotW(alltests[[tt]], what="latemut", add=tt>1, col=tt, ylim=c(-25,-3))
-	abline(v=default.latemut.sd, lty=3, col="darkgray")
+	for (tt in seq_along(alltests.evolv)) 
+		plotW(alltests.evolv[[tt]], what="latemut", add=tt>1, col=tt, ylim=c(-25,-3))
+	abline(v=param$latemut.sd, lty=3, col="darkgray")
 
 dev.off()

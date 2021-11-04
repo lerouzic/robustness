@@ -2,26 +2,24 @@
 
 # Illustrates the robustness differences between all study cases
 
-source("../src/netw.R")
-source("../src/tools.R")
 source("./studycases.R")
 source("./terminology.R")
 source("./defaults.R")
 
+source("../src/netw.R")
+source("../src/tools.R")
+
 ################ Options
-cols <- 1:2
 
-a          <- default.a
-initmut.sd <- default.initmut.sd
-latemut.sd <- default.latemut.sd
-initenv.sd <- default.initenv.sd
-lateenv.sd <- default.lateenv.sd
-dev.steps <-  default.dev.steps
+param <- default
 
+cols <- c("black","red")
+
+################ Graphical functions
 
 illustrate.reference <- function(W, ...) {
-	mod <- model.M2(W=W, a=a, steps=dev.steps, full=TRUE)
-	plot(NULL, xlim=c(1, dev.steps+2), ylim=c(0,1), xaxt="n", yaxt="n", xlab="", ylab="")
+	mod <- model.M2(W=W, a=param$a, steps=param$dev.steps, full=TRUE)
+	plot(NULL, xlim=c(1, param$dev.steps+2), ylim=c(0,1), xaxt="n", yaxt="n", xlab="", ylab="")
 	for (i in 1:nrow(W))
 		lines(mod$full[i,], col=cols[i], ...)
 }
@@ -30,45 +28,45 @@ illustrate.initmut <- function(W, rep=10, ...) {
 	for (r in 1:rep) {
 		myW <- W
 		whichmut <- sample(seq_along(W), 1)
-		myW[whichmut] <- rnorm(1, myW[whichmut], sd=initmut.sd)
-		mod <- model.M2(W=myW, a=a, steps=dev.steps, full=TRUE)
+		myW[whichmut] <- rnorm(1, myW[whichmut], sd=param$initmut.sd)
+		mod <- model.M2(W=myW, a=param$a, steps=param$dev.steps, full=TRUE)
 		for (i in 1:nrow(W))
-			lines(mod$full[i,], col=makeTransparent(cols[i]), ...)		
+			lines(mod$full[i,], col=makeTransparent(cols[i]), ...)
 	}
 }
 
 illustrate.initenv <- function(W, rep=10, ...) {
 	for (r in 1:rep) {
-		myS0 <- rnorm(nrow(W), a, sd=initenv.sd)
+		myS0 <- rnorm(nrow(W), param$a, sd=param$initenv.sd)
 		myS0[myS0<0] <- 0
 		myS0[myS0>1] <- 1
-		mod <- model.M2(W=W, a=a, S0=myS0, steps=dev.steps, full=TRUE)
+		mod <- model.M2(W=W, a=param$a, S0=myS0, steps=param$dev.steps, full=TRUE)
 		for (i in 1:nrow(W))
-			lines(mod$full[i,], col=makeTransparent(cols[i]), ...)		
+			lines(mod$full[i,], col=makeTransparent(cols[i]), ...)
 	}
 }
 
 illustrate.latemut <- function(W, rep=20, ...) {
-	ref <- model.M2(W=W, a=a, steps=dev.steps)
+	ref <- model.M2(W=W, a=param$a, steps=param$dev.steps)
 	for (r in 1:rep) {
 		myW <- W
 		whichmut <- sample(seq_along(W), 1)
-		myW[whichmut] <- rnorm(1, myW[whichmut], sd=latemut.sd)
-		mod <- model.M2(W=myW, a=a, S0=ref$mean, steps=1, full=TRUE)
+		myW[whichmut] <- rnorm(1, myW[whichmut], sd=param$latemut.sd)
+		mod <- model.M2(W=myW, a=param$a, S0=ref$mean, steps=1, full=TRUE)
 		for (i in 1:nrow(W))
-			lines(x=(1:2)+dev.steps, mod$full[i,], col=makeTransparent(cols[i]), ...)		
+			lines(x=(1:2)+param$dev.steps, mod$full[i,], col=makeTransparent(cols[i]), ...)
 	}
 }
 
 illustrate.lateenv <- function(W, rep=20, ...) {
-	ref <- model.M2(W=W, a=a, steps=dev.steps)
+	ref <- model.M2(W=W, a=param$a, steps=param$dev.steps)
 	for (r in 1:rep) {
-		myS0 <- rnorm(nrow(W), ref$mean, sd=lateenv.sd)
+		myS0 <- rnorm(nrow(W), ref$mean, sd=param$lateenv.sd)
 		myS0[myS0<0] <- 0
 		myS0[myS0>1] <- 1
-		mod <- model.M2(W=W, a=a, S0=myS0, steps=1, full=TRUE)
+		mod <- model.M2(W=W, a=param$a, S0=myS0, steps=1, full=TRUE)
 		for (i in 1:nrow(W))
-			lines(x=(1:2)+dev.steps, mod$full[i,], col=makeTransparent(cols[i]), ...)		
+			lines(x=(1:2)+param$dev.steps, mod$full[i,], col=makeTransparent(cols[i]), ...)
 	}
 }
 
@@ -80,7 +78,8 @@ pdf("figS5.pdf", width=12, height=12)
 	par(mar=c(0,0,0,0)+0.2, oma=c(4, 4, 4, 0), xpd=NA)
 	
 	for (rstud in 1:nrow(stud)) {
-		W <- targetW(cbind(stud[rstud,], rep(NA, network.size)), target=target, a=a)
+		# target is defined in studycases.R
+		W <- targetW(cbind(stud[rstud,], rep(NA, network.size)), target=target, a=param$a) 
 		
 		illustrate.reference(W, lwd=2)
 		illustrate.initmut(W)
@@ -92,7 +91,7 @@ pdf("figS5.pdf", width=12, height=12)
 			axis(1)
 			mtext("Time steps", 1, outer=FALSE, line=3)
 		}
-		text(4, 0.95, LETTERS[rstud], cex=2)
+		subpanel(LETTERS[rstud], cex=1.8, line=-1.5)
 		
 		illustrate.reference(W, lwd=2)
 		illustrate.latemut(W)

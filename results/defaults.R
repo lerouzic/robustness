@@ -3,44 +3,48 @@
 # Computing options
 
 library(parallel)
-default.mc.cores <- min(detectCores()-1, 100)
 
-use.cache <- TRUE
-cache.dir <- "../cache/"
+default <- list(
+	mc.cores = min(detectCores()-1, 100),
 
-# General parameters
+	use.cache = TRUE,
+	cache.dir = "../cache/",
 
-default.mut.correlated <- TRUE
-default.a              <- 0.2
-default.n              <- 6
-default.dev.steps      <- 16
-default.dev.measure    <- 4
-default.epsilon.zero   <- 0.01
+	# General parameters
 
-# Random networks
+	mut.correlated = TRUE,
+	a              = 0.2,
+	n              = 6,
+	dev.steps      = 16,
+	dev.measure    = 4,
+	epsilon.zero   = 0.01,
 
-default.density        <- 1
-default.rand.mean      <- 0
-default.rand.sd        <- 1
-default.rand.sd.sim    <- 1e-4
+	# Random networks
 
-# Robustness index parameters
+	density        = 1,
+	rand.mean      = 0,
+	rand.sd        = 1,
+	rand.sd.sim    = 1e-4,
 
-default.rob.reps      <- 100
-default.initenv.sd    <- 0.1
-default.lateenv.sd    <- 0.1
-default.initmut.sd    <- 0.1
-default.latemut.sd    <- 0.1
-default.log.robustness<- TRUE
+	# Robustness index parameters
 
-# Simulation parameters
+	rob.reps      = 100,
+	initenv.sd    = 0.1,
+	lateenv.sd    = 0.1,
+	initmut.sd    = 0.1,
+	latemut.sd    = 0.1,
+	log.robustness= TRUE,
+	summary.FUN   = mean,
 
-default.sim.reps      <- 100
-default.G             <- 100
-default.summary.every <- 10
-default.N             <- 1000
-default.initsd        <- 0.001
-default.mut.rate      <- 0.01
-default.sim.mutsd     <- 0.1
-default.s             <- 10
-default.nsel          <- 3
+	# Simulation parameters
+
+	sim.reps      = 100,
+	G             = 100,
+	summary.every = 10,
+	N             = 1000,
+	initsd        = 0.001,
+	mut.rate      = 0.01,
+	sim.mutsd     = 0.1,
+	s             = 10,
+	nsel          = 3
+)

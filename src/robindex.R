@@ -84,6 +84,24 @@ robindex.stability <- function(W, a, dev.steps, measure=min(4, round(dev.steps/5
 	transf((ref-onemore)^2)
 }
 
+robindex.Wmatrix <- function(W, a, dev.steps, measure, 
+		mut.sd=0.1, mut.correlated=FALSE, test.initmut.sd=mut.sd, test.latemut.sd=mut.sd, nbmut=1, test.initenv.sd=1, test.lateenv.sd=0.1, 
+		test.reps=100, log.robustness=FALSE) {
+	list(W=W, 
+		mean     = model.M2(W, a=a, steps=dev.steps, measure=measure)$mean, 
+		initenv  = robindex.initenv  (W, a, dev.steps, measure=measure, 
+			env.sd=test.initenv.sd, rep=test.reps, log=log.robustness),
+		lateenv  = robindex.lateenv  (W, a, dev.steps, measure=measure, 
+			env.sd=test.lateenv.sd, rep=test.reps, log=log.robustness),
+		initmut  = robindex.initmut  (W, a, dev.steps, measure=measure, 
+			mut.sd=test.initmut.sd, rep=test.reps,log=log.robustness),
+		latemut  = robindex.latemut  (W, a, dev.steps, measure=measure, 
+			mut.sd=test.latemut.sd, rep=test.reps, log=log.robustness),
+		stability= robindex.stability(W, a, dev.steps, measure=measure, 
+			log=log.robustness)
+	)
+}
+
 robindex.Mmatrix <- function(W, a, dev.steps, mut.sd=0.1, mut.correlated=FALSE, test.initmut.sd=mut.sd, test.latemut.sd=mut.sd, nbmut=1, test.initenv.sd=1, test.lateenv.sd=0.1, test.rep=100, rep=1000, log.robustness=FALSE, include.expr=FALSE) {
 	all <- replicate(rep, {
 		myW <- W
@@ -119,6 +137,8 @@ robindex.Mmatrix.outfile <- function(out, gen=NA, ...) {
 	names(ans) <- as.character(gen)
 	ans
 }
+
+
 
 robindex.Gmatrix.outfile <- function(out, gen=NA, ...) {
 	# out is the data.frame corresponding to an output file

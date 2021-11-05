@@ -18,8 +18,6 @@ net.reps           <- 10000
 
 cache.tag <- "figA"
 
-phen <- phen.expression   # from terminology.R
-
 # Graphical options
 maxplotpoints <- 1000 # avoids overcrowded plots
 xylims        <- c(-40,-2)

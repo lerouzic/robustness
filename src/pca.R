@@ -1,6 +1,7 @@
 source("../src/robindex.R")
 
 eigenV <- function(Wlist, rob.reps, param, summary.FUN=mean, index=c("initenv", "lateenv", "initmut", "latemut", "stability")) {
+
 	dd <- mclapply(Wlist, function(W) {
 		robindex.Wmatrix(
 			W               = W, 
@@ -16,8 +17,12 @@ eigenV <- function(Wlist, rob.reps, param, summary.FUN=mean, index=c("initenv", 
 			test.reps       = rob.reps, 
 			log.robustness  = param$log.robustness)
 	}, mc.cores=param$mc.cores) 
+	
 
 	rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(index, function(ppp) summary.FUN(ddd[[ppp]]))))
-	prp <- prcomp(rrr, scale.=TRUE)
+	prp <- try(prcomp(rrr, scale.=TRUE))
+	if (class(prp) == "try-error")
+		return(rep(NA, length(index)))
 	prp$sdev^2/(sum(prp$sdev^2))
 }
+

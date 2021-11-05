@@ -4,17 +4,27 @@
 
 source("./terminology.R")
 source("./defaults.R")
+
 source("../src/robindex.R") 
 source("../src/randnetwork.R")
+source("../src/pca.R")
 source("../src/tools.R")
+
+source("./figS2.R") # This script uses dataset figA. Run figS2 before
 
 
 #################### Options
 
-Wstyle <- "random" # Possible: "random", "evolved" ,"randevol"
-whattoconsider <- function(x) mean(x) # the average index for all genes
+param <- default
 
-phen <- phen.expression      # from terminology.R    
+param$rob.reps     <- 1000
+net.reps           <- 10000
+
+cache.tag <- "figA"
+
+cols.PC <- 1:5
+show.PC <- 1:3
+  
 phen.pos.ref <- "initmut"    # this guy will always be positive (so that the figure is reproducible)
 
 ################### Functions
@@ -38,49 +48,38 @@ plot.PCbarplot <- function(pr, ...) {
     arrows(x0=seq(0, 80, 20), y0=1, y1=max(bb), col="gray", lty=3, length=0)
 }
 
-percentPC <- function(reps=1000, net.size=default.n, density=default.density, reg.mean=default.rand.mean, reg.sd=default.rand.sd, PC=1) {
-	cache.str <- paste("figA", net.size, density, reg.mean, reg.sd, sep="-")
-	cache.file <- paste0(cache.dir, "/", cache.str, ".rds")
+percentPC <- function(reps=net.reps, net.size=default$n, density=default$density, reg.mean=default$rand.mean, reg.sd=default$rand.sd, PC=1:net.size) {
+	cache.str  <- paste (cache.tag, net.size, density, reg.mean, reg.sd, sep="-")
+	cache.file <- paste0(param$cache.dir, "/", cache.str, ".rds")
 	all.Wrob <-  
 		if (file.exists(cache.file)) readRDS(cache.file)
 		else {
 			allW <- lapply(1:reps, function(i) randW(net.size=net.size, reg.mean=reg.mean, reg.sd=reg.sd, density=density))
-			ans <- mclapply(allW, function(W) {
-				list(
-					initenv=robindex.initenv(W, 
-						default.a, default.dev.steps, default.dev.measure, default.initenv.sd, rep=default.rob.reps, log=default.log.robustness),
-					lateenv=robindex.lateenv(W, 
-						default.a, default.dev.steps, default.dev.measure, default.lateenv.sd, rep=default.rob.reps, log=default.log.robustness),
-					initmut=robindex.initmut(W, 
-						default.a, default.dev.steps, default.dev.measure, default.initmut.sd, rep=default.rob.reps, log=default.log.robustness),
-					latemut=robindex.latemut(W, 
-						default.a, default.dev.steps, default.dev.measure, default.latemut.sd, rep=default.rob.reps, log=default.log.robustness),
-					stability=robindex.stability(W, 
-						default.a, default.dev.steps, default.dev.measure, log=default.log.robustness))
-				}, mc.cores=mc.cores)
+			ans  <- eigenV(allW, param$rob.reps, param, summary.FUN=param$summary.FUN)
 			saveRDS(ans, file=cache.file, version=2)
 			ans
 		}
-	rrr <- do.call(rbind, lapply(all.Wrob, function(ddd) sapply(names(phen), function(ppp) whattoconsider(ddd[[ppp]]))))
-	prp <- try(prcomp(rrr[, apply(rrr, 2, var) != 0], scale.=TRUE))
-	if (class(prp) == "try-error") NA else (prp$sdev^2 / sum(prp$sdev^2))[PC]
+	all.Wrob
 }
 
-#################### Calc
-source("./figS2.R") # This script uses dataset figA. Run figS1 before
+#################### Importing the dataset from figS2
 
-cache.file <- paste0(cache.dir, "/figA-", Wstyle, ".rds")
+cache.file <- paste0(param$cache.dir, "/", cache.tag, "-main.rds")
 
-dd <- NULL
-dd <- if (file.exists(cache.file)) readRDS(cache.file)
-if (is.null(dd)) stop("Unable to find the data file", cache.file)
+dd.fS2 <- if (file.exists(cache.file)) {
+			readRDS(cache.file)
+		  } else {
+			stop("Unable to find the data file", cache.file)
+		  }
+		  
+################### Figure
 
-################## Figure
 pdf(paste0("fig1.pdf"), width=14, height=5)
+
 	layout(cbind(c(1,1), c(2,2), c(3,5), c(4,6)), widths=c(3,2,2,2))
 	par(cex=1, mar=c(4, 4, 3, 1))
 
-	rrr <- do.call(rbind, lapply(dd, function(ddd) sapply(names(phen), function(ppp) whattoconsider(ddd[[ppp]]))))
+	rrr <- do.call(rbind, lapply(dd.fS2, function(ddd) sapply(names(phen.expression), function(ppp) param$summary.FUN(ddd[[ppp]]))))
 	prp <- prcomp(rrr, scale.=TRUE)
 	plot.PCarrows(prp)
 	subpanel("A", line=0)
@@ -91,20 +90,29 @@ pdf(paste0("fig1.pdf"), width=14, height=5)
 	par(mar=c(3.5,4,1.5,1))
 	
 	x.mu <- seq(-0.5, 0.5, length.out=11)
-	x.sd <- seq( 0, 2, length.out=11)
-	x.dd <- seq(0.2, 1, length.out=11)
-	x.nn <- seq(2, 12, by=2)
+	x.sd <- seq( 0,   2,   length.out=11)
+	x.dd <- seq( 0.2, 1,   length.out=11)
+	x.nn <- seq( 2,   12,   by=2)
 	
-	plot(x.mu, sapply(x.mu, function(mm) 100*percentPC(reg.mean=mm)), ylim=c(0,100), xlab=expression(mu[0]), ylab="% variance PC1", mgp=c(2,1,0))
+	plot(NULL, xlim=range(x.mu), ylim=c(0,100), xlab=expression(mu[0]), ylab="% variance PC", mgp=c(2,1,0))
+	for (ppc in show.PC)
+		lines(x.mu, sapply(x.mu, function(mm) 100*percentPC(reg.mean=mm)[ppc]), col=cols.PC[ppc])
+	legend("left", lty=1, col=cols.PC[show.PC], legend=paste0("PC", show.PC), bty="n")
 	subpanel("C", line=0.2)
 	
-	plot(x.sd, sapply(x.sd, function(ss) 100*percentPC(reg.sd=ss)),  ylim=c(0,100), xlab=expression(sigma[0]), ylab="% variance PC1", mgp=c(2,1,0))
+	plot(NULL, xlim=range(x.sd), ylim=c(0,100), xlab=expression(sigma[0]), ylab="% variance PC", mgp=c(2,1,0))
+	for (ppc in show.PC)
+		lines(x.sd, sapply(x.sd, function(ss) 100*percentPC(reg.sd=ss)[ppc]), col=cols.PC[ppc])
 	subpanel("D", line=0.2)
 
-	plot(x.dd, sapply(x.dd, function(dd) 100*percentPC(density=dd)), ylim=c(0,100), xlab="Network density", ylab="% variance PC1", mgp=c(2,1,0))
+	plot(NULL, xlim=range(x.dd), ylim=c(0,100), xlab="Network density", ylab="% variance PC", mgp=c(2,1,0))
+	for (ppc in show.PC)
+		lines(x.dd, sapply(x.dd, function(dd) 100*percentPC(density=dd)[ppc]), col=cols.PC[ppc])	
 	subpanel("E", line=0.2)
 	
-	plot(x.nn, sapply(x.nn, function(nn) 100*percentPC(net.size=nn)), ylim=c(0,100), xlab="Network size", ylab="% variance PC1", mgp=c(2,1,0))
+	plot(NULL, xlim=range(x.nn), ylim=c(0,100), xlab="Network size", ylab="% variance PC", mgp=c(2,1,0))
+	for (ppc in show.PC)
+		lines(x.nn, sapply(x.nn, function(nn) 100*percentPC(net.size=nn)[ppc]), col=cols.PC[ppc])	
 	subpanel("F", line=0.2)
 	
 dev.off()

@@ -7,29 +7,29 @@ cache.dir <- "../cache"
 library(parallel)
 
 default.args <- list(
-	a               = default.a,
-	mut.correlated  = default.mut.correlated,
-	dev.steps       = default.dev.steps,
-	measure         = default.dev.measure,
-	G               = default.G,
-	summary.every   = round(default.G/100),
+	a               = default$a,
+	mut.correlated  = default$mut.correlated,
+	dev.steps       = default$dev.steps,
+	measure         = default$dev.measure,
+	G               = default$G,
+	summary.every   = round(default$G/100),
 	mc.cores        = 1,
-	N               = default.N,
+	N               = default$N,
 	density         = 1,
-	mut.rate        = default.mut.rate,
+	mut.rate        = default$mut.rate,
 	som.mut.rate    = 0,
 	sim.initenv.sd  = 0,
 	sim.lateenv.sd  = 0,
-	mut.sd          = default.sim.mutsd,
-	theta           = rep(NA, default.n),
-	s               = default.s,
+	mut.sd          = default$sim.mutsd,
+	theta           = rep(NA, default$n),
+	s               = default$s,
 	grad.rob        = rep(0, 5),
-	rep             = default.rob.reps,
-	initenv.sd      = default.initenv.sd,
-	lateenv.sd      = default.lateenv.sd,
-	initmut.sd      = default.initmut.sd,
-	latemut.sd      = default.latemut.sd,
-	log.robustness  = default.log.robustness,
+	rep             = default$rob.reps,
+	initenv.sd      = default$initenv.sd,
+	lateenv.sd      = default$lateenv.sd,
+	initmut.sd      = default$initmut.sd,
+	latemut.sd      = default$latemut.sd,
+	log.robustness  = default$log.robustness,
 	plasticity      = FALSE
 )
 	
@@ -60,7 +60,7 @@ sim.run.single <- function(W0, myargs=NULL, sim.name=NA, force.run=FALSE) {
 	myargs$theta[is.na(myargs$theta)] <- runif(sum(is.na(myargs$theta)))
 	if (all(is.na(W0))) {
 		# NA for W0 is replaced by a random matrix at the correct equilibrium
-		WW <- matrix(rnorm(length(myargs$theta)^2, default.rand.mean, default.rand.sd.sim), ncol=length(myargs$theta))
+		WW <- matrix(rnorm(length(myargs$theta)^2, default$rand.mean, default$rand.sd.sim), ncol=length(myargs$theta))
 		WW[sample(seq_along(WW), length(WW)*(1-myargs$density))] <- 0 # The next procedure ensures that at least one element per line is not 0
 		for (i in 1:nrow(WW)) WW[i,sample(1:ncol(WW), 1)] <- NA
 		W0 <- targetW(WW, target=myargs$theta, a=myargs$a)

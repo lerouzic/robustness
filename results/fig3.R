@@ -8,20 +8,17 @@ source("./terminology.R")
 source("./defaults.R")
 
 #################### Options
-n.genes          <- default.n
-sel.genes        <- default.nsel
-s                <- c(rep(default.s, sel.genes), rep(0, n.genes-sel.genes))
+
+param <- default
+
+param$s          <- c(rep(param$s, param$nsel), rep(0, param$n-param$nsel))
+param$G          <- 10000
+param$summary.every<- max(1, round(param$G/100))
+
 W0               <- NA # Random W0
-
-reps             <- default.sim.reps
-test.rep         <- default.rob.reps
 grad.effect      <- 0.01
-N                <- default.N
-G                <- 10000
-every            <- max(1, round(G/100))
-force.run        <- !use.cache
 
-mc.cores         <- default.mc.cores
+cache.tag <- "figG"
 
 phen <- c(list(fitness="Fitness"), phen.expression)
 
@@ -32,6 +29,7 @@ pch.sim <- c(p=2, m=6, o=1)
 max.points <- 20
 
 ######################### Functions
+
 allplots <- function(list.sim, what="fitness", xlim=NULL, ylim=NULL, xlab="Generations", ylab=what, lwd=3, FUN=mean, focal="oo", ...) {
 	# Helper function to plot robustness time series
 	
@@ -112,33 +110,34 @@ dynplot <- function(list.sim, what="fitness", focal="oo", xlim=NULL, ylim=NULL, 
 }
 
 
-################################ Calc
+################################ Running simulations
+
 torun <- list(
-	oo.o = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,0)), 
-		reps=reps, series.name="figG-null", force.run=force.run), 
-	ie.m = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(-grad.effect,0,0,0,0)), 
-		reps=reps, series.name="figG-ie-m", force.run=force.run),
-	le.m = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,-grad.effect,0,0,0)), 
-		reps=reps, series.name="figG-le-m", force.run=force.run),
-	im.m = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,-grad.effect,0,0)), 
-		reps=reps, series.name="figG-im-m", force.run=force.run),
-	lm.m = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,-grad.effect,0)), 
-		reps=reps, series.name="figG-lm-m", force.run=force.run),
-	st.m = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,-grad.effect)), 
-		reps=reps, series.name="figG-st-m", force.run=force.run),
-	ie.p = function()sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(grad.effect,0,0,0,0)), 
-		reps=reps, series.name="figG-ie-p", force.run=force.run),
-	le.p = function()sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,grad.effect,0,0,0)), 
-		reps=reps, series.name="figG-le-p", force.run=force.run),
-	im.p = function()sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,grad.effect,0,0)), 
-		reps=reps, series.name="figG-im-p", force.run=force.run),
-	lm.p = function()sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,grad.effect,0)), 
-		reps=reps, series.name="figG-lm-p", force.run=force.run),
-	st.p = function() sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=c(0,0,0,0,grad.effect)), 
-		reps=reps, series.name="figG-st-p", force.run=force.run)
+	oo.o = function() sim.run.reps(W0, list(s=param$s, G=param$G, N=param$N, rep=param$rob.reps, summary.every=param$summary.every, grad.rob=c(0,0,0,0,0)), 
+		reps=param$sim.reps, series.name=paste0(cache.tag, "-null"), force.run=!param$use.cache), 
+	ie.m = function() sim.run.reps(W0, list(s=param$s, G=param$G, N=param$N, rep=param$rob.reps, summary.every=param$summary.every, grad.rob=c(-grad.effect,0,0,0,0)), 
+		reps=param$sim.reps, series.name=paste0(cache.tag, "-ie-m"), force.run=!param$use.cache), 
+	le.m = function() sim.run.reps(W0, list(s=param$s, G=param$G, N=param$N, rep=param$rob.reps, summary.every=param$summary.every, grad.rob=c(0,-grad.effect,0,0,0)), 
+		reps=param$sim.reps, series.name=paste0(cache.tag, "-le-m"), force.run=!param$use.cache), 
+	im.m = function() sim.run.reps(W0, list(s=param$s, G=param$G, N=param$N, rep=param$rob.reps, summary.every=param$summary.every, grad.rob=c(0,0,-grad.effect,0,0)), 
+		reps=param$sim.reps, series.name=paste0(cache.tag, "-im-m"), force.run=!param$use.cache), 
+	lm.m = function() sim.run.reps(W0, list(s=param$s, G=param$G, N=param$N, rep=param$rob.reps, summary.every=param$summary.every, grad.rob=c(0,0,0,-grad.effect,0)), 
+		reps=param$sim.reps, series.name=paste0(cache.tag, "-lm-m"), force.run=!param$use.cache), 
+	st.m = function() sim.run.reps(W0, list(s=param$s, G=param$G, N=param$N, rep=param$rob.reps, summary.every=param$summary.every, grad.rob=c(0,0,0,0,-grad.effect)), 
+		reps=param$sim.reps, series.name=paste0(cache.tag, "-st-m"), force.run=!param$use.cache), 
+	ie.p = function()sim.run.reps(W0, list(s=param$s, G=param$G, N=param$N, rep=param$rob.reps, summary.every=param$summary.every, grad.rob=c(grad.effect,0,0,0,0)), 
+		reps=param$sim.reps, series.name=paste0(cache.tag, "-ie-p"), force.run=!param$use.cache), 
+	le.p = function()sim.run.reps(W0, list(s=param$s, G=param$G, N=param$N, rep=param$rob.reps, summary.every=param$summary.every, grad.rob=c(0,grad.effect,0,0,0)), 
+		reps=param$sim.reps, series.name=paste0(cache.tag, "-le-p"), force.run=!param$use.cache), 
+	im.p = function()sim.run.reps(W0, list(s=param$s, G=param$G, N=param$N, rep=param$rob.reps, summary.every=param$summary.every, grad.rob=c(0,0,grad.effect,0,0)), 
+		reps=param$sim.reps, series.name=paste0(cache.tag, "-im-p"), force.run=!param$use.cache), 
+	lm.p = function()sim.run.reps(W0, list(s=param$s, G=param$G, N=param$N, rep=param$rob.reps, summary.every=param$summary.every, grad.rob=c(0,0,0,grad.effect,0)), 
+		reps=param$sim.reps, series.name=paste0(cache.tag, "-lm-p"), force.run=!param$use.cache), 
+	st.p = function() sim.run.reps(W0, list(s=param$s, G=param$G, N=param$N, rep=param$rob.reps, summary.every=param$summary.every, grad.rob=c(0,0,0,0,grad.effect)), 
+		reps=param$sim.reps, series.name=paste0(cache.tag, "-st-p"), force.run=!param$use.cache)
 )
 
-list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(mc.cores/reps)))
+list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceiling(param$mc.cores/param$sim.reps)))
 
 ########################## Figure
 

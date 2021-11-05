@@ -48,3 +48,6 @@ default <- list(
 	s             = 10,
 	nsel          = 3
 )
+
+# This has to be called somewhere before the simulation scripts, perhaps not the best here. 
+if (!dir.exists(default$cache.dir)) dir.create(default$cache.dir)

@@ -24,7 +24,8 @@ M.reps            <- 100
 M.nbmut           <- 5
 gen.display       <- 5000
 
-cache.tag <- "figG"
+cache.tag.uni <- "figG"
+cache.tag.bi  <- "figI"
 
 col.sim  <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM, st=COL.STAB)
 pch.sim <- c(o=1, m=6, p=2, mm=10, pp=11, mp=9, pm=7)
@@ -94,7 +95,7 @@ plot2traits.legend <- function(col.x, col.y, corr.M=0.5, evol.dist=1.5, ...) {
 	
 	lines(ellipse(0.2*rbind(c(1, corr.M), c(corr.M, 1))), lty=2)
 	lines(ellipse(0.15*rbind(c(1, corr.M), c(corr.M, 1))),)
-	legend("bottom", lty=c(2,1), legend=c("M (x10)", "Mcond (x10)"), horiz=TRUE, bty="n")
+	legend("bottom", lty=c(2,1), legend=c("M (x10)", "Mcond (x10)"), horiz=TRUE, bty="n", xpd=NA)
 	points(0, 0, pch=pch.sim["o"])
 	points(x=c(0,0), y=evol.dist*c(-1,1), pch=pch.sim[c("m","p")], col=col.y, cex=2)
 	arrows(x0=c(0,0), y0=c(0,0), x1=c(0,0), y1=0.8*evol.dist*c(-1,1), col=col.y, length=0.1)
@@ -153,20 +154,20 @@ realized.evol <- function(sim, gen, gen0=100) {
 
 # Make a list of simulation names and gradients
 torun <- list(
-	oo.o = list(series.name="figG-null", grad.rob=c(0,0,0,0,0)))
+	oo.o = list(series.name=paste0(cache.tag.uni, "-null"), grad.rob=c(0,0,0,0,0)))
 for (i in seq_along(default.shortcode)) {
 	nm <- default.shortcode[i]
-	torun[[paste(nm, "m", sep=".")]] <- list(series.name=paste0(cache.tag, "-", nm, "m"), grad.rob=gradvec1(i, -grad.effect))
-	torun[[paste(nm, "p", sep=".")]] <- list(series.name=paste0(cache.tag, "-", nm, "p"), grad.rob=gradvec1(i,  grad.effect))
+	torun[[paste(nm, "m", sep=".")]] <- list(series.name=paste0(cache.tag.uni, "-", nm, "-m"), grad.rob=gradvec1(i, -grad.effect))
+	torun[[paste(nm, "p", sep=".")]] <- list(series.name=paste0(cache.tag.uni, "-", nm, "-p"), grad.rob=gradvec1(i,  grad.effect))
 }
 for (i1 in 1:(length(default.shortcode)-1))
 	for (i2 in (i1+1):length(default.shortcode)) {
 		nm1 <- default.shortcode[i1]
 		nm2 <- default.shortcode[i2]
-		torun[[paste(nm1, nm2, "mm", sep=".")]] <- list(series.name=paste("figI", nm1, nm2, "mm", sep="-"), grad.rob=gradvec2(i1, i2, -grad.effect, -grad.effect))
-		torun[[paste(nm1, nm2, "mp", sep=".")]] <- list(series.name=paste("figI", nm1, nm2, "mp", sep="-"), grad.rob=gradvec2(i1, i2, -grad.effect,  grad.effect))
-		torun[[paste(nm1, nm2, "pm", sep=".")]] <- list(series.name=paste("figI", nm1, nm2, "pm", sep="-"), grad.rob=gradvec2(i1, i2,  grad.effect, -grad.effect))
-		torun[[paste(nm1, nm2, "pp", sep=".")]] <- list(series.name=paste("figI", nm1, nm2, "pp", sep="-"), grad.rob=gradvec2(i1, i2,  grad.effect,  grad.effect))
+		torun[[paste(nm1, nm2, "mm", sep=".")]] <- list(series.name=paste(cache.tag.bi, nm1, nm2, "mm", sep="-"), grad.rob=gradvec2(i1, i2, -grad.effect, -grad.effect))
+		torun[[paste(nm1, nm2, "mp", sep=".")]] <- list(series.name=paste(cache.tag.bi, nm1, nm2, "mp", sep="-"), grad.rob=gradvec2(i1, i2, -grad.effect,  grad.effect))
+		torun[[paste(nm1, nm2, "pm", sep=".")]] <- list(series.name=paste(cache.tag.bi, nm1, nm2, "pm", sep="-"), grad.rob=gradvec2(i1, i2,  grad.effect, -grad.effect))
+		torun[[paste(nm1, nm2, "pp", sep=".")]] <- list(series.name=paste(cache.tag.bi, nm1, nm2, "pp", sep="-"), grad.rob=gradvec2(i1, i2,  grad.effect,  grad.effect))
 	}
 
 # Running simulations

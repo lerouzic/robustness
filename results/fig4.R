@@ -3,34 +3,28 @@
 source("./commonsim.R")
 source("./terminology.R")
 source("./defaults.R")
-source("../src/robindex.R")
-cache.dir <- "../cache"
 
-library(parallel)
-library(abind)
+source("../src/robindex.R")
+source("../src/tools.R")
+
 library(ellipse)
 
-mc.cores <- default.mc.cores
+################# Options
 
-use.cache <- TRUE
+param <- default
 
-n.genes           <- default.n
-sel.genes         <- default.nsel    
-s                 <- c(rep(default.s, sel.genes), rep(0, n.genes-sel.genes))
+param$s           <- c(rep(param$s, param$nsel), rep(0, param$n-param$nsel))
+param$G           <- 10000
+param$summary.every<- round(param$G/100)
+
 W0                <- NA
-reps              <- default.sim.reps
-test.rep          <- default.rob.reps
 grad.effect       <- 0.01
-N                 <- default.N 
-n                 <- default.n
-a                 <- default.a
-G                 <- 10000
-every             <- round(G/100)
-force.run         <- !use.cache
 
 M.reps            <- 100
 M.nbmut           <- 5
 gen.display       <- 5000
+
+cache.tag <- "figG"
 
 col.sim  <- c(oo="black", ie=COL.ENVCAN, le=COL.HOMEO, im=COL.GENCAN, lm=COL.SOM, st=COL.STAB)
 pch.sim <- c(o=1, m=6, p=2, mm=10, pp=11, mp=9, pm=7)
@@ -42,13 +36,9 @@ xylim <- list(
 	stability=c(-38, -10))
 asp <- 1
 
-list.mean <- function(ll) {
-	arr <- do.call(abind, c(ll, list(along=3)))
-	rowMeans(arr, dims=2)
-}
 
+################# Functions
 
-################# 
 plot2traits <- function(list.sim, list.M=NULL, what.x, what.y, xlim=NULL, ylim=NULL, xlab=as.expression(phen.expression[what.x]), ylab=as.expression(phen.expression[what.y]), FUN=mean, mut.rate=1, ...) {
 	if (is.null(xlim))
 		xlim <- range(do.call(rbind, lapply(list.sim, function(x) do.call(rbind, lapply(x$mean, function(xx) FUN(xx[[what.x]]))))))
@@ -146,13 +136,28 @@ plotM <- function(list.M, what.x, what.y) {
 gradvec1 <- function(i, grd) c(rep(0, i-1), grd, rep(0, length(default.shortcode)-i))
 gradvec2 <- function(i1, i2, grd1, grd2) c(rep(0, i1-1), grd1, rep(0, i2-i1-1), grd2, rep(0, length(default.shortcode)-i2))
 
+# Predicted and realized evolution
+pred.evol <- function(M, grad) {
+	stopifnot(length(grad) == ncol(M))
+	pred <- M %*% grad
+}
+
+realized.evol <- function(sim, gen, gen0=100) {
+	G1 <- sapply(sim[[as.character(gen0)]][names(default.shortcode)], mean)
+	Gn <- sapply(sim[[as.character(gen) ]][names(default.shortcode)], mean)
+	Gn-G1
+}
+	
+	
+################### Running simulations
+
 # Make a list of simulation names and gradients
 torun <- list(
 	oo.o = list(series.name="figG-null", grad.rob=c(0,0,0,0,0)))
 for (i in seq_along(default.shortcode)) {
 	nm <- default.shortcode[i]
-	torun[[paste(nm, "m", sep=".")]] <- list(series.name=paste("figG", nm, "m", sep="-"), grad.rob=gradvec1(i, -grad.effect))
-	torun[[paste(nm, "p", sep=".")]] <- list(series.name=paste("figG", nm, "p", sep="-"), grad.rob=gradvec1(i,  grad.effect))
+	torun[[paste(nm, "m", sep=".")]] <- list(series.name=paste0(cache.tag, "-", nm, "m"), grad.rob=gradvec1(i, -grad.effect))
+	torun[[paste(nm, "p", sep=".")]] <- list(series.name=paste0(cache.tag, "-", nm, "p"), grad.rob=gradvec1(i,  grad.effect))
 }
 for (i1 in 1:(length(default.shortcode)-1))
 	for (i2 in (i1+1):length(default.shortcode)) {
@@ -164,57 +169,47 @@ for (i1 in 1:(length(default.shortcode)-1))
 		torun[[paste(nm1, nm2, "pp", sep=".")]] <- list(series.name=paste("figI", nm1, nm2, "pp", sep="-"), grad.rob=gradvec2(i1, i2,  grad.effect,  grad.effect))
 	}
 
-
+# Running simulations
 list.sim <- mclapply(torun, function(ff) 
-	sim.run.reps(W0, list(s=s, G=G, N=N, rep=test.rep, summary.every=every, grad.rob=ff$grad.rob), reps=reps, series.name=ff$series.name, force.run=force.run, mc.cores=max(1,floor(reps/mc.cores))), 
-	mc.cores=ceiling(mc.cores/reps))
+	sim.run.reps(W0, list(
+			s            = param$s, 
+			G            = param$G, 
+			N            = param$N, 
+			rep          = param$rob.reps, 
+			summary.every= param$summary.every, 
+			grad.rob     = ff$grad.rob), 
+		reps         = param$sim.reps, 
+		series.name  = ff$series.name, 
+		force.run    = !param$use.cache, 
+		mc.cores     = max(1,floor(param$sim.reps/param$mc.cores))), 
+	mc.cores = ceiling(param$mc.cores/param$sim.reps))
 	
 # Computing M matrices (so far, only need the control for the first generation)
 list.M <- mclapply(list.sim["oo.o"], function(sim.series) {
-		W0.all <- lapply(sim.series$full, function(x) x[[1]]$W)
-		M0.all <- mclapply(W0.all, robindex.Mmatrix, a=a, dev.steps=default.dev.steps, mut.sd=default.sim.mutsd, mut.correlated=default.mut.correlated, test.initmut.sd=default.initmut.sd, test.latemut.sd=default.latemut.sd, nbmut=M.nbmut, test.initenv.sd=default.initenv.sd, test.lateenv.sd=default.lateenv.sd, test.rep=test.rep, rep=M.reps, log.robustness=default.log.robustness, include.expr=TRUE, mc.cores=max(1,floor(mc.cores/length(list.sim))))
+			W0.all <- lapply(sim.series$full, function(x) x[[1]]$W)
+			M0.all <- mclapply(W0.all, robindex.Mmatrix, 
+				a              = param$a, 
+				dev.steps      = param$dev.steps, 
+				mut.sd         = param$sim.mutsd, 
+				mut.correlated = param$mut.correlated, 
+				test.initmut.sd= param$initmut.sd, 
+				test.latemut.sd= param$latemut.sd, 
+				nbmut          = M.nbmut, 
+				test.initenv.sd= param$initenv.sd, 
+				test.lateenv.sd= param$lateenv.sd, 
+				test.rep       = param$rob.reps, 
+				rep            = M.reps, 
+				log.robustness = param$log.robustness, 
+				include.expr   = TRUE, 
+				mc.cores       = max(1,floor(param$mc.cores/length(list.sim))))
 		list(
 			full      = M0.all, 
 			mean.M    = list.mean(lapply(M0.all, function(m) m$vcov[names(default.shortcode), names(default.shortcode)])),
-			mean.Mcond= list.mean(lapply(M0.all, function(m) conditional(m$vcov, paste0("expr", seq_len(sel.genes)))[names(default.shortcode), names(default.shortcode)]))) 
-	}, mc.cores=mc.cores)
-	
-pred.evol <- function(M, grad) {
-	stopifnot(length(grad) == ncol(M))
-	pred <- M %*% grad
-}
+			mean.Mcond= list.mean(lapply(M0.all, function(m) conditional(m$vcov, paste0("expr", seq_len(param$nsel)))[names(default.shortcode), names(default.shortcode)]))) 
+	}, mc.cores=param$mc.cores)
 
-realized.evol <- function(sim, gen, gen0=100) {
-	G1 <- sapply(sim[[as.character(gen0)]][names(default.shortcode)], mean)
-	Gn <- sapply(sim[[as.character(gen)]][names(default.shortcode)], mean)
-	Gn-G1
-}
 
-angle <- function(x,y){
-  dot.prod <- x%*%y 
-  norm.x <- norm(x,type="2")
-  norm.y <- norm(y,type="2")
-  theta <- acos(dot.prod / (norm.x * norm.y))
-  as.numeric(theta)
-}
-
-dist.evol <- function(sim, gen=1000, M=NULL, grad, gen0=100) {
-	if (is.null(M)) 
-		M <- robindex.Mmatrix(W=sim[[as.character(gen)]], a=a, dev.steps=default.dev.steps, mut.sd=default.sim.mutsd, mut.correlated=default.mut.correlated, test.initmut.sd=default.initmut.sd, test.latemut.sd=default.latemut.sd, nbmut=M.nbmut, test.initenv.sd=default.initenv.sd, test.lateenv.sd=default.lateenv.sd, test.rep=test.rep, rep=M.reps, log.robustness=default.log.robustness)
-	
-	pp <- pred.evol(M=M, grad=grad)
-	rr <- realized.evol(sim=sim, gen=gen, gen0=gen0)
-	
-	list(
-		pred=pp,
-		realized=rr,
-		dist=c(dist(rbind(pp,rr))),
-		angle=angle(pp, rr)
-	)
-}
-		
-
-# It is more convenient to have all combinations in the list.sim variable (should not take more memory)
+# It is more convenient to have all symmetric combinations in the list.sim variable (should not take more memory)
 for (i in 1:(length(default.shortcode)-1))
 	for (j in (i+1):length(default.shortcode)) {
 		nc <- paste0(default.shortcode[i], ".", default.shortcode[j], ".")
@@ -224,6 +219,9 @@ for (i in 1:(length(default.shortcode)-1))
 		list.sim[[paste0(inc, "pm")]] <- list.sim[[paste0(nc, "mp")]]
 		list.sim[[paste0(inc, "mm")]] <- list.sim[[paste0(nc, "mm")]]
 	}
+
+
+################### Figure
 
 pdf("fig4.pdf", width=10, height=9)
 	lm <- matrix(0, ncol=4, nrow=4)

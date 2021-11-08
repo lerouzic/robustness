@@ -1,6 +1,11 @@
 ####### Various tools for simulations and plotting
 
+library(abind)
 
+list.mean <- function(ll) {
+	arr <- do.call(abind, c(ll, list(along=3)))
+	rowMeans(arr, dims=2)
+}
 
 makeTransparent<-function(someColor, alpha=70)
 { # from https://stackoverflow.com/questions/8047668/transparent-equivalent-of-given-color
@@ -12,3 +17,4 @@ makeTransparent<-function(someColor, alpha=70)
 subpanel <- function(x, adj=0.025, col="black", line=-1, cex=1.4, outer=FALSE) {
 	title(adj=adj, main=x, cex.main=cex, col.main=col, line=line, outer=outer)
 }
+

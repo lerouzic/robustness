@@ -16,7 +16,6 @@ param$sim.reps   <- 20
 cache.tag        <- "figL"
 
 nb.values        <- 11
-nb.values        <- 3
 mut.values       <- 10^seq(-3,-1, length.out=nb.values)
 smut.values      <- 10^seq(-3, 1, length.out=nb.values)
 N.values         <- round(10^seq(1, 4, length.out=nb.values))
@@ -32,7 +31,7 @@ ylims            <- list(
                        fitness=c(0.85,1), 
                        initenv=c(-35,-5), 
                        lateenv=c(-15,0), 
-                       initmut=c(-15,0), 
+                       initmut=c(-17,0), 
                        latemut=c(-20,-0), 
                        stability=c(-35,-5))
 
@@ -136,7 +135,7 @@ list.sim <- mclapply(torun, function(ff) eval(ff)(), mc.cores=min(length(torun),
 ################# Figure
 
 ww              <- c("fitness", "initenv", "lateenv","initmut","latemut", "stability")
-default.values  <- c(m=default$mut.rate, a=default$a, N=default$N, g=default$n.genes, sg=default$sel.genes, d=default$density, s=default$s)
+default.values  <- c(m=default$mut.rate, sm=default$sim.mutsd, a=default$a, N=default$N, g=default$n, sg=default$nsel, d=default$density, s=default$s)
 
 pdf("figS7.pdf", width=16, height=14)
 	layout(matrix(1:(length(ww)*length(captions)), ncol=length(captions)))

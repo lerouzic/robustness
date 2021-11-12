@@ -133,29 +133,36 @@ list.M <- mclapply(setNames(nm=names(list.sim)), function(name.sim.series) {
 
 ################### Figure
 
-pdf("fig5.pdf", width=15, height=15)
+pdf("figS9.pdf", width=12, height=12)
 	lm <- matrix(0, ncol=4, nrow=4)
 	lm[lower.tri(lm, diag=TRUE)] <- 1:10
 	layout(lm)
 	
-	par(cex=1, mar=c(1, 1, 1, 1), oma=c(5, 4, 0, 0))
+	par(cex=1, mar=c(1, 1, 0.5, 0.5), oma=c(5, 4, 0, 0))
 	
-	for (icomp in rob.pairs) {
-		nm1 <- icomp[1]
-		nm2 <- icomp[2]
+	for (icomp in seq_along(rob.pairs)) {
+		nm1 <- rob.pairs[[icomp]][1]
+		nm2 <- rob.pairs[[icomp]][2]
 		i1  <- which(default.shortcode==nm1)
 		i2  <- which(default.shortcode==nm2)
 		xx <- as.numeric(unique(unlist(lapply(rev(list.M[["oo.o"]]), names))))
 		xx <- xx[unique(round(seq(1, length(xx), length.out=max.points)))]
-		plot(NULL, xlim=c(0, param$G), ylim=c(0,1), xlab="Generations", ylab="", yaxt="n", main=substitute(r(r1, r2), list(r1=as.list(default.labels[i1])[[1]], r2=as.list(default.labels[i2])[[1]])))
+		plot(NULL, xlim=c(0, param$G), ylim=c(0,1), xlab="", ylab="", xaxt="n", yaxt="n")
+		# , main=substitute(r(r1, r2), list(r1=as.list(default.labels[i1])[[1]], r2=as.list(default.labels[i2])[[1]]))
 		if (nm1 == "ie") {
 			axis(2)
-			mtext("Correlation", side=2, line=3, outer=TRUE)
+			mtext(as.expression(phen.expression[names(i2)]), 2, line=3.5, xpd=NA, col=default.cols[names(i2)])
+			if (nm2 == "le")
+				mtext("Mutational correlation", side=2, line=1.5, outer=TRUE)
 		}
 		if (nm2 == "st") {
 			axis(1)
-			mtext("Generation", side=1, line=3, outer=TRUE)
+			mtext(as.expression(phen.expression[names(i1)]), 1, line=3.5, xpd=NA, col=default.cols[names(i1)])
+			if (nm1 == "ie")
+				mtext("Generation", side=1, line=1.5, outer=TRUE)
 		}
+		
+		points(xx, meancor(list.M[["oo.o"]], names(i1), names(i2), nm=as.character(xx)), col=col.sim["oo"], pch=pch.sim["o"])
 		
 		points(xx, meancor(list.M[[paste0(nm1, ".", nm2, ".pp")]], names(i1), names(i2), nm=as.character(xx)), col="darkgray", pch=pch.sim["pp"])
 		points(xx, meancor(list.M[[paste0(nm1, ".", nm2, ".pm")]], names(i1), names(i2), nm=as.character(xx)), col="darkgray", pch=pch.sim["pm"])

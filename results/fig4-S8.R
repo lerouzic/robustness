@@ -125,6 +125,32 @@ plotEvolv <- function(list.sim, M, grads, gen=gen.display, xlim=NULL, ylim=NULL,
 	abline(lm(real.evolv ~ 0 + pred.evolv), col="darkorange", lty=2)
 }
 
+plotEvolvR2 <- function(list.sim, M, grads, gens=NULL, xlim=NULL, ylim=NULL, xlab="Generation", ylab=expression(r^2*"(predicted,observed)"), max.points=11, bg=NULL, pch=19, col="black", ...) {
+	list.sim <- list.sim[names(grads)] # Getting rid of the symmetric "virtual" simulations that were added for convenience
+	ref <- sapply(list.sim[["oo.o"]]$mean[[1]][names(default.shortcode)], mean)
+	
+	if (is.null(gens)) {
+		gens <- as.numeric(names(list.sim[["oo.o"]]$mean))
+		gens <- gens[unique(round(seq(1, length(gens), length.out=max.points)))][-1] 
+			# The first generation has to be discarded (no or insufficient response)
+	}
+
+	pred.evolv <- sapply(names(list.sim), function(nn) if (nn=="oo.o") 0 else c(evolvability(M, grads[[nn]])))
+	
+	r2 <- sapply(gens, function(gen) {
+		real.evolv <- sapply(names(list.sim), function(nn) if (nn=="oo.o") 0 else (sapply(list.sim[[nn]]$mean[[as.character(gen)]][names(default.shortcode)], mean) - ref) %*% grads[[nn]] / norm(grads[[nn]], type="2"))
+		
+		summary(lm(real.evolv ~ 0 + pred.evolv))$r.squared
+		})
+		
+	if (is.null(xlim)) xlim <- range(gens)
+	if (is.null(ylim)) ylim <- c(0,1)
+	
+	plot(NULL, xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, ...)
+	if(!is.null(bg)) rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = bg)
+	points(gens, r2, pch=pch, col=col)
+}
+
 plotM <- function(list.M, what.x, what.y) {
 	plot(NULL, xlim=mean(xylim[[what.x]])+c(-1,1)*diff(xylim[[what.x]]), ylim=mean(xylim[[what.y]])+c(-1,1)*diff(xylim[[what.y]]), xlab=what.x, ylab=what.y)
 	
@@ -249,4 +275,8 @@ pdf("fig4.pdf", width=10, height=9)
 	mtext("Predicted evolvability", 1, cex=1.2, line=2.2)
 	mtext("Observed evolvability", 2, cex=1.2, line=2)
 	
+dev.off()
+
+pdf("figS8.pdf", width=5, height=4)
+	plotEvolvR2(list.sim, M=list.M[["oo.o"]]$mean.Mcond, grads=lapply(torun, "[[", "grad.rob"), ylim=c(0.8,1))
 dev.off()

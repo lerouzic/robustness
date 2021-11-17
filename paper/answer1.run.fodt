@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<office:document xmlns:officeooo="http://openoffice.org/2009/office" xmlns:css3t="http://www.w3.org/TR/css3-text/" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:rpt="http://openoffice.org/2005/report" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ooo="http://openoffice.org/2004/office" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:formx="urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0" xmlns:calcext="urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0" xmlns:drawooo="http://openoffice.org/2010/draw" xmlns:field="urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0" xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:ooow="http://openoffice.org/2004/writer" xmlns:oooc="http://openoffice.org/2004/calc" xmlns:tableooo="http://openoffice.org/2009/table" xmlns:loext="urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:dom="http://www.w3.org/2001/xml-events" xmlns:xforms="http://www.w3.org/2002/xforms" office:version="1.2" office:mimetype="application/vnd.oasis.opendocument.text">
- <office:meta><meta:creation-date>2021-03-31T12:48:15.416621494</meta:creation-date><dc:date>2021-11-12T18:24:52.305552700</dc:date><meta:editing-duration>PT27M14S</meta:editing-duration><meta:editing-cycles>4</meta:editing-cycles><meta:generator>LibreOffice/6.4.7.2$Linux_X86_64 LibreOffice_project/40$Build-2</meta:generator><meta:document-statistic meta:table-count="0" meta:image-count="0" meta:object-count="0" meta:page-count="7" meta:paragraph-count="71" meta:word-count="3420" meta:character-count="22239" meta:non-whitespace-character-count="18857"/></office:meta>
+<office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0" xmlns:ooo="http://openoffice.org/2004/office" xmlns:ooow="http://openoffice.org/2004/writer" xmlns:oooc="http://openoffice.org/2004/calc" xmlns:dom="http://www.w3.org/2001/xml-events" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rpt="http://openoffice.org/2005/report" xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:officeooo="http://openoffice.org/2009/office" xmlns:tableooo="http://openoffice.org/2009/table" xmlns:drawooo="http://openoffice.org/2010/draw" xmlns:calcext="urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0" xmlns:loext="urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0" xmlns:field="urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0" xmlns:formx="urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0" xmlns:css3t="http://www.w3.org/TR/css3-text/" office:version="1.2" office:mimetype="application/vnd.oasis.opendocument.text">
+ <office:meta><meta:creation-date>2021-03-31T12:48:15.416621494</meta:creation-date><dc:date>2021-11-17T15:46:11.990918724</dc:date><meta:editing-duration>PT1H4M24S</meta:editing-duration><meta:editing-cycles>10</meta:editing-cycles><meta:generator>LibreOffice/6.0.7.3$Linux_X86_64 LibreOffice_project/00m0$Build-3</meta:generator><meta:document-statistic meta:table-count="0" meta:image-count="0" meta:object-count="0" meta:page-count="9" meta:paragraph-count="89" meta:word-count="4401" meta:character-count="28562" meta:non-whitespace-character-count="24197"/></office:meta>
  <office:settings>
   <config:config-item-set config:name="ooo:view-settings">
-   <config:config-item config:name="ViewAreaTop" config:type="long">97414</config:config-item>
+   <config:config-item config:name="ViewAreaTop" config:type="long">240848</config:config-item>
    <config:config-item config:name="ViewAreaLeft" config:type="long">0</config:config-item>
-   <config:config-item config:name="ViewAreaWidth" config:type="long">27178</config:config-item>
-   <config:config-item config:name="ViewAreaHeight" config:type="long">15649</config:config-item>
+   <config:config-item config:name="ViewAreaWidth" config:type="long">27430</config:config-item>
+   <config:config-item config:name="ViewAreaHeight" config:type="long">18503</config:config-item>
    <config:config-item config:name="ShowRedlineChanges" config:type="boolean">true</config:config-item>
    <config:config-item config:name="InBrowseMode" config:type="boolean">false</config:config-item>
    <config:config-item-map-indexed config:name="Views">
     <config:config-item-map-entry>
      <config:config-item config:name="ViewId" config:type="string">view2</config:config-item>
-     <config:config-item config:name="ViewLeft" config:type="long">9248</config:config-item>
-     <config:config-item config:name="ViewTop" config:type="long">97973</config:config-item>
+     <config:config-item config:name="ViewLeft" config:type="long">8073</config:config-item>
+     <config:config-item config:name="ViewTop" config:type="long">233871</config:config-item>
      <config:config-item config:name="VisibleLeft" config:type="long">0</config:config-item>
-     <config:config-item config:name="VisibleTop" config:type="long">97414</config:config-item>
-     <config:config-item config:name="VisibleRight" config:type="long">27176</config:config-item>
-     <config:config-item config:name="VisibleBottom" config:type="long">113062</config:config-item>
+     <config:config-item config:name="VisibleTop" config:type="long">240848</config:config-item>
+     <config:config-item config:name="VisibleRight" config:type="long">27428</config:config-item>
+     <config:config-item config:name="VisibleBottom" config:type="long">259350</config:config-item>
      <config:config-item config:name="ZoomType" config:type="short">0</config:config-item>
      <config:config-item config:name="ViewLayoutColumns" config:type="short">1</config:config-item>
      <config:config-item config:name="ViewLayoutBookMode" config:type="boolean">false</config:config-item>
@@ -29,102 +29,91 @@
    </config:config-item-map-indexed>
   </config:config-item-set>
   <config:config-item-set config:name="ooo:configuration-settings">
+   <config:config-item config:name="PrintPaperFromSetup" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="PrintFaxName" config:type="string"/>
+   <config:config-item config:name="PrintSingleJobs" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="PrintProspectRTL" config:type="boolean">false</config:config-item>
    <config:config-item config:name="PrintProspect" config:type="boolean">false</config:config-item>
    <config:config-item config:name="PrintReversed" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="PrintSingleJobs" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="PrintLeftPages" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="PrintTables" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="PrintControls" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="PrintPageBackground" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="PrintDrawings" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="PrintBlackFonts" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="PrintAnnotationMode" config:type="short">0</config:config-item>
    <config:config-item config:name="PrintTextPlaceholder" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="EmptyDbFieldHidesPara" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="DisableOffPagePositioning" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="SubtractFlysAnchoredAtFlys" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="PropLineSpacingShrinksFirstLine" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="ApplyParagraphMarkFormatToNumbering" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="TreatSingleColumnBreakAsPageBreak" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="EmbedSystemFonts" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="EmbedComplexScriptFonts" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="EmbedAsianScriptFonts" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="EmbedLatinScriptFonts" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="EmbedOnlyUsedFonts" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="ContinuousEndnotes" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="EmbedFonts" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="ClippedPictures" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="FloattableNomargins" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="UnbreakableNumberings" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="HeaderSpacingBelowLastPara" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="AllowPrintJobCancel" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="UseOldPrinterMetrics" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="TabOverMargin" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="TabsRelativeToIndent" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="UseOldNumbering" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="InvertBorderSpacing" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="PrintPaperFromSetup" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="UpdateFromTemplate" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="CurrentDatabaseCommandType" config:type="int">0</config:config-item>
-   <config:config-item config:name="LinkUpdateMode" config:type="short">1</config:config-item>
-   <config:config-item config:name="AddParaSpacingToTableCells" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="CurrentDatabaseCommand" config:type="string"/>
-   <config:config-item config:name="PrinterIndependentLayout" config:type="string">high-resolution</config:config-item>
-   <config:config-item config:name="ApplyUserData" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="PrintFaxName" config:type="string"/>
-   <config:config-item config:name="CurrentDatabaseDataSource" config:type="string"/>
-   <config:config-item config:name="ClipAsCharacterAnchoredWriterFlyFrames" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="IsKernAsianPunctuation" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="SaveThumbnail" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="UseFormerTextWrapping" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="AddExternalLeading" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="AddParaTableSpacing" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="StylesNoDefault" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="ChartAutoUpdate" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="PrinterSetup" config:type="base64Binary"/>
-   <config:config-item config:name="AddParaTableSpacingAtStart" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="Rsid" config:type="int">3360947</config:config-item>
-   <config:config-item config:name="EmbeddedDatabaseName" config:type="string"/>
-   <config:config-item config:name="FieldAutoUpdate" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="OutlineLevelYieldsNumbering" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="AlignTabStopPosition" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="CharacterCompressionType" config:type="short">0</config:config-item>
-   <config:config-item config:name="PrinterName" config:type="string"/>
-   <config:config-item config:name="SaveGlobalDocumentLinks" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="PrinterPaperFromSetup" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="UseFormerLineSpacing" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="AddParaLineSpacingToTableCells" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="UseFormerObjectPositioning" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="PrintGraphics" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="SurroundTextWrapSmall" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="ConsiderTextWrapOnObjPos" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="MsWordCompTrailingBlanks" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="TabAtLeftIndentForParagraphsInList" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="PrintRightPages" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="IgnoreFirstLineIndentInNumbering" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="RedlineProtectionKey" config:type="base64Binary"/>
+   <config:config-item config:name="PrintTables" config:type="boolean">true</config:config-item>
    <config:config-item config:name="DoNotJustifyLinesWithManualBreak" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="PrintProspectRTL" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="PrintEmptyPages" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="AlignTabStopPosition" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="PrintLeftPages" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="IgnoreFirstLineIndentInNumbering" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="PrinterSetup" config:type="base64Binary"/>
+   <config:config-item config:name="CollapseEmptyCellPara" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="RedlineProtectionKey" config:type="base64Binary"/>
+   <config:config-item config:name="UseOldPrinterMetrics" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="UseOldNumbering" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="AddExternalLeading" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="TreatSingleColumnBreakAsPageBreak" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="UpdateFromTemplate" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="IsLabelDocument" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="RsidRoot" config:type="int">1315477</config:config-item>
+   <config:config-item config:name="ConsiderTextWrapOnObjPos" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="TableRowKeep" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="TabsRelativeToIndent" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="SaveVersionOnClose" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="UseFormerTextWrapping" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="ChartAutoUpdate" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="AddParaTableSpacingAtStart" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="AllowPrintJobCancel" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="AddParaTableSpacing" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="PrintDrawings" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="AddParaSpacingToTableCells" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="UseFormerLineSpacing" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="OutlineLevelYieldsNumbering" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="LinkUpdateMode" config:type="short">1</config:config-item>
    <config:config-item config:name="DoNotResetParaAttrsForNumFont" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="AddFrameOffsets" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="ApplyUserData" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="StylesNoDefault" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="EmbeddedDatabaseName" config:type="string"/>
+   <config:config-item config:name="FloattableNomargins" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="BackgroundParaOverDrawings" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="PrinterName" config:type="string"/>
+   <config:config-item config:name="UseFormerObjectPositioning" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="TabOverMargin" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="SaveGlobalDocumentLinks" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="CurrentDatabaseDataSource" config:type="string"/>
+   <config:config-item config:name="IsKernAsianPunctuation" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="CharacterCompressionType" config:type="short">0</config:config-item>
+   <config:config-item config:name="SmallCapsPercentage66" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="CurrentDatabaseCommand" config:type="string"/>
+   <config:config-item config:name="CurrentDatabaseCommandType" config:type="int">0</config:config-item>
+   <config:config-item config:name="FieldAutoUpdate" config:type="boolean">true</config:config-item>
    <config:config-item config:name="IgnoreTabsAndBlanksForLineCalculation" config:type="boolean">false</config:config-item>
    <config:config-item config:name="LoadReadonly" config:type="boolean">false</config:config-item>
    <config:config-item config:name="DoNotCaptureDrawObjsOnPage" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="AddVerticalFrameOffsets" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="ClipAsCharacterAnchoredWriterFlyFrames" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="PrintBlackFonts" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="DisableOffPagePositioning" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="SurroundTextWrapSmall" config:type="boolean">false</config:config-item>
    <config:config-item config:name="UnxForceZeroExtLeading" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="IsLabelDocument" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="TableRowKeep" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="RsidRoot" config:type="int">1315477</config:config-item>
-   <config:config-item config:name="PrintHiddenText" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="ProtectForm" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="MsWordCompMinLineHeightByFly" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="BackgroundParaOverDrawings" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="SaveVersionOnClose" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="TabAtLeftIndentForParagraphsInList" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="PrintRightPages" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="Rsid" config:type="int">3938985</config:config-item>
    <config:config-item config:name="MathBaselineAlignment" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="SmallCapsPercentage66" config:type="boolean">false</config:config-item>
-   <config:config-item config:name="CollapseEmptyCellPara" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="MsWordCompTrailingBlanks" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="InvertBorderSpacing" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="EmbedFonts" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="PrinterIndependentLayout" config:type="string">high-resolution</config:config-item>
    <config:config-item config:name="TabOverflow" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="PrintGraphics" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="PropLineSpacingShrinksFirstLine" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="UnbreakableNumberings" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="AddFrameOffsets" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="ClippedPictures" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="EmbedSystemFonts" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="ApplyParagraphMarkFormatToNumbering" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="SubtractFlysAnchoredAtFlys" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="AddVerticalFrameOffsets" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="ProtectForm" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="PrintEmptyPages" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="PrintControls" config:type="boolean">true</config:config-item>
+   <config:config-item config:name="PrintHiddenText" config:type="boolean">false</config:config-item>
+   <config:config-item config:name="PrintAnnotationMode" config:type="short">0</config:config-item>
+   <config:config-item config:name="PrintPageBackground" config:type="boolean">true</config:config-item>
   </config:config-item-set>
  </office:settings>
  <office:scripts>
@@ -137,6 +126,7 @@
  <office:font-face-decls>
   <style:font-face style:name="OpenSymbol" svg:font-family="OpenSymbol" style:font-charset="x-symbol"/>
   <style:font-face style:name="Lohit Devanagari1" svg:font-family="&apos;Lohit Devanagari&apos;"/>
+  <style:font-face style:name="Liberation Serif1" svg:font-family="&apos;Liberation Serif&apos;" style:font-family-generic="roman"/>
   <style:font-face style:name="Liberation Serif" svg:font-family="&apos;Liberation Serif&apos;" style:font-family-generic="roman" style:font-pitch="variable"/>
   <style:font-face style:name="Liberation Sans" svg:font-family="&apos;Liberation Sans&apos;" style:font-family-generic="swiss" style:font-pitch="variable"/>
   <style:font-face style:name="Lohit Devanagari" svg:font-family="&apos;Lohit Devanagari&apos;" style:font-family-generic="system" style:font-pitch="variable"/>
@@ -144,15 +134,15 @@
  </office:font-face-decls>
  <office:styles>
   <style:default-style style:family="graphic">
-   <style:graphic-properties svg:stroke-color="#3465a4" draw:fill-color="#729fcf" fo:wrap-option="no-wrap" draw:shadow-offset-x="0.1181in" draw:shadow-offset-y="0.1181in" draw:start-line-spacing-horizontal="0.1114in" draw:start-line-spacing-vertical="0.1114in" draw:end-line-spacing-horizontal="0.1114in" draw:end-line-spacing-vertical="0.1114in" style:flow-with-text="false"/>
-   <style:paragraph-properties style:text-autospace="ideograph-alpha" style:line-break="strict" style:writing-mode="lr-tb" style:font-independent-line-spacing="false">
+   <style:graphic-properties svg:stroke-color="#3465a4" draw:fill-color="#729fcf" fo:wrap-option="no-wrap" draw:shadow-offset-x="3mm" draw:shadow-offset-y="3mm" draw:start-line-spacing-horizontal="2.83mm" draw:start-line-spacing-vertical="2.83mm" draw:end-line-spacing-horizontal="2.83mm" draw:end-line-spacing-vertical="2.83mm" style:flow-with-text="false"/>
+   <style:paragraph-properties style:text-autospace="ideograph-alpha" style:line-break="strict" style:font-independent-line-spacing="false">
     <style:tab-stops/>
    </style:paragraph-properties>
    <style:text-properties style:use-window-font-color="true" style:font-name="Liberation Serif" fo:font-size="12pt" fo:language="en" fo:country="US" style:letter-kerning="true" style:font-name-asian="Noto Sans CJK SC" style:font-size-asian="10.5pt" style:language-asian="zh" style:country-asian="CN" style:font-name-complex="Lohit Devanagari" style:font-size-complex="12pt" style:language-complex="hi" style:country-complex="IN"/>
   </style:default-style>
   <style:default-style style:family="paragraph">
-   <style:paragraph-properties fo:orphans="2" fo:widows="2" fo:hyphenation-ladder-count="no-limit" style:text-autospace="ideograph-alpha" style:punctuation-wrap="hanging" style:line-break="strict" style:tab-stop-distance="0.4925in" style:writing-mode="page"/>
-   <style:text-properties style:use-window-font-color="true" style:font-name="Liberation Serif" fo:font-size="12pt" fo:language="en" fo:country="US" style:letter-kerning="true" style:font-name-asian="Noto Sans CJK SC" style:font-size-asian="10.5pt" style:language-asian="zh" style:country-asian="CN" style:font-name-complex="Lohit Devanagari" style:font-size-complex="12pt" style:language-complex="hi" style:country-complex="IN" fo:hyphenate="false" fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2" loext:hyphenation-no-caps="false"/>
+   <style:paragraph-properties fo:orphans="2" fo:widows="2" fo:hyphenation-ladder-count="no-limit" style:text-autospace="ideograph-alpha" style:punctuation-wrap="hanging" style:line-break="strict" style:tab-stop-distance="12.51mm" style:writing-mode="page"/>
+   <style:text-properties style:use-window-font-color="true" style:font-name="Liberation Serif" fo:font-size="12pt" fo:language="en" fo:country="US" style:letter-kerning="true" style:font-name-asian="Noto Sans CJK SC" style:font-size-asian="10.5pt" style:language-asian="zh" style:country-asian="CN" style:font-name-complex="Lohit Devanagari" style:font-size-complex="12pt" style:language-complex="hi" style:country-complex="IN" fo:hyphenate="false" fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
   </style:default-style>
   <style:default-style style:family="table">
    <style:table-properties table:border-model="collapsing"/>
@@ -162,17 +152,17 @@
   </style:default-style>
   <style:style style:name="Standard" style:family="paragraph" style:class="text"/>
   <style:style style:name="Heading" style:family="paragraph" style:parent-style-name="Standard" style:next-style-name="Text_20_body" style:class="text">
-   <style:paragraph-properties fo:margin-top="0.1665in" fo:margin-bottom="0.0835in" loext:contextual-spacing="false" fo:keep-with-next="always"/>
+   <style:paragraph-properties fo:margin-top="4.23mm" fo:margin-bottom="2.12mm" loext:contextual-spacing="false" fo:keep-with-next="always"/>
    <style:text-properties style:font-name="Liberation Sans" fo:font-family="&apos;Liberation Sans&apos;" style:font-family-generic="swiss" style:font-pitch="variable" fo:font-size="14pt" style:font-name-asian="Noto Sans CJK SC" style:font-family-asian="&apos;Noto Sans CJK SC&apos;" style:font-family-generic-asian="system" style:font-pitch-asian="variable" style:font-size-asian="14pt" style:font-name-complex="Lohit Devanagari" style:font-family-complex="&apos;Lohit Devanagari&apos;" style:font-family-generic-complex="system" style:font-pitch-complex="variable" style:font-size-complex="14pt"/>
   </style:style>
   <style:style style:name="Text_20_body" style:display-name="Text body" style:family="paragraph" style:parent-style-name="Standard" style:class="text">
-   <style:paragraph-properties fo:margin-top="0in" fo:margin-bottom="0.0972in" loext:contextual-spacing="false" fo:line-height="115%"/>
+   <style:paragraph-properties fo:margin-top="0mm" fo:margin-bottom="2.47mm" loext:contextual-spacing="false" fo:line-height="115%"/>
   </style:style>
   <style:style style:name="List" style:family="paragraph" style:parent-style-name="Text_20_body" style:class="list">
    <style:text-properties style:font-size-asian="12pt" style:font-name-complex="Lohit Devanagari1" style:font-family-complex="&apos;Lohit Devanagari&apos;"/>
   </style:style>
   <style:style style:name="Caption" style:family="paragraph" style:parent-style-name="Standard" style:class="extra">
-   <style:paragraph-properties fo:margin-top="0.0835in" fo:margin-bottom="0.0835in" loext:contextual-spacing="false" text:number-lines="false" text:line-number="0"/>
+   <style:paragraph-properties fo:margin-top="2.12mm" fo:margin-bottom="2.12mm" loext:contextual-spacing="false" text:number-lines="false" text:line-number="0"/>
    <style:text-properties fo:font-size="12pt" fo:font-style="italic" style:font-size-asian="12pt" style:font-style-asian="italic" style:font-name-complex="Lohit Devanagari1" style:font-family-complex="&apos;Lohit Devanagari&apos;" style:font-size-complex="12pt" style:font-style-complex="italic"/>
   </style:style>
   <style:style style:name="Index" style:family="paragraph" style:parent-style-name="Standard" style:class="index">
@@ -185,6 +175,9 @@
   <style:style style:name="Numbering_20_Symbols" style:display-name="Numbering Symbols" style:family="text"/>
   <style:style style:name="Internet_20_link" style:display-name="Internet link" style:family="text">
    <style:text-properties fo:color="#000080" fo:language="zxx" fo:country="none" style:text-underline-style="solid" style:text-underline-width="auto" style:text-underline-color="font-color" style:language-asian="zxx" style:country-asian="none" style:language-complex="zxx" style:country-complex="none"/>
+  </style:style>
+  <style:style style:name="Emphasis" style:family="text">
+   <style:text-properties fo:font-style="italic" style:font-style-asian="italic" style:font-style-complex="italic"/>
   </style:style>
   <text:outline-style style:name="Outline">
    <text:outline-level-style text:level="1" style:num-format="">
@@ -240,158 +233,197 @@
   </text:outline-style>
   <text:notes-configuration text:note-class="footnote" style:num-format="1" text:start-value="0" text:footnotes-position="page" text:start-numbering-at="document"/>
   <text:notes-configuration text:note-class="endnote" style:num-format="i" text:start-value="0"/>
-  <text:linenumbering-configuration text:number-lines="false" text:offset="0.1965in" style:num-format="1" text:number-position="left" text:increment="5"/>
+  <text:linenumbering-configuration text:number-lines="false" text:offset="4.99mm" style:num-format="1" text:number-position="left" text:increment="5"/>
  </office:styles>
  <office:automatic-styles>
   <style:style style:name="P1" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:font-weight="bold" officeooo:rsid="00141295" officeooo:paragraph-rsid="00141295" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
   <style:style style:name="P2" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties fo:font-weight="bold" officeooo:paragraph-rsid="00141295" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
-  </style:style>
-  <style:style style:name="P3" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:font-weight="bold" officeooo:paragraph-rsid="0023e5ed" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P4" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P3" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:font-weight="bold" officeooo:rsid="0023e5ed" officeooo:paragraph-rsid="0023e5ed" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P5" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P4" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#808080" fo:font-weight="bold" officeooo:rsid="00141295" officeooo:paragraph-rsid="00141295" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P6" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P5" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#808080" fo:font-weight="bold" officeooo:rsid="00141295" officeooo:paragraph-rsid="00193795" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P7" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P6" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#808080" fo:font-weight="bold" officeooo:rsid="00141295" officeooo:paragraph-rsid="0023e5ed" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P8" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P7" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#808080" fo:font-weight="bold" officeooo:paragraph-rsid="00141295" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P9" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P8" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#808080" fo:font-weight="bold" officeooo:paragraph-rsid="0023e5ed" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P10" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P9" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#808080" officeooo:paragraph-rsid="0023e5ed"/>
   </style:style>
-  <style:style style:name="P11" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P10" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-weight="bold" officeooo:rsid="00141295" officeooo:paragraph-rsid="00141295" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P12" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P11" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-weight="bold" officeooo:rsid="00141295" officeooo:paragraph-rsid="0023e5ed" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P13" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P12" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="00141295" officeooo:paragraph-rsid="00141295" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P14" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P13" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="00141295" officeooo:paragraph-rsid="0023e5ed" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P15" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P14" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="00193795" officeooo:paragraph-rsid="00193795" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P16" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P15" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="001a8c39" officeooo:paragraph-rsid="001e1f47" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P17" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P16" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="001f1a0a" officeooo:paragraph-rsid="001f1a0a" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P18" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="0021c027" officeooo:paragraph-rsid="0021c027" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
-  </style:style>
-  <style:style style:name="P19" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P17" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="0023e5ed" officeooo:paragraph-rsid="0023e5ed" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P20" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P18" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="0025ec5e" officeooo:paragraph-rsid="0025ec5e" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P21" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P19" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002753ab" officeooo:paragraph-rsid="002753ab" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P22" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="00298867" officeooo:paragraph-rsid="00298867" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
-  </style:style>
-  <style:style style:name="P23" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002c4622" officeooo:paragraph-rsid="002c4622" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
-  </style:style>
-  <style:style style:name="P24" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P20" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002dad61" officeooo:paragraph-rsid="002dad61" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P25" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P21" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002e43cc" officeooo:paragraph-rsid="002e43cc" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P26" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P22" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-style="italic" fo:font-weight="normal" officeooo:rsid="00141295" officeooo:paragraph-rsid="0023e5ed" style:font-style-asian="italic" style:font-weight-asian="normal" style:font-style-complex="italic" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P27" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P23" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#000000" fo:font-style="italic" fo:font-weight="normal" officeooo:rsid="0015afb8" officeooo:paragraph-rsid="0023e5ed" style:font-style-asian="italic" style:font-weight-asian="normal" style:font-style-complex="italic" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P28" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P24" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#666666" fo:font-weight="bold" fo:background-color="transparent" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P29" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P25" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#666666" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P30" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P26" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#666666" fo:font-weight="bold" officeooo:paragraph-rsid="001f1a0a" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P31" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P27" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#666666" fo:font-weight="bold" officeooo:paragraph-rsid="0021c027" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P32" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P28" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#666666" fo:font-weight="bold" officeooo:rsid="00141295" officeooo:paragraph-rsid="0023e5ed" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P33" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P29" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:font-weight="normal" officeooo:paragraph-rsid="0023e5ed" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P34" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P30" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:font-style="normal" fo:font-weight="normal" officeooo:rsid="0023e5ed" officeooo:paragraph-rsid="0023e5ed" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-style-complex="normal" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P35" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties fo:font-style="normal" fo:font-weight="bold" officeooo:rsid="0023e5ed" officeooo:paragraph-rsid="0023e5ed" style:font-style-asian="normal" style:font-weight-asian="bold" style:font-style-complex="normal" style:font-weight-complex="bold"/>
-  </style:style>
-  <style:style style:name="P36" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P31" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties officeooo:paragraph-rsid="00141295"/>
   </style:style>
-  <style:style style:name="P37" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties officeooo:paragraph-rsid="0023e5ed"/>
-  </style:style>
-  <style:style style:name="P38" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P32" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:font-style="italic" fo:font-weight="bold" officeooo:rsid="00141295" officeooo:paragraph-rsid="0023e5ed" style:font-style-asian="italic" style:font-weight-asian="bold" style:font-style-complex="italic" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P39" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P33" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:font-style="italic" fo:font-weight="bold" officeooo:rsid="00141295" officeooo:paragraph-rsid="00141295" style:font-style-asian="italic" style:font-weight-asian="bold" style:font-style-complex="italic" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P40" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P34" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:font-style="italic" fo:font-weight="bold" officeooo:rsid="00172e11" officeooo:paragraph-rsid="00141295" style:font-style-asian="italic" style:font-weight-asian="bold" style:font-style-complex="italic" style:font-weight-complex="bold"/>
   </style:style>
-  <style:style style:name="P41" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P35" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:font-style="italic" fo:font-weight="normal" officeooo:rsid="0015afb8" officeooo:paragraph-rsid="0023e5ed" style:font-style-asian="italic" style:font-weight-asian="normal" style:font-style-complex="italic" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="P42" style:family="paragraph" style:parent-style-name="Standard">
+  <style:style style:name="P36" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties officeooo:paragraph-rsid="0021c027"/>
   </style:style>
-  <style:style style:name="P43" style:family="paragraph" style:parent-style-name="Standard" style:list-style-name="L1">
+  <style:style style:name="P37" style:family="paragraph" style:parent-style-name="Standard">
    <style:text-properties fo:color="#666666" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
+  <style:style style:name="P38" style:family="paragraph" style:parent-style-name="Standard" style:list-style-name="L1">
+   <style:text-properties fo:color="#666666" fo:font-weight="bold" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
+  </style:style>
+  <style:style style:name="P39" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties fo:color="#666666" fo:font-weight="bold" officeooo:paragraph-rsid="002f5b02" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
+  </style:style>
+  <style:style style:name="P40" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties fo:color="#666666" fo:font-weight="bold" officeooo:rsid="002f5b02" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
+  </style:style>
+  <style:style style:name="P41" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties fo:color="#666666" fo:font-weight="bold" officeooo:rsid="002f5b02" officeooo:paragraph-rsid="002f5b02" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
+  </style:style>
+  <style:style style:name="P42" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties fo:color="#666666" fo:font-weight="bold" officeooo:rsid="002f5b02" officeooo:paragraph-rsid="003ba6fe" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
+  </style:style>
+  <style:style style:name="P43" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties fo:color="#666666" fo:font-weight="bold" officeooo:rsid="002f7d90" officeooo:paragraph-rsid="002f7d90" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
+  </style:style>
   <style:style style:name="P44" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="0025ec5e" officeooo:paragraph-rsid="0025ec5e" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+   <style:text-properties fo:color="#666666" fo:font-weight="bold" officeooo:rsid="0034d48d" officeooo:paragraph-rsid="0034d48d" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
   <style:style style:name="P45" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002f98c3" officeooo:paragraph-rsid="002f98c3" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+   <style:text-properties fo:color="#666666" fo:font-weight="bold" officeooo:paragraph-rsid="0034d48d" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
   <style:style style:name="P46" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002753ab" officeooo:paragraph-rsid="002753ab" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+   <style:text-properties fo:color="#666666" fo:font-weight="bold" fo:background-color="transparent" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
   <style:style style:name="P47" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties officeooo:paragraph-rsid="002753ab"/>
+   <style:text-properties fo:color="#666666" fo:font-style="italic" fo:font-weight="bold" officeooo:rsid="0034d48d" officeooo:paragraph-rsid="0034d48d" style:font-style-asian="italic" style:font-weight-asian="bold" style:font-style-complex="italic" style:font-weight-complex="bold"/>
   </style:style>
   <style:style style:name="P48" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties officeooo:paragraph-rsid="0030a5c9"/>
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002e43cc" officeooo:paragraph-rsid="003ba6fe" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
   <style:style style:name="P49" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties officeooo:paragraph-rsid="00298867"/>
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002f5b02" officeooo:paragraph-rsid="002f5b02" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
   <style:style style:name="P50" style:family="paragraph" style:parent-style-name="Standard">
-   <style:text-properties officeooo:paragraph-rsid="003348b3"/>
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="00298867" officeooo:paragraph-rsid="0035be0c" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+  </style:style>
+  <style:style style:name="P51" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="00141295" officeooo:paragraph-rsid="00367452" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+  </style:style>
+  <style:style style:name="P52" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="001a8c39" officeooo:paragraph-rsid="003719f8" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+  </style:style>
+  <style:style style:name="P53" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="001f1a0a" officeooo:paragraph-rsid="0038efd1" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+  </style:style>
+  <style:style style:name="P54" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="001f1a0a" officeooo:paragraph-rsid="003a6910" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+  </style:style>
+  <style:style style:name="P55" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="0038efd1" officeooo:paragraph-rsid="0038efd1" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+  </style:style>
+  <style:style style:name="P56" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="003a7887" officeooo:paragraph-rsid="003a7887" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+  </style:style>
+  <style:style style:name="P57" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="001a8c39" officeooo:paragraph-rsid="003719f8" fo:background-color="transparent" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+  </style:style>
+  <style:style style:name="P58" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties officeooo:paragraph-rsid="002f5b02"/>
+  </style:style>
+  <style:style style:name="P59" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties officeooo:rsid="0034d48d" officeooo:paragraph-rsid="0034d48d"/>
+  </style:style>
+  <style:style style:name="P60" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties officeooo:paragraph-rsid="0034d48d"/>
+  </style:style>
+  <style:style style:name="P61" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties fo:font-style="normal" fo:font-weight="normal" officeooo:rsid="00367452" officeooo:paragraph-rsid="00367452" style:font-style-asian="normal" style:font-weight-asian="normal" style:font-style-complex="normal" style:font-weight-complex="normal"/>
+  </style:style>
+  <style:style style:name="P62" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties officeooo:paragraph-rsid="00367452"/>
+  </style:style>
+  <style:style style:name="P63" style:family="paragraph" style:parent-style-name="Standard">
+   <style:text-properties officeooo:paragraph-rsid="003719f8"/>
   </style:style>
   <style:style style:name="T1" style:family="text">
    <style:text-properties fo:font-style="italic" style:font-style-asian="italic" style:font-style-complex="italic"/>
@@ -409,73 +441,73 @@
    <style:text-properties fo:font-style="italic" officeooo:rsid="00172e11" style:font-style-asian="italic" style:font-style-complex="italic"/>
   </style:style>
   <style:style style:name="T6" style:family="text">
-   <style:text-properties fo:font-style="italic" officeooo:rsid="0018c033" style:font-style-asian="italic" style:font-style-complex="italic"/>
+   <style:text-properties fo:font-style="italic" officeooo:rsid="002a888d" style:font-style-asian="italic" style:font-style-complex="italic"/>
   </style:style>
   <style:style style:name="T7" style:family="text">
-   <style:text-properties fo:font-style="italic" officeooo:rsid="002c4622" style:font-style-asian="italic" style:font-style-complex="italic"/>
+   <style:text-properties fo:font-style="italic" officeooo:rsid="00367452" style:font-style-asian="italic" style:font-style-complex="italic"/>
   </style:style>
   <style:style style:name="T8" style:family="text">
-   <style:text-properties fo:font-style="italic" officeooo:rsid="003348b3" style:font-style-asian="italic" style:font-style-complex="italic"/>
+   <style:text-properties fo:font-style="italic" officeooo:rsid="003719f8" style:font-style-asian="italic" style:font-style-complex="italic"/>
   </style:style>
   <style:style style:name="T9" style:family="text">
    <style:text-properties officeooo:rsid="00141295"/>
   </style:style>
   <style:style style:name="T10" style:family="text">
-   <style:text-properties fo:color="#000000" fo:font-weight="bold" officeooo:rsid="00141295" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
   <style:style style:name="T11" style:family="text">
-   <style:text-properties fo:color="#000000" officeooo:rsid="00141295"/>
-  </style:style>
-  <style:style style:name="T12" style:family="text">
    <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002dad61" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
-  <style:style style:name="T13" style:family="text">
+  <style:style style:name="T12" style:family="text">
    <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="0021c027" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
+  <style:style style:name="T13" style:family="text">
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002f5b02" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+  </style:style>
   <style:style style:name="T14" style:family="text">
-   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002753ab" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002f7d90" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
   <style:style style:name="T15" style:family="text">
-   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002f98c3" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="0030dc80" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
   <style:style style:name="T16" style:family="text">
-   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="0030a5c9" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="00323dbe" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
   <style:style style:name="T17" style:family="text">
-   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="00298867" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="0032e086" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
   <style:style style:name="T18" style:family="text">
-   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="002a888d" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="003421e1" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
   <style:style style:name="T19" style:family="text">
-   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="00317d75" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="003ba6fe" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
   <style:style style:name="T20" style:family="text">
-   <style:text-properties officeooo:rsid="0015afb8"/>
+   <style:text-properties fo:color="#000000" fo:font-weight="normal" officeooo:rsid="003c1aa9" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
   </style:style>
   <style:style style:name="T21" style:family="text">
-   <style:text-properties officeooo:rsid="00172e11"/>
+   <style:text-properties officeooo:rsid="0015afb8"/>
   </style:style>
   <style:style style:name="T22" style:family="text">
-   <style:text-properties officeooo:rsid="0018c033"/>
+   <style:text-properties officeooo:rsid="00172e11"/>
   </style:style>
   <style:style style:name="T23" style:family="text">
-   <style:text-properties officeooo:rsid="00193795"/>
+   <style:text-properties officeooo:rsid="0018c033"/>
   </style:style>
   <style:style style:name="T24" style:family="text">
-   <style:text-properties officeooo:rsid="0019f01a"/>
+   <style:text-properties officeooo:rsid="00193795"/>
   </style:style>
   <style:style style:name="T25" style:family="text">
-   <style:text-properties officeooo:rsid="001a8c39"/>
+   <style:text-properties officeooo:rsid="0019f01a"/>
   </style:style>
   <style:style style:name="T26" style:family="text">
-   <style:text-properties officeooo:rsid="001c2a15"/>
+   <style:text-properties officeooo:rsid="001a8c39"/>
   </style:style>
   <style:style style:name="T27" style:family="text">
-   <style:text-properties officeooo:rsid="00200dbc"/>
+   <style:text-properties officeooo:rsid="001c2a15"/>
   </style:style>
   <style:style style:name="T28" style:family="text">
-   <style:text-properties officeooo:rsid="0021c027"/>
+   <style:text-properties officeooo:rsid="00200dbc"/>
   </style:style>
   <style:style style:name="T29" style:family="text">
    <style:text-properties officeooo:rsid="0023e5ed"/>
@@ -490,88 +522,130 @@
    <style:text-properties fo:font-weight="bold" officeooo:rsid="0018c033" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
   </style:style>
   <style:style style:name="T33" style:family="text">
-   <style:text-properties fo:font-weight="bold" officeooo:rsid="0023e5ed" style:font-weight-asian="bold" style:font-weight-complex="bold"/>
-  </style:style>
-  <style:style style:name="T34" style:family="text">
    <style:text-properties officeooo:rsid="0025ec5e"/>
   </style:style>
-  <style:style style:name="T35" style:family="text">
+  <style:style style:name="T34" style:family="text">
    <style:text-properties officeooo:rsid="002753ab"/>
   </style:style>
-  <style:style style:name="T36" style:family="text">
+  <style:style style:name="T35" style:family="text">
    <style:text-properties officeooo:rsid="00282cce"/>
   </style:style>
-  <style:style style:name="T37" style:family="text">
-   <style:text-properties officeooo:rsid="00298867"/>
-  </style:style>
-  <style:style style:name="T38" style:family="text">
+  <style:style style:name="T36" style:family="text">
    <style:text-properties officeooo:rsid="002a888d"/>
   </style:style>
-  <style:style style:name="T39" style:family="text">
+  <style:style style:name="T37" style:family="text">
    <style:text-properties fo:color="#808080"/>
   </style:style>
-  <style:style style:name="T40" style:family="text">
+  <style:style style:name="T38" style:family="text">
    <style:text-properties fo:color="#808080" officeooo:rsid="0015afb8"/>
   </style:style>
-  <style:style style:name="T41" style:family="text">
+  <style:style style:name="T39" style:family="text">
    <style:text-properties officeooo:rsid="002c4622"/>
   </style:style>
+  <style:style style:name="T40" style:family="text">
+   <style:text-properties style:text-position="sub 58%" style:font-name="Liberation Serif" officeooo:rsid="0038efd1"/>
+  </style:style>
+  <style:style style:name="T41" style:family="text">
+   <style:text-properties style:text-position="sub 58%" style:font-name="Liberation Serif" officeooo:rsid="0038efd1" style:font-name-asian="Liberation Serif1" style:font-name-complex="Liberation Serif1"/>
+  </style:style>
   <style:style style:name="T42" style:family="text">
-   <style:text-properties style:text-position="sub 58%"/>
+   <style:text-properties style:text-position="sub 58%" style:font-name="Liberation Serif1" officeooo:rsid="0038efd1" style:font-name-asian="Liberation Serif1" style:font-name-complex="Liberation Serif1"/>
   </style:style>
   <style:style style:name="T43" style:family="text">
-   <style:text-properties style:text-position="0% 100%"/>
+   <style:text-properties style:text-position="sub 58%" style:font-name="Liberation Serif1" officeooo:rsid="0038efd1"/>
   </style:style>
   <style:style style:name="T44" style:family="text">
-   <style:text-properties officeooo:rsid="002f98c3"/>
+   <style:text-properties style:text-position="0% 100%" style:font-name="Liberation Serif1" style:font-name-asian="Liberation Serif1" style:font-name-complex="Liberation Serif1"/>
   </style:style>
   <style:style style:name="T45" style:family="text">
-   <style:text-properties officeooo:rsid="0030a5c9"/>
+   <style:text-properties style:text-position="0% 100%" style:font-name="Liberation Serif1" officeooo:rsid="0038efd1" style:font-name-asian="Liberation Serif1" style:font-name-complex="Liberation Serif1"/>
   </style:style>
   <style:style style:name="T46" style:family="text">
-   <style:text-properties officeooo:rsid="00317d75"/>
+   <style:text-properties style:text-position="0% 100%" style:font-name="Liberation Serif1" officeooo:rsid="003a6910" style:font-name-asian="Liberation Serif1" style:font-name-complex="Liberation Serif1"/>
   </style:style>
   <style:style style:name="T47" style:family="text">
-   <style:text-properties officeooo:rsid="0032059f"/>
+   <style:text-properties style:text-position="0% 100%" style:font-name="Liberation Serif1" officeooo:rsid="003a7887" style:font-name-asian="Liberation Serif1" style:font-name-complex="Liberation Serif1"/>
   </style:style>
   <style:style style:name="T48" style:family="text">
+   <style:text-properties style:text-position="0% 100%" style:font-name="Liberation Serif1" officeooo:rsid="0038efd1"/>
+  </style:style>
+  <style:style style:name="T49" style:family="text">
+   <style:text-properties style:text-position="0% 100%" style:font-name="Liberation Serif" officeooo:rsid="0038efd1" style:font-name-asian="Liberation Serif1" style:font-name-complex="Liberation Serif1"/>
+  </style:style>
+  <style:style style:name="T50" style:family="text">
+   <style:text-properties style:text-position="0% 100%" style:font-name="Liberation Serif" officeooo:rsid="0039daa2" style:font-name-asian="Liberation Serif1" style:font-name-complex="Liberation Serif1"/>
+  </style:style>
+  <style:style style:name="T51" style:family="text">
+   <style:text-properties style:text-position="0% 100%" style:font-name="Liberation Serif" officeooo:rsid="003a6910" style:font-name-asian="Liberation Serif1" style:font-name-complex="Liberation Serif1"/>
+  </style:style>
+  <style:style style:name="T52" style:family="text">
+   <style:text-properties officeooo:rsid="002e8018"/>
+  </style:style>
+  <style:style style:name="T53" style:family="text">
+   <style:text-properties fo:font-style="normal" style:font-style-asian="normal" style:font-style-complex="normal"/>
+  </style:style>
+  <style:style style:name="T54" style:family="text">
+   <style:text-properties officeooo:rsid="0034d48d"/>
+  </style:style>
+  <style:style style:name="T55" style:family="text">
+   <style:text-properties officeooo:rsid="0035be0c"/>
+  </style:style>
+  <style:style style:name="T56" style:family="text">
    <style:text-properties fo:font-weight="normal" officeooo:rsid="0023e5ed" style:font-weight-asian="normal" style:font-weight-complex="normal"/>
+  </style:style>
+  <style:style style:name="T57" style:family="text">
+   <style:text-properties officeooo:rsid="003719f8"/>
+  </style:style>
+  <style:style style:name="T58" style:family="text">
+   <style:text-properties officeooo:rsid="0038efd1"/>
+  </style:style>
+  <style:style style:name="T59" style:family="text">
+   <style:text-properties style:font-name="Liberation Serif1" officeooo:rsid="0038efd1"/>
+  </style:style>
+  <style:style style:name="T60" style:family="text">
+   <style:text-properties style:font-name="Liberation Serif" officeooo:rsid="0038efd1"/>
+  </style:style>
+  <style:style style:name="T61" style:family="text">
+   <style:text-properties officeooo:rsid="003a7887"/>
+  </style:style>
+  <style:style style:name="T62" style:family="text">
+   <style:text-properties officeooo:rsid="003ba6fe"/>
   </style:style>
   <text:list-style style:name="L1">
    <text:list-level-style-number text:level="1" text:style-name="Numbering_20_Symbols" style:num-suffix="." style:num-format="1">
-    <style:list-level-properties text:space-before="0.2945in" text:min-label-width="0.1965in"/>
+    <style:list-level-properties text:space-before="7.48mm" text:min-label-width="4.99mm"/>
    </text:list-level-style-number>
    <text:list-level-style-number text:level="2" text:style-name="Numbering_20_Symbols" style:num-suffix="." style:num-format="1">
-    <style:list-level-properties text:space-before="0.7854in" text:min-label-width="0.1965in"/>
+    <style:list-level-properties text:space-before="19.95mm" text:min-label-width="4.99mm"/>
    </text:list-level-style-number>
    <text:list-level-style-number text:level="3" text:style-name="Numbering_20_Symbols" style:num-suffix="." style:num-format="1">
-    <style:list-level-properties text:space-before="1.2764in" text:min-label-width="0.1965in"/>
+    <style:list-level-properties text:space-before="32.42mm" text:min-label-width="4.99mm"/>
    </text:list-level-style-number>
    <text:list-level-style-number text:level="4" text:style-name="Numbering_20_Symbols" style:num-suffix="." style:num-format="1">
-    <style:list-level-properties text:space-before="1.7673in" text:min-label-width="0.1965in"/>
+    <style:list-level-properties text:space-before="44.89mm" text:min-label-width="4.99mm"/>
    </text:list-level-style-number>
    <text:list-level-style-number text:level="5" text:style-name="Numbering_20_Symbols" style:num-suffix="." style:num-format="1">
-    <style:list-level-properties text:space-before="2.2583in" text:min-label-width="0.1965in"/>
+    <style:list-level-properties text:space-before="57.36mm" text:min-label-width="4.99mm"/>
    </text:list-level-style-number>
    <text:list-level-style-number text:level="6" text:style-name="Numbering_20_Symbols" style:num-suffix="." style:num-format="1">
-    <style:list-level-properties text:space-before="2.7492in" text:min-label-width="0.1965in"/>
+    <style:list-level-properties text:space-before="69.83mm" text:min-label-width="4.99mm"/>
    </text:list-level-style-number>
    <text:list-level-style-number text:level="7" text:style-name="Numbering_20_Symbols" style:num-suffix="." style:num-format="1">
-    <style:list-level-properties text:space-before="3.2402in" text:min-label-width="0.1965in"/>
+    <style:list-level-properties text:space-before="82.3mm" text:min-label-width="4.99mm"/>
    </text:list-level-style-number>
    <text:list-level-style-number text:level="8" text:style-name="Numbering_20_Symbols" style:num-suffix="." style:num-format="1">
-    <style:list-level-properties text:space-before="3.7315in" text:min-label-width="0.1965in"/>
+    <style:list-level-properties text:space-before="94.78mm" text:min-label-width="4.99mm"/>
    </text:list-level-style-number>
    <text:list-level-style-number text:level="9" text:style-name="Numbering_20_Symbols" style:num-suffix="." style:num-format="1">
-    <style:list-level-properties text:space-before="4.2224in" text:min-label-width="0.1965in"/>
+    <style:list-level-properties text:space-before="107.25mm" text:min-label-width="4.99mm"/>
    </text:list-level-style-number>
    <text:list-level-style-number text:level="10" text:style-name="Numbering_20_Symbols" style:num-suffix="." style:num-format="1">
-    <style:list-level-properties text:space-before="4.7134in" text:min-label-width="0.1965in"/>
+    <style:list-level-properties text:space-before="119.72mm" text:min-label-width="4.99mm"/>
    </text:list-level-style-number>
   </text:list-style>
   <style:page-layout style:name="pm1">
-   <style:page-layout-properties fo:page-width="8.2681in" fo:page-height="11.6929in" style:num-format="1" style:print-orientation="portrait" fo:margin-top="0.7874in" fo:margin-bottom="0.7874in" fo:margin-left="0.7874in" fo:margin-right="0.7874in" style:writing-mode="lr-tb" style:layout-grid-color="#c0c0c0" style:layout-grid-lines="20" style:layout-grid-base-height="0.278in" style:layout-grid-ruby-height="0.139in" style:layout-grid-mode="none" style:layout-grid-ruby-below="false" style:layout-grid-print="false" style:layout-grid-display="false" style:footnote-max-height="0in">
-    <style:footnote-sep style:width="0.0071in" style:distance-before-sep="0.0398in" style:distance-after-sep="0.0398in" style:line-style="solid" style:adjustment="left" style:rel-width="25%" style:color="#000000"/>
+   <style:page-layout-properties fo:page-width="210.01mm" fo:page-height="297mm" style:num-format="1" style:print-orientation="portrait" fo:margin-top="20mm" fo:margin-bottom="20mm" fo:margin-left="20mm" fo:margin-right="20mm" style:writing-mode="lr-tb" style:layout-grid-color="#c0c0c0" style:layout-grid-lines="20" style:layout-grid-base-height="7.06mm" style:layout-grid-ruby-height="3.53mm" style:layout-grid-mode="none" style:layout-grid-ruby-below="false" style:layout-grid-print="false" style:layout-grid-display="false" style:footnote-max-height="0mm">
+    <style:footnote-sep style:width="0.18mm" style:distance-before-sep="1.01mm" style:distance-after-sep="1.01mm" style:line-style="solid" style:adjustment="left" style:rel-width="25%" style:color="#000000"/>
    </style:page-layout-properties>
    <style:header-style/>
    <style:footer-style/>
@@ -588,148 +662,186 @@
     <text:sequence-decl text:display-outline-level="0" text:name="Table"/>
     <text:sequence-decl text:display-outline-level="0" text:name="Text"/>
     <text:sequence-decl text:display-outline-level="0" text:name="Drawing"/>
-    <text:sequence-decl text:display-outline-level="0" text:name="Figure"/>
    </text:sequence-decls>
-   <text:p text:style-name="Standard">Dear Prof. Guillaume,</text:p>
+   <text:p text:style-name="Standard">Dear Prof<text:span text:style-name="T54">essor</text:span> Guillaume,</text:p>
    <text:p text:style-name="Standard"/>
-   <text:p text:style-name="Standard">Thank you for considering my manuscript <text:span text:style-name="T1">Gene network robustness as a multivariate character</text:span> for recommendation in PCI Evol Biol. <text:span text:style-name="T34">I am terribly late for this revision, please accept my apologies. This delay is partly (but of course not completely) justified by the new simulations needed for the revision. </text:span>I uploaded a revised version of the manuscript including the improvements suggested in your decision letter. Below are my responses to the comments. </text:p>
+   <text:p text:style-name="P60">Thank you for considering my manuscript <text:span text:style-name="T1">Gene network robustness as a multivariate character</text:span> for recommendation in PCI Evol Biol. <text:span text:style-name="T33">I am terribly late for this revision, please accept my apologies. This delay is partly (but of course not completely) justified by the new simulations needed for the revision. </text:span></text:p>
+   <text:p text:style-name="P60"/>
+   <text:p text:style-name="P60"><text:span text:style-name="T54">Your and the reviewers’ comments were very useful to prepare this revision. </text:span>I <text:span text:style-name="T54">have </text:span>uploaded a <text:span text:style-name="T54">new</text:span> version of the manuscript including the improvements suggested in your decision letter, <text:span text:style-name="T54">and I attach a pdf illustrating the changes.</text:span> <text:span text:style-name="T54">I tried to address as thoroughly as possible every idea; I hope I have managed to do it convincingly for most of them. </text:span>Below are my responses to <text:span text:style-name="T54">individual</text:span> comments. </text:p>
+   <text:p text:style-name="P60"/>
+   <text:p text:style-name="P59">Yours sincerely, </text:p>
+   <text:p text:style-name="P59"/>
+   <text:p text:style-name="P59">Arnaud Le Rouzic</text:p>
    <text:p text:style-name="Standard"/>
    <text:p text:style-name="P1">Decision letter</text:p>
    <text:p text:style-name="P1"/>
-   <text:p text:style-name="P5">One salient point of the reviewers&apos; comments is about the kind of pleiotropy at work in the gene network and how it affects the genetic correlation between the robustness traits. Is pleiotropy direct (as when one gene regulates multiple targets in the network) or implicit (as in affecting the emergent robustness traits without clear patterns of pleiotropic regulation)? Reviewer two suggests to estimate to mutation co-variance matrix (M-matrix) as a way to understand the genetic basis for the genetic correlation among robustness traits. I think it would be very informative, and innovative, to make the link between network structure and M-matrix structure.</text:p>
-   <text:p text:style-name="P5"/>
-   <text:p text:style-name="P20">Many thanks to you and to reviewer #2 for this suggestion. I computed the M matrix in the initial populations and compared the predicted evolvabilities in various bivariate directions of the multivariate robustness space to the realized evolvabilities (new fig 4). This required heavy simulations, because average evolutionary trajectories from 20 replicates were not smooth; they are now computed based on 100 replicates. As you will see, the predictions from the M matrices are very convincing: the bivariate evolvability of robustness seem constrained by the pleiotropy across robustness components in a way that is very similar to any quantitative character.</text:p>
-   <text:p text:style-name="P20"/>
-   <text:p text:style-name="P45">The link between the structure of the network (i.e. the actual content of the interaction matrix) and the robustness components (not mentioning the mutational covariances among robustness components) is much more difficult to work on, and I did not make any progress in this direction. I added a paragraph in the discussion arguing that robustness was considered as an emergent property of the networks, as a justification for not being able to connect directly the structure of the network and its robustness. </text:p>
-   <text:p text:style-name="P5"/>
-   <text:p text:style-name="P5">A similar question from both reviewers is about the estimation of the G-matrix and its evolution. As reviewer one points out, the structure of G depends also on the strength of correlational selection, not only on the underlying genetic correlation arising from the structure of the gene network. Is there a tendency to decrease/increase the genetic correlation b/n robustness traits due to selection? Can the strength of correlational selection be deduced from the evolution of the G-matrix and of the M-matrix? A link with previous evolutionary quantitative genetics is awaited and would anchor the paper in a well known theoretical framework.</text:p>
-   <text:p text:style-name="P5"/>
-   <text:p text:style-name="P20">Unfortunately, my attempts to compute G matrices from populations were not conclusive. The main reason is that computing G is a very intensive task, as the robustness needs to be assessed for every single genotype in the population, and the measurement needs to be precise enough to quantify differences in robustness within the population (<text:span text:style-name="T35">among </text:span>close genotypes). As 4 out of 5 robustness components are calculated by a stochastic procedure, the burden to get <text:span text:style-name="T35">a single G matrix from a single replicate is substantial; multiplying the effort by the number of replicated simulations seem out of reach. <text:s/></text:span></text:p>
-   <text:p text:style-name="P20"/>
-   <text:p text:style-name="P47"><text:soft-page-break/><text:span text:style-name="T14">Therefore, I focused the revision on M, and applied on M evolvability indicators developed for G (in particular, conditional evolvability Mc and evolvability in the direction of the gradient, proposed in Hansen &amp; Houle 2008). The </text:span><text:span text:style-name="T15">main</text:span><text:span text:style-name="T14"> drawback for using M instead of G in such a context is that M </text:span><text:span text:style-name="T15">can be used to estimate the direction</text:span><text:span text:style-name="T14"> of the selection response </text:span><text:span text:style-name="T15">only</text:span><text:span text:style-name="T14">, while G would have also provided an estimate of the magnitude of the response. I hope that the new results proposed in fig3 and fig4 connect convincingly the manuscript to traditional multivariate quantitative genetics. </text:span></text:p>
-   <text:p text:style-name="P5"/>
-   <text:p text:style-name="P5">It is not clear how the results of the 2-dim network generalizes to larger network. In particular, the 2-dim network shows large neutrality in regulation network for stable expression phenotype. How does this generalise to larger network?</text:p>
-   <text:p text:style-name="P5"/>
-   <text:p text:style-name="P21">I am not aware of any attempt at investigating neutrality in a quantitative gene expression network (which does not mean that it has never been done). As far as I know, <text:span text:style-name="T36">in discrete networks where neutral regions can be formally defined, </text:span>there is a <text:span text:style-name="T36">consensus about the fact that neutral spaces are larger and more connected in large networks compared to small ones (e.g. Ciliberti, Martin &amp; Wagner 2007 PloS Comp Biol). </text:span><text:s/><text:span text:style-name="T37">The equation (4) in my manuscript can be generalized easily to any network size </text:span><text:span text:style-name="T44">(new equation 5)</text:span><text:span text:style-name="T37">; in an n x n network, there are n(n-1) dimensions of “neutral” evolution. Therefore, the ratio of neutral dimensions / total dimensions increases with the network size: </text:span><text:span text:style-name="T44">when the neutral space is a 2D surface in 2-gene networks (as illustrated in the manuscript), it is a 6D hypervolume for 3-gene networks. I am not sure it is possible to formally compare a 2D surface to a hypervolume, but I guess the hypervolume is “larger” according to most defintions of “neutral space”. </text:span><text:span text:style-name="T45">Thank you for this interesting point, which is now mentioned in the methods section. </text:span></text:p>
-   <text:p text:style-name="P21"/>
-   <text:p text:style-name="P48"><text:span text:style-name="T16">Note that this does not seem to affect directly robustness, as the average robustness is rather insensitive to the network size (larger networks are slightly more robust -- fig S7 -- but the relative effect is small). </text:span></text:p>
-   <text:p text:style-name="P5"/>
-   <text:p text:style-name="P5">In general, little is said about the constitutive levels of expression and their role in the evolution of robustness traits. This is a point that should be clarified.</text:p>
-   <text:p text:style-name="P5"/>
-   <text:p text:style-name="P49"><text:span text:style-name="T17">As far as I can tell, our “version” of the Wagner model is the only one to introduce a constitutive expression term </text:span><text:span text:style-name="T18">(actually there was one in Wagner 1994 but it has not been explored, </text:span><text:span text:style-name="T16">as far as I know</text:span><text:span text:style-name="T18">)</text:span><text:span text:style-name="T17">. Traditionally, constitutive expression is </text:span><text:span text:style-name="T18">set </text:span><text:span text:style-name="T17">implicitly to the mid-point between minimum and maximum expression, and is thus not considered as a variable. Because our model explicitly sets the constitutive expression, I could run simulations to check how the parameter a conditions the evolution of robustness (Appendix 7 column 3). Changing the parameter a from ~ 0 to 0.5 (more would look unrealistic) has </text:span><text:span text:style-name="T18">a minor effect on </text:span><text:span text:style-name="T16">3</text:span><text:span text:style-name="T18"> indicators, </text:span><text:span text:style-name="T16">but</text:span><text:span text:style-name="T18"> robustness to early environmental noise and stability (both being very correlated throughout the simulations) </text:span><text:span text:style-name="T16">are very dependent on the constitutive expression:</text:span><text:span text:style-name="T18"> </text:span><text:span text:style-name="T16">n</text:span><text:span text:style-name="T18">etworks are more sensitive to changes in their initial state (and more prone to cyclic dynamics) when the constitutive expression was low. I am not sure to have a convincing explanation to provide here; it might be due to the fact that mutational effects are scaled so that they are identical around the constitutive expression (but not necessarily around any expression due to the scaling of the sigmoid function). </text:span><text:span text:style-name="T19">In my simulations, constitutive expression was not evolvable, but this result could suggest that increasing constitutive expression of key network genes may help increasing the robustness of their expression. Such a hypothesis was already suggested (for different reasons) in Draghi &amp; Whitlock 2015 (now referenced in the manuscript).</text:span><text:span text:style-name="T18"> </text:span><text:span text:style-name="T19">The effect of the constitutive expression is now mentioned in </text:span><text:span text:style-name="T18"><text:s/>the revision. </text:span></text:p>
-   <text:p text:style-name="P5"/>
-   <text:p text:style-name="P5">I attach the manuscript with some additional comments and grammatical corrections (grammatical mistakes are highlighted in orange).</text:p>
-   <text:p text:style-name="P5"/>
-   <text:p text:style-name="P13"><text:soft-page-break/>Edited manuscript:</text:p>
-   <text:p text:style-name="P13"/>
-   <text:p text:style-name="P5">* Abstract: “whether or not robustness to various sources of perturbations is independent conditions ...” </text:p>
-   <text:p text:style-name="P19"/>
-   <text:p text:style-name="P19">Changed <text:span text:style-name="T31">→ </text:span><text:span text:style-name="T3">“whether or not robustness is independent to various sources of perturbations conditions...”</text:span><text:span text:style-name="T9">.</text:span></text:p>
-   <text:p text:style-name="P11"/>
-   <text:p text:style-name="P8"><text:span text:style-name="T9">* Methods: “</text:span>In addition, direct, directional selection <text:span text:style-name="T9">on robustness indicators was performed ...”</text:span></text:p>
-   <text:p text:style-name="P34"/>
-   <text:p text:style-name="P34">Changed <text:span text:style-name="T31">→</text:span><text:span text:style-name="T9"> </text:span><text:span text:style-name="T3">“Directional selection on robustness indicators was also performed...”</text:span></text:p>
-   <text:p text:style-name="P38"/>
-   <text:p text:style-name="P39"/>
-   <text:p text:style-name="P32">* Results: “The simulated behavior of networks A to E are illustrated in Appendix 5”</text:p>
-   <text:p text:style-name="P12"/>
-   <text:p text:style-name="P14"><text:span text:style-name="T29">Changed</text:span>→ <text:span text:style-name="T1">“Five networks of contrasted robustness, labeled from A to E, were tracked more specifically. Appendix...”</text:span></text:p>
-   <text:p text:style-name="P26"/>
-   <text:p text:style-name="P7">* “This 2-gene network analysis thus confirms <text:span text:style-name="T20">t</text:span>he results obtained for larger gene networks”</text:p>
-   <text:p text:style-name="P12"/>
-   <text:p text:style-name="P14"><text:span text:style-name="T29">Changed</text:span> →<text:span text:style-name="T20"> </text:span><text:span text:style-name="T4">“</text:span><text:span text:style-name="T1">This 2-gene network analysis thus confirms </text:span><text:span text:style-name="T4">t</text:span><text:span text:style-name="T1">he results obtained </text:span><text:span text:style-name="T4">for large random networks”</text:span><text:span text:style-name="T20">.</text:span></text:p>
-   <text:p text:style-name="P14"/>
-   <text:p text:style-name="P12"><text:span text:style-name="T39">* “</text:span><text:span text:style-name="T40">due to stabilizing selection. (lower scores...”</text:span><text:span text:style-name="T20">,</text:span></text:p>
-   <text:p text:style-name="P12"/>
-   <text:p text:style-name="P14"><text:span text:style-name="T29">Changed →</text:span><text:span text:style-name="T4"> “due to stabilizing selection (lower scores...”</text:span></text:p>
-   <text:p text:style-name="P27"/>
-   <text:p text:style-name="P9"><text:span text:style-name="T9">* “</text:span>all homogeneous to a variance of gene expression”</text:p>
-   <text:p text:style-name="P3"/>
-   <text:p text:style-name="P33"><text:span text:style-name="T29">Changed </text:span>→<text:span text:style-name="T4"> “all homogeneous to a sum of squared difference in gene expression (i.e., the variance in gene expression induced by various disturbances)”</text:span></text:p>
-   <text:p text:style-name="P41"/>
-   <text:p text:style-name="P9">* “This could a be consequence from <text:span text:style-name="T21">the canalizing selection”</text:span></text:p>
-   <text:p text:style-name="P3"/>
-   <text:p text:style-name="P33"><text:span text:style-name="T29">Changed → </text:span><text:span text:style-name="T5">“This could be a consequence of canalizing selection”</text:span></text:p>
-   <text:p text:style-name="P40"/>
-   <text:p text:style-name="P5">* <text:span text:style-name="T21">Figure 4: very hard to understand:</text:span></text:p>
-   <text:p text:style-name="P11"/>
-   <text:p text:style-name="P19">Reviewer #2 also noticed this, and I agree. I rotated the left panel in order to make it easier to understand how both panels relate.</text:p>
-   <text:p text:style-name="P12"/>
-   <text:p text:style-name="P7">* <text:span text:style-name="T21">Discussion, “mchanisms”</text:span></text:p>
-   <text:p text:style-name="P12"/>
-   <text:p text:style-name="P14"><text:span text:style-name="T29">Changed → </text:span><text:span text:style-name="T5">“mechanisms”</text:span><text:span text:style-name="T21">.</text:span></text:p>
-   <text:p text:style-name="P11"/>
-   <text:p text:style-name="P10"><text:span text:style-name="T31">* “</text:span><text:span text:style-name="T30">mutational effects were correlated in my simulations”</text:span></text:p>
-   <text:p text:style-name="P3"/>
-   <text:p text:style-name="P50"><text:span text:style-name="T29">The term “correlated” is arguably confusing here, “cumulative” would have been much clearer. I agree that the simulation setting (new allele drawn into a Gaussian centered on the former allel</text:span><text:span text:style-name="T47">e</text:span><text:span text:style-name="T29"> value) looks pretty standard in quantitative genetics, and this would not deserved to be discussed in another context. I am not sure to know why most similar models draw allel</text:span><text:span text:style-name="T47">e</text:span><text:span text:style-name="T29"> effects in a constant </text:span><text:soft-page-break/><text:span text:style-name="T29">distribution (centered around 0), and I am unsure about the consequences, but the difference deserves to be mentioned. The sentence has been reformulated as: </text:span><text:span text:style-name="T5">“</text:span><text:span text:style-name="T8">U</text:span><text:span text:style-name="T5">nlike in </text:span><text:span text:style-name="T6">Wagner 1996 </text:span><text:span text:style-name="T8">and </text:span><text:span text:style-name="T6">Siegal &amp; Bergman 2002, </text:span><text:span text:style-name="T8">m</text:span><text:span text:style-name="T1">utational effects were cumulative in the simulations (the value of the mutant allele was drawn in a Gaussian centered around the value of the parental allele), which allows for cumulative evolution.”</text:span></text:p>
-   <text:p text:style-name="P36"/>
-   <text:p text:style-name="P10"><text:span text:style-name="T30">* “</text:span><text:span text:style-name="T32">Could you elaborate on effects of network sparcity and density on robustness and evolvability?”</text:span></text:p>
+   <text:p text:style-name="P4">One salient point of the reviewers&apos; comments is about the kind of pleiotropy at work in the gene network and how it affects the genetic correlation between the robustness traits. Is pleiotropy direct (as when one gene regulates multiple targets in the network) or implicit (as in affecting the emergent robustness traits without clear patterns of pleiotropic regulation)? Reviewer two suggests to estimate to mutation co-variance matrix (M-matrix) as a way to understand the genetic basis for the genetic correlation among robustness traits. I think it would be very informative, and innovative, to make the link between network structure and M-matrix structure.</text:p>
    <text:p text:style-name="P4"/>
-   <text:p text:style-name="P37"><text:span text:style-name="T48">T</text:span><text:span text:style-name="T22">his is a very interesting question, which is also difficult to address here. From the evolutionary simulations in appendix 7, larger networks are slightly more robust (only to genetic disturbances) at equilibrium, but network density has no effect. An additional set of simulations was run to test the effect of changing the network density in random networks (new fig 1), and it has a modest effect on the correlations between robustness components (only for small densities, &lt; 0.3). </text:span></text:p>
-   <text:p text:style-name="P5"/>
-   <text:p text:style-name="P6"><text:span text:style-name="T23">N</text:span>ext time, please submit a manuscript with line numbers to help with minor corrections.</text:p>
-   <text:p text:style-name="P5"/>
-   <text:p text:style-name="P15">I apologize for the missing line numbers. <text:span text:style-name="T25">F</text:span>ixing it <text:span text:style-name="T41">in the preprint will </text:span>be difficult: the <text:span text:style-name="T41">manuscript</text:span> is hosted in arXiv (which <text:span text:style-name="T24">is in the list of recommended preprint servers </text:span><text:a xlink:type="simple" xlink:href="https://evolbiol.peercommunityin.org/help/help_practical#To%20prepare%20a%20preprint" text:style-name="Internet_20_link" text:visited-style-name="Visited_20_Internet_20_Link"><text:span text:style-name="T24">https://evolbiol.peercommunityin.org/help/help_practical#To%20prepare%20a%20preprint</text:span></text:a><text:span text:style-name="T24">), and arXiv does not accept preprints with line numbers (they rejected my first submission). Perhaps something to discuss with the PCI staff. I will attach a line-numbered version together with the resubmission. </text:span></text:p>
-   <text:p text:style-name="P5"/>
-   <text:p text:style-name="P11">Reviewer 1</text:p>
-   <text:p text:style-name="Standard"/>
-   <text:p text:style-name="P28">Robustness is often treated as the generic property resistance to perturbations, with little differentiation as to how different perturbations can require different kinds of robustness. This manuscript uses simulations to investigate how direct selection for different types of robustness in gene networks lead to different outcomes. By explicitly defining several kinds of perturbations, the manuscript shows that, while the different measures of robustness are correlated, not all types of robustness are equivalent, and observing robustness to several kinds of perturbations in organisms can potentially indicate different adaptations to separate selection pressures. This observed scenario is contrasted with the possibility that robustness to several kinds of perturbations shares the same underlying basis or that different kinds of robustness are completely different.</text:p>
-   <text:p text:style-name="P28">This is a simple and well-motivated investigation, the manuscript is well written and direct. The explicit description of the many axes of what we may convincingly call robustness is a worthwhile contribution and brings some much-needed precision to the discussion of the evolution of robustness. </text:p>
-   <text:p text:style-name="P28"/>
-   <text:p text:style-name="P29">General comments:</text:p>
-   <text:p text:style-name="P29">The inclusion of a measure of stability is an interesting necessity for there to be a stable state to which the system can return after a perturbation, but I&apos;m not sure it would traditionally be included under robustness to perturbations. Network C in the two-gene network illustrates this, as it is somewhat robust but not stable. In any event, the two-dimensional results illustrate nicely the relative independence of the different kinds of robustness.</text:p>
-   <text:p text:style-name="P16"/>
-   <text:p text:style-name="P16">I totally agree with the reviewer that stability is an outlier compared to other robustness measurements. The only reason why I considered stability among robustness indexes is that it was historically <text:span text:style-name="T41">one of the</text:span> first <text:span text:style-name="T26">network feature correlated with mutational robustness in theoretical gene networks by Siegal &amp; Bergman (2002), who showed that selection on stability could induce an </text:span><text:soft-page-break/><text:span text:style-name="T26">indirect response of mutational robustness. I was thus curious to include stability in this study. It turns out that stability is largely correlated to other robustness measurements (especially to environmental perturbations), which partially confirms Siegal &amp; Bergman’s results. It is not completely clear to me why stability and robustness are so tightly associated (unstable networks tend to overcompensate disturbances?), nor whether this result depends on the model hypothesis (“Wagner” networks tend to be very unstable, Pinho, R., E. Borenstein, and M. W. Feldman (2012)). </text:span></text:p>
-   <text:p text:style-name="P16"/>
-   <text:p text:style-name="P16"><text:span text:style-name="T26">I updated the introduction to make it clearer that stability is an outlier: </text:span><text:span text:style-name="T2">“Four robustness-related measurements were considered, two of them corresponding to environmental robustness (early vs. late disturbances), two corresponding to genetic robustness (early --- inherited --- or late --- acquired --- mutations). Gene expression </text:span><text:span text:style-name="T7">i</text:span><text:span text:style-name="T2">nstability was also included in the set of robustness-related traits, as it is related to the intrinsic stability of the expression phenotype.”.</text:span></text:p>
-   <text:p text:style-name="P29"/>
-   <text:p text:style-name="P30">pg 9, 2nd paragraph: &quot;Selection on all robustness components also lead to an indirect response of all other components, which confirms a general genetic correlation.&quot; - Not necessarily due to genetic correlations, selection could also be correlated due to phenotypic correlations. </text:p>
-   <text:p text:style-name="P30"/>
-   <text:p text:style-name="P17">I am not sure to follow the reviewer’s argument here, <text:span text:style-name="T27">perhaps simulation details were missing and/or we have different definition of correlated selection</text:span>. <text:span text:style-name="T27">1) </text:span>In the simulations, the G-P map was deterministic, i.e. the phenotypic variance was entirely genetic (no environmental variance<text:span text:style-name="T27">) (environmental variation was of course introduced when measuring some robustness components, but the robustness measurements were repeated and averaged out for each individual, reducing – hopefully – the error on the phenotype to a tiny amount</text:span>. Technically, the phenotypic covariance matrix was not the additive G-matrix, because it included variance components due to dominance and epistasis, but it was probably not too far. <text:span text:style-name="T41">Therefore, phenotypic correlations and genetic correlations were confounded. 2) Directional selection was applied to robustness indexes as if they were individual phenotypes, i.e. the direction of the selection gradient on robustness indexes is known. Phenotypic / genetic correlations generated selection differentials (and thus, indirect response) on unselected indexes. 3) The fitness function was calculated as the product of marginal fitnesses on gene expressions and robustness indexes; selection was thus not correlated. <text:s/></text:span></text:p>
+   <text:p text:style-name="P18">Many thanks to you and to reviewer #2 for this suggestion. I computed the M matrix in the initial populations and compared the predicted evolvabilities in various bivariate directions of the multivariate robustness space to the realized evolvabilities (new fig 4). This required heavy simulations, because average evolutionary trajectories from 20 replicates were not smooth; they are now computed based on 100 replicates. As you will see, the predictions from the M matrices are very convincing: the bivariate evolvability of robustness seem constrained by the pleiotropy across robustness components in a way that is very similar to any quantitative character. <text:span text:style-name="T54">This point strenghtens the conclusions of the paper, as it illustrates how robustness can behave as a multivariate quantitative character. </text:span></text:p>
+   <text:p text:style-name="P4"/>
+   <text:p text:style-name="P4">A similar question from both reviewers is about the estimation of the G-matrix and its evolution. As reviewer one points out, the structure of G depends also on the strength of correlational selection, not only on the underlying genetic correlation arising from the structure of the gene network. Is there a tendency to decrease/increase the genetic correlation b/n robustness traits due to selection? Can the strength of correlational selection be deduced from the evolution of the G-matrix and of the M-matrix? A link with previous evolutionary quantitative genetics is awaited and would anchor the paper in a well known theoretical framework.</text:p>
+   <text:p text:style-name="P4"/>
+   <text:p text:style-name="P18">Unfortunately, my attempts to compute G matrices from populations were not conclusive. The main reason is that computing G is a very intensive task, as the robustness needs to be assessed for every single genotype in the population, and the measurement needs to be precise enough to quantify differences in robustness within the population (<text:span text:style-name="T55">i.e. among </text:span>close genotypes). As 4 out of 5 robustness components are calculated by a stochastic procedure, the burden to get <text:span text:style-name="T34">a single G matrix from a single replicate is substantial; multiplying the effort by the number of replicated simulations </text:span><text:soft-page-break/><text:span text:style-name="T34">seem out of reach, especially because the G matrix evolves through time (G cannot be estimated from generation 0 as I did with M, as there was no genetic variance in generation 0). </text:span></text:p>
+   <text:p text:style-name="P18"/>
+   <text:p text:style-name="P19">Therefore, I focused the revision on M, and applied on M evolvability indicators developed for G (in particular, conditional evolvability Mc and evolvability in the direction of the gradient, proposed in Hansen &amp; Houle 2008). The only drawback for using M instead of G in such a context is that M provides unscaled estimates of the selection response (i.e. the direction of the response), while G would have also provided an estimate of the magnitude of the response. I hope that the new results proposed in fig3 and fig4 <text:span text:style-name="T55">now </text:span>connect convincingly the manuscript to traditional multivariate quantitative genetics. </text:p>
+   <text:p text:style-name="P4"/>
+   <text:p text:style-name="P4">It is not clear how the results of the 2-dim network generalizes to larger network. In particular, the 2-dim network shows large neutrality in regulation network for stable expression phenotype. How does this generalise to larger network?</text:p>
+   <text:p text:style-name="P4"/>
+   <text:p text:style-name="P19">I am not aware of any attempt at investigating neutrality in a quantitative gene expression network (which does not mean that it has never been done). As far as I know, <text:span text:style-name="T35">in discrete networks where neutral regions can be formally defined, </text:span>there is a <text:span text:style-name="T35">consensus about the fact that neutral spaces are larger and more connected in large networks compared to small ones (e.g. Ciliberti, Martin &amp; Wagner 2007 PloS Comp Biol). </text:span><text:s/><text:span text:style-name="T55">In the revision, I have extended equation (4) to any network size; in an n x n network, there are n(n-1) dimensions of “neutral” evolution. Therefore, the ratio of neutral dimensions / total dimensions increases with the network size. I now mention and comment this result, thank you for the suggestion. </text:span></text:p>
+   <text:p text:style-name="P4"/>
+   <text:p text:style-name="P4">In general, little is said about the constitutive levels of expression and their role in the evolution of robustness traits. This is a point that should be clarified.</text:p>
+   <text:p text:style-name="P4"/>
+   <text:p text:style-name="P50">As far as I can tell, our “version” of the Wagner model is the only one to introduce a constitutive expression term <text:span text:style-name="T36">(actually there was one in Wagner 1994 but it has not been explored)</text:span>. Traditionally, constitutive expression is <text:span text:style-name="T36">set </text:span>implicitly to the mid-point between minimum and maximum expression, and is thus not considered as a variable. Because our model explicitly sets the constitutive expression, I could run simulations to check how the parameter a conditions the evolution of robustness (Appendix 7 column 3). Changing the parameter a from ~ 0 to 0.5 has <text:span text:style-name="T36">a minor effect on most indicators, except robustness to early environmental noise and stability (both being very correlated throughout the simulations). Networks are more sensitive to changes in their initial state (and more prone to cyclic dynamics) when the constitutive expression was low. I am not sure whether this has a biological interpretation, or can simply be attributed to the way regulation is scaled – across simulations, mutations have the same effect on genes expressed at their constitutive expression; this means that mutations will have a different effect on genes expressed at the same level among simulations differing by the constitutive expression parameter. Yet, the fact that constitutive expression affects some, but not all, robustness components suggests that there is more than a simple scaling effect. The discussion has been updated accordingly: “F</text:span><text:span text:style-name="T6">inally, the sigmoid response function was made asymetrical by introducing a constitutive expression parameter (as in e.g. Rünneburger and Le Rouzic, 2016) in order to avoid the unrealistically high expression of unregulated genes (half the maximum expression) from the default setting. This constitutive expression was not evolvable in the model, but simulations (Appendix 7) show that two robustness components (ρ E and ρ S ) were very sensitive to this parameter (larger constitutive expression was associated with more robust networks). It is thus not unlikely that real systems could evolve towards more robustness by increasing the constitutive expression of key genes, as already suggested (for dfferent reasons) by Draghi and Whitlock (2015). </text:span>”</text:p>
+   <text:p text:style-name="P4"/>
+   <text:p text:style-name="P4"><text:soft-page-break/>I attach the manuscript with some additional comments and grammatical corrections (grammatical mistakes are highlighted in orange).</text:p>
+   <text:p text:style-name="P4"/>
+   <text:p text:style-name="P12">Edited manuscript:</text:p>
+   <text:p text:style-name="P12"/>
+   <text:p text:style-name="P4">* Abstract: “whether or not robustness to various sources of perturbations is independent conditions ...” </text:p>
    <text:p text:style-name="P17"/>
-   <text:p text:style-name="P23">The absence of correlated selection is now mentioned in the manuscript. </text:p>
+   <text:p text:style-name="P17">Changed <text:span text:style-name="T31">→ </text:span><text:span text:style-name="T3">“whether or not robustness is independent to various sources of perturbations conditions...”</text:span><text:span text:style-name="T9">.</text:span></text:p>
+   <text:p text:style-name="P10"/>
+   <text:p text:style-name="P7"><text:span text:style-name="T9">* Methods: “</text:span>In addition, direct, directional selection <text:span text:style-name="T9">on robustness indicators was performed ...”</text:span></text:p>
    <text:p text:style-name="P30"/>
-   <text:p text:style-name="P30">In the next paragraph and figure 4, it&apos;s not clear that the correlations themselves are not evolving, thus partially removing the genetic constraint. It would be interesting to measure the correlations over time and investigate if this is a factor in the response (or lack thereof) to selection, both direct and indirect. Could some of these robustness axes be decoupled and others not?</text:p>
-   <text:p text:style-name="P29"/>
-   <text:p text:style-name="P17">Tracking the evolution of the genetic correlations is a very interesting suggestion. <text:span text:style-name="T28">TODO</text:span></text:p>
-   <text:p text:style-name="P29"/>
-   <text:p text:style-name="P29">Some general questions, not crucial to the results but perhaps good avenues for further investigation:Could the coupling between axes of robustness be reduced in higher dimensional networks? Are the correlations weaker in the n=6 simulations than in the n=2 simulations? </text:p>
-   <text:p text:style-name="P29"/>
-   <text:p text:style-name="P24">I added new panels in figure 1 showing how the loading of PC1 is affected by various parameters, including the network size and network density. Robustness components in large and dense networks actually tend to be more correlated, although the effect is rather minor. Thanks for the suggestion. </text:p>
+   <text:p text:style-name="P30">Changed <text:span text:style-name="T31">→</text:span><text:span text:style-name="T9"> </text:span><text:span text:style-name="T3">“Directional selection on robustness indicators was also performed...”</text:span></text:p>
+   <text:p text:style-name="P32"/>
+   <text:p text:style-name="P33"/>
+   <text:p text:style-name="P28">* Results: “The simulated behavior of networks A to E are illustrated in Appendix 5”</text:p>
+   <text:p text:style-name="P11"/>
+   <text:p text:style-name="P51"><text:span text:style-name="T29">Changed</text:span>→ <text:span text:style-name="T1">“In order to assess the variation of the robustness properties, five networks</text:span></text:p>
+   <text:p text:style-name="P51"><text:span text:style-name="T1">of contrasted robustness, labeled from A to E, were tracked more specifically”</text:span></text:p>
+   <text:p text:style-name="P22"/>
+   <text:p text:style-name="P6">* “This 2-gene network analysis thus confirms <text:span text:style-name="T21">t</text:span>he results obtained for larger gene networks”</text:p>
+   <text:p text:style-name="P11"/>
+   <text:p text:style-name="P13"><text:span text:style-name="T29">Changed</text:span> →<text:span text:style-name="T21"> </text:span><text:span text:style-name="T4">“</text:span><text:span text:style-name="T1">This 2-gene network analysis thus confirms </text:span><text:span text:style-name="T4">t</text:span><text:span text:style-name="T1">he results obtained </text:span><text:span text:style-name="T4">for large random networks”</text:span><text:span text:style-name="T21">.</text:span></text:p>
+   <text:p text:style-name="P13"/>
+   <text:p text:style-name="P11"><text:span text:style-name="T37">* “</text:span><text:span text:style-name="T38">due to stabilizing selection. (lower scores...”</text:span><text:span text:style-name="T21">,</text:span></text:p>
+   <text:p text:style-name="P11"/>
+   <text:p text:style-name="P13"><text:span text:style-name="T29">Changed →</text:span><text:span text:style-name="T4"> “due to stabilizing selection (lower scores...”</text:span></text:p>
+   <text:p text:style-name="P23"/>
+   <text:p text:style-name="P8"><text:span text:style-name="T9">* “</text:span>all homogeneous to a variance of gene expression”</text:p>
+   <text:p text:style-name="P2"/>
+   <text:p text:style-name="P29"><text:span text:style-name="T29">Changed </text:span>→<text:span text:style-name="T4"> “all homogeneous to a sum of squared difference in gene expression (i.e., the variance in gene expression induced by various disturbances)”</text:span></text:p>
+   <text:p text:style-name="P35"/>
+   <text:p text:style-name="P8">* “This could a be consequence from <text:span text:style-name="T22">the canalizing selection”</text:span></text:p>
+   <text:p text:style-name="P2"/>
+   <text:p text:style-name="P61">This paragraph has been deeply reformulated. </text:p>
+   <text:p text:style-name="P34"/>
+   <text:p text:style-name="P4">* <text:span text:style-name="T22">Figure 4: very hard to understand:</text:span></text:p>
+   <text:p text:style-name="P10"/>
+   <text:p text:style-name="P17">Reviewer #2 also noticed this, and I agree. <text:span text:style-name="T55">The figure has been removed and replaced by a more traditional representation (M matrices vs realized responses). </text:span></text:p>
+   <text:p text:style-name="P11"/>
+   <text:p text:style-name="P6">* <text:span text:style-name="T22">Discussion, “mchanisms”</text:span></text:p>
+   <text:p text:style-name="P11"/>
+   <text:p text:style-name="P13"><text:span text:style-name="T29">Changed → </text:span><text:span text:style-name="T5">“mechanisms”</text:span><text:span text:style-name="T22">.</text:span></text:p>
+   <text:p text:style-name="P10"/>
+   <text:p text:style-name="P9"><text:span text:style-name="T31">* “</text:span><text:span text:style-name="T30">mutational effects were correlated in my simulations”</text:span></text:p>
+   <text:p text:style-name="P2"/>
+   <text:p text:style-name="P62"><text:soft-page-break/><text:span text:style-name="T29">I agree that the simulation setting (new allele drawn into a Gaussian centered on the former allelic value) looks pretty standard in quantitative genetics, and this would not deserved to be discussed in another context. I am not sure to know why most similar models draw allelic effects in a constant distribution (centered around 0), and I am unsure about the consequences, but the difference deserves to be mentioned. The sentence has been reformulated as: </text:span><text:span text:style-name="T5">“Unlike in Wagner (1996) and Siegal and Bergman (2002), </text:span><text:span text:style-name="T7">mutations had cumulative effects</text:span><text:span text:style-name="T5"> (the value of the mutant allele was drawn in a Gaussian centered around the value of the parental allele), which allows for cumulative evolution.”</text:span></text:p>
+   <text:p text:style-name="P31"/>
+   <text:p text:style-name="P9"><text:span text:style-name="T30">* “</text:span><text:span text:style-name="T32">Could you elaborate on effects of network sparcity and density on robustness and evolvability?”</text:span></text:p>
+   <text:p text:style-name="P3"/>
+   <text:p text:style-name="P63"><text:span text:style-name="T56">T</text:span><text:span text:style-name="T23">his is a very interesting question, which is also difficult to address here due to the limited size of simulated networks. From the evolutionary simulations in Appendix 7, larger networks are slightly more robust (only to genetic disturbances) at equilibrium, but network density has no effect. An additional set of simulations was run to test the effect of changing the network density in random networks (new fig 1), suggesting that more complex networks (larger and more connected) have their robustness components more correlated. The discussion now states:</text:span></text:p>
+   <text:p text:style-name="P63"><text:span text:style-name="T1">“Computational constraints also limit the network size to a few dozen genes, which </text:span><text:span text:style-name="T8">was</text:span><text:span text:style-name="T1"> not enough to generate realistic levels of sparcity – simulated gene networks were too dense to be realistic. Decreasing network density and smaller network sizes ma</text:span><text:span text:style-name="T8">d</text:span><text:span text:style-name="T1">e robustness components slightly less correlated (Figure 1E and F), suggesting that the integration of robustness components increases with network complexity.”</text:span></text:p>
+   <text:p text:style-name="P4"/>
+   <text:p text:style-name="P5"><text:span text:style-name="T24">N</text:span>ext time, please submit a manuscript with line numbers to help with minor corrections.</text:p>
+   <text:p text:style-name="P4"/>
+   <text:p text:style-name="P14">I apologize for the missing line numbers. <text:span text:style-name="T26">F</text:span>ixing it <text:span text:style-name="T39">in the preprint will </text:span>be difficult: the <text:span text:style-name="T39">manuscript</text:span> is hosted in arXiv (which <text:span text:style-name="T25">is in the list of recommended preprint servers </text:span><text:a xlink:type="simple" xlink:href="https://evolbiol.peercommunityin.org/help/help_practical#To%20prepare%20a%20preprint" text:style-name="Internet_20_link" text:visited-style-name="Visited_20_Internet_20_Link"><text:span text:style-name="T25">https://evolbiol.peercommunityin.org/help/help_practical#To%20prepare%20a%20preprint</text:span></text:a><text:span text:style-name="T25">), and arXiv does not accept preprints with line numbers (they rejected my first submission). Perhaps something to discuss with the PCI staff. I will attach a line-numbered version together with the resubmission. </text:span></text:p>
+   <text:p text:style-name="P4"/>
+   <text:p text:style-name="P10">Reviewer 1</text:p>
+   <text:p text:style-name="Standard"/>
+   <text:p text:style-name="P24">Robustness is often treated as the generic property resistance to perturbations, with little differentiation as to how different perturbations can require different kinds of robustness. This manuscript uses simulations to investigate how direct selection for different types of robustness in gene networks lead to different outcomes. By explicitly defining several kinds of perturbations, the manuscript shows that, while the different measures of robustness are correlated, not all types of robustness are equivalent, and observing robustness to several kinds of perturbations in organisms can potentially indicate different adaptations to separate selection pressures. This observed scenario is contrasted with the possibility that robustness to several kinds of perturbations shares the same underlying basis or that different kinds of robustness are completely different.</text:p>
+   <text:p text:style-name="P24">This is a simple and well-motivated investigation, the manuscript is well written and direct. The explicit description of the many axes of what we may convincingly call robustness is a worthwhile contribution and brings some much-needed precision to the discussion of the evolution of robustness. </text:p>
    <text:p text:style-name="P24"/>
-   <text:p text:style-name="P31"><text:soft-page-break/>Related to the previous point: would using larger networks allow for the inclusion of measures of network architecture? For example sparsity, modularity (...), and their relation to the correlations between robustness measurements. </text:p>
-   <text:p text:style-name="P31"/>
-   <text:p text:style-name="P42"><text:span text:style-name="T12">The effect of network density is now explored in </text:span><text:span text:style-name="T13">appendix 7 </text:span><text:span text:style-name="T12">(it seems rather negligible). In the model, the strength of regulation is quantitative, it is thus not easy to determine whether a connection exists or not (it is never exactly 0, except for connections that where canceled on purpose from the beginning of the simulation to manipulate network density). It is possible that quantitative topological indicators may exist in graph theory, but this goes beyond my competences. </text:span></text:p>
-   <text:p text:style-name="P31"/>
-   <text:p text:style-name="P31">Is the constitutive expression parameter relevant for the dynamics? How does setting different constitutive expression values alter the results? Could (should?) it be altered by mutations? </text:p>
-   <text:p text:style-name="P31"/>
-   <text:p text:style-name="P25">Thanks for the suggestion, which has been highlighted by the editor (see my comment above). Constitutive expression indeed changes the robustness level for some (but not all) robustness components. This is not completely unexpected, as the sigmoid scaling between regulation and subsequent gene expression is altered when constitutive expression changes, but it is difficult to provide a clear interpretation (I assume it is a mathematical consequence of the way the model is built, but I am not completely sure about it). In the model, constitutive expression is not expected to evolve, as it provides the yardstick for the meaning of the size of a change in the regulation strength (a given mutation has always the same effect on gene expression around the constitutive expression). Wagner 1996 suggested that the initial gene expression P<text:span text:style-name="T42">0</text:span><text:span text:style-name="T43"> could evolve. P</text:span><text:span text:style-name="T42">0</text:span><text:span text:style-name="T43"> was set to the constitutive expression for convenience in my simulations, but this is not necessary. I assume it would be easier and more logical to let P</text:span><text:span text:style-name="T42">0</text:span><text:span text:style-name="T43"> evolve independently from the constitutive expression rather that changing the constitutive expression, but I have little intuition about what it would change on the general results. </text:span></text:p>
-   <text:p text:style-name="P31"/>
-   <text:p text:style-name="P31">Could the difference in the evolvability in the different robustness measurements be due to the choice of mutation? i.e., Could a different, larger-mutation scheme, alter the evolvability? </text:p>
-   <text:p text:style-name="P29"/>
-   <text:p text:style-name="P18">TODO: inlcude sigma m in appendix 7</text:p>
-   <text:p text:style-name="P29"/>
-   <text:p text:style-name="P29">Reviewer #2 (Charles Mullon)</text:p>
-   <text:p text:style-name="P29"/>
-   <text:p text:style-name="P29">In gene network robustness as a multivariate character, the author uses computer simulations to investigate the evolution of various measures of robustness of gene expression. A gene regulatory network (based on the “Wagner” model) is evolved where the fitness of an individual depends on the capacity of the regulatory network to maintain a stable level of expression in the face of mutational or environmental perturbations. It is shown that selection for one type of robustness (e.g. against germline mutations) does not necessarily lead to a correlated response in another type of robustness (e.g. against late in life environmental perturbations). In fact, selection on different types of robustness can interfere with one another, slowing down or even preventing adaptation. Nevertheless, certain pairs of robustness types can be selected in different directions. This supports the notion that certain types of robustness are more evolvable than others (i.e. more independent from other traits than others). </text:p>
-   <text:p text:style-name="P29">This is an interesting manuscript, that is well written and easy to follow. The methods are particularly clear. In my opinion however there are a few points that would need to be addressed before recommendation. </text:p>
-   <text:list xml:id="list1294296883" text:style-name="L1">
+   <text:p text:style-name="P57">I <text:span text:style-name="T57">warmy thank the reviewer for constructive feedback.</text:span></text:p>
+   <text:p text:style-name="P24"/>
+   <text:p text:style-name="P25"><text:soft-page-break/>General comments:</text:p>
+   <text:p text:style-name="P25">The inclusion of a measure of stability is an interesting necessity for there to be a stable state to which the system can return after a perturbation, but I&apos;m not sure it would traditionally be included under robustness to perturbations. Network C in the two-gene network illustrates this, as it is somewhat robust but not stable. In any event, the two-dimensional results illustrate nicely the relative independence of the different kinds of robustness.</text:p>
+   <text:p text:style-name="P15"/>
+   <text:p text:style-name="P15">I totally agree with the reviewer that stability is an outlier compared to other robustness measurements. The only reason why I considered stability among robustness indexes is that it was historically <text:span text:style-name="T39">one of the</text:span> first <text:span text:style-name="T27">network feature correlated with mutational robustness in theoretical gene networks by Siegal &amp; Bergman (2002), who showed that selection on stability could induce an indirect response of mutational robustness. I was thus curious to include stability in this study. It turns out that stability is largely correlated to other robustness measurements (especially to environmental perturbations), which confirms Siegal &amp; Bergman’s results. It is not completely clear to me why stability and robustness are so tightly associated (unstable networks tend to overcompensate disturbances?), nor whether this result depends on the model hypothesis (“Wagner” networks tend to be very unstable, Pinho, R., E. Borenstein, and M. W. Feldman (2012)). </text:span></text:p>
+   <text:p text:style-name="P15"/>
+   <text:p text:style-name="P52"><text:span text:style-name="T27">I updated the introduction to make it clearer that stability is an outlier: </text:span><text:span text:style-name="T2">“Four robustness-related measurements were considered, two of them corresponding to environmental robustness (early vs. late disturbances), two corresponding to genetic robustness (early — inherited — or late — acquired — mutations). Gene expression instability was also included in the set of robustness-related traits, as it is related to the intrinsic stability of the expression phenotype.”</text:span></text:p>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P26">pg 9, 2nd paragraph: &quot;Selection on all robustness components also lead to an indirect response of all other components, which confirms a general genetic correlation.&quot; - Not necessarily due to genetic correlations, selection could also be correlated due to phenotypic correlations. </text:p>
+   <text:p text:style-name="P26"/>
+   <text:p text:style-name="P54">I am not sure to follow the reviewer’s argument here, <text:span text:style-name="T28">perhaps simulation details were missing and/or we have different definition of correlated selection</text:span>. <text:span text:style-name="T58">Due to genetic correlations, unselected traits could be affected by some selection differential, and thus respond indirectly to selection, but there was no gradient (by construction) on unselected traits. My reasoning is that, based on the Lande equation R = G </text:span><text:span text:style-name="T59">β</text:span><text:span text:style-name="T60">, if R</text:span><text:span text:style-name="T40">i</text:span><text:span text:style-name="T60"> </text:span><text:span text:style-name="T45">≠</text:span><text:span text:style-name="T60"> 0 for a trait i for which <text:s/></text:span><text:span text:style-name="T59">β</text:span><text:span text:style-name="T43">i</text:span><text:span text:style-name="T48"> = 0, this has to be due to one (or several) genes j for which β</text:span><text:span text:style-name="T43">j</text:span><text:span text:style-name="T48"> </text:span><text:span text:style-name="T45">≠</text:span><text:span text:style-name="T48"> 0 and G</text:span><text:span text:style-name="T43">ij </text:span><text:span text:style-name="T45">≠ 0. If there is a response </text:span><text:span text:style-name="T49">R</text:span><text:span text:style-name="T41">i</text:span><text:span text:style-name="T49"> </text:span><text:span text:style-name="T50">for all genes </text:span><text:span text:style-name="T51">i whatever which </text:span><text:span text:style-name="T45"><text:s/>β</text:span><text:span text:style-name="T42">j</text:span><text:span text:style-name="T45"> ≠ 0, </text:span><text:span text:style-name="T46">this means that all <text:s/></text:span><text:span text:style-name="T45">G</text:span><text:span text:style-name="T42">ij </text:span><text:span text:style-name="T45">≠ 0 </text:span><text:span text:style-name="T46">(which is what I meant with “a general genetic correlation”). </text:span></text:p>
+   <text:p text:style-name="P53"><text:span text:style-name="T45"/></text:p>
+   <text:p text:style-name="P56"><text:span text:style-name="T45">N</text:span><text:span text:style-name="T44">ote that there was no correlational selection in simulations (the total fitness was the product of marginal fitnesses computed on each trait separately). </text:span></text:p>
+   <text:p text:style-name="P53"><text:span text:style-name="T45"/></text:p>
+   <text:p text:style-name="P55"><text:span text:style-name="T45">I </text:span><text:span text:style-name="T44">thus kept the sentence unchanged so far, </text:span><text:span text:style-name="T46">but I would happily </text:span><text:span text:style-name="T47">update it if I misunderstood the reviewer’s argument. </text:span></text:p>
+   <text:p text:style-name="P26"><text:s/></text:p>
+   <text:p text:style-name="P26">In the next paragraph and figure 4, it&apos;s not clear that the correlations themselves are not evolving, thus partially removing the genetic constraint. It would be interesting to measure the correlations over time and investigate if this is a factor in the response (or lack thereof) to selection, both direct and indirect. Could some of these robustness axes be decoupled and others not?</text:p>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P16">Tracking the evolution of the genetic correlations is a very interesting suggestion. <text:span text:style-name="T61">I added a new figure (Figure 5) showing how mutational correlations evolve in the simulations. Interestingly, correlations evolved for some trait combinations (but not all), and the direction of evolution </text:span><text:soft-page-break/><text:span text:style-name="T61">depends on whether robustnesses were selected positively or negatively. Yet, this was not consistent among robustness traits (i.e., selected more robust systems ended up with more or less correlated traits depending on the pair of traits). This illustrates the complexity of the links between robustness components. The text was updated in the results and the discussion to describe this new figure. </text:span></text:p>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P25">Some general questions, not crucial to the results but perhaps good avenues for further investigation:Could the coupling between axes of robustness be reduced in higher dimensional networks? Are the correlations weaker in the n=6 simulations than in the n=2 simulations? </text:p>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P20">I added new panels in figure 1 showing how the loading of PC1 <text:span text:style-name="T61">was</text:span> affected by various parameters, including the network size and network density. Robustness components in large and dense networks actually tend to be more correlated, although the effect is rather minor. Thanks for the suggestion. </text:p>
+   <text:p text:style-name="P20"/>
+   <text:p text:style-name="P27">Related to the previous point: would using larger networks allow for the inclusion of measures of network architecture? For example sparsity, modularity (...), and their relation to the correlations between robustness measurements. </text:p>
+   <text:p text:style-name="P27"/>
+   <text:p text:style-name="P36"><text:span text:style-name="T11">The effect of network density is now explored in </text:span><text:span text:style-name="T12">appendix 7 </text:span><text:span text:style-name="T11">(it seems rather negligible). In the model, the strength of regulation is quantitative, it is thus not easy to determine whether a connection exists or not (it is never exactly 0, except for connections that where canceled on purpose from the beginning of the simulation to manipulate network density). It is possible that quantitative topological indicators may exist in graph theory, but this goes beyond my competences. </text:span></text:p>
+   <text:p text:style-name="P27"/>
+   <text:p text:style-name="P27">Is the constitutive expression parameter relevant for the dynamics? How does setting different constitutive expression values alter the results? Could (should?) it be altered by mutations? </text:p>
+   <text:p text:style-name="P27"/>
+   <text:p text:style-name="P48">Thanks for the suggestion, which has been highlighted by the editor (see my comment above). Constitutive expression indeed changes the robustness level for some (but not all) robustness components. In the model, constitutive expression is not evolv<text:span text:style-name="T61">able</text:span>, as it provides the yardstick for the meaning of the size of a change in the regulation strength (a given mutation has always the same effect on gene expression around the constitutive expression). <text:span text:style-name="T61">Adding a genetic basis for constitutive expression would thus require a different scaling function, and was thus beyond this study. Nevertheless, I added a discussion sentence (see my response to the editor above) about this interesting observation – note that the evolution of constitutive expression as a response to selection for more robustness has already been proposed by Draghi &amp; Whitlock (2015). </text:span></text:p>
+   <text:p text:style-name="P27"/>
+   <text:p text:style-name="P27">Could the difference in the evolvability in the different robustness measurements be due to the choice of mutation? i.e., Could a different, larger-mutation scheme, alter the evolvability? </text:p>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P21">The model can be parameterized with two mutational effects: the mutation effect size for robustness tests, and the mutation effect size for the simulations. In the previous version of the manuscript, the influence of the size of mutations on the calculation of genetic robustness parameters was assessed (in a figure that is now <text:span text:style-name="T62">in</text:span> Appendix 1), but the influence of the mutation size during the simulations was not tested. <text:span text:style-name="T52">Yet, it is relevant, because it is susceptible to have an effect on the robustness to early mutations, one of the only robustness components that had to be under (indirect) selection in all simulations (as an unavoidable consequence of stabilizing selection). </text:span>It is now one of the parameters included in Appendix 7 (mutation size, column 2). It happens that the size of mutations has an effect on the evolution of robustness, in a way that is similar to the rate of mutations: more and larger mutations improves substantially the robustness of genetic architectures to mutations. The fact that correlated robustness components are also affected is by itself interesting, because it illustrates concretely how robustness can evolve as a correlated trait. </text:p>
+   <text:p text:style-name="P25"><text:soft-page-break/></text:p>
+   <text:p text:style-name="P25">Reviewer #2 (Charles Mullon)</text:p>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P25">In gene network robustness as a multivariate character, the author uses computer simulations to investigate the evolution of various measures of robustness of gene expression. A gene regulatory network (based on the “Wagner” model) is evolved where the fitness of an individual depends on the capacity of the regulatory network to maintain a stable level of expression in the face of mutational or environmental perturbations. It is shown that selection for one type of robustness (e.g. against germline mutations) does not necessarily lead to a correlated response in another type of robustness (e.g. against late in life environmental perturbations). In fact, selection on different types of robustness can interfere with one another, slowing down or even preventing adaptation. Nevertheless, certain pairs of robustness types can be selected in different directions. This supports the notion that certain types of robustness are more evolvable than others (i.e. more independent from other traits than others). </text:p>
+   <text:p text:style-name="P39">This is an interesting manuscript, that is well written and easy to follow. The methods are particularly clear. </text:p>
+   <text:p text:style-name="P39"/>
+   <text:p text:style-name="P49">Thank you for the accurate summary and the suggestions. </text:p>
+   <text:p text:style-name="P39"/>
+   <text:p text:style-name="P39">In my opinion however there are a few points that would need to be addressed before recommendation. </text:p>
+   <text:list xml:id="list3185352845" text:style-name="L1">
     <text:list-item>
-     <text:p text:style-name="P43">I think that the concepts of pleiotropy and genetic constraints could be further investigated with a multivariate quantitative genetics framework (see the seminal paper by Lande in Evolution 1979 33(1)). In particular, estimating the G matrix of <text:soft-page-break/>genetic variance-covariance for the different types of robustness would characterize genetic constraints in a more traditional and quantitative manner than it currently is. </text:p>
-    </text:list-item>
-    <text:list-item>
-     <text:p text:style-name="P43">Pleiotropy could also be quantified by computing the mutation matrix (e.g. Jones et al. Evolution 2007 61(4)). Doing so would also allow to connect the notions of robustness and evolvability more clearly. From reading the title and introduction, these quantitative genetics analyses are in fact the types of analyses that I expected to see. </text:p>
-    </text:list-item>
-    <text:list-item>
-     <text:p text:style-name="P43">I thought the description of results were terse and rather vague at times (e.g. p. 9-10, see sentences with “possible outcome ...”, “most cases ...”). Particularly disappointing is how little discussion there is about why different types of robustness are positively or negatively associated with one another. I understand this would be speculative without any further analyses, but it would nevertheless offer readers a message that goes beyond “it depends”. Perhaps the quantitative genetics approach suggested above allows for a more thorough description and interpretation of the associations between different types of robustness. </text:p>
+     <text:p text:style-name="P38">I think that the concepts of pleiotropy and genetic constraints could be further investigated with a multivariate quantitative genetics framework (see the seminal paper by Lande in Evolution 1979 33(1)). In particular, estimating the G matrix of genetic variance-covariance for the different types of robustness would characterize genetic constraints in a more traditional and quantitative manner than it currently is. </text:p>
     </text:list-item>
    </text:list>
-   <text:p text:style-name="P29">Minor comments / Typos: </text:p>
-   <text:p text:style-name="P29">Legend of figure 3: “robusnetss” -&gt; robustness</text:p>
-   <text:p text:style-name="P29">Legend of figure 4: “univariare” -&gt; univariate. In fact I did not understand what the thick horizontal lines corresponded to exactly. </text:p>
-   <text:p text:style-name="P29">Appendix 4 : “produced” -&gt; produce</text:p>
-   <text:p text:style-name="P29">Appendix 5: There is something wrong here. I am guessing the rows and columns have been inverted in the legend. The column for stability also seems to be missing. Please check the figure legend thoroughly. </text:p>
-   <text:p text:style-name="P29"/>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P58"><text:span text:style-name="T13">This point was also commented above by the PCI </text:span><text:span text:style-name="Emphasis"><text:span text:style-name="T53">recommender</text:span></text:span><text:span text:style-name="T13">. Computing G was complicated due to several reasons, and I rather replaced G by the mutational covariance matrix M </text:span><text:span text:style-name="T19">(see below). </text:span></text:p>
+   <text:p text:style-name="P25"/>
+   <text:list xml:id="list154612159324501" text:continue-numbering="true" text:style-name="L1">
+    <text:list-item>
+     <text:p text:style-name="P38">Pleiotropy could also be quantified by computing the mutation matrix (e.g. Jones et al. Evolution 2007 61(4)). Doing so would also allow to connect the notions of robustness and evolvability more clearly. From reading the title and introduction, these quantitative genetics analyses are in fact the types of analyses that I expected to see. </text:p>
+    </text:list-item>
+   </text:list>
+   <text:p text:style-name="P40"/>
+   <text:p text:style-name="P42"><text:span text:style-name="T13">I </text:span><text:span text:style-name="T10">warmly thank the reviewer for this suggestion. As detailed above, this direction is now explored in the revised version. </text:span><text:span text:style-name="T19">F</text:span><text:span text:style-name="T10">ormer figure 4, proposing the analysis of the evolution of robustness under directional selection, has been replaced by an analysis based on how robustness responded compared to the M matrix. This analysis was performed using the geometrical tools from multivariate quantitative genetics (including measurements of evolvability and conditional evolvability from Houle &amp; Hansen 2013, translated to M matrices instead of G). </text:span></text:p>
+   <text:p text:style-name="P39"><text:span text:style-name="T13"/></text:p>
+   <text:list xml:id="list154612517882424" text:continue-numbering="true" text:style-name="L1">
+    <text:list-item>
+     <text:p text:style-name="P38">I thought the description of results were terse and rather vague at times (e.g. p. 9-10, see sentences with “possible outcome ...”, “most cases ...”). Particularly disappointing is how little discussion there is about why different types of robustness are positively or negatively associated with one another. I understand this would be speculative without any further analyses, but it would nevertheless offer readers a message that goes beyond “it depends”. Perhaps the quantitative genetics approach suggested above allows for a more thorough description and interpretation of the associations between different types of robustness. </text:p>
+    </text:list-item>
+   </text:list>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P41"><text:soft-page-break/><text:span text:style-name="T10">I tried to reformulate </text:span><text:span text:style-name="T19">the text to provide more conclusive explanations</text:span><text:span text:style-name="T10">. I also added a paragraph about the relationship between the interaction matrix and robustness estimates. I am afraid that this will not completely address the reviewers’ legitimate concerns, because the problem is hard (at least, it looks hard to me). As far as I can tell from the results, robustness behaves as an emergent property of the gene network: it is obviously “encoded” in the matrix of interactions among genes, but </text:span><text:span text:style-name="T14">it is a complex function of many interactions. In fig 2, illustrating the simplest case (a 2-gene network), the link between individual transcriptional intertactions and robustness components already appears quite complex, non-monotonous in every direction, and responding to different rules for different robustness components. </text:span></text:p>
+   <text:p text:style-name="P41"><text:span text:style-name="T14"/></text:p>
+   <text:p text:style-name="P43"><text:span text:style-name="T10">Here is my current understanding of the mechanisms, which are in my opinion too sketchy to deserve being published. Robustness components (as arbitrarily defined in the manuscript) can be classified in two clusters: Cluster I is Early environmental + stability, and cluster II are three other ones (late environmental, early genetic, and late genetic). Mathematically, cluster I is related to a measurement of the size, shape, and numbers of basins of attraction around equilibrium gene expressions. </text:span><text:span text:style-name="T18">The underlying mathematics look </text:span><text:span text:style-name="T20">tricky</text:span><text:span text:style-name="T18">; </text:span><text:span text:style-name="T15">solutions </text:span><text:span text:style-name="T20">may perhaps be </text:span><text:span text:style-name="T15">expressed in terms of the Lambert W function </text:span><text:span text:style-name="T18">(this</text:span><text:span text:style-name="T16"> goes beyond my </text:span><text:span text:style-name="T20">current</text:span><text:span text:style-name="T16"> mathematical skills</text:span><text:span text:style-name="T18">)</text:span><text:span text:style-name="T16">. The stability of the equilibria depends on the eigenvalues of the matrix of second derivatives of the dynamic system around each equilibria </text:span><text:span text:style-name="T18">(</text:span><text:span text:style-name="T16">n-order polynomials of the 2nd-order derivatives (which are themselves </text:span><text:span text:style-name="T17">in f(exp(x))^2 / f(exp(x))^3))</text:span><text:span text:style-name="T18">). Cluster II reflects how the network responds to immediate disturbance, which is probably close to the first derivative of the dynamic system. This looks more tractable mathematically whenever the equilibrium point is known. However, figure 2 illustrates that this remains a naive interpretation, as two robustness components that happen to seem well-correlated in some areas of the “robustness space” can get </text:span><text:span text:style-name="T20">un</text:span><text:span text:style-name="T18">correlated in other areas, and I am not sure how relevant such conjectures might be. </text:span></text:p>
+   <text:p text:style-name="P43"><text:span text:style-name="T18"/></text:p>
+   <text:p text:style-name="P44"><text:span text:style-name="T18">I </text:span><text:span text:style-name="T10">added a discussion paragraph about robustness as an emergent property of the network, justifying why the causes of correlations are not discussed more mechanically:</text:span></text:p>
+   <text:p text:style-name="P44"><text:span text:style-name="T10"/></text:p>
+   <text:p text:style-name="P47"><text:span text:style-name="T10">“Throughout this work, robustness was thus treated as an emergent property of the underlying network, which could not be easily deduced from a reductionnist approach. Yet, it remains possible to interpret the correlation patterns in terms of network dynamics. Two of the most correlated components are the robustness to early environmental variation ρ E and network stability ρ S , which both measure the ability of the network to converge to a given gene expression equilibrium. Conversely, the correlation between late mutational ρ m and environmental ρ e robustnesses can be attributed to the consequences of such disturbances over a single time step: for a single target gene, decreasing the concentration of a transcription factor and decreasing the sensitivity of the promoter</text:span></text:p>
+   <text:p text:style-name="P47"><text:span text:style-name="T10">to the same transcription factor may have very similar immediate consequences on gene expression. Yet, even if these measurements happen to be correlated by construction in the network model, their partial evolutionary independence highlights their potential for independent evolvability in real gene networks, which are substantially more complex and subtle than our mathematical approximation.”</text:span></text:p>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P25">Minor comments / Typos: </text:p>
+   <text:p text:style-name="P25">Legend of figure 3: “robusnetss” -&gt; robustness</text:p>
+   <text:p text:style-name="P25">Appendix 4 : “produced” -&gt; produce</text:p>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P44"><text:span text:style-name="T10">Thanks for the list of typos, all fixed in the revison. </text:span></text:p>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P45">Legend of figure 4: “univariare” -&gt; univariate. In fact I did not understand what the thick horizontal lines corresponded to exactly. </text:p>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P44"><text:soft-page-break/><text:span text:style-name="T10">Former fig 4 has been removed from the manuscript. I hope that the new figure is more intuitive. </text:span></text:p>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P25">Appendix 5: There is something wrong here. I am guessing the rows and columns have been inverted in the legend. The column for stability also seems to be missing. Please check the figure legend thoroughly. </text:p>
+   <text:p text:style-name="P25"/>
+   <text:p text:style-name="P44"><text:span text:style-name="T10">Sorry about this, there was indeed a last-minute inversion of x and y axes, and I forgot to update the caption accordingly. I hope that the revised version is devoid of such inaccuracies. </text:span></text:p>
   </office:text>
  </office:body>
 </office:document>

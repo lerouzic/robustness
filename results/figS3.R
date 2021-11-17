@@ -13,7 +13,6 @@ source("../src/tools.R")
 ######################## Options
 
 param <- default
-param$use.cache <- FALSE
 
 cache.tag <- "figH"
 
@@ -30,8 +29,8 @@ cols <- 1:5
 # Technically, this sounds pretty useless: it would be way more efficient to run the max number of replicates and sample them for lower
 # counts. Yet, the current code is simpler, and avoids correlations among samples. 
 
-cache.file.reps <- paste0(param$cache.dir, "/", cache.tag, "-reps .rds")
-cache.file.robs <- paste0(param$cache.dir, "/", cache.tag, "-robs .rds")
+cache.file.reps <- paste0(param$cache.dir, "/", cache.tag, "-reps.rds")
+cache.file.robs <- paste0(param$cache.dir, "/", cache.tag, "-robs.rds")
 
 res.reps <- if (param$use.cache && file.exists(cache.file.reps)) {
 				readRDS(cache.file.reps)
@@ -57,7 +56,7 @@ res.robs <- if (param$use.cache && file.exists(cache.file.robs)) {
 
 ############################ Figure
 
-pdf(paste0("figS3.pdf"), width=8, height=4)
+pdf(paste0("figS3.pdf"), width=12/param$figscale, height=6/param$figscale, pointsize=param$pointsize)
 	layout(t(1:2))
 	
 	plot(NULL, xlim=c(0.4,1)*range(allreps), ylim=c(1e-3,1), log="xy", xlab="Number of simulated networks", ylab="Proportion variance explained", yaxt="n", xaxt="n")

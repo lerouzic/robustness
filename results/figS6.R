@@ -73,9 +73,9 @@ illustrate.lateenv <- function(W, rep=20, ...) {
 
 #################### Figure
 
-pdf("figS5.pdf", width=12, height=12)
+pdf("figS6.pdf", width=param$maxfigwidth/param$figscale, height=0.9*param$maxfigwidth/param$figscale, pointsize=param$pointsize)
 	layout(matrix(1:(4*nrow(stud)), ncol=4, byrow=TRUE))
-	par(mar=c(0,0,0,0)+0.2, oma=c(4, 4, 4, 0), xpd=NA)
+	par(mar=c(0,0,0,0)+0.2, oma=c(4, 4, 4, 0), xpd=NA, cex=1)
 	
 	for (rstud in 1:nrow(stud)) {
 		# target is defined in studycases.R

@@ -24,6 +24,8 @@ M.reps            <- 100
 M.nbmut           <- 5
 gen.display       <- 5000
 
+M.stretch         <- 20
+
 cache.tag.uni <- "figG"
 cache.tag.bi  <- "figI"
 
@@ -40,7 +42,7 @@ asp <- 1
 
 ################# Functions
 
-plot2traits <- function(list.sim, list.M=NULL, what.x, what.y, xlim=NULL, ylim=NULL, xlab=as.expression(phen.expression[what.x]), ylab=as.expression(phen.expression[what.y]), FUN=mean, mut.rate=1, ...) {
+plot2traits <- function(list.sim, list.M=NULL, what.x, what.y, xlim=NULL, ylim=NULL, xlab=as.expression(phen.expression[what.x]), ylab=as.expression(phen.expression[what.y]), FUN=mean, mut.rate=param$mut.rate, ...) {
 	if (is.null(xlim))
 		xlim <- range(do.call(rbind, lapply(list.sim, function(x) do.call(rbind, lapply(x$mean, function(xx) FUN(xx[[what.x]]))))))
 	if (is.null(ylim))
@@ -51,8 +53,8 @@ plot2traits <- function(list.sim, list.M=NULL, what.x, what.y, xlim=NULL, ylim=N
 	ref.x <- sapply(list.sim[["oo.o"]]$mean, function(x) FUN(x[[what.x]]))[1]
 	ref.y <- sapply(list.sim[["oo.o"]]$mean, function(x) FUN(x[[what.y]]))[1]
 	if (!is.null(list.M)) {
-		lines(ellipse(mut.rate*list.M[["oo.o"]]$mean.M[c(what.x, what.y), c(what.x, what.y)], centre=c(ref.x, ref.y)), lty=2)
-		lines(ellipse(mut.rate*list.M[["oo.o"]]$mean.Mcond[c(what.x, what.y), c(what.x, what.y)], centre=c(ref.x, ref.y)))
+		lines(ellipse(mut.rate*M.stretch^2*list.M[["oo.o"]]$mean.M[c(what.x, what.y), c(what.x, what.y)], centre=c(ref.x, ref.y)), lty=2)
+		lines(ellipse(mut.rate*M.stretch^2*list.M[["oo.o"]]$mean.Mcond[c(what.x, what.y), c(what.x, what.y)], centre=c(ref.x, ref.y)))
 	}
 		
 	for (nss in names(list.sim)) {
@@ -91,11 +93,11 @@ plot2traits <- function(list.sim, list.M=NULL, what.x, what.y, xlim=NULL, ylim=N
 }
 
 plot2traits.legend <- function(col.x, col.y, corr.M=0.5, evol.dist=1.5, ...) {
-	plot(NULL, xlim=c(-2, 2), ylim=c(-2, 2), xaxt="n", yaxt="n", xlab="", ylab="", bty="n", ...)
+	plot(NULL, xlim=c(-2.5, 2.5), ylim=c(-2.5, 2.5), xaxt="n", yaxt="n", xlab="", ylab="", bty="n", ...)
 	
 	lines(ellipse(0.2*rbind(c(1, corr.M), c(corr.M, 1))), lty=2)
 	lines(ellipse(0.15*rbind(c(1, corr.M), c(corr.M, 1))),)
-	legend("bottom", lty=c(2,1), legend=c("M (x10)", "Mcond (x10)"), horiz=TRUE, bty="n", xpd=NA)
+	legend("bottom", lty=c(2,1), legend=paste0(c("M (x", "Mcond (x"), M.stretch, ")"), horiz=TRUE, bty="n", xpd=NA)
 	points(0, 0, pch=pch.sim["o"])
 	points(x=c(0,0), y=evol.dist*c(-1,1), pch=pch.sim[c("m","p")], col=col.y, cex=2)
 	arrows(x0=c(0,0), y0=c(0,0), x1=c(0,0), y1=0.8*evol.dist*c(-1,1), col=col.y, length=0.1)
@@ -250,14 +252,14 @@ for (i in 1:(length(default.shortcode)-1))
 
 ################### Figure
 
-pdf("fig4.pdf", width=10, height=9)
+pdf("fig4.pdf", width=0.9*param$maxfigwidth/param$figscale, height=0.9*param$maxfigwidth/param$figscale, pointsize=param$pointsize)
 	lm <- matrix(0, ncol=4, nrow=4)
 	lm[lower.tri(lm, diag=TRUE)] <- 1:10
 	lm[1,3] <- 11
 	lm[2,4] <- 12
 	layout(lm)
 	
-	par(mar=c(2.5, 0.5, 0.5, 2.5), oma=c(4, 4, 0, 2))
+	par(mar=c(2.5, 0.5, 0.5, 2.5), oma=c(4, 4, 0, 2), cex=1)
 	
 	for (i in 1:4) {
 		for (j in (i+1):5) {
@@ -277,6 +279,6 @@ pdf("fig4.pdf", width=10, height=9)
 	
 dev.off()
 
-pdf("figS8.pdf", width=5, height=4)
+pdf("figS8.pdf", width=6/param$figscale, height=5/param$figscale, pointsize=param$pointsize)
 	plotEvolvR2(list.sim, M=list.M[["oo.o"]]$mean.Mcond, grads=lapply(torun, "[[", "grad.rob"), ylim=c(0.8,1))
 dev.off()

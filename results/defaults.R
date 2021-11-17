@@ -9,6 +9,9 @@ default <- list(
 
 	use.cache = TRUE,
 	cache.dir = "../cache/",
+	pointsize = 6,   # For some reason, fonts appear larger than this setting
+	maxfigwidth= 16, # 16 cm wide figures max
+	figscale   =2.54, # cm to inches
 
 	# General parameters
 

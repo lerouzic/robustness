@@ -49,7 +49,7 @@ rob.pairs <- list(
 gradvec1 <- function(i, grd) c(rep(0, i-1), grd, rep(0, length(default.shortcode)-i))
 gradvec2 <- function(i1, i2, grd1, grd2) c(rep(0, i1-1), grd1, rep(0, i2-i1-1), grd2, rep(0, length(default.shortcode)-i2))
 
-meancor <- function(Mlist, i1, i2, nm=NULL, mc.cores=param$mc.cores) {
+meancor <- function(Mlist, i1, i2, nm=NULL, mc.cores=1) { # param$mc.cores) {
 	larr <- mclapply(Mlist, function(Mrep) {
 		unlist(sapply(Mrep, function(Mgen) cov2cor(Mgen$vcov)[i1,i2]))
 	}, mc.cores = mc.cores)
@@ -133,7 +133,7 @@ list.M <- mclapply(setNames(nm=names(list.sim)), function(name.sim.series) {
 
 ################### Figure
 
-pdf("figS9.pdf", width=12, height=12)
+pdf("fig5.pdf", width=12/param$figscale, height=10/param$figscale, pointsize=param$pointsize)
 	lm <- matrix(0, ncol=4, nrow=4)
 	lm[lower.tri(lm, diag=TRUE)] <- 1:10
 	layout(lm)
@@ -153,13 +153,13 @@ pdf("figS9.pdf", width=12, height=12)
 			axis(2)
 			mtext(as.expression(phen.expression[names(i2)]), 2, line=3.5, xpd=NA, col=default.cols[names(i2)])
 			if (nm2 == "le")
-				mtext("Mutational correlation", side=2, line=1.5, outer=TRUE)
+				mtext("Mutational correlation", side=2, line=1.3, outer=TRUE)
 		}
 		if (nm2 == "st") {
 			axis(1)
 			mtext(as.expression(phen.expression[names(i1)]), 1, line=3.5, xpd=NA, col=default.cols[names(i1)])
 			if (nm1 == "ie")
-				mtext("Generation", side=1, line=1.5, outer=TRUE)
+				mtext("Generation", side=1, line=1.3, outer=TRUE)
 		}
 		
 		points(xx, meancor(list.M[["oo.o"]], names(i1), names(i2), nm=as.character(xx)), col=col.sim["oo"], pch=pch.sim["o"])

@@ -141,7 +141,7 @@ list.sim <- mclapply(torun, function(ff) ff(), mc.cores=min(length(torun), ceili
 
 ########################## Figure
 
-pdf("fig3.pdf", width=12, height=10)
+pdf("fig3.pdf", width=param$maxfigwidth/param$figscale, height=12/param$figscale, pointsize=param$pointsize)
 	layout(matrix(1:25, ncol=5))
 	par(cex=1, mar=c(0.5, 0.5, 0.2, 0.5), oma=c(5,5,4,3))
 	for (selsim in default.shortcode) {

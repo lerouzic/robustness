@@ -36,7 +36,7 @@ plot.PCarrows <- function(pr, labels=default.labels, cols=default.cols, ...) {
     
     plot(NULL, xlab="", ylab="", ylim=c(0.75,nPC+0.25), xlim=range(pr$rotation), yaxt="n", bty="n", xpd=NA, ...)
     arrows(x0=min(pr$rotation), y0=1:nPC, x1=max(pr$rotation), code=3, length=0.2)
-    for (i in 1:nPC) text(x=pr$rotation[,i], y=nPC-i+1+0.1*(0:(nPC-1)), labels[rownames(pr$rotation)], col=cols[rownames(pr$rotation)], pos=3, cex=0.9, font=2, xpd=NA)
+    for (i in 1:nPC) text(x=pr$rotation[,i], y=nPC-i+1+0.1*(0:(nPC-1)), labels[rownames(pr$rotation)], col=cols[rownames(pr$rotation)], pos=3, cex=1, font=2, xpd=NA)
     lines(x=rep(0,2), y=c(1,nPC), lty=2)
     axis(4, at=1:nPC, labels=paste0("PC", nPC:1), las=2, tick=FALSE)
 }
@@ -74,7 +74,7 @@ dd.fS2 <- if (file.exists(cache.file)) {
 		  
 ################### Figure
 
-pdf(paste0("fig1.pdf"), width=14, height=5)
+pdf(paste0("fig1.pdf"), width=param$maxfigwidth/param$figscale, height=6/param$figscale, pointsize=param$pointsize)
 
 	layout(cbind(c(1,1), c(2,2), c(3,5), c(4,6)), widths=c(3,2,2,2))
 	par(cex=1, mar=c(4, 4, 3, 1))

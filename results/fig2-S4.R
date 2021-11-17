@@ -51,7 +51,7 @@ whyitfails <- function(W, a, dev.steps, measure, target) {
 
 plotres <- function(res, crit="mean", stud=NULL, mask=NULL, contour=FALSE, mx = 0.2) {
 	# Helper function for the 2D plot
-    z <- res[,grep(colnames(res), pattern=crit)[1]] # take only the first gene
+    z <- apply(res[,grep(colnames(res), pattern=crit)], 1,  param$summary.FUN)# take only the first gene
     z[z>mx] <- mx
     if (!is.null(mask)) z[mask] <- NA
     
@@ -106,18 +106,18 @@ if (!param$use.cache || !file.exists(cache.file)) {
 
 ######################## Figures
 
-pdf("fig2.pdf", width=9, height=6)
+pdf("fig2.pdf", width=param$maxfigwidth/param$figscale, height=10/param$figscale, pointsize=param$pointsize)
 	layout(rbind(1:3, c(4:5, 0)))
-	par(mar=c(3,3,2,0.5), mgp=c(2,1,0))
+	par(cex=1, mar=c(3,3,2,0.5), mgp=c(2,1,0))
 	mm <- difftarget(res, target) > difftarget.thresh
 	for (ppp in names(phen.expression))
 		plotres(res, ppp, stud, mask=mm, contour=TRUE)
 dev.off()
 
-pdf("figS4.pdf", width=3.5, height=4)
+pdf("figS4.pdf", width=6.5/param$figscale, height=6/param$figscale, pointsize=param$pointsize)
 	zz <- matrix(res$WIF, nrow=sqrt(nrow(res)))
 	zz[zz==-1] <- 2 # When stuck to the border, this is still an alternative equilibrium
 	cc <- c('On target' = "white", 'Still changing'="yellow", 'Alternative eq.'="gray", 'Large osc.'="red")
 	image(x=ww1, y=ww2, z=zz, xlab=expression(W[11]), ylab=expression(W[21]), col=cc)
-	legend("topleft", inset=c(0,-0.1), pch=15, col=cc, legend=names(cc), horiz=TRUE, xpd=TRUE, cex=0.5, pt.cex=1.5, bty="n")
+	legend("topleft", inset=c(0,-0.1), pch=15, col=cc, legend=names(cc), horiz=TRUE, xpd=TRUE, cex=0.8, pt.cex=2, bty="n")
 dev.off()

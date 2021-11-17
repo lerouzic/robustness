@@ -56,9 +56,9 @@ lp <- length(phen.expression)
 mm <- matrix(0, ncol=lp-1, nrow=lp-1)
 mm[lower.tri(mm, diag=TRUE)] <- 1:(lp*(lp-1)/2)
 
-pdf(paste0("figS2.pdf"), width=10, height=10)
+pdf(paste0("figS2.pdf"), width=param$maxfigwidth/param$figscale, height=param$maxfigwidth/param$figscale, pointsize=param$pointsize)
 	layout(mm)
-	par(mar=0.1+c(0,0,0,0), oma=c(4,5,0,0))
+	par(mar=0.1+c(0,0,0,0), oma=c(4,5,0,0), cex=1)
 	for (ii in 1:(lp-1)) {
 	    for (jj in ((ii+1):lp)) {
 	        rrx <- sapply(res, function(x) param$summary.FUN(x[[names(phen.expression)[ii]]]))
@@ -66,13 +66,13 @@ pdf(paste0("figS2.pdf"), width=10, height=10)
 	        plot(rrx[1:min(length(res), maxplotpoints)], rry[1:min(length(res), maxplotpoints)], xaxt="n", yaxt="n", xlab="", ylab="", col="gray", xlim=xylims, ylim=xylims)
 	        if (ii==1) {
 	            axis(2)
-	            mtext(as.expression(phen.expression[jj]), side=2, line=3)
+	            mtext(as.expression(phen.expression[jj]), col=default.cols[jj], side=2, line=3)
 	        }
 	        if (jj==lp) {
 	            axis(1)
-	            mtext(as.expression(phen.expression[ii]), side=1, line=3)
+	            mtext(as.expression(phen.expression[ii]), col=default.cols[ii], side=1, line=3)
 	        }
-	        legend("topleft", paste0("r=", format(round(cor(rrx, rry), digits=2), nsmall=2)), bty="n", cex=1.5)
+	        legend("topleft", paste0("r=", format(round(cor(rrx, rry), digits=2), nsmall=2)), bty="n", cex=1)
 	    }
 	}
 dev.off()

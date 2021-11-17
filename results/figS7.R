@@ -137,9 +137,9 @@ list.sim <- mclapply(torun, function(ff) eval(ff)(), mc.cores=min(length(torun),
 ww              <- c("fitness", "initenv", "lateenv","initmut","latemut", "stability")
 default.values  <- c(m=default$mut.rate, sm=default$sim.mutsd, a=default$a, N=default$N, g=default$n, sg=default$nsel, d=default$density, s=default$s)
 
-pdf("figS7.pdf", width=16, height=14)
+pdf("figS7.pdf", width=1.2*param$maxfigwidth/param$figscale, height=param$maxfigwidth/param$figscale, pointsize=0.8*param$pointsize)
 	layout(matrix(1:(length(ww)*length(captions)), ncol=length(captions)))
-	par(mar=c(0.5, 0.5, 0.5, 0.1), oma=c(5, 4, 0, 0))
+	par(mar=c(0.5, 0.5, 0.5, 0.1), oma=c(5, 4, 0, 0), cex=1)
 	for (pp in names(captions)) {
 		for (what in ww) {
 			ls <- list.sim[grep(names(list.sim), pattern=paste0("ref\\.",pp,"\\d"))]

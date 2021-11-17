@@ -70,11 +70,11 @@ test.sensit.W <- function(W) {
 }
 
 
-plot.sensit.W <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL, type="l", col=col.phen[what], ...) {
+plot.sensit.W <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL, ylab=as.expression(phen[what]), type="l", col=col.phen[what], ...) {
 	if (!add) {
 		if (is.null(xlim)) xlim <- range(sd.test[[what]])
 		if (is.null(ylim)) ylim <- range(testW[[what]])
-		plot(NULL, xlim=xlim, ylim=ylim, xlab=as.expression(sigmas[what]), ylab=as.expression(phen[what]), log="x")
+		plot(NULL, xlim=xlim, ylim=ylim, xlab=as.expression(sigmas[what]), ylab=ylab, log="x")
 	}
 	lines(sd.test[[what]], testW[[what]], col=col, type=type, ...)
 }
@@ -82,9 +82,9 @@ plot.sensit.W <- function(testW, what="initenv", add=TRUE, xlim=NULL, ylim=NULL,
 
 ######################## Figure
 
-pdf("figS1.pdf", width=4, height=6)
+pdf("figS1.pdf", width=10/param$figscale, height=14/param$figscale, pointsize=param$pointsize)
 	layout(matrix(1:8, ncol=2))
-	par(mar=c(3,3,0.5,0.5), oma=c(0,0,2,0), cex=0.6, mgp=c(2,1,0))
+	par(mar=c(3,3,0.5,0.5), oma=c(0,2,2,0), cex=1, mgp=c(2,1,0))
 
 	# Random W matrices
 
@@ -92,20 +92,24 @@ pdf("figS1.pdf", width=4, height=6)
 	alltests.rand <- mclapply(allW.rand, test.sensit.W, mc.cores=param$mc.cores)
 	
 	for (tt in seq_along(alltests.rand)) 
-		plot.sensit.W(alltests.rand[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
+		plot.sensit.W(alltests.rand[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5), ylab="")
+	mtext(as.expression(phen["initenv"]), 2, col=default.cols["initenv"], line=2.5, xpd=NA)
 	abline(v=param$initenv.sd, lty=3, col="darkgray")
 	title("Random networks", xpd=NA, line=1)
 		
 	for (tt in seq_along(alltests.rand)) 
-		plot.sensit.W(alltests.rand[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-40,-3))		
+		plot.sensit.W(alltests.rand[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-40,-3), ylab="")
+	mtext(as.expression(phen["lateenv"]), 2, col=default.cols["lateenv"], line=2.5, xpd=NA)
 	abline(v=param$lateenv.sd, lty=3, col="darkgray")
 	
 	for (tt in seq_along(alltests.rand)) 
-		plot.sensit.W(alltests.rand[[tt]], what="initmut", add=tt>1, col=tt, ylim=c(-40,-3))
+		plot.sensit.W(alltests.rand[[tt]], what="initmut", add=tt>1, col=tt, ylim=c(-40,-3), ylab="")
+	mtext(as.expression(phen["initmut"]), 2, col=default.cols["initmut"], line=2.5, xpd=NA)
 	abline(v=param$initmut.sd, lty=3, col="darkgray")
 		
 	for (tt in seq_along(alltests.rand)) 
-		plot.sensit.W(alltests.rand[[tt]], what="latemut", add=tt>1, col=tt, ylim=c(-40,-3))
+		plot.sensit.W(alltests.rand[[tt]], what="latemut", add=tt>1, col=tt, ylim=c(-40,-3), ylab="")
+	mtext(as.expression(phen["latemut"]), 2, col=default.cols["latemut"], line=2.5, xpd=NA)
 	abline(v=param$latemut.sd, lty=3, col="darkgray")
 
 
@@ -123,20 +127,20 @@ pdf("figS1.pdf", width=4, height=6)
 	alltests.evolv <- mclapply(allW.evolv, test.sensit.W, mc.cores=param$mc.cores)
 
 	for (tt in seq_along(alltests.evolv)) 
-		plot.sensit.W(alltests.evolv[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5))
+		plot.sensit.W(alltests.evolv[[tt]], what="initenv", add=tt>1, col=tt, ylim=c(-40,-5), ylab="")
 	abline(v=param$initenv.sd, lty=3, col="darkgray")
 	title("Evolved networks", xpd=NA, line=1)
 		
 	for (tt in seq_along(alltests.evolv)) 
-		plot.sensit.W(alltests.evolv[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-25,-3))		
+		plot.sensit.W(alltests.evolv[[tt]], what="lateenv", add=tt>1, col=tt, ylim=c(-25,-3), ylab="")		
 	abline(v=param$lateenv.sd, lty=3, col="darkgray")
 	
 	for (tt in seq_along(alltests.evolv)) 
-		plotW(alltests.evolv[[tt]], what="initmut", add=tt>1, col=tt, ylim=c(-25,-3))
+		plot.sensit.W(alltests.evolv[[tt]], what="initmut", add=tt>1, col=tt, ylim=c(-25,-3), ylab="")
 	abline(v=param$initmut.sd, lty=3, col="darkgray")
 		
 	for (tt in seq_along(alltests.evolv)) 
-		plotW(alltests.evolv[[tt]], what="latemut", add=tt>1, col=tt, ylim=c(-25,-3))
+		plot.sensit.W(alltests.evolv[[tt]], what="latemut", add=tt>1, col=tt, ylim=c(-25,-3), ylab="")
 	abline(v=param$latemut.sd, lty=3, col="darkgray")
 
 dev.off()

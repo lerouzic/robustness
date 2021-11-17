@@ -24,7 +24,7 @@ SDLETTER.GENCAN <- "M"
 SDLETTER.SOM    <- "m"
 
 COL.STAB <- "blue"
-COL.HOMEO <- "lightgreen"
+COL.HOMEO <- "mediumpurple4"
 COL.ENVCAN <- "darkgreen"
 COL.GENCAN <- "darkred"
 COL.SOM <- "red"

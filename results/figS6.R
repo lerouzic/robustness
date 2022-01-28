@@ -19,7 +19,7 @@ cols <- c("black","red")
 
 illustrate.reference <- function(W, ...) {
 	mod <- model.M2(W=W, a=param$a, steps=param$dev.steps, full=TRUE)
-	plot(NULL, xlim=c(1, param$dev.steps+2), ylim=c(0,1), xaxt="n", yaxt="n", xlab="", ylab="")
+	plot(NULL, xlim=c(1, param$dev.steps+3), ylim=c(0,1), xaxt="n", yaxt="n", xlab="", ylab="")
 	for (i in 1:nrow(W))
 		lines(mod$full[i,], col=cols[i], ...)
 }
@@ -92,6 +92,7 @@ pdf("figS6.pdf", width=param$maxfigwidth/param$figscale, height=0.9*param$maxfig
 			mtext("Time steps", 1, outer=FALSE, line=3)
 		}
 		subpanel(LETTERS[rstud], cex=1.8, line=-1.5)
+		if (rstud == 2) { arrows(x0=17.5, y0=0.2, y1=0.4, length=0.04, code=3); text(17, 0.3, ABBRV.GENCAN, pos=4, cex=1.2)}
 		
 		illustrate.reference(W, lwd=2)
 		illustrate.latemut(W)
@@ -101,6 +102,9 @@ pdf("figS6.pdf", width=param$maxfigwidth/param$figscale, height=0.9*param$maxfig
 			axis(1)
 			mtext("Time steps", 1, outer=FALSE, line=3)
 		}
+		if (rstud == 2) { arrows(x0=18.5, y0=0.2, y1=0.4, length=0.04, code=3); text(18.5, 0.2, ABBRV.SOM, pos=1, cex=1.2)}
+		if (rstud == 3) { arrows(x0=14.5, y0=0.2, y1=0.4, length=0.04, code=3); text(14.5, 0.2, ABBRV.STAB, pos=1, cex=1.2)}
+
 			
 		illustrate.reference(W, lwd=2)
 		illustrate.initenv(W)
@@ -110,6 +114,7 @@ pdf("figS6.pdf", width=param$maxfigwidth/param$figscale, height=0.9*param$maxfig
 			axis(1)
 			mtext("Time steps", 1, outer=FALSE, line=3)
 		}
+		if (rstud == 5) { arrows(x0=17.5, y0=0.2, y1=0.9, length=0.04, code=3); text(17.5, 0.3, ABBRV.ENVCAN, pos=4, cex=1.2)}
 			
 		illustrate.reference(W, lwd=2)
 		illustrate.lateenv(W)
@@ -119,5 +124,7 @@ pdf("figS6.pdf", width=param$maxfigwidth/param$figscale, height=0.9*param$maxfig
 			axis(1)
 			mtext("Time steps", 1, outer=FALSE, line=3)
 		}		
+		if (rstud == 4) { arrows(x0=18.5, y0=0.2, y1=0.4, length=0.04, code=3); text(19, 0.2, ABBRV.HOMEO, pos=1, cex=1.2)}
+
 	}
 dev.off()

@@ -35,8 +35,22 @@ plot.PCarrows <- function(pr, labels=default.labels, cols=default.cols, ...) {
     pr$rotation <- t(t(pr$rotation)*sign(pr$rotation[phen.pos.ref,]))
     
     plot(NULL, xlab="", ylab="", ylim=c(0.75,nPC+0.25), xlim=range(pr$rotation), yaxt="n", bty="n", xpd=NA, ...)
-    arrows(x0=min(pr$rotation), y0=1:nPC, x1=max(pr$rotation), code=3, length=0.2)
-    for (i in 1:nPC) text(x=pr$rotation[,i], y=nPC-i+1+0.1*(0:(nPC-1)), labels[rownames(pr$rotation)], col=cols[rownames(pr$rotation)], pos=3, cex=1, font=2, xpd=NA)
+    arrows(x0=min(pr$rotation), y0=1:nPC, x1=max(pr$rotation), code=3, length=0.2, col="darkgray")
+    for (i in 1:nPC) {
+		# minibarplot
+		bar.width <- 0.08
+		bar.shft  <- 0.1
+		for (j in 1:nrow(pr$rotation)) {
+			ycentre <- nPC-i+1+bar.shft*(j-1)
+			if (i==1)
+				text(x=-0.1-0.12*(j%%2==1), y=ycentre, col=cols[rownames(pr$rotation)[j]], labels[rownames(pr$rotation)][j], xpd=NA)
+			polygon(
+				x=c(rep(0, 2), rep(pr$rotation[j,i] ,2)), 
+				y=c(ycentre-bar.width/2, rep(ycentre+bar.width/2, 2), ycentre-bar.width/2),
+				col=cols[rownames(pr$rotation)[j]], 
+				border=NA)
+		}
+    }
     lines(x=rep(0,2), y=c(1,nPC), lty=2)
     axis(4, at=1:nPC, labels=paste0("PC", nPC:1), las=2, tick=FALSE)
 }

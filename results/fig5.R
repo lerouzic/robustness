@@ -133,12 +133,13 @@ list.M <- mclapply(setNames(nm=names(list.sim)), function(name.sim.series) {
 
 ################### Figure
 
-pdf("fig5.pdf", width=12/param$figscale, height=10/param$figscale, pointsize=param$pointsize)
+cairo_pdf("fig5.pdf", width=12/param$figscale, height=10/param$figscale, pointsize=param$pointsize)
 	lm <- matrix(0, ncol=4, nrow=4)
 	lm[lower.tri(lm, diag=TRUE)] <- 1:10
+	lm[1,4] <- 11   # top-right panel
 	layout(lm)
 	
-	par(cex=1, mar=c(1, 1, 0.5, 0.5), oma=c(5, 4, 0, 0))
+	par(cex=1, mar=c(1, 1, 0.5, 0.5), oma=c(5, 4, 1, 0))
 	
 	for (icomp in seq_along(rob.pairs)) {
 		nm1 <- rob.pairs[[icomp]][1]
@@ -174,5 +175,24 @@ pdf("fig5.pdf", width=12/param$figscale, height=10/param$figscale, pointsize=par
 		points(xx, meancor(list.M[[paste0(nm2, ".p")]], names(i1), names(i2), nm=as.character(xx)), col=col.sim[nm2], pch=pch.sim["p"])
 		points(xx, meancor(list.M[[paste0(nm2, ".m")]], names(i1), names(i2), nm=as.character(xx)), col=col.sim[nm2], pch=pch.sim["m"])
 	}
+	
+	# top-right panel
+	plot(NULL, xlim=c(-0.2,0.2), ylim=c(-0.15, 0.3), xlab=expression(Delta*r*" selection for lower "*rho), ylab=expression(Delta*r*" selection for larger "*rho), xpd=NA)
+	rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "bisque")
+	abline(h=0, v=0, col="darkgray")
+	
+	for (lnm1 in names(default.shortcode)) {
+		for (lnm2 in names(default.shortcode)) {
+			if (lnm2 == lnm1) next
+			ww1 <- which(names(default.shortcode) == lnm1)
+			ww2 <- which(names(default.shortcode) == lnm2)
+			if (ww2 > ww1) ww2 <- ww2 - 1
+			yy.m <- diff(meancor(list.M[[paste0(default.shortcode[lnm1], ".m")]], lnm1, lnm2, nm=as.character(xx[c(1,length(xx))])))
+			yy.p <- diff(meancor(list.M[[paste0(default.shortcode[lnm1], ".p")]], lnm1, lnm2, nm=as.character(xx[c(1,length(xx))])))
+			
+			points(yy.m, yy.p, pch=21, col=col.sim[default.shortcode[lnm2]], bg=col.sim[default.shortcode[lnm1]])
+		}
+	}
+	
 	
 dev.off()

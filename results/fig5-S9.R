@@ -139,7 +139,7 @@ cairo_pdf("fig5.pdf", width=12/param$figscale, height=10/param$figscale, pointsi
 	lm[1,4] <- 11   # top-right panel
 	layout(lm)
 	
-	par(cex=1, mar=c(1, 1, 0.5, 0.5), oma=c(5, 4, 1, 0))
+	par(cex=1, mar=c(1, 1, 0.5, 0.5), oma=c(5, 4, 1, 0.5))
 	
 	for (icomp in seq_along(rob.pairs)) {
 		nm1 <- rob.pairs[[icomp]][1]
@@ -151,24 +151,19 @@ cairo_pdf("fig5.pdf", width=12/param$figscale, height=10/param$figscale, pointsi
 		plot(NULL, xlim=c(0, param$G), ylim=c(0,1), xlab="", ylab="", xaxt="n", yaxt="n")
 		# , main=substitute(r(r1, r2), list(r1=as.list(default.labels[i1])[[1]], r2=as.list(default.labels[i2])[[1]]))
 		if (nm1 == "ie") {
-			axis(2)
+			axis(2, at=seq(0, 1, by=0.25))
 			mtext(as.expression(phen.expression[names(i2)]), 2, line=3.5, xpd=NA, col=default.cols[names(i2)])
 			if (nm2 == "le")
 				mtext("Mutational correlation", side=2, line=1.3, outer=TRUE)
 		}
 		if (nm2 == "st") {
-			axis(1)
+			axis(1, at=c(0, 5000, 10000))
 			mtext(as.expression(phen.expression[names(i1)]), 1, line=3.5, xpd=NA, col=default.cols[names(i1)])
 			if (nm1 == "ie")
 				mtext("Generation", side=1, line=1.3, outer=TRUE)
 		}
 		
 		points(xx, meancor(list.M[["oo.o"]], names(i1), names(i2), nm=as.character(xx)), col=col.sim["oo"], pch=pch.sim["o"])
-		
-		points(xx, meancor(list.M[[paste0(nm1, ".", nm2, ".pp")]], names(i1), names(i2), nm=as.character(xx)), col="darkgray", pch=pch.sim["pp"])
-		points(xx, meancor(list.M[[paste0(nm1, ".", nm2, ".pm")]], names(i1), names(i2), nm=as.character(xx)), col="darkgray", pch=pch.sim["pm"])
-		points(xx, meancor(list.M[[paste0(nm1, ".", nm2, ".mp")]], names(i1), names(i2), nm=as.character(xx)), col="darkgray", pch=pch.sim["mp"])
-		points(xx, meancor(list.M[[paste0(nm1, ".", nm2, ".mm")]], names(i1), names(i2), nm=as.character(xx)), col="darkgray", pch=pch.sim["mm"])
 		
 		points(xx, meancor(list.M[[paste0(nm1, ".p")]], names(i1), names(i2), nm=as.character(xx)), col=col.sim[nm1], pch=pch.sim["p"])
 		points(xx, meancor(list.M[[paste0(nm1, ".m")]], names(i1), names(i2), nm=as.character(xx)), col=col.sim[nm1], pch=pch.sim["m"])
@@ -177,7 +172,12 @@ cairo_pdf("fig5.pdf", width=12/param$figscale, height=10/param$figscale, pointsi
 	}
 	
 	# top-right panel
-	plot(NULL, xlim=c(-0.2,0.2), ylim=c(-0.15, 0.3), xlab=expression(Delta*r*" selection for lower "*rho), ylab=expression(Delta*r*" selection for larger "*rho), xpd=NA)
+	plot(NULL, xlim=c(-0.2,0.2), ylim=c(-0.15, 0.3), xaxt="n", yaxt="n", 
+		xlab=expression(Delta*r*" selection for lower "*rho), 
+		ylab=expression(Delta*r*" selection for larger "*rho), 
+		xpd=NA)
+	axis(1, at=c(-0.2, 0, 0.2))
+	axis(2, at=c(0, 0.2))
 	rect(par("usr")[1], par("usr")[3], par("usr")[2], par("usr")[4], col = "bisque")
 	abline(h=0, v=0, col="darkgray")
 	
@@ -193,6 +193,64 @@ cairo_pdf("fig5.pdf", width=12/param$figscale, height=10/param$figscale, pointsi
 			points(yy.m, yy.p, pch=21, col=col.sim[default.shortcode[lnm2]], bg=col.sim[default.shortcode[lnm1]])
 		}
 	}
+dev.off()
+
+
+cairo_pdf("figS9.pdf", width=10/param$figscale, height=10/param$figscale, pointsize=param$pointsize)
+	lm <- matrix(0, ncol=4, nrow=4)
+	lm[lower.tri(lm, diag=TRUE)] <- 1:10
+	lm[1,3] <- 11   # caption
+	lm[2,4] <- 12   # color scale
+	layout(lm)
 	
+	par(cex=1, mar=c(1, 1, 1, 1), oma=c(3, 3, 1, 1))
 	
+	for (icomp in seq_along(rob.pairs)) {
+		nm1 <- rob.pairs[[icomp]][1]
+		nm2 <- rob.pairs[[icomp]][2]
+		i1  <- which(default.shortcode==nm1)
+		i2  <- which(default.shortcode==nm2)
+		xx <- as.numeric(unique(unlist(lapply(rev(list.M[["oo.o"]]), names))))
+		xx <- xx[c(1,length(xx))]
+		
+		mmm <- matrix(c(
+			diff(meancor(list.M[[paste0(nm1, ".", nm2, ".mp")]], names(i1), names(i2), nm=as.character(xx))),
+			diff(meancor(list.M[[paste0(nm1, ".m")]], names(i1), names(i2), nm=as.character(xx))),
+			diff(meancor(list.M[[paste0(nm1, ".", nm2, ".mm")]], names(i1), names(i2), nm=as.character(xx))),
+			diff(meancor(list.M[[paste0(nm2, ".p")]], names(i1), names(i2), nm=as.character(xx))),
+			diff(meancor(list.M[["oo.o"]], names(i1), names(i2), nm=as.character(xx))),
+			diff(meancor(list.M[[paste0(nm2, ".m")]], names(i1), names(i2), nm=as.character(xx))),
+			diff(meancor(list.M[[paste0(nm1, ".", nm2, ".pp")]], names(i1), names(i2), nm=as.character(xx))),
+			diff(meancor(list.M[[paste0(nm1, ".p")]], names(i1), names(i2), nm=as.character(xx))),
+			diff(meancor(list.M[[paste0(nm1, ".", nm2, ".pm")]], names(i1), names(i2), nm=as.character(xx)))
+		), ncol=3)
+		
+		image(mmm[,ncol(mmm):1], asp=1, xaxt="n", yaxt="n", xlab="", ylab="", zlim=c(-0.5, 0.5), col=colorRampPalette(c("blue","white","red"))(1024))
+		if (nm1 == "ie") {
+			mtext(as.expression(phen.expression[names(i2)]), 2, line=1.5, xpd=NA, col=default.cols[names(i2)], cex=0.9)
+		}
+		if (nm2 == "st") {
+			mtext(as.expression(phen.expression[names(i1)]), 1, line=1.5, xpd=NA, col=default.cols[names(i1)], cex=0.9)
+		}
+	}
+	
+	col.x <- col.sim[4]
+	col.y <- col.sim[2]
+	evol.dist <- 1.5
+	plot(NULL, xlim=c(-2.5, 2.5), ylim=c(-2.5, 2.5), xaxt="n", yaxt="n", xlab="", ylab="", bty="n")
+	points(0, 0, pch=pch.sim["o"])
+	points(x=c(0,0), y=evol.dist*c(-1,1), pch=pch.sim[c("m","p")], col=col.y, cex=2)
+	arrows(x0=c(0,0), y0=c(0,0), x1=c(0,0), y1=0.8*evol.dist*c(-1,1), col=col.y, length=0.05)
+	points(x=evol.dist*c(-1,1), y=c(0,0), pch=pch.sim[c("m","p")], col=col.x, cex=2)
+	arrows(x0=c(0,0), y0=c(0,0), x1=0.8*evol.dist*c(-1,1), y1=c(0,0), col=col.x, length=0.05)
+	points(x=evol.dist*c(-1,-1,1,1), y=evol.dist*c(-1,1,1,-1), pch=pch.sim[c("mm","mp","pp","pm")], col="darkgray", cex=2)
+	arrows(x0=c(0,0,0,0), y0=c(0,0,0,0), x1=0.8*evol.dist*c(-1,-1,1,1), y1=0.8*evol.dist*c(-1,1,1,-1), col="darkgray",length=0.05)
+	arrows(x0=-1.8, x1=2.2, y0=-2, length=0.05)
+	text(0, -2.5, "Rob. comp. 1", xpd=NA)
+	arrows(x0=-2.2, y0=-1.8, y1=1.8, length=0.05)
+	text(-2.7, -0.2, "Rob. comp. 2", srt=90, xpd=NA)
+	
+	par(mar=c(1,5,1,1))
+	image(x=0:1, y=seq(-0.5, 0.5, length.out=1025), z=t(matrix(seq(-0.5, 0.5, length.out=1024))), xlab="", ylab=expression(Delta*r), xaxt="n", zlim=c(-0.5, 0.5), col=colorRampPalette(c("blue","white","red"))(1024))
+
 dev.off()

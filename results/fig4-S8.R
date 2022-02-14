@@ -97,7 +97,7 @@ plot2traits.legend <- function(col.x, col.y, corr.M=0.5, evol.dist=1.5, ...) {
 	
 	lines(ellipse(0.2*rbind(c(1, corr.M), c(corr.M, 1))), lty=2)
 	lines(ellipse(0.15*rbind(c(1, corr.M), c(corr.M, 1))),)
-	legend("bottom", lty=c(2,1), legend=paste0(c("M (x", "Mcond (x"), M.stretch, ")"), horiz=TRUE, bty="n", xpd=NA)
+	legend("top", lty=c(2,1), legend=paste0(c("M (x", "Mcond (x"), M.stretch, ")"), horiz=TRUE, bty="n", xpd=NA)
 	points(0, 0, pch=pch.sim["o"])
 	points(x=c(0,0), y=evol.dist*c(-1,1), pch=pch.sim[c("m","p")], col=col.y, cex=2)
 	arrows(x0=c(0,0), y0=c(0,0), x1=c(0,0), y1=0.8*evol.dist*c(-1,1), col=col.y, length=0.1)
@@ -105,6 +105,10 @@ plot2traits.legend <- function(col.x, col.y, corr.M=0.5, evol.dist=1.5, ...) {
 	arrows(x0=c(0,0), y0=c(0,0), x1=0.8*evol.dist*c(-1,1), y1=c(0,0), col=col.x, length=0.1)
 	points(x=evol.dist*c(-1,-1,1,1), y=evol.dist*c(-1,1,1,-1), pch=pch.sim[c("mm","mp","pp","pm")], col="darkgray", cex=2)
 	arrows(x0=c(0,0,0,0), y0=c(0,0,0,0), x1=0.8*evol.dist*c(-1,-1,1,1), y1=0.8*evol.dist*c(-1,1,1,-1), col="darkgray",length=0.1)
+	arrows(x0=-1.8, x1=2.2, y0=-2, length=0.05)
+	text(0, -2.5, "Robustness comp. 1")
+	arrows(x0=-2.2, y0=-1.8, y1=1.8, length=0.05)
+	text(-2.7, -0.2, "Robustness comp. 2", srt=90, xpd=NA)
 }
 
 plotEvolv <- function(list.sim, M, grads, gen=gen.display, xlim=NULL, ylim=NULL, xlab="Predicted mutational evolvability", ylab=paste0("Observed evolvability at T=", gen), bg=NULL, ...) {
@@ -271,7 +275,7 @@ pdf("fig4.pdf", width=0.9*param$maxfigwidth/param$figscale, height=0.9*param$max
 		}
 	}
 	plot2traits.legend(default.cols[4], default.cols[2])
-	mtext("Direction of selection", 1, cex=1.2, line=1)
+	mtext("Selection gradients", 1, cex=1.2, line=1)
 	
 	plotEvolv(list.sim, M=list.M[["oo.o"]]$mean.Mcond, grads=lapply(torun, "[[", "grad.rob"), gen=1000, xlab="", ylab="", bg="bisque", bty="l")
 	mtext("Predicted evolvability", 1, cex=1.2, line=2.2)

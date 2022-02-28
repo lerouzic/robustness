@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0" xmlns:ooo="http://openoffice.org/2004/office" xmlns:ooow="http://openoffice.org/2004/writer" xmlns:oooc="http://openoffice.org/2004/calc" xmlns:dom="http://www.w3.org/2001/xml-events" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rpt="http://openoffice.org/2005/report" xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:officeooo="http://openoffice.org/2009/office" xmlns:tableooo="http://openoffice.org/2009/table" xmlns:drawooo="http://openoffice.org/2010/draw" xmlns:calcext="urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0" xmlns:loext="urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0" xmlns:field="urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0" xmlns:formx="urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0" xmlns:css3t="http://www.w3.org/TR/css3-text/" office:version="1.2" office:mimetype="application/vnd.oasis.opendocument.text">
- <office:meta><meta:creation-date>2022-01-27T09:32:11.142519185</meta:creation-date><dc:date>2022-02-25T17:25:25.065769841</dc:date><meta:editing-duration>PT19H45M24S</meta:editing-duration><meta:editing-cycles>10</meta:editing-cycles><meta:generator>LibreOffice/6.0.7.3$Linux_X86_64 LibreOffice_project/00m0$Build-3</meta:generator><meta:document-statistic meta:table-count="0" meta:image-count="0" meta:object-count="0" meta:page-count="6" meta:paragraph-count="108" meta:word-count="4149" meta:character-count="26171" meta:non-whitespace-character-count="21927"/></office:meta>
+ <office:meta><meta:creation-date>2022-01-27T09:32:11.142519185</meta:creation-date><dc:date>2022-02-28T11:37:55.587894121</dc:date><meta:editing-duration>P3DT13H57M54S</meta:editing-duration><meta:editing-cycles>11</meta:editing-cycles><meta:generator>LibreOffice/6.0.7.3$Linux_X86_64 LibreOffice_project/00m0$Build-3</meta:generator><meta:document-statistic meta:table-count="0" meta:image-count="0" meta:object-count="0" meta:page-count="6" meta:paragraph-count="108" meta:word-count="4149" meta:character-count="26173" meta:non-whitespace-character-count="21929"/></office:meta>
  <office:settings>
   <config:config-item-set config:name="ooo:view-settings">
-   <config:config-item config:name="ViewAreaTop" config:type="long">125891</config:config-item>
+   <config:config-item config:name="ViewAreaTop" config:type="long">13093</config:config-item>
    <config:config-item config:name="ViewAreaLeft" config:type="long">0</config:config-item>
    <config:config-item config:name="ViewAreaWidth" config:type="long">24107</config:config-item>
    <config:config-item config:name="ViewAreaHeight" config:type="long">16191</config:config-item>
@@ -13,12 +13,12 @@
    <config:config-item-map-indexed config:name="Views">
     <config:config-item-map-entry>
      <config:config-item config:name="ViewId" config:type="string">view2</config:config-item>
-     <config:config-item config:name="ViewLeft" config:type="long">12478</config:config-item>
-     <config:config-item config:name="ViewTop" config:type="long">143679</config:config-item>
+     <config:config-item config:name="ViewLeft" config:type="long">8978</config:config-item>
+     <config:config-item config:name="ViewTop" config:type="long">20429</config:config-item>
      <config:config-item config:name="VisibleLeft" config:type="long">0</config:config-item>
-     <config:config-item config:name="VisibleTop" config:type="long">125891</config:config-item>
+     <config:config-item config:name="VisibleTop" config:type="long">13093</config:config-item>
      <config:config-item config:name="VisibleRight" config:type="long">24105</config:config-item>
-     <config:config-item config:name="VisibleBottom" config:type="long">142079</config:config-item>
+     <config:config-item config:name="VisibleBottom" config:type="long">29282</config:config-item>
      <config:config-item config:name="ZoomType" config:type="short">0</config:config-item>
      <config:config-item config:name="ViewLayoutColumns" config:type="short">1</config:config-item>
      <config:config-item config:name="ViewLayoutBookMode" config:type="boolean">false</config:config-item>
@@ -746,66 +746,69 @@
    <style:text-properties fo:color="#000000" officeooo:rsid="00356073"/>
   </style:style>
   <style:style style:name="T49" style:family="text">
-   <style:text-properties fo:font-style="italic" style:font-style-asian="italic" style:font-style-complex="italic"/>
+   <style:text-properties fo:color="#000000" officeooo:rsid="003b8043"/>
   </style:style>
   <style:style style:name="T50" style:family="text">
-   <style:text-properties fo:font-style="italic" officeooo:rsid="00153776" style:font-style-asian="italic" style:font-style-complex="italic"/>
+   <style:text-properties fo:font-style="italic" style:font-style-asian="italic" style:font-style-complex="italic"/>
   </style:style>
   <style:style style:name="T51" style:family="text">
-   <style:text-properties fo:font-style="normal" style:font-style-asian="normal" style:font-style-complex="normal"/>
+   <style:text-properties fo:font-style="italic" officeooo:rsid="00153776" style:font-style-asian="italic" style:font-style-complex="italic"/>
   </style:style>
   <style:style style:name="T52" style:family="text">
-   <style:text-properties fo:font-style="normal" officeooo:rsid="000eeb61" style:font-style-asian="normal" style:font-style-complex="normal"/>
+   <style:text-properties fo:font-style="normal" style:font-style-asian="normal" style:font-style-complex="normal"/>
   </style:style>
   <style:style style:name="T53" style:family="text">
-   <style:text-properties fo:font-style="normal" officeooo:rsid="0015c055" style:font-style-asian="normal" style:font-style-complex="normal"/>
+   <style:text-properties fo:font-style="normal" officeooo:rsid="000eeb61" style:font-style-asian="normal" style:font-style-complex="normal"/>
   </style:style>
   <style:style style:name="T54" style:family="text">
-   <style:text-properties fo:font-style="normal" officeooo:rsid="00153776" style:font-style-asian="normal" style:font-style-complex="normal"/>
+   <style:text-properties fo:font-style="normal" officeooo:rsid="0015c055" style:font-style-asian="normal" style:font-style-complex="normal"/>
   </style:style>
   <style:style style:name="T55" style:family="text">
-   <style:text-properties officeooo:rsid="001019b2"/>
+   <style:text-properties fo:font-style="normal" officeooo:rsid="00153776" style:font-style-asian="normal" style:font-style-complex="normal"/>
   </style:style>
   <style:style style:name="T56" style:family="text">
-   <style:text-properties style:font-name="Liberation Serif" fo:font-size="10pt" officeooo:rsid="0029da1d" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
+   <style:text-properties officeooo:rsid="001019b2"/>
   </style:style>
   <style:style style:name="T57" style:family="text">
-   <style:text-properties style:font-name="Liberation Serif" fo:font-size="10pt" officeooo:rsid="002b540a" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
+   <style:text-properties style:font-name="Liberation Serif" fo:font-size="10pt" officeooo:rsid="0029da1d" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
   </style:style>
   <style:style style:name="T58" style:family="text">
-   <style:text-properties officeooo:rsid="00149a99"/>
+   <style:text-properties style:font-name="Liberation Serif" fo:font-size="10pt" officeooo:rsid="002b540a" style:font-size-asian="10pt" style:font-size-complex="10pt"/>
   </style:style>
   <style:style style:name="T59" style:family="text">
-   <style:text-properties officeooo:rsid="00153776"/>
+   <style:text-properties officeooo:rsid="00149a99"/>
   </style:style>
   <style:style style:name="T60" style:family="text">
-   <style:text-properties officeooo:rsid="0015c055"/>
+   <style:text-properties officeooo:rsid="00153776"/>
   </style:style>
   <style:style style:name="T61" style:family="text">
-   <style:text-properties officeooo:rsid="00173b31"/>
+   <style:text-properties officeooo:rsid="0015c055"/>
   </style:style>
   <style:style style:name="T62" style:family="text">
-   <style:text-properties loext:padding-left="3.97mm" loext:padding-right="0mm" loext:padding-top="0mm" loext:padding-bottom="0mm" loext:border-left="0.06pt solid #eeeeee" loext:border-right="none" loext:border-top="none" loext:border-bottom="none"/>
+   <style:text-properties officeooo:rsid="00173b31"/>
   </style:style>
   <style:style style:name="T63" style:family="text">
-   <style:text-properties officeooo:rsid="0021299c"/>
+   <style:text-properties loext:padding-left="3.97mm" loext:padding-right="0mm" loext:padding-top="0mm" loext:padding-bottom="0mm" loext:border-left="0.06pt solid #eeeeee" loext:border-right="none" loext:border-top="none" loext:border-bottom="none"/>
   </style:style>
   <style:style style:name="T64" style:family="text">
-   <style:text-properties officeooo:rsid="002b540a"/>
+   <style:text-properties officeooo:rsid="0021299c"/>
   </style:style>
   <style:style style:name="T65" style:family="text">
-   <style:text-properties officeooo:rsid="002b6e51"/>
+   <style:text-properties officeooo:rsid="002b540a"/>
   </style:style>
   <style:style style:name="T66" style:family="text">
-   <style:text-properties officeooo:rsid="00329a64"/>
+   <style:text-properties officeooo:rsid="002b6e51"/>
   </style:style>
   <style:style style:name="T67" style:family="text">
-   <style:text-properties officeooo:rsid="00356073"/>
+   <style:text-properties officeooo:rsid="00329a64"/>
   </style:style>
   <style:style style:name="T68" style:family="text">
-   <style:text-properties officeooo:rsid="00367702"/>
+   <style:text-properties officeooo:rsid="00356073"/>
   </style:style>
   <style:style style:name="T69" style:family="text">
+   <style:text-properties officeooo:rsid="00367702"/>
+  </style:style>
+  <style:style style:name="T70" style:family="text">
    <style:text-properties officeooo:rsid="003b8043"/>
   </style:style>
   <text:list-style style:name="L1">
@@ -934,7 +937,7 @@
     <text:sequence-decl text:display-outline-level="0" text:name="Figure"/>
    </text:sequence-decls>
    <text:p text:style-name="P6">Dear Pr Guillaume, </text:p>
-   <text:p text:style-name="P6">Thank you for the careful consideration you and the reviewers gave to this manuscript. I have uploaded a revised version addressing these comments. Non-trivial <text:span text:style-name="T67">changes</text:span> are discussed below. </text:p>
+   <text:p text:style-name="P6">Thank you for the careful consideration you and the reviewers gave to this manuscript. I have uploaded a revised version addressing these comments. Non-trivial <text:span text:style-name="T68">changes</text:span> are discussed below. </text:p>
    <text:p text:style-name="P33"><text:line-break/>I welcome the addition of the details about the genetic correlation of the robustness traits. It shows more precisely how different aspects of robustness may evolve more or less independently from each others. It thus greatly improves the quality of the paper. However, it can be argued that the way the evolutionary constraints have been assessed is far from the way networks may evolve in natural systems in the sense that we hardly expect robustness traits to be under direct selection. Indeed, as stressed at different places in the manuscript, robustness is an emergent property of the topology of the networks, which determine the expression phenotypes under selection. Therefore, as also asked by the third reviewer, I would like to see a more thorough justification for the purpose of this approach (imposed direct selection on robustness traits) to guide the reader and avoid misinterpretations about the nature of selection on robustness you expect to see in nature. My interpretation is that you use direct selection as a device to understand the evolutionary properties of the robustness traits. This should be made clearer in the text. What should also be clarified is whether and when you&apos;d expect direct selection on robustness traits to act in natural populations.</text:p>
    <text:p text:style-name="P86"><text:span text:style-name="T6"/></text:p>
    <text:p text:style-name="P86"><text:span text:style-name="T6">Thanks for noticing the lack of clarity of the reasoning. As detailed in my response to reviewer #3, the text has been modified to address this issue more directly. The main reason of the unconvincing text probably lies into the fact that my original intention was to simulate “realistic” selection on robustness, before realizing that this would be inconsistent (for instance, direct vs indirect selection) and sometimes </text:span><text:span text:style-name="T48">technically challenging (how to select for more sensitivity to mutations for traits ranging in a (0,1) interval?). I hope that the revised version is more straightforward and clearer on the reasons why arbitrary, but homogeneous, selection was applied. </text:span></text:p>
@@ -949,14 +952,14 @@
    <text:p text:style-name="P7"/>
    <text:p text:style-name="P33">ll122-123, 136-137 : please verify if assumptions about constitutive expression are the same as in Ciliberti et al. 2007. Seems to me that their S(0) is similar to your P_0. Also amend accordingly comments about constitutive expression in your vs other models elsewhere in the text.</text:p>
    <text:p text:style-name="P33"/>
-   <text:p text:style-name="P42"><text:span text:style-name="T41">Listing intentional (and unintentional) variation among the implementations of the Wagner model in the literature would almost deserve an independent </text:span><text:span text:style-name="T48">(and probably boring for most readers), so I’ll focus only on a very few “major” papers (Wagner 1994, Wagner 1996, Siegal &amp; Bergman 2002, and Ciliberti et al 2007)</text:span><text:span text:style-name="T41">. </text:span><text:span text:style-name="T42">In my manuscript, </text:span><text:span text:style-name="T43">the </text:span><text:span text:style-name="T42">constitutive expression </text:span><text:span text:style-name="T43">parameter has two distinct functions: (i) scaling the regulation function, and (ii) setting the initial state of the network. </text:span><text:span text:style-name="T13">As far as I know, this is not common in the literature. I have updated the manuscript for clarity, and for the record I propose below a </text:span><text:span text:style-name="T48">detailed</text:span><text:span text:style-name="T13"> synthesis of </text:span><text:span text:style-name="T44">the model setting in a very few early Wagner-model papers</text:span><text:span text:style-name="T13">:</text:span></text:p>
-   <text:p text:style-name="P8"><text:span text:style-name="T55">About (a) the scaling regulation function: s</text:span>ticking to Wagner 1994’s notation, there is a “quantitative” version of the model <text:span text:style-name="T67">(hereafter: type I model):</text:span></text:p>
+   <text:p text:style-name="P42"><text:span text:style-name="T41">Listing intentional (and unintentional) variation among the implementations of the Wagner model in the literature would almost deserve an independent </text:span><text:span text:style-name="T49">paper </text:span><text:span text:style-name="T48">(probably boring for most readers), so I’ll focus only on a very few “major” papers (Wagner 1994, Wagner 1996, Siegal &amp; Bergman 2002, and Ciliberti et al 2007)</text:span><text:span text:style-name="T41">. </text:span><text:span text:style-name="T42">In my manuscript, </text:span><text:span text:style-name="T43">the </text:span><text:span text:style-name="T42">constitutive expression </text:span><text:span text:style-name="T43">parameter has two distinct functions: (i) scaling the regulation function, and (ii) setting the initial state of the network. </text:span><text:span text:style-name="T13">As far as I know, this is not common in the literature. I have updated the manuscript for clarity, and for the record I propose below a </text:span><text:span text:style-name="T48">detailed</text:span><text:span text:style-name="T13"> synthesis of </text:span><text:span text:style-name="T44">the model setting in a very few early Wagner-model papers</text:span><text:span text:style-name="T13">:</text:span></text:p>
+   <text:p text:style-name="P8"><text:span text:style-name="T56">About (a) the scaling regulation function: s</text:span>ticking to Wagner 1994’s notation, there is a “quantitative” version of the model <text:span text:style-name="T68">(hereafter: type I model):</text:span></text:p>
    <text:p text:style-name="P7">P(t+1) = g(W P(t) + e), </text:p>
-   <text:p text:style-name="P7">in which g(x) = 1/(1+exp(-cx)) is a sigmoid scaling function (0 &lt;= g(x) &lt;= 1), and e is the constitutive expression (“basal transcription rate”), possibly different for each gene. In the very same paper, Wagner 1994 also proposes a “discrete” version of the model <text:span text:style-name="T67">(type II)</text:span>:</text:p>
+   <text:p text:style-name="P7">in which g(x) = 1/(1+exp(-cx)) is a sigmoid scaling function (0 &lt;= g(x) &lt;= 1), and e is the constitutive expression (“basal transcription rate”), possibly different for each gene. In the very same paper, Wagner 1994 also proposes a “discrete” version of the model <text:span text:style-name="T68">(type II)</text:span>:</text:p>
    <text:p text:style-name="P7">S(t+1) = sigma(W S(t)), </text:p>
    <text:p text:style-name="P7">in which sigma(x) is the sign function -<text:span text:style-name="T5">&gt; </text:span>(<text:span text:style-name="T5">x &lt; 0: </text:span>-1, <text:span text:style-name="T5">x = 0: 0, x &gt; 0: </text:span>1), <text:span text:style-name="T5">constitutive expression e is explicitly set to 0 (i.e. the mid-phenotype) in this model. </text:span></text:p>
-   <text:p text:style-name="P43"><text:span text:style-name="T7">As far as I can tell, both papers by Ciliberti et al 2007 (</text:span><text:span text:style-name="T9">Innovation and robustness in complex regulatory gene networks</text:span><text:span text:style-name="T7">, in PNAS, and </text:span><text:span text:style-name="T49">Robustness Can Evolve Gradually in Complex Regulatory Gene Networks with Varying Topology</text:span><text:span text:style-name="T51"> </text:span><text:span text:style-name="T52">in PLoS Comp Biol) </text:span><text:span text:style-name="T7">use the </text:span><text:span text:style-name="T48">type II</text:span><text:span text:style-name="T7"> model of Wagner 1994, featuring a step (sign) function sigma(x) with no explicit constitutive expression (sigma(0) = 0, i.e. the expression is exactly between -1 and 1 in absence of regulation on the gene). </text:span></text:p>
-   <text:p text:style-name="P45"><text:soft-page-break/><text:span text:style-name="T7">A</text:span><text:span text:style-name="T6">bout (b) the initial state of the model, P(0) or S(0): in Wagner 1994, S(0) is drawn randomly at the beginning of each simulation (the probability Prob(S(0) = 1). </text:span><text:span text:style-name="T12">In </text:span><text:span text:style-name="T6">Cilibert</text:span><text:span text:style-name="T12">i</text:span><text:span text:style-name="T6"> et al 2007a, </text:span><text:span text:style-name="T12">the authors write that it is set “at random”, and no more details in Ciliberti et al 2007b (I assume they use the same setting as in Wagner 1994 with Prob(S(0) = 1) = 1/2). In this setting, I do not think that putting S(0) at the constitutive expression level (0) is possible, as this would be a stable state (W S(t) = 0 whatever W, and thus S(t+1) = S(t) = 0, which is in my opinion a strong argument against using this S (Wagner’s </text:span><text:span text:style-name="T48">type II </text:span><text:span text:style-name="T12">model) setting, but this is not the purpose of my manuscript). </text:span></text:p>
+   <text:p text:style-name="P43"><text:span text:style-name="T7">As far as I can tell, both papers by Ciliberti et al 2007 (</text:span><text:span text:style-name="T9">Innovation and robustness in complex regulatory gene networks</text:span><text:span text:style-name="T7">, in PNAS, and </text:span><text:span text:style-name="T50">Robustness Can Evolve Gradually in Complex Regulatory Gene Networks with Varying Topology</text:span><text:span text:style-name="T52"> </text:span><text:span text:style-name="T53">in PLoS Comp Biol) </text:span><text:span text:style-name="T7">use the </text:span><text:span text:style-name="T48">type II</text:span><text:span text:style-name="T7"> model of Wagner 1994, featuring a step (sign) function sigma(x) with no explicit </text:span><text:soft-page-break/><text:span text:style-name="T7">constitutive expression (sigma(0) = 0, i.e. the expression is exactly between -1 and 1 in absence of regulation on the gene). </text:span></text:p>
+   <text:p text:style-name="P45"><text:span text:style-name="T7">A</text:span><text:span text:style-name="T6">bout (b) the initial state of the model, P(0) or S(0): in Wagner 1994, S(0) is drawn randomly at the beginning of each simulation (the probability Prob(S(0) = 1). </text:span><text:span text:style-name="T12">In </text:span><text:span text:style-name="T6">Cilibert</text:span><text:span text:style-name="T12">i</text:span><text:span text:style-name="T6"> et al 2007a, </text:span><text:span text:style-name="T12">the authors write that it is set “at random”, and no more details in Ciliberti et al 2007b (I assume they use the same setting as in Wagner 1994 with Prob(S(0) = 1) = 1/2). In this setting, I do not think that putting S(0) at the constitutive expression level (0) is possible, as this would be a stable state (W S(t) = 0 whatever W, and thus S(t+1) = S(t) = 0, which is in my opinion a strong argument against using this S (Wagner’s </text:span><text:span text:style-name="T48">type II </text:span><text:span text:style-name="T12">model) setting, but this is not the purpose of my manuscript). </text:span></text:p>
    <text:p text:style-name="P44"><text:span text:style-name="T12">I</text:span><text:span text:style-name="T13">n Siegal &amp; Bergman 2002, the model is “hybrid” between Wagner’s models 1 and 2. They use a gene expression S(t) scaled between -1 and 1, but the sigma function is continuous (sigma(x) = 2/(1+exp(-cx))-1). The parameter c (which they call ‘a’, but I’ll stick to Wagner’s “c” notation not to confuse with my </text:span><text:span text:style-name="T48">own </text:span><text:span text:style-name="T13">‘a’) scales the sigmoid (and the sigma function becomes the sign function when c -&gt; infinity), but there is no explicit constitutive expression, and sigma(0) = 0, which is the “mid-point” between min and max expressions. They explicitly set the initial state as extreme expressions, randomly : </text:span><text:span text:style-name="T10">“</text:span><text:span text:style-name="T8">The initial state, S(0), is constant for each simulation and is set by randomly choosing each </text:span><text:span text:style-name="T10">S =</text:span><text:span text:style-name="T8"> </text:span><text:span text:style-name="T10">-</text:span><text:span text:style-name="T8">1 or </text:span><text:span text:style-name="T10">+</text:span><text:span text:style-name="T8">1.”</text:span><text:span text:style-name="T45">, </text:span><text:span text:style-name="T46">as in Wagner 1994 and Ciliberti et al 2007a and 2007b. </text:span></text:p>
    <text:p text:style-name="P44"><text:span text:style-name="T46"/></text:p>
    <text:p text:style-name="P79"><text:span text:style-name="T46">T</text:span><text:span text:style-name="T45">he above paragraph is now summarized in the manuscript (in the methods and discussion sections). </text:span></text:p>
@@ -975,12 +978,12 @@
    <text:p text:style-name="P34"/>
    <text:p text:style-name="P49"><text:span text:style-name="T17">Using M instead of G was indeed discussed in my last response to the reviewers, but much less in the manuscript. </text:span><text:span text:style-name="T18">One should not expect a 1:1 match between the mutational evolvabi</text:span><text:span text:style-name="T30">l</text:span><text:span text:style-name="T18">ity and the response, as the 1:1 match is expected for G, not for M. Predicting the G/M ratio would require to derive a multivariate drift - directional selection - mutation model, which seems out of reach in this context. </text:span><text:span text:style-name="T17">I have now introduced the following comment in the Methods section:</text:span></text:p>
    <text:p text:style-name="P48"><text:span text:style-name="T32">“Contrary to </text:span><text:span text:style-name="T33">the genetic covariances G</text:span><text:span text:style-name="T32">, mutational covariances </text:span><text:span text:style-name="T33">M </text:span><text:span text:style-name="T32">cannot be used directly to compute quantitative evolutionary predictions, as the relationship between </text:span><text:span text:style-name="T33">M and G</text:span><text:span text:style-name="T32"> </text:span><text:span text:style-name="T34">depend on</text:span><text:span text:style-name="T32"> the mutation-selection-drift equilibrium, which is notoriously difficult to handle theoretically </text:span><text:span text:style-name="T34">(Bürger &amp; Lande 1994)</text:span><text:span text:style-name="T32">. The following analyses thus focus on whether mutational evolvabiities are proportional to the selection responses, assuming that </text:span><text:span text:style-name="T34">G</text:span><text:span text:style-name="T32"> </text:span><text:span text:style-name="T40">is</text:span><text:span text:style-name="T32"> proportional to </text:span><text:span text:style-name="T34">M</text:span><text:span text:style-name="T32">.”</text:span></text:p>
-   <text:p text:style-name="P9"><text:span text:style-name="T59">The legend of Fig 4 now reads: </text:span><text:span text:style-name="T50">“The colored inset illustrates the proportionality between the predicted mutational evolvability [...] and the observed evolvability ...”</text:span><text:span text:style-name="T54"> </text:span><text:span text:style-name="T53">for clarity. The reference to a proportional relationship was already present in the text. </text:span><text:span text:style-name="T1"><text:line-break/><text:line-break/>Figure 5:<text:line-break/>The direction of change as function of direction of selection is very hard to find, maybe split the graphs to make the patterns more discernible?</text:span></text:p>
+   <text:p text:style-name="P9"><text:span text:style-name="T60">The legend of Fig 4 now reads: </text:span><text:span text:style-name="T51">“The colored inset illustrates the proportionality between the predicted mutational evolvability [...] and the observed evolvability ...”</text:span><text:span text:style-name="T55"> </text:span><text:span text:style-name="T54">for clarity. The reference to a proportional relationship was already present in the text. </text:span><text:span text:style-name="T1"><text:line-break/><text:line-break/>Figure 5:<text:line-break/>The direction of change as function of direction of selection is very hard to find, maybe split the graphs to make the patterns more discernible?</text:span></text:p>
    <text:p text:style-name="P9"><text:span text:style-name="T1"/></text:p>
-   <text:p text:style-name="P69">Figure 5 has been split. New fig 5 now shows only <text:span text:style-name="T66">the evolution of correlations for univariate selection, and new fig S9 shows the consequences of bivariate selection. In addition, a new panel in figure 5 illustrates the fact that correlation does not respond directly to the direction of selection. Thanks for the suggestion, splitting the figure makes it easier to formulate the conclusions. </text:span></text:p>
+   <text:p text:style-name="P69">Figure 5 has been split. New fig 5 now shows only <text:span text:style-name="T67">the evolution of correlations for univariate selection, and new fig S9 shows the consequences of bivariate selection. In addition, a new panel in figure 5 illustrates the fact that correlation does not respond directly to the direction of selection. Thanks for the suggestion, splitting the figure makes it easier to formulate the conclusions. </text:span></text:p>
    <text:p text:style-name="P23"/>
-   <text:p text:style-name="P33">ll457-459 : avoid repetition of &quot;cumulative&quot;; specify that the cumulative effect is on the phenotype (=gene expression level); maybe specify that evolution is &quot;gradual&quot;?</text:p>
-   <text:p text:style-name="P12"><text:soft-page-break/></text:p>
+   <text:p text:style-name="P33"><text:soft-page-break/>ll457-459 : avoid repetition of &quot;cumulative&quot;; specify that the cumulative effect is on the phenotype (=gene expression level); maybe specify that evolution is &quot;gradual&quot;?</text:p>
+   <text:p text:style-name="P12"/>
    <text:p text:style-name="P12">Done</text:p>
    <text:p text:style-name="P12"/>
    <text:p text:style-name="P33">l468 : dfferent -&gt; different</text:p>
@@ -989,7 +992,7 @@
    <text:p text:style-name="P12"/>
    <text:p text:style-name="P33">ll507-508 : not sure which mathematical model is referred to here</text:p>
    <text:p text:style-name="P12"/>
-   <text:p text:style-name="P12">The sentence has been reformulated as “<text:span text:style-name="T49">Yet, even if these measurements happen to be correlated by construction, their partial evolutionary independence highlights their potential for independent evolvability in real gene network architectures, which are substantially more complex and subtle than our gene network model. </text:span>“</text:p>
+   <text:p text:style-name="P12">The sentence has been reformulated as “<text:span text:style-name="T50">Yet, even if these measurements happen to be correlated by construction, their partial evolutionary independence highlights their potential for independent evolvability in real gene network architectures, which are substantially more complex and subtle than our gene network model. </text:span>“</text:p>
    <text:p text:style-name="P12"/>
    <text:p text:style-name="P33">l511 : catch -&gt; capture</text:p>
    <text:p text:style-name="P33"/>
@@ -1008,7 +1011,7 @@
    <text:p text:style-name="P4">​P15 controling​ -&gt; controlling​</text:p>
    <text:p text:style-name="P60">P15 sparcity ​-&gt; sparsity <text:line-break/>P15 reductionnist​ -&gt; reductionist​<text:line-break/>P15 occuring ​-&gt; occurring ​​<text:line-break/>P15 Althought​ -&gt; Although<text:line-break/>P16 tigh​ -&gt; tight</text:p>
    <text:p text:style-name="P60">​</text:p>
-   <text:p text:style-name="P64"><text:span text:style-name="T61">Fixed. Sorry for this, I should have of course run a spell-checker. </text:span></text:p>
+   <text:p text:style-name="P64"><text:span text:style-name="T62">Fixed. Sorry for this, I should have of course run a spell-checker. </text:span></text:p>
    <text:p text:style-name="P64"/>
    <text:p text:style-name="P62">Review by Charles Mullon, 14 Dec 2021 10:36</text:p>
    <text:p text:style-name="P61">The author has done a great job at adressing all the points previously raised, and I believe that the manuscript has much improved. I also appreciate the careful explanation provided in the response to reviewers (point 3 in particular). I only have minor comments remaining.</text:p>
@@ -1018,7 +1021,7 @@
    <text:p text:style-name="P64"/>
    <text:p text:style-name="P61">p. 9. Top. Here you refer to the &quot;stability&quot; of networks A-E presented in Appendix 6. However nowhere in Appendix 6 is the stability measure (rho_S) given. I am guessing you are referring to a more qualitative view of stability here. This is confusing as in the rest of the manuscript, stability is defined quantiatively.</text:p>
    <text:p text:style-name="P64"/>
-   <text:p text:style-name="P64">Indeed, Appendix 6 illustrate the network dynamics in replicated runs used to estimate 4 robustness components. Stability is also estimated quantitatively, but this estimation does not require any resampling procedure; stability is computed as the temporal variance of gene expressions during the last time steps. It can be visually quantified by <text:soft-page-break/>assessing how “cyclic” are gene expressions for the five undisturbed networks (thick lines) illustrated in Appendix 6, but it does not need a column of its own. </text:p>
+   <text:p text:style-name="P64">Indeed, Appendix 6 illustrate the network dynamics in replicated runs used to estimate 4 robustness components. Stability is also estimated quantitatively, but this estimation does not require any resampling procedure; stability is <text:soft-page-break/>computed as the temporal variance of gene expressions during the last time steps. It can be visually quantified by assessing how “cyclic” are gene expressions for the five undisturbed networks (thick lines) illustrated in Appendix 6, but it does not need a column of its own. </text:p>
    <text:p text:style-name="P64">For clarity, robustness indicators are now indicated in some of the panels.</text:p>
    <text:p text:style-name="P64">The legend of Appendix 6 has been modified: “Four (out of five) robustness measurements rely on a resampling procedure (corresponding to the four columns of the figure). [...] The network stability can be assessed from the amplitude of the cycles in the undisturbed kinetics (thick lines), and does not rely on a stochastic algorithm.”</text:p>
    <text:p text:style-name="P64"/>
@@ -1068,13 +1071,13 @@
    <text:p text:style-name="P64"/>
    <text:p text:style-name="P64">The relevant subsection of the results now mentions: “Such direct, artificial selection pressures on robustness are not designed to reflect realistic selection on gene networks, but they might reveal evolutionary limits to the evolution of robustness due to internal constraints.”</text:p>
    <text:p text:style-name="P64"/>
-   <text:p text:style-name="P64">A whole new paragraph has been added to the discussion: “<text:span text:style-name="T49">In the simulations, selection on robustness components was direct and constant both in up and down directions (i.e. towards more or less robust genetic architectures). This setting was not expected to reflect realistic evolutionary pressures on robustness, which might be more complex, overlapping, and asymmetric. Stabilizing selection, for instance, selects both directly for robustness to environment, and indirectly for robustness to mutations (Wagner et al., 1997); selection for stability also promotes indirectly robustness to mutations (Siegal and Bergman, 2002). Conversely, selecting for lower robustness through the phenotype may be difficult or even impossible: fluctuating selection does not promote decanalized genetic architectures (Le Rouzic et al., 2013), and selection for environmental sensitivity is limited by the inaccuracy of the perception of the envrionmental signal (Reed et al., 2010). Simulation results thus illustrate how robustness components may evolve independently when individually selected; whether or not there exists realistic conditions for such selection pressures is a different — and more complicated — issue.</text:span>”</text:p>
+   <text:p text:style-name="P64">A whole new paragraph has been added to the discussion: “<text:span text:style-name="T50">In the simulations, selection on robustness components was direct and constant both in up and down directions (i.e. towards more or less robust genetic architectures). This setting was not expected to reflect realistic evolutionary pressures on robustness, which might be more complex, overlapping, and asymmetric. Stabilizing selection, for instance, selects both directly for robustness to environment, and indirectly for robustness to mutations (Wagner et al., 1997); selection for stability also promotes indirectly robustness to mutations (Siegal and Bergman, 2002). Conversely, selecting for lower robustness through the phenotype may be difficult or even impossible: fluctuating selection does not promote decanalized genetic architectures (Le Rouzic et al., 2013), and selection for environmental sensitivity is limited by the inaccuracy of the perception of the envrionmental signal (Reed et al., 2010). Simulation results thus illustrate how robustness components may evolve independently when individually selected; whether or not there exists realistic conditions for such selection pressures is a different — and more complicated — issue.</text:span>”</text:p>
    <text:p text:style-name="P64"/>
    <text:p text:style-name="P61">Minor comments:</text:p>
    <text:p text:style-name="P61">---------------</text:p>
    <text:p text:style-name="P61">- Introduction: As far as I know, some authors have attempted to quantify robustness in multiple dimensions (see e.g. https://doi.org/10.1371/journal.pone.0000434).</text:p>
    <text:p text:style-name="P64"/>
-   <text:p text:style-name="P66">Thank you for the reference. This was an interesting part of the literature I missed by focusing on the Wagner model. <text:span text:style-name="T69">I included new references towards relevant reviews and models. </text:span></text:p>
+   <text:p text:style-name="P66">Thank you for the reference. This was an interesting part of the literature I missed by focusing on the Wagner model. <text:span text:style-name="T70">I included new references towards relevant reviews and models. </text:span></text:p>
    <text:p text:style-name="P64"/>
    <text:p text:style-name="P61">&quot;In addition, in models where the genotype-phenotype association is arbitrary, [...]&quot;: please provide references</text:p>
    <text:p text:style-name="P64"/>
@@ -1088,16 +1091,16 @@
    <text:p text:style-name="P64"/>
    <text:p text:style-name="P64">As the simulation runs displayed in figures 3 to 5 are computationally-demanding, testing different parameter settings (especially larger networks) would be in practice complicated and costly. The reviewer noted two pairs of parameters that can be commented on separately. </text:p>
    <text:p text:style-name="P64"/>
-   <text:p text:style-name="P64">* n and n’: The network size (n) had to be limited for computational reasons: the cost of computing network dynamics is in O(n^2) (square regulatory matrix), so n is the most critical parameter in terms of simulation time. As confirmed by test simulations in Appendix 7, increasing n beyond 6 does not really change the equilibrium robustness level -- its impact on the evolution of robustness in the various scenarios of figures 3, 4, and 5 has not been tested directly. The number of selected genes n’ is an arbitrary parameter (little is known about selection at the gene expression level). Earlier work with similar models (e.g. Rünneburger and Le Rouzic 2016) suggested that large n’ could slow down the evolution of emergent properties of the network (when all gene expressions are constrained, evolving the network structure is more complex as no single mutation is neutral). From Appendix 7 <text:span text:style-name="T68">column 6</text:span>, the effect of n’ on the evolution of robustness <text:span text:style-name="T68">in the default setting (no direct selection on robustness)</text:span> is tiny (if any).</text:p>
+   <text:p text:style-name="P64">* n and n’: The network size (n) had to be limited for computational reasons: the cost of computing network dynamics is in O(n^2) (square regulatory matrix), so n is the most critical parameter in terms of simulation time. As confirmed by test simulations in Appendix 7, increasing n beyond 6 does not really change the equilibrium robustness level -- its impact on the evolution of robustness in the various scenarios of figures 3, 4, and 5 has not been tested directly. The number of selected genes n’ is an arbitrary parameter (little is known about selection at the gene expression level). Earlier work with similar models (e.g. Rünneburger and Le Rouzic 2016) suggested that large n’ could slow down the evolution of emergent properties of the network (when all gene expressions are constrained, evolving the network structure is more complex as no single mutation is neutral). From Appendix 7 <text:span text:style-name="T69">column 6</text:span>, the effect of n’ on the evolution of robustness <text:span text:style-name="T69">in the default setting (no direct selection on robustness)</text:span> is tiny (if any).</text:p>
    <text:p text:style-name="P64"/>
-   <text:p text:style-name="P64">* Mutational parameters (size and frequency of mutations): as noticed by the reviewer, they generate an indirect selection pressure on the evolution of genetic robustness. <text:s/>This was confirmed by simulations (Appendix 7 <text:span text:style-name="T68">column 1 and 2</text:span>); note that the default parameters were chosen as large as possible (to speed up simulations) but small enough so that the indirect selection has no visible effect. The manuscript already had a sentence to indicate this: “<text:span text:style-name="T49">Stabilizing</text:span></text:p>
-   <text:p text:style-name="P64"><text:span text:style-name="T49">selection on gene expression is expected to generate a slight selection pressure on the robustness, but this effect was apparent only for larger or more frequent mutations (Appendix 7).</text:span>”</text:p>
+   <text:p text:style-name="P64">* Mutational parameters (size and frequency of mutations): as noticed by the reviewer, they generate an indirect selection pressure on the evolution of genetic robustness. <text:s/>This was confirmed by simulations (Appendix 7 <text:span text:style-name="T69">column 1 and 2</text:span>); note that the default parameters were chosen as large as possible (to speed up simulations) but small enough so that the indirect selection has no visible effect. The manuscript already had a sentence to indicate this: “<text:span text:style-name="T50">Stabilizing</text:span></text:p>
+   <text:p text:style-name="P64"><text:span text:style-name="T50">selection on gene expression is expected to generate a slight selection pressure on the robustness, but this effect was apparent only for larger or more frequent mutations (Appendix 7).</text:span>”</text:p>
    <text:p text:style-name="P64">The manuscript was updated to better justify default parameters and comment the results from Appendix 7. :</text:p>
    <text:p text:style-name="P64">In the methods section: </text:p>
-   <text:p text:style-name="P64">“<text:span text:style-name="T49">[...] by default n=6 to limit the computational burden</text:span>”</text:p>
-   <text:p text:style-name="P64">“<text:span text:style-name="T49">Mutational parameters nu and sigma_nu were kept reasonably low to limit the strength of indirect selection for genetic robustness (Wagner et al 1997, Rünneburger and Le Rouzic 2016).</text:span>”</text:p>
+   <text:p text:style-name="P64">“<text:span text:style-name="T50">[...] by default n=6 to limit the computational burden</text:span>”</text:p>
+   <text:p text:style-name="P64">“<text:span text:style-name="T50">Mutational parameters nu and sigma_nu were kept reasonably low to limit the strength of indirect selection for genetic robustness (Wagner et al 1997, Rünneburger and Le Rouzic 2016).</text:span>”</text:p>
    <text:p text:style-name="P64">In the discussion:</text:p>
-   <text:p text:style-name="P64">“<text:span text:style-name="T49">In particular, the network size n and the number of selected genes n’ do not alter drastically robustness components, showing that small regulatory motifs are not qualitatively different from large gene networks in terms of robustness. </text:span>“</text:p>
+   <text:p text:style-name="P64">“<text:span text:style-name="T50">In particular, the network size n and the number of selected genes n’ do not alter drastically robustness components, showing that small regulatory motifs are not qualitatively different from large gene networks in terms of robustness. </text:span>“</text:p>
    <text:p text:style-name="P64"/>
    <text:p text:style-name="P61">- Table 2: Indicates 5000G. But 10,000G is used after (section 3.3).</text:p>
    <text:p text:style-name="P64"/>
